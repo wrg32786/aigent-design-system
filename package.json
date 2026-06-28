@@ -1,0 +1,26 @@
+{
+  "name": "aigent-design-system",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Premium AI-native web design patterns, 3D scroll templates, and agent skills from The AIgent.",
+  "type": "module",
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "check": "node scripts/check.mjs",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "keywords": [
+    "ai",
+    "design-system",
+    "landing-page",
+    "spline",
+    "gsap",
+    "claude-code",
+    "codex",
+    "agent-skills"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "playwright": "^1.61.1"
+  }
+}

@@ -1,0 +1,74 @@
+:root {
+  --aigent-bg: #030807;
+  --aigent-ink: #f5f2ea;
+  --aigent-muted: rgba(245, 242, 234, 0.72);
+  --aigent-soft: rgba(245, 242, 234, 0.48);
+  --aigent-cyan: #65f4df;
+  --aigent-cyan-deep: #04100e;
+  --aigent-amber: #f0b04d;
+  --aigent-line: rgba(101, 244, 223, 0.2);
+  --aigent-line-warm: rgba(240, 176, 77, 0.28);
+  --aigent-panel: rgba(3, 8, 7, 0.64);
+  --aigent-panel-strong: rgba(3, 8, 7, 0.82);
+  --aigent-display: "Inter Tight", Inter, ui-sans-serif, system-ui, sans-serif;
+  --aigent-text: Inter, ui-sans-serif, system-ui, sans-serif;
+  --aigent-accent-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --aigent-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --aigent-radius-sm: 8px;
+  --aigent-radius-md: 14px;
+  --aigent-radius-lg: 22px;
+  --aigent-shadow-panel: 0 24px 80px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --aigent-shadow-cyan: 0 0 30px rgba(101, 244, 223, 0.24);
+  --aigent-max: 1180px;
+}
+
+.aigent-shell {
+  min-height: 100vh;
+  background: var(--aigent-bg);
+  color: var(--aigent-ink);
+  font-family: var(--aigent-text);
+}
+
+.aigent-panel {
+  border: 1px solid var(--aigent-line);
+  border-radius: var(--aigent-radius-md);
+  background: linear-gradient(135deg, var(--aigent-panel), rgba(101, 244, 223, 0.045));
+  box-shadow: var(--aigent-shadow-panel);
+}
+
+.aigent-eyebrow {
+  color: var(--aigent-cyan);
+  font: 800 0.74rem/1 var(--aigent-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.aigent-button {
+  display: inline-flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  border: 1px solid rgba(101, 244, 223, 0.64);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(101, 244, 223, 0.16), rgba(101, 244, 223, 0.05));
+  color: var(--aigent-ink);
+  font: 800 1rem/1 var(--aigent-text);
+  text-decoration: none;
+  box-shadow: 0 0 0 1px rgba(245, 242, 234, 0.04), 0 18px 42px rgba(0, 0, 0, 0.32);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.aigent-button:hover {
+  transform: translateY(-1px);
+  border-color: var(--aigent-cyan);
+  background: linear-gradient(180deg, rgba(101, 244, 223, 0.24), rgba(101, 244, 223, 0.08));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+}

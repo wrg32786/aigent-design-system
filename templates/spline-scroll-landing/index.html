@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AIgent Scroll Landing Template</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter+Tight:wght@700;800;900&family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet" />
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.98/build/spline-viewer.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <link rel="stylesheet" href="../../tokens/aigent-tokens.css" />
+  <style>
+    :root {
+      --scroll: 0;
+      --scene-x: 0px;
+      --scene-y: 0px;
+      --scene-scale: 1;
+      --scene-rotate: 0deg;
+      --scene-brightness: .84;
+    }
+
+    * { box-sizing: border-box; }
+    html { background: var(--aigent-bg); scroll-behavior: smooth; }
+    body { margin: 0; overflow-x: hidden; }
+
+    .scene {
+      position: fixed;
+      inset: -8vh -8vw;
+      z-index: 0;
+      transform:
+        translate3d(var(--scene-x), var(--scene-y), 0)
+        scale(var(--scene-scale))
+        rotate(var(--scene-rotate));
+      transform-origin: 52% 52%;
+      filter: saturate(1.08) brightness(var(--scene-brightness)) contrast(1.08);
+      pointer-events: none;
+    }
+
+    spline-viewer { width: 116vw; height: 116vh; display: block; }
+
+    .veil {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(3, 8, 7, .92), rgba(3, 8, 7, .36) 48%, rgba(3, 8, 7, .72)),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 4px);
+      mix-blend-mode: normal;
+    }
+
+    .nav {
+      position: fixed;
+      z-index: 5;
+      top: 28px;
+      left: clamp(20px, 5vw, 72px);
+      right: clamp(20px, 5vw, 72px);
+      display: flex;
+      justify-content: space-between;
+      color: var(--aigent-cyan);
+      font: 800 12px/1 var(--aigent-mono);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+    }
+
+    section {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 112px clamp(24px, 7vw, 96px);
+    }
+
+    .copy { max-width: 860px; }
+
+    h1, h2 {
+      margin: 0;
+      max-width: 9.8ch;
+      font-family: var(--aigent-display);
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: .9;
+      color: var(--aigent-ink);
+    }
+
+    h1 { font-size: clamp(4.4rem, 13vw, 12rem); }
+    h2 { font-size: clamp(3.5rem, 10vw, 9rem); }
+
+    .accent {
+      display: block;
+      overflow: visible;
+      color: var(--aigent-cyan);
+      font-family: var(--aigent-accent-serif);
+      font-style: italic;
+      font-weight: 400;
+      text-shadow: 0 0 28px rgba(101, 244, 223, .24);
+    }
+
+    .sub {
+      max-width: 760px;
+      margin: 32px 0 0;
+      color: var(--aigent-muted);
+      font: 750 clamp(1.15rem, 1.8vw, 1.45rem)/1.5 var(--aigent-text);
+    }
+
+    .cta-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 38px;
+    }
+
+    .note {
+      max-width: 390px;
+      margin: 0;
+      color: var(--aigent-muted);
+      font: 750 .95rem/1.5 var(--aigent-text);
+    }
+
+    .note b { color: var(--aigent-ink); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      max-width: 980px;
+      margin-top: 42px;
+    }
+
+    .card {
+      padding: 22px;
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      color: var(--aigent-cyan);
+      font: 800 .78rem/1 var(--aigent-mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--aigent-muted);
+      font: 700 1rem/1.5 var(--aigent-text);
+    }
+
+    .progress {
+      position: fixed;
+      z-index: 4;
+      left: 0;
+      top: 0;
+      width: calc(var(--scroll) * 100%);
+      height: 2px;
+      background: var(--aigent-cyan);
+      box-shadow: 0 0 18px rgba(101, 244, 223, .8);
+    }
+
+    @media (max-width: 760px) {
+      .nav { top: 20px; font-size: 10px; }
+      section { min-height: 92vh; padding: 96px 24px; }
+      h1 { font-size: clamp(4rem, 18vw, 6.2rem); }
+      h2 { font-size: clamp(3.2rem, 15vw, 5.2rem); }
+      .sub { font-size: 1.08rem; }
+      .grid { grid-template-columns: 1fr; }
+      .aigent-button { width: 100%; }
+      spline-viewer { width: 150vw; transform: translateX(-18vw); }
+    }
+  </style>
+</head>
+<body class="aigent-shell">
+  <div class="scene" aria-hidden="true">
+    <spline-viewer url="https://prod.spline.design/STqQwtGZKVeI9QlH/scene.splinecode"></spline-viewer>
+  </div>
+  <div class="veil"></div>
+  <div class="progress" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <span>AIgent System</span>
+    <span>Skills · Motion · Taste</span>
+  </nav>
+
+  <main>
+    <section>
+      <div class="copy">
+        <p class="aigent-eyebrow">Same tools. Better direction.</p>
+        <h1 class="hero-title">Build AI pages <span class="accent">with taste.</span></h1>
+        <p class="sub">A premium 3D scroll starter for agents, founders, and operators who want less generic web output.</p>
+        <div class="cta-row">
+          <a class="aigent-button" href="#system">Use the system</a>
+          <p class="note"><b>Static by default.</b> Copy the file, swap the scene, tune the scroll.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="system">
+      <div class="copy">
+        <p class="aigent-eyebrow">01 / The pattern</p>
+        <h2>Scene first. Copy second.</h2>
+        <p class="sub">A focused 3D background carries the page. Short copy explains the offer. Cards appear only when they help.</p>
+        <div class="grid">
+          <article class="card aigent-panel">
+            <h3>Anchor</h3>
+            <p>Keep the scene focal point steady so scroll feels intentional.</p>
+          </article>
+          <article class="card aigent-panel">
+            <h3>Reveal</h3>
+            <p>Bring text in when it is readable, not after it leaves the viewport.</p>
+          </article>
+          <article class="card aigent-panel">
+            <h3>Verify</h3>
+            <p>Check mobile, reduced motion, links, and scroll length before shipping.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="copy">
+        <p class="aigent-eyebrow">02 / The ladder</p>
+        <h2>Turn the repo into a product.</h2>
+        <p class="sub">Give away the taste layer. Earn trust. Then sell the deeper operating system.</p>
+        <div class="cta-row">
+          <a class="aigent-button" href="../../README.md">Read the docs</a>
+          <p class="note"><b>Fork-friendly.</b> Built as plain HTML and CSS so agents can understand every line.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const root = document.documentElement;
+    let ticking = false;
+
+    function updateScene() {
+      const max = Math.max(1, root.scrollHeight - window.innerHeight);
+      const p = Math.min(1, Math.max(0, window.scrollY / max));
+      const scene = Math.min(1, p * 1.75);
+      root.style.setProperty("--scroll", p.toFixed(4));
+      root.style.setProperty("--scene-x", "0px");
+      root.style.setProperty("--scene-y", "0px");
+      root.style.setProperty("--scene-scale", (1 + scene * 1.35).toFixed(3));
+      root.style.setProperty("--scene-rotate", `${(scene * -72).toFixed(2)}deg`);
+      root.style.setProperty("--scene-brightness", (.78 + scene * .22).toFixed(2));
+      ticking = false;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(updateScene);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    updateScene();
+
+    window.addEventListener("load", () => {
+      if (window.gsap) {
+        gsap.from(".hero-title", { opacity: 0, y: 28, duration: .9, ease: "power3.out" });
+        gsap.from(".accent", { opacity: 0, x: -18, duration: .8, delay: .35, ease: "power3.out" });
+        gsap.utils.toArray(".card").forEach((card, index) => {
+          gsap.to(card, {
+            opacity: 1,
+            y: 0,
+            duration: .55,
+            delay: index * .08,
+            ease: "power3.out",
+            scrollTrigger: { trigger: card, start: "top 84%" }
+          });
+        });
+      } else {
+        document.querySelectorAll(".card").forEach((card) => {
+          card.style.opacity = 1;
+          card.style.transform = "none";
+        });
+      }
+    });
+  </script>
+</body>
+</html>
