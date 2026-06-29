@@ -89,6 +89,10 @@
       opacity: var(--xfade, 0);
       z-index: 3;
     }
+    .scrub-video.is-transition-preview.is-ready {
+      opacity: var(--transition-opacity, 0);
+      z-index: 2;
+    }
     .scrub-veil {
       background:
         radial-gradient(circle at var(--wash-x, 50%) var(--wash-y, 45%), var(--scene-wash, rgba(101,244,223,.12)), transparent 34rem),
@@ -110,7 +114,7 @@
     }
     .blinds-transition[data-mode="shutter"] {
       grid-template-rows: 1fr;
-      grid-template-columns: repeat(var(--strip-count, 18), 1fr);
+      grid-template-columns: repeat(var(--strip-count, 12), 1fr);
     }
     .blinds-transition[data-mode="vertical"] {
       grid-template-rows: 1fr;
@@ -134,6 +138,14 @@
     }
     .blinds-transition[data-mode="shutter"] span {
       transform: scaleX(0);
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.16), rgba(101,244,223,.04) 42%, rgba(0,0,0,.2)),
+        rgba(255,255,255,.025);
+      box-shadow:
+        inset 1px 0 0 rgba(255,255,255,.2),
+        inset -1px 0 0 rgba(0,0,0,.2);
+      backdrop-filter: blur(10px) saturate(1.1);
+      -webkit-backdrop-filter: blur(10px) saturate(1.1);
     }
     .blinds-transition[data-mode="crossfade"] span {
       display: none;
@@ -158,7 +170,7 @@
     .blinds-transition[data-mode="shutter"] video {
       left: calc(var(--strip-index, 0) * -100%);
       top: 0;
-      width: calc(var(--strip-count, 18) * 100%);
+      width: calc(var(--strip-count, 12) * 100%);
       height: 100%;
       transform: scale(1.045);
     }
@@ -836,7 +848,9 @@
         function clearTransition() {
           videos.forEach((video) => {
             video.classList.remove("is-crossfade");
+            video.classList.remove("is-transition-preview");
             video.style.setProperty("--xfade", 0);
+            video.style.setProperty("--transition-opacity", 0);
           });
           if (!blinds) return;
           gsap.set(blinds, { opacity: 0 });
@@ -850,6 +864,10 @@
             if (mode !== "crossfade" || index !== revealIndex) {
               video.classList.remove("is-crossfade");
               video.style.setProperty("--xfade", 0);
+            }
+            if (index !== revealIndex) {
+              video.classList.remove("is-transition-preview");
+              video.style.setProperty("--transition-opacity", 0);
             }
           });
 
@@ -876,10 +894,16 @@
           if (!blinds || !slats.length) return;
           const amount = clamp01(progress);
           const eased = gsap.parseEase("power2.inOut")(amount);
-          const activeStripCount = mode === "vertical" ? 2 : mode === "shutter" ? 18 : 8;
+          const activeStripCount = mode === "vertical" ? 2 : mode === "shutter" ? 12 : 8;
           const activeSlats = slats.slice(0, activeStripCount);
           const motionAmount = clamp01((amount - .22) / .78);
           const center = (activeStripCount - 1) / 2;
+          const revealState = states[revealIndex];
+
+          if (revealState && mode === "shutter") {
+            revealState.video.classList.add("is-transition-preview");
+            revealState.video.style.setProperty("--transition-opacity", clamp01(eased * .72));
+          }
 
           if (transitionMode !== mode) {
             transitionMode = mode;
@@ -898,8 +922,7 @@
               ? Math.abs(i - center) * .012 + (i % 2) * .014
               : Math.abs(i - center) * .032;
             const stripVideo = slat.querySelector("video");
-            const revealState = states[revealIndex];
-            if (stripVideo && revealState) {
+            if (mode !== "shutter" && stripVideo && revealState) {
               const nextSrc = revealState.video.currentSrc || revealState.video.src || revealState.video.dataset.src;
               if (stripVideo.dataset.src !== nextSrc) {
                 stripVideo.dataset.src = nextSrc;
