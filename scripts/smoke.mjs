@@ -3,6 +3,7 @@ import { chromium } from "playwright";
 const base = process.env.BASE_URL || "http://127.0.0.1:4177";
 const pages = [
   "/",
+  "/templates/free-design-stack/",
   "/templates/spline-scroll-landing/",
   "/templates/asset-scroll-gallery/"
 ];

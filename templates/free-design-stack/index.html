@@ -1,0 +1,1220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AIgent 3D Design Stack</title>
+  <meta name="description" content="A free AIgent design stack for cinematic video-scrub websites with agents." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter+Tight:wght@700;800;900&family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet" />
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <link rel="stylesheet" href="../../tokens/aigent-tokens.css" />
+  <style>
+    * { box-sizing: border-box; }
+    html {
+      background: #030807;
+      scroll-behavior: smooth;
+      scroll-padding-top: 0;
+    }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      --page-ink: var(--aigent-ink);
+      --page-muted: rgba(245,242,234,.8);
+      --page-accent: var(--aigent-cyan);
+      --page-card-bg: rgba(8,14,13,.16);
+      --page-card-glow: rgba(255,255,255,.12);
+      --page-shadow: rgba(0,0,0,.34);
+      color: var(--page-ink);
+      font-family: var(--aigent-text);
+      background: #030807;
+    }
+    a { color: inherit; }
+    .scrub-stage {
+      position: relative;
+      min-height: 100vh;
+      overflow: clip;
+      background: #030807;
+    }
+    .scrub-media {
+      position: relative;
+      height: 100vh;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+      background: #030807;
+      will-change: transform;
+    }
+    .dust-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      opacity: .28;
+      mix-blend-mode: screen;
+      filter: saturate(.82) contrast(1.18) brightness(1.08);
+      transform: scale(1.03);
+    }
+    .scrub-fallback,
+    .scrub-video,
+    .scrub-veil,
+    .blinds-transition {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .scrub-fallback {
+      background:
+        radial-gradient(circle at 50% 24%, rgba(101,244,223,.1), transparent 34rem),
+        linear-gradient(135deg, #020504 0%, #06100e 52%, #020506 100%);
+    }
+    .scrub-video {
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.02);
+      filter: saturate(1.02) contrast(1.08) brightness(.78);
+      transition: none;
+      z-index: 1;
+      will-change: opacity, transform;
+      backface-visibility: hidden;
+    }
+    .scrub-video.is-active.is-ready { opacity: 1; z-index: 2; }
+    .scrub-video.is-crossfade.is-ready {
+      opacity: var(--xfade, 0);
+      z-index: 3;
+    }
+    .scrub-veil {
+      background:
+        radial-gradient(circle at var(--wash-x, 50%) var(--wash-y, 45%), var(--scene-wash, rgba(101,244,223,.12)), transparent 34rem),
+        linear-gradient(90deg, rgba(3,8,7,.42), rgba(3,8,7,.08) 48%, rgba(3,8,7,.54)),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(3,8,7,.48)),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 4px);
+    }
+    .blinds-transition {
+      z-index: 3;
+      display: grid;
+      grid-template-rows: repeat(var(--strip-count, 8), 1fr);
+      opacity: 0;
+      mix-blend-mode: normal;
+      pointer-events: none;
+    }
+    .blinds-transition[data-mode="horizontal"] {
+      grid-template-rows: repeat(var(--strip-count, 8), 1fr);
+      grid-template-columns: 1fr;
+    }
+    .blinds-transition[data-mode="vertical"] {
+      grid-template-rows: 1fr;
+      grid-template-columns: repeat(var(--strip-count, 2), 1fr);
+    }
+    .blinds-transition[data-mode="crossfade"] {
+      display: block;
+      opacity: 0;
+    }
+    .blinds-transition span {
+      display: block;
+      position: relative;
+      overflow: hidden;
+      transform: scaleY(0);
+      transform-origin: 50% 50%;
+      background: transparent;
+      will-change: transform, opacity;
+    }
+    .blinds-transition[data-mode="vertical"] span {
+      transform: scaleX(0);
+    }
+    .blinds-transition[data-mode="vertical"] span:nth-child(n+3),
+    .blinds-transition[data-mode="crossfade"] span {
+      display: none;
+    }
+    .blinds-transition video {
+      position: absolute;
+      left: 0;
+      top: calc(var(--strip-index, 0) * -100%);
+      width: 100%;
+      height: calc(var(--strip-count, 8) * 100%);
+      object-fit: cover;
+      transform: scale(1.02);
+      filter: saturate(1.04) contrast(1.08) brightness(.8);
+      pointer-events: none;
+    }
+    .blinds-transition[data-mode="vertical"] video {
+      left: calc(var(--strip-index, 0) * -100%);
+      top: 0;
+      width: calc(var(--strip-count, 2) * 100%);
+      height: 100%;
+    }
+    .nav {
+      position: fixed;
+      z-index: 10;
+      top: 24px;
+      left: clamp(18px, 5vw, 72px);
+      right: clamp(18px, 5vw, 72px);
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: var(--page-accent);
+      font: 800 12px/1 var(--aigent-mono);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .nav a {
+      margin-left: 18px;
+      color: var(--page-muted);
+      text-decoration: none;
+    }
+    .shell {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 44px));
+      margin: 0 auto;
+      margin-top: -100vh;
+    }
+    section {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 128px 0 92px;
+      overflow: visible;
+    }
+    #ingredients {
+      min-height: auto;
+      align-items: start;
+    }
+    .hero {
+      grid-template-columns: minmax(0, .95fr) minmax(320px, 440px);
+      gap: clamp(34px, 6vw, 84px);
+      padding: 96px 0 58px;
+    }
+    .split {
+      grid-template-columns: minmax(0, .9fr) minmax(320px, 1fr);
+      gap: clamp(30px, 6vw, 82px);
+      align-items: start;
+    }
+    .eyebrow {
+      color: var(--aigent-cyan);
+      font: 800 .76rem/1 var(--aigent-mono);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1, h2 {
+      margin: 0;
+      color: var(--page-ink);
+      font-family: var(--aigent-display);
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: .96;
+      text-shadow: 0 18px 42px rgba(0,0,0,.32);
+      overflow: visible;
+    }
+    h1 {
+      max-width: 8.6ch;
+      margin-top: 18px;
+      font-size: clamp(4.2rem, 9.2vw, 8.7rem);
+    }
+    h2 {
+      max-width: 10ch;
+      font-size: clamp(3.2rem, 8vw, 7.6rem);
+    }
+    .serif {
+      display: block;
+      color: var(--page-accent);
+      font-family: var(--aigent-accent-serif);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.02;
+      padding-bottom: .08em;
+      text-shadow: 0 0 34px rgba(101,244,223,.28);
+    }
+    .lead,
+    .copy-block p {
+      color: var(--page-muted);
+      font: 760 clamp(1.14rem, 1.65vw, 1.45rem)/1.46 var(--aigent-text);
+    }
+    .lead {
+      max-width: 760px;
+      margin: 24px 0 0;
+    }
+    .copy-block p {
+      max-width: 620px;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 30px;
+      padding: 8px 0;
+      overflow: visible;
+    }
+    .aigent-button {
+      min-width: 212px;
+      padding: 0 34px;
+      border-color: rgba(255,255,255,.34);
+      border-radius: 999px;
+      overflow: visible;
+      color: var(--page-ink);
+      background:
+        radial-gradient(circle at 24% 0%, rgba(255,255,255,.42), transparent 42%),
+        linear-gradient(145deg, rgba(255,255,255,.24), rgba(255,255,255,.065)),
+        rgba(255,255,255,.09);
+      box-shadow:
+        0 20px 52px var(--page-shadow),
+        inset 0 1px 0 rgba(255,255,255,.62),
+        inset 0 -1px 0 rgba(255,255,255,.16);
+      backdrop-filter: blur(32px) saturate(1.45);
+      -webkit-backdrop-filter: blur(32px) saturate(1.45);
+      text-shadow: none;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+    .aigent-button:hover {
+      transform: translateY(-2px) scale(1.015);
+      box-shadow:
+        0 26px 70px var(--page-shadow),
+        inset 0 1px 0 rgba(255,255,255,.76),
+        inset 0 -1px 0 rgba(255,255,255,.2);
+    }
+    .secondary {
+      color: var(--page-muted);
+    }
+    .glass-stack,
+    .spec-grid,
+    .panel-demo,
+    .stack-grid,
+    .source-list {
+      display: grid;
+      gap: 14px;
+      overflow: visible;
+    }
+    .spec-grid,
+    .panel-demo {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .panel-demo {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 42px;
+    }
+    .stack-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 42px;
+    }
+    .fog-card,
+    .source {
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 46px;
+      background: rgba(255,255,255,.034);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.44),
+        inset 0 -1px 0 rgba(255,255,255,.16);
+      backdrop-filter: blur(30px) saturate(1.18);
+      -webkit-backdrop-filter: blur(30px) saturate(1.18);
+      position: relative;
+      overflow: hidden;
+      transform-origin: 50% 65%;
+      transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+      isolation: isolate;
+    }
+    .fog-card:hover,
+    .source:hover {
+      transform: translateY(-3px) scale(1.012);
+    }
+    .fog-card::before,
+    .source::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      z-index: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      background: transparent;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+    .fog-card::after,
+    .source::after {
+      content: none;
+    }
+    .fog-card {
+      min-height: 178px;
+      padding: clamp(24px, 2.2vw, 30px);
+      max-width: 100%;
+    }
+    .hero .fog-card:nth-child(2) { transform: translateX(16px); }
+    .hero .fog-card:nth-child(3) { transform: translateX(-8px); }
+    .fog-card small {
+      position: relative;
+      z-index: 1;
+      display: block;
+      margin-bottom: 46px;
+      color: var(--page-accent);
+      font: 800 .72rem/1 var(--aigent-mono);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .fog-card h3,
+    .source h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--page-ink);
+      font: 800 clamp(1.18rem, 1.35vw, 1.42rem)/1.18 var(--aigent-text);
+      text-wrap: balance;
+      overflow-wrap: anywhere;
+    }
+    .fog-card p,
+    .source p {
+      position: relative;
+      z-index: 1;
+      margin: 12px 0 0;
+      color: var(--page-muted);
+      font: 650 clamp(1rem, 1.05vw, 1.1rem)/1.48 var(--aigent-text);
+      overflow-wrap: anywhere;
+    }
+    .source {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 18px;
+      text-decoration: none;
+      transition: transform 180ms ease, background 180ms ease;
+    }
+    .source > div,
+    .source b {
+      position: relative;
+      z-index: 1;
+    }
+    .stack-chip {
+      min-height: 138px;
+    }
+    .stack-chip small {
+      margin-bottom: 28px;
+    }
+    .source:hover {
+      background: rgba(255,255,255,.065);
+    }
+    .source b {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      aspect-ratio: 1;
+      border-radius: 999px;
+      color: var(--page-accent);
+      background: rgba(101,244,223,.09);
+      font: 900 1rem/1 var(--aigent-text);
+    }
+    .final {
+      min-height: 78vh;
+      text-align: center;
+      justify-items: center;
+    }
+    .final h2 { max-width: 9.5ch; }
+    .final .lead {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .reveal-line,
+    .reveal-item { opacity: 0; }
+    .reveal-line { overflow: visible; }
+    .letter-reveal {
+      display: block;
+      overflow: visible;
+      padding-bottom: .12em;
+      margin-bottom: 0;
+    }
+    .letter-reveal .char {
+      display: inline-block;
+      transform-origin: 50% 100%;
+      will-change: transform, opacity, filter;
+    }
+    @media (max-width: 900px) {
+      .nav {
+        position: absolute;
+        top: 22px;
+        display: block;
+      }
+      .nav div:last-child { display: none; }
+      .shell { width: min(100% - 34px, 620px); }
+      .hero,
+      .split {
+        grid-template-columns: 1fr;
+      }
+      section {
+        min-height: auto;
+        padding: 66px 0;
+      }
+      .hero {
+        min-height: 100vh;
+        padding-top: 92px;
+      }
+      h1 { font-size: clamp(3.85rem, 17vw, 6.1rem); }
+      h2 { font-size: clamp(3.35rem, 15vw, 5.35rem); }
+      .lead { font-size: 1.12rem; }
+      .aigent-button { width: 100%; }
+      .hero .fog-card:nth-child(2),
+      .hero .fog-card:nth-child(3) {
+        transform: none;
+      }
+      .spec-grid,
+      .panel-demo,
+      .stack-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 520px) {
+      .source { grid-template-columns: 1fr; }
+      .source b { display: none; }
+      .fog-card { min-height: 138px; }
+      .fog-card small { margin-bottom: 30px; }
+    }
+  </style>
+</head>
+<body class="aigent-shell">
+  <svg aria-hidden="true" width="0" height="0" style="position:absolute">
+    <filter id="aigent-liquid-glass" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.026" numOctaves="2" seed="7" result="noise" />
+      <feGaussianBlur in="noise" stdDeviation="1.3" result="softNoise" />
+      <feDisplacementMap in="SourceGraphic" in2="softNoise" scale="16" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+  <div class="scrub-stage">
+    <div class="scrub-media" aria-hidden="true">
+      <div class="scrub-fallback"></div>
+      <video class="scrub-video is-active" data-src="../../assets/video/design-stack-01-cave.mp4" muted playsinline preload="auto"></video>
+      <video class="scrub-video" data-src="../../assets/video/design-stack-02-ink.mp4" muted playsinline preload="auto"></video>
+      <video class="scrub-video" data-src="../../assets/video/design-stack-03-drone.mp4" muted playsinline preload="auto"></video>
+      <video class="scrub-video" data-src="../../assets/video/design-stack-03-fracture.mp4" muted playsinline preload="auto"></video>
+      <div class="blinds-transition" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="scrub-veil"></div>
+    </div>
+    <video class="dust-overlay" src="../../assets/video/design-stack-dust.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+
+    <nav class="nav" aria-label="Primary">
+      <div>• AIgent 3D Stack</div>
+      <div>
+        <a href="#outputs">Outputs</a>
+        <a href="#ingredients">Sources</a>
+        <a href="#repo">Repo</a>
+      </div>
+    </nav>
+
+    <main class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow reveal-item">Free product / video scrub stack</p>
+        <h1>
+          <span class="letter-reveal">Make</span>
+          <span class="letter-reveal">Landing</span>
+          <span class="letter-reveal">pages</span>
+          <span class="serif letter-reveal">feel filmed.</span>
+        </h1>
+        <p class="lead reveal-item">A free stack for building cinematic AI pages: video scrub backgrounds, GSAP text reveals, fog glass overlays, and mobile-safe motion rules.</p>
+        <div class="actions reveal-item">
+          <a class="aigent-button" href="https://github.com/wrg32786/aigent-design-system">Get the free repo</a>
+          <a class="aigent-button secondary" href="#outputs">See the output</a>
+        </div>
+      </div>
+
+      <div class="glass-stack" aria-label="Design stack highlights">
+        <article class="fog-card">
+          <small>Video scrub</small>
+          <h3>The background moves with the scroll.</h3>
+        </article>
+        <article class="fog-card">
+          <small>GSAP text</small>
+          <h3>Hero letters enter one by one.</h3>
+        </article>
+        <article class="fog-card">
+          <small>Glass layer</small>
+          <h3>Cards blur the scene underneath.</h3>
+        </article>
+      </div>
+    </section>
+
+    <section id="outputs">
+      <div class="split">
+        <div class="copy-block">
+          <p class="eyebrow reveal-item">01 / What it produces</p>
+          <h2>
+            <span class="reveal-line">Not</span>
+            <span class="reveal-line">template</span>
+            <span class="serif reveal-line">slop.</span>
+          </h2>
+          <p class="reveal-item">The stack gives agents taste constraints: when the video should move, where copy should land, how overlays stay readable, and what to verify before shipping.</p>
+        </div>
+        <div class="spec-grid">
+          <article class="fog-card reveal-item">
+            <small>Scene timing</small>
+            <h3>Scroll maps to the video timeline.</h3>
+            <p>The user controls forward and backward motion with the page.</p>
+          </article>
+          <article class="fog-card reveal-item">
+            <small>Type motion</small>
+            <h3>Letters, lines, and cards enter in layers.</h3>
+            <p>Text reveals support the story instead of becoming the story.</p>
+          </article>
+          <article class="fog-card reveal-item">
+            <small>Overlay system</small>
+            <h3>Glass cards sit above the footage.</h3>
+            <p>No hard borders. No random objects. Just readable UI over depth.</p>
+          </article>
+          <article class="fog-card reveal-item">
+            <small>Mobile proof</small>
+            <h3>Motion degrades cleanly on small screens.</h3>
+            <p>Reduced motion, load states, and text fit are first-class checks.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="copy-block">
+        <p class="eyebrow reveal-item">02 / Visual language</p>
+        <h2>
+          <span class="reveal-line">Film first.</span>
+          <span class="reveal-line">UI second.</span>
+          <span class="serif reveal-line">Taste always.</span>
+        </h2>
+        <p class="reveal-item">The video carries the atmosphere. The 2D layer adds rhythm: clean copy, obvious buttons, soft overlays, and animation that reveals meaning.</p>
+      </div>
+      <div class="panel-demo">
+        <article class="fog-card reveal-item">
+          <small>Surface</small>
+          <h3>Cards keep copy readable over motion.</h3>
+        </article>
+        <article class="fog-card reveal-item">
+          <small>Hover</small>
+          <h3>Interactive pieces respond without jumping.</h3>
+        </article>
+        <article class="fog-card reveal-item">
+          <small>Scroll</small>
+          <h3>Sections enter after they are visible.</h3>
+        </article>
+      </div>
+    </section>
+
+    <section id="stack">
+      <div class="copy-block">
+        <p class="eyebrow reveal-item">03 / The design stack</p>
+        <h2>
+          <span class="reveal-line">The parts</span>
+          <span class="reveal-line">work as</span>
+          <span class="serif reveal-line">one system.</span>
+        </h2>
+        <p class="reveal-item">The repo packages the tools we actually want agents reaching for: video, scroll timing, motion composition, Figma handoff, and taste checks before anything ships.</p>
+      </div>
+      <div class="stack-grid">
+        <article class="fog-card stack-chip reveal-item">
+          <small>Video scrub</small>
+          <h3>Rendered scenes controlled by scroll.</h3>
+        </article>
+        <article class="fog-card stack-chip reveal-item">
+          <small>GSAP</small>
+          <h3>Text, cards, and sections choreographed in code.</h3>
+        </article>
+        <article class="fog-card stack-chip reveal-item">
+          <small>Remotion</small>
+          <h3>Reusable motion thinking for video-grade web moments.</h3>
+        </article>
+        <article class="fog-card stack-chip reveal-item">
+          <small>Figma MCP</small>
+          <h3>Design references can move into implementation.</h3>
+        </article>
+        <article class="fog-card stack-chip reveal-item">
+          <small>Three.js</small>
+          <h3>Native 3D when the page needs real geometry.</h3>
+        </article>
+        <article class="fog-card stack-chip reveal-item">
+          <small>Spline</small>
+          <h3>Fast scene sketching and web embeds.</h3>
+        </article>
+        <article class="fog-card stack-chip reveal-item">
+          <small>Blender</small>
+          <h3>Custom assets, textures, and rendered loops.</h3>
+        </article>
+        <article class="fog-card stack-chip reveal-item">
+          <small>Taste checks</small>
+          <h3>Impeccable, taste-skill, and final QA before publish.</h3>
+        </article>
+      </div>
+    </section>
+
+    <section id="ingredients">
+      <div class="split">
+        <div class="copy-block">
+          <p class="eyebrow reveal-item">04 / Source stack</p>
+          <h2>
+            <span class="reveal-line">Skills</span>
+            <span class="reveal-line">on the</span>
+            <span class="serif reveal-line">bench.</span>
+          </h2>
+          <p class="reveal-item">Every source below becomes a rule, prompt, template, or QA check. The stack is not a mood board. It is an intake system for better agent output.</p>
+        </div>
+        <div class="source-list">
+          <a class="source reveal-item" href="https://github.com/greensock/GSAP">
+            <div><h3>GSAP</h3><p>Production animation engine for reveal and scroll timelines.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/petekp/tw-fade">
+            <div><h3>tw-fade</h3><p>Edge-fade polish for scrollable surfaces.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/rdev/liquid-glass-react">
+            <div><h3>Liquid Glass React</h3><p>Reference for refraction, edge highlights, and elastic glass behavior.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/freshtechbro/claudedesignskills/blob/main/.claude/skills/gsap-scrolltrigger/SKILL.md">
+            <div><h3>GSAP ScrollTrigger Skill</h3><p>Scrubbed timelines and scroll-based reveal patterns.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/davila7/claude-code-templates/blob/main/cli-tool/components/skills/creative-design/scroll-experience/SKILL.md">
+            <div><h3>Scroll Experience Skill</h3><p>Page sections planned as a cinematic journey.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/davila7/claude-code-templates/blob/main/cli-tool/components/skills/creative-design/3d-web-experience/SKILL.md">
+            <div><h3>3D Web Experience Skill</h3><p>Scene depth, camera movement, and 3D page structure.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/alirezarezvani/claude-skills/blob/main/engineering-team/skills/epic-design/SKILL.md">
+            <div><h3>Epic Design Skill</h3><p>A push against generic AI layout and lazy visual choices.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/freshtechbro/claudedesignskills/blob/main/.claude/skills/motion-framer/SKILL.md">
+            <div><h3>Motion Framer Skill</h3><p>Motion language, sequence, and interaction rhythm.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://mcpmarket.com/tools/skills/scroll-animation-studio">
+            <div><h3>Scroll Animation Studio</h3><p>Scroll effects as a reusable production category.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/openai/skills/blob/main/skills/.curated/figma-implement-design/SKILL.md">
+            <div><h3>Figma Implement Design</h3><p>Design-to-code handoff rules for faithful implementation.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/figma/mcp-server-guide/tree/main">
+            <div><h3>Figma MCP Guide</h3><p>How design files connect to agent workflows.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/mrdoob/three.js/">
+            <div><h3>Three.js</h3><p>Native web 3D for custom geometry and shader work.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/theatre-js/theatre">
+            <div><h3>Theatre.js</h3><p>Timeline direction for cinematic web scenes.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/cloudai-x/threejs-skills">
+            <div><h3>Three.js Skills</h3><p>Agent-readable patterns for building 3D web scenes.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/Fasani/three-js-resources#images">
+            <div><h3>Three.js Resources</h3><p>Reference library for examples, assets, and inspiration.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/anthropics/skills/tree/main/skills/frontend-design">
+            <div><h3>Frontend Design Skill</h3><p>Frontend polish rules for AI-built interfaces.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/pbakaus/impeccable">
+            <div><h3>impeccable</h3><p>A design language for better AI-built interfaces.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/zarazhangrui/frontend-slides">
+            <div><h3>frontend-slides</h3><p>Slide-quality frontend presentation patterns.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/leonxlnx/taste-skill">
+            <div><h3>taste-skill</h3><p>A taste layer that catches generic design before it ships.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill">
+            <div><h3>UI UX Pro Max Skill</h3><p>UI and UX polish prompts for agents.</p></div><b>↗</b>
+          </a>
+          <a class="source reveal-item" href="https://github.com/VoltAgent/awesome-claude-design">
+            <div><h3>Awesome Claude Design</h3><p>Design references for Claude-powered web work.</p></div><b>↗</b>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="repo" class="final">
+      <p class="eyebrow reveal-item">05 / Free repo</p>
+      <h2>
+        <span class="reveal-line">Give agents</span>
+        <span class="serif reveal-line">a taste layer.</span>
+      </h2>
+      <p class="lead reveal-item">Open the repo, copy the skills, and use the templates as a starting point for premium AI-built pages.</p>
+      <div class="actions reveal-item">
+        <a class="aigent-button" href="https://github.com/wrg32786/aigent-design-system">Get the free repo</a>
+        <a class="aigent-button secondary" href="../../">Back to kit home</a>
+      </div>
+    </section>
+    </main>
+  </div>
+
+  <script>
+    window.addEventListener("load", () => {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      function splitLetters() {
+        document.querySelectorAll(".letter-reveal").forEach((line, lineIndex) => {
+          const text = line.textContent;
+          line.setAttribute("aria-label", text);
+          line.textContent = "";
+          Array.from(text).forEach((letter, charIndex) => {
+            const span = document.createElement("span");
+            span.className = `char alt-${(lineIndex + charIndex) % 5}`;
+            span.setAttribute("aria-hidden", "true");
+            span.innerHTML = letter === " " ? "&nbsp;" : letter;
+            line.appendChild(span);
+          });
+        });
+      }
+
+      function wirePinnedVideoScrub() {
+        const stage = document.querySelector(".scrub-stage");
+        const media = document.querySelector(".scrub-media");
+        const videos = gsap.utils.toArray(".scrub-video");
+        const blinds = document.querySelector(".blinds-transition");
+        const slats = blinds ? gsap.utils.toArray(".blinds-transition span") : [];
+        if (blinds && slats.length) {
+          blinds.style.setProperty("--strip-count", slats.length);
+          slats.forEach((slat, index) => {
+            slat.style.setProperty("--strip-index", index);
+            const stripVideo = document.createElement("video");
+            stripVideo.muted = true;
+            stripVideo.playsInline = true;
+            stripVideo.preload = "auto";
+            slat.appendChild(stripVideo);
+          });
+        }
+        if (!stage || !media || !videos.length || reduceMotion) {
+          videos[0]?.classList.add("is-active", "is-ready");
+          return;
+        }
+
+        const states = videos.map((video, index) => ({
+          video,
+          duration: 1,
+          target: 0,
+          current: 0,
+          ready: false,
+          index
+        }));
+
+        let activeIndex = 0;
+        let ticking = false;
+        let transitionMode = "";
+        const transitionModes = ["horizontal", "crossfade", "vertical"];
+
+        videos.forEach((video, index) => {
+          video.src = video.dataset.src;
+          video.load();
+          video.addEventListener("loadedmetadata", () => {
+            const state = states[index];
+            state.duration = Math.max(.1, video.duration || 1);
+            state.ready = true;
+            video.pause();
+            video.classList.add("is-ready");
+            if (index === activeIndex) video.classList.add("is-active");
+          }, { once: true });
+        });
+
+        function clamp01(value) {
+          return Math.max(0, Math.min(1, value));
+        }
+
+        const transitionLead = .14;
+
+        function sceneStartOffset(index) {
+          return index === 0 ? 0 : transitionLead;
+        }
+
+        function setTransition(progress, revealIndex, revealAtEnd = false, mode = "horizontal") {
+          videos.forEach((video, index) => {
+            if (mode !== "crossfade" || index !== revealIndex) {
+              video.classList.remove("is-crossfade");
+              video.style.setProperty("--xfade", 0);
+            }
+          });
+
+          if (mode === "crossfade") {
+            if (blinds) {
+              blinds.dataset.mode = "crossfade";
+              gsap.set(blinds, { opacity: 0 });
+            }
+            const revealState = states[revealIndex];
+            const amount = clamp01(progress);
+            const eased = gsap.parseEase("power2.inOut")(amount);
+            if (revealState) {
+              revealState.video.classList.add("is-crossfade");
+              revealState.video.style.setProperty("--xfade", eased);
+            }
+            return;
+          }
+
+          if (!blinds || !slats.length) return;
+          const amount = clamp01(progress);
+          const eased = gsap.parseEase("power2.inOut")(amount);
+          const activeStripCount = mode === "vertical" ? 2 : slats.length;
+          const activeSlats = slats.slice(0, activeStripCount);
+          const motionAmount = clamp01((amount - .22) / .78);
+          const center = (activeStripCount - 1) / 2;
+
+          if (transitionMode !== mode) {
+            transitionMode = mode;
+            blinds.dataset.mode = mode;
+            blinds.style.setProperty("--strip-count", activeStripCount);
+            slats.forEach((slat, i) => {
+              gsap.set(slat, { scaleX: 0, scaleY: 0, opacity: 0 });
+              slat.style.setProperty("--strip-index", i);
+            });
+          }
+
+          gsap.set(blinds, { opacity: amount > .015 ? .95 : 0 });
+          activeSlats.forEach((slat, i) => {
+            const delay = Math.abs(i - center) * .032;
+            const stripVideo = slat.querySelector("video");
+            const revealState = states[revealIndex];
+            if (stripVideo && revealState) {
+              const nextSrc = revealState.video.currentSrc || revealState.video.src || revealState.video.dataset.src;
+              if (stripVideo.dataset.src !== nextSrc) {
+                stripVideo.dataset.src = nextSrc;
+                stripVideo.src = nextSrc;
+                stripVideo.load();
+              }
+              if (revealState.ready) {
+                const leadTime = revealState.duration * transitionLead;
+                const revealTime = revealAtEnd
+                  ? Math.max(0, revealState.duration - (leadTime * motionAmount) - .05)
+                  : leadTime * motionAmount;
+                try {
+                  if (Math.abs(stripVideo.currentTime - revealTime) > .04) stripVideo.currentTime = revealTime;
+                } catch (_) {}
+              }
+            }
+            const stripProgress = clamp01(eased * 1.2 - delay);
+            gsap.set(slat, mode === "vertical"
+              ? { scaleX: stripProgress, scaleY: 1, opacity: clamp01(eased * 1.08 - delay * .5) }
+              : { scaleY: stripProgress, scaleX: 1, opacity: clamp01(eased * 1.08 - delay * .5) }
+            );
+          });
+        }
+
+        function activate(index) {
+          if (index === activeIndex) return;
+          activeIndex = index;
+          videos.forEach((video, videoIndex) => {
+            video.classList.toggle("is-active", videoIndex === activeIndex);
+            if (videoIndex !== activeIndex) video.style.transform = "scale(1.02)";
+          });
+        }
+
+        function requestScrub() {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(smoothScrub);
+          }
+        }
+
+        function smoothScrub() {
+          let needsMore = false;
+          states.forEach((state, index) => {
+            if (index !== activeIndex && Math.abs(state.current - state.target) < .012) return;
+            const delta = state.target - state.current;
+            state.current += delta * .13;
+            if (Math.abs(delta) < .006) state.current = state.target;
+            if (state.ready && Math.abs(state.video.currentTime - state.current) > .01) {
+              state.video.currentTime = Math.max(0, Math.min(state.duration, state.current));
+            }
+            if (Math.abs(state.target - state.current) > .004) needsMore = true;
+          });
+
+          if (needsMore) requestAnimationFrame(smoothScrub);
+          else ticking = false;
+        }
+
+        ScrollTrigger.create({
+          trigger: stage,
+          start: "top top",
+          end: "bottom bottom",
+          pin: media,
+          pinSpacing: false,
+          scrub: true,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            const sceneCount = states.length;
+            const raw = Math.min(sceneCount - .001, self.progress * sceneCount);
+            const index = Math.max(0, Math.min(sceneCount - 1, Math.floor(raw)));
+            const localProgress = raw - index;
+            activate(index);
+            const windowSize = .38;
+            const forward = index < sceneCount - 1 ? clamp01((localProgress - (1 - windowSize)) / windowSize) : 0;
+            const backward = index > 0 ? clamp01((windowSize - localProgress) / windowSize) : 0;
+            const revealForward = self.direction >= 0;
+            const revealProgress = revealForward ? forward : backward;
+            const revealIndex = revealForward ? index + 1 : index - 1;
+            const boundaryIndex = revealForward ? index : index - 1;
+            setTransition(revealProgress, revealIndex, !revealForward, transitionModes[boundaryIndex] || "horizontal");
+            videos[index].style.transform = `scale(${1.02 + revealProgress * .035})`;
+            const state = states[index];
+            const activeOffset = sceneStartOffset(index);
+            state.target = state.duration * (activeOffset + localProgress * (1 - activeOffset));
+            if (states[revealIndex]) {
+              const revealOffset = sceneStartOffset(revealIndex);
+              states[revealIndex].target = revealForward
+                ? states[revealIndex].duration * revealOffset * revealProgress
+                : states[revealIndex].duration * (revealOffset + (1 - revealOffset) * (1 - revealProgress));
+            }
+            const washes = [
+              "rgba(101,244,223,.13)",
+              "rgba(98,170,255,.12)",
+              "rgba(185,139,255,.1)",
+              "rgba(255,176,92,.12)"
+            ];
+            const accents = ["#65f4df", "#7ec9ff", "#c8a7ff", "#ffb86b"];
+            document.body.style.setProperty("--scene-wash", washes[index] || washes[0]);
+            document.body.style.setProperty("--page-accent", accents[index] || accents[0]);
+            requestScrub();
+          }
+        });
+      }
+
+      function wireDustScrub() {
+        const dustVideo = document.querySelector(".dust-overlay");
+        if (!dustVideo || reduceMotion) return;
+
+        const dustState = {
+          duration: 1,
+          target: 0,
+          current: 0,
+          ready: false,
+          ticking: false
+        };
+
+        dustVideo.pause();
+        function markDustReady() {
+          dustState.duration = Math.max(.1, dustVideo.duration || 1);
+          dustState.ready = true;
+          dustVideo.pause();
+        }
+        if (dustVideo.readyState >= 1) markDustReady();
+        else dustVideo.addEventListener("loadedmetadata", markDustReady, { once: true });
+
+        function requestDustScrub() {
+          if (dustState.ticking) return;
+          dustState.ticking = true;
+          requestAnimationFrame(smoothDustScrub);
+        }
+
+        function smoothDustScrub() {
+          const delta = dustState.target - dustState.current;
+          dustState.current += delta * .14;
+          if (Math.abs(delta) < .005) dustState.current = dustState.target;
+          if (dustState.ready && Math.abs(dustVideo.currentTime - dustState.current) > .018) {
+            try {
+              dustVideo.currentTime = Math.max(0, Math.min(dustState.duration, dustState.current));
+            } catch (_) {}
+          }
+          if (Math.abs(dustState.target - dustState.current) > .006) {
+            requestAnimationFrame(smoothDustScrub);
+          } else {
+            dustState.ticking = false;
+          }
+        }
+
+        ScrollTrigger.create({
+          trigger: ".scrub-stage",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: true,
+          onUpdate: (self) => {
+            dustState.target = dustState.duration * self.progress;
+            requestDustScrub();
+          }
+        });
+      }
+
+      splitLetters();
+      if (!window.gsap || reduceMotion) {
+        document.querySelectorAll(".reveal-line, .reveal-item, .letter-reveal, .char").forEach((el) => {
+          el.style.opacity = "1";
+          el.style.transform = "none";
+        });
+        return;
+      }
+
+      gsap.registerPlugin(ScrollTrigger);
+      wirePinnedVideoScrub();
+      wireDustScrub();
+      gsap.set(".letter-reveal", { opacity: 1 });
+      gsap.set(".hero .char", {
+        yPercent: (i) => [132, 94, 156, 72, 118][i % 5],
+        x: (i) => [-32, 22, 4, 38, -16][i % 5],
+        opacity: 0,
+        rotateX: (i) => [38, -20, 30, 0, 18][i % 5],
+        rotateZ: (i) => [-8, 7, -4, 10, 0][i % 5],
+        skewY: (i) => [7, -5, 3, 0, 5][i % 5],
+        scale: (i) => [.82, 1.08, .94, 1.03, .9][i % 5],
+        filter: "blur(12px)"
+      });
+      gsap.set(".reveal-line", { display: "block", y: 52, opacity: 0, filter: "blur(18px)" });
+      gsap.set(".reveal-item", { y: 34, opacity: 0, filter: "blur(8px)" });
+      gsap.set(".hero .fog-card", { opacity: 0, y: 44, scale: .92, filter: "blur(18px)" });
+      gsap.set(".hero .fog-card small, .hero .fog-card h3", { y: 18, opacity: 0 });
+
+      gsap.timeline({ defaults: { ease: "expo.out" } })
+        .to(".hero .char", {
+          yPercent: 0,
+          x: 0,
+          opacity: 1,
+          rotateX: 0,
+          rotateZ: 0,
+          skewY: 0,
+          scale: 1,
+          filter: "blur(0px)",
+          duration: 1.18,
+          stagger: { each: .018, from: "start" }
+        })
+        .to(".hero .fog-card", { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 1.1, stagger: .16, ease: "elastic.out(1, .72)" }, "-=.88")
+        .to(".hero .fog-card small, .hero .fog-card h3", { y: 0, opacity: 1, duration: .52, stagger: .04 }, "-=.5")
+        .to(".hero .reveal-item", { y: 0, opacity: 1, filter: "blur(0px)", duration: .82, stagger: .1 }, "-=.42");
+
+      gsap.utils.toArray("section:not(.hero):not(#ingredients)").forEach((section, sectionIndex) => {
+        const lines = section.querySelectorAll(".reveal-line");
+        const items = section.querySelectorAll(".reveal-item:not(.fog-card):not(.source)");
+        const cards = section.querySelectorAll(".fog-card");
+
+        const motions = [
+          (i) => ({ x: i % 2 === 0 ? -92 : 78, y: 34, scale: 1.16, rotateZ: i % 2 === 0 ? -2 : 2 }),
+          (i) => ({ x: i % 2 === 0 ? -160 : 160, y: 0, scale: 1.02, rotateZ: i % 2 === 0 ? -4 : 4 }),
+          (i) => ({ x: 0, y: i === 0 ? 80 : -58, scale: i === 1 ? 1.18 : .92, rotateZ: 0 }),
+          (i) => ({ x: i === 0 ? -64 : 64, y: 44, scale: 1.08, rotateZ: i === 0 ? -1 : 1 })
+        ];
+        const motion = motions[sectionIndex % motions.length];
+        if (lines.length) gsap.set(lines, {
+          x: (i) => motion(i).x,
+          y: (i) => motion(i).y,
+          scale: (i) => motion(i).scale,
+          rotateZ: (i) => motion(i).rotateZ,
+          opacity: 0,
+          filter: "blur(24px)"
+        });
+        if (cards.length) gsap.set(cards, {
+          y: 86,
+          x: (i) => i % 2 === 0 ? 44 : -44,
+          scale: .9,
+          opacity: 0,
+          filter: "blur(18px)"
+        });
+
+        const sectionTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: lines[0] || section,
+            start: "top 92%",
+            end: "top 72%",
+            scrub: .85
+          }
+        });
+
+        if (lines.length) sectionTl.to(lines, {
+            x: 0,
+            y: 0,
+            scale: 1,
+            rotateZ: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: 1,
+            stagger: { each: .14, from: "edges" },
+            ease: "power3.out"
+          }, 0);
+
+        if (items.length) sectionTl.to(items, {
+            y: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: .9,
+            stagger: .08,
+            ease: "power2.out"
+          }, .12);
+
+        if (cards.length) sectionTl.to(cards, {
+            y: 0,
+            x: 0,
+            scale: 1,
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: 1,
+            stagger: .08,
+            ease: "power3.out"
+          }, .22);
+      });
+
+      const ingredients = document.querySelector("#ingredients");
+      if (ingredients) {
+        const ingredientLines = ingredients.querySelectorAll(".reveal-line");
+        const ingredientIntro = ingredients.querySelectorAll(".copy-block .reveal-item");
+        if (ingredientLines.length) gsap.set(ingredientLines, {
+          x: (i) => i % 2 === 0 ? -110 : 80,
+          y: 34,
+          scale: 1.05,
+          opacity: 0,
+          filter: "blur(22px)"
+        });
+        const ingredientsTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: ingredientLines[0] || ingredients,
+            start: "top 92%",
+            end: "top 72%",
+            scrub: .75
+          }
+        });
+
+        if (ingredientLines.length) ingredientsTl.to(ingredientLines, {
+            x: 0,
+            y: 0,
+            scale: 1,
+            opacity: 1,
+            filter: "blur(0px)",
+            stagger: .12,
+            ease: "power3.out"
+          }, 0);
+
+        if (ingredientIntro.length) ingredientsTl.to(ingredientIntro, {
+            y: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            stagger: .08,
+            ease: "power2.out"
+          }, .12);
+
+        gsap.utils.toArray("#ingredients .source").forEach((item, index) => {
+          gsap.set(item, {
+            x: index % 2 === 0 ? 88 : -64,
+            y: 54,
+            opacity: 0,
+            filter: "blur(14px)"
+          });
+          gsap.to(item, {
+            x: 0,
+            y: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: item,
+              start: "top 94%",
+              end: "top 62%",
+              scrub: .65
+            }
+          });
+        });
+      }
+
+      gsap.utils.toArray(".fog-card, .source").forEach((item) => {
+        const lift = item.classList.contains("source") ? -8 : -14;
+        gsap.to(item, {
+          y: `+=${lift}`,
+          rotateX: item.classList.contains("source") ? 0 : -2,
+          ease: "none",
+          scrollTrigger: {
+            trigger: item,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.2
+          }
+        });
+      });
+
+      ScrollTrigger.refresh();
+    });
+  </script>
+</body>
+</html>

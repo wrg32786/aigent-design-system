@@ -6,8 +6,10 @@ const required = [
   "LICENSE",
   "THIRD_PARTY.md",
   "tokens/aigent-tokens.css",
+  "templates/free-design-stack/index.html",
   "templates/spline-scroll-landing/index.html",
   "templates/asset-scroll-gallery/index.html",
+  "docs/source-stack-intake.md",
   "skills/aigent-3d-scroll-system/SKILL.md",
   "skills/aigent-landing-page-polish/SKILL.md",
   "skills/aigent-asset-gallery-system/SKILL.md"

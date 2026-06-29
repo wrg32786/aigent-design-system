@@ -5,6 +5,7 @@ This repo is intended to be open-source safe.
 ## Included Directly
 
 - AIgent-authored docs, tokens, templates, and skills are MIT licensed.
+- Demo video assets in `assets/video/` are treated as AIgent-authored/generated demonstration media for this kit. Replace them before client work if your project requires a different asset provenance or commercial media warranty.
 - Runtime template dependencies are loaded from public CDNs by example pages:
   - `@splinetool/viewer`
   - `gsap`
@@ -12,6 +13,8 @@ This repo is intended to be open-source safe.
 ## Not Vendored
 
 The local `3d-scroll-website-skill-pack.zip` was inspected as inspiration for workflow shape, but its files are not vendored into this repo. The AIgent skills here are rewritten around our own design rules, Spline/GSAP experience-page pattern, and mobile QA lessons.
+
+The source stack listed in `docs/source-stack-intake.md` is treated the same way: links and lessons are recorded, but third-party code, templates, and skill files are not copied into this repo unless their licenses are reviewed first.
 
 Before adding outside skill packs, templates, images, fonts, or frame sequences directly to this repo, verify:
 
