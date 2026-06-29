@@ -139,13 +139,14 @@
     .blinds-transition[data-mode="shutter"] span {
       transform: scaleX(0);
       background:
-        linear-gradient(90deg, rgba(255,255,255,.16), rgba(101,244,223,.04) 42%, rgba(0,0,0,.2)),
-        rgba(255,255,255,.025);
+        linear-gradient(90deg, rgba(255,255,255,.18), rgba(19,31,29,.96) 34%, rgba(4,8,7,.98) 66%, rgba(255,255,255,.12)),
+        rgba(4,8,7,.98);
       box-shadow:
-        inset 1px 0 0 rgba(255,255,255,.2),
-        inset -1px 0 0 rgba(0,0,0,.2);
-      backdrop-filter: blur(10px) saturate(1.1);
-      -webkit-backdrop-filter: blur(10px) saturate(1.1);
+        inset 1px 0 0 rgba(255,255,255,.24),
+        inset -1px 0 0 rgba(0,0,0,.45),
+        0 0 26px rgba(0,0,0,.18);
+      backdrop-filter: blur(4px) saturate(1.04);
+      -webkit-backdrop-filter: blur(4px) saturate(1.04);
     }
     .blinds-transition[data-mode="crossfade"] span {
       display: none;
@@ -901,8 +902,9 @@
           const revealState = states[revealIndex];
 
           if (revealState && mode === "shutter") {
+            const previewOpacity = clamp01((eased - .58) / .42);
             revealState.video.classList.add("is-transition-preview");
-            revealState.video.style.setProperty("--transition-opacity", clamp01(eased * .72));
+            revealState.video.style.setProperty("--transition-opacity", previewOpacity);
           }
 
           if (transitionMode !== mode) {
