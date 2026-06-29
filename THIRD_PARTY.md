@@ -22,4 +22,6 @@ Before adding outside skill packs, templates, images, fonts, or frame sequences 
 
 ## Spline Scenes
 
-The example templates use a public Spline scene URL as a placeholder. Replace it with a scene you own before shipping a production site.
+The example templates use Spline's documented web embed pattern through `<spline-viewer>`. Spline's docs describe Viewer exports as code snippets that can be pasted into a web builder and used as a native HTML component.
+
+For public production use, replace placeholder scene URLs with a Spline scene you own, have permission to embed, or have exported yourself. Do not assume that any random `prod.spline.design` URL found online is redistribution-safe just because it loads.

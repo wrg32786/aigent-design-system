@@ -2,13 +2,13 @@
 
 Premium AI-native web design patterns, 3D scroll templates, and agent skills from The AIgent.
 
-This repo is meant to be a free on-ramp for builders who want sites that feel more deliberate than generic AI output. It packages the visual system behind our AIgent OS experience pages into reusable docs, CSS tokens, static templates, and installable agent skills.
+This repo is a free 3D web skill kit for AI builders. It packages working output demos, reusable CSS tokens, static templates, and installable agent skills that help Codex, Claude Code, and similar agents build premium scroll-driven websites.
 
 ## What Is Inside
 
 - `tokens/aigent-tokens.css` - the shared type, color, spacing, motion, and surface tokens.
-- `templates/spline-scroll-landing` - a single-file Spline + GSAP landing page starter.
-- `templates/asset-scroll-gallery` - a scroll-driven resource/gallery page starter.
+- `templates/spline-scroll-landing` - a working Spline + GSAP 3D landing page demo.
+- `templates/asset-scroll-gallery` - a working scroll-driven resource/gallery demo.
 - `skills/` - Codex/Claude-compatible skills for using the system with AI agents.
 - `docs/` - product framing, design principles, 3D scroll playbook, mobile QA, and skill intake rules.
 

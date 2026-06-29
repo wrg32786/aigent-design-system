@@ -46,14 +46,17 @@
 .aigent-button {
   display: inline-flex;
   min-height: 54px;
+  min-width: 190px;
   align-items: center;
   justify-content: center;
   gap: 0.65rem;
+  padding: 0 32px;
   border: 1px solid rgba(101, 244, 223, 0.64);
-  border-radius: 16px;
+  border-radius: 999px;
   background: linear-gradient(180deg, rgba(101, 244, 223, 0.16), rgba(101, 244, 223, 0.05));
   color: var(--aigent-ink);
   font: 800 1rem/1 var(--aigent-text);
+  text-align: center;
   text-decoration: none;
   box-shadow: 0 0 0 1px rgba(245, 242, 234, 0.04), 0 18px 42px rgba(0, 0, 0, 0.32);
   transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
