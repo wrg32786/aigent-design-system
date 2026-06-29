@@ -72,7 +72,7 @@ The smoke test opens the key pages on desktop and mobile viewports and verifies 
 - `templates/spline-scroll-landing/` - a Spline + GSAP scroll landing page starter.
 - `templates/asset-scroll-gallery/` - a scroll-driven resource/gallery template.
 - `skills/` - Codex/Claude-compatible skills for directing agents.
-- `docs/` - product framing, design principles, 3D scroll playbook, mobile QA, publishing, and source intake rules.
+- `docs/` - product framing, design principles, 3D scroll playbook, mobile QA, publishing, source intake rules, and local animation-pack intake.
 - `assets/video/` - local demo video scrub assets for the cinematic template.
 - `screenshots/` - reference captures from desktop and mobile iterations.
 
@@ -196,7 +196,7 @@ Do not paste random third-party skill files or templates directly into this repo
 
 Use this intake path:
 
-1. Add the source link to `docs/source-stack-intake.md`.
+1. Add the source link to `docs/source-stack-intake.md`, or use `docs/animation-asset-intake.md` for large local effect packs.
 2. Write what it teaches in plain English.
 3. Convert the lesson into an AIgent-authored rule, template section, prompt, or QA check.
 4. Review the license before vendoring any file.

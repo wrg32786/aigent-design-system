@@ -827,6 +827,7 @@
 
           if (mode === "crossfade") {
             if (blinds) {
+              transitionMode = "crossfade";
               blinds.dataset.mode = "crossfade";
               gsap.set(blinds, { opacity: 0 });
             }
