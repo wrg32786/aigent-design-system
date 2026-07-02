@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>AIgent Animation Pack Menu</title><style>
+:root{color-scheme:dark;--bg:#020504;--panel:#07100f;--line:rgba(114,247,225,.22);--ink:#f7f1e8;--muted:rgba(247,241,232,.66);--quiet:rgba(247,241,232,.44);--cyan:#66f7df;--blue:#8bd6ff;--mono:"JetBrains Mono","SFMono-Regular",Consolas,monospace;--display:"Inter Tight","Inter",system-ui,sans-serif}*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;min-height:100vh;color:var(--ink);font-family:Inter,system-ui,sans-serif;background:radial-gradient(circle at 72% 12%,rgba(102,247,223,.14),transparent 28rem),radial-gradient(circle at 12% 18%,rgba(139,214,255,.1),transparent 30rem),linear-gradient(180deg,#020504,#050807 46%,#020504)}body:before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px);mix-blend-mode:screen;opacity:.35}.wrap{width:min(1500px,calc(100vw - 40px));margin:0 auto;padding:34px 0 72px}header{min-height:54vh;display:grid;align-content:end;padding:40px 0 54px;border-bottom:1px solid var(--line)}.brand{color:var(--cyan);font:800 12px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;margin-bottom:84px}h1{max-width:980px;margin:0;font:900 clamp(4rem,9vw,10rem)/.84 var(--display);letter-spacing:0}.sub{max-width:820px;margin:28px 0 0;color:var(--muted);font:800 clamp(1.08rem,1.4vw,1.42rem)/1.45 Inter,system-ui,sans-serif}.stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}.stat{border:1px solid var(--line);background:rgba(2,5,4,.62);padding:13px 15px;min-width:142px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 18px 48px rgba(0,0,0,.28)}.stat span{display:block;color:var(--cyan);font:800 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}.stat b{display:block;margin-top:7px;font:900 28px/.9 var(--display)}.toolbar{position:sticky;top:0;z-index:20;display:grid;gap:12px;padding:14px 0;background:linear-gradient(180deg,rgba(2,5,4,.97),rgba(2,5,4,.78));backdrop-filter:blur(18px);border-bottom:1px solid rgba(102,247,223,.12)}.search{display:grid;grid-template-columns:1fr auto;gap:10px}input{width:100%;min-height:48px;border:1px solid var(--line);background:rgba(2,5,4,.68);color:var(--ink);padding:0 15px;font:800 13px/1 var(--mono);letter-spacing:.08em;outline:none}input:focus{border-color:rgba(102,247,223,.7);box-shadow:0 0 0 3px rgba(102,247,223,.1)}.filters{display:flex;flex-wrap:wrap;gap:8px}button{min-height:38px;border:1px solid rgba(102,247,223,.2);background:rgba(8,18,17,.72);color:rgba(247,241,232,.76);padding:0 12px;font:800 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}button span{color:var(--cyan);margin-left:8px}button.is-active{color:var(--bg);background:var(--cyan);border-color:var(--cyan)}button.is-active span{color:var(--bg)}.type-filters button{border-color:rgba(247,241,232,.16)}.category{padding:54px 0 8px}.category-head{display:grid;grid-template-columns:minmax(0,.9fr) minmax(280px,.62fr);gap:28px;align-items:end;margin-bottom:22px}.kicker{margin:0 0 12px;color:var(--cyan);font:800 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}h2{margin:0;font:900 clamp(2.4rem,5.2vw,5.6rem)/.88 var(--display)}.category-head>p{margin:0;color:var(--muted);font:800 1rem/1.45 Inter,system-ui,sans-serif}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.effect{min-height:430px;display:flex;flex-direction:column;border:1px solid rgba(102,247,223,.16);background:linear-gradient(180deg,rgba(8,18,17,.82),rgba(2,5,4,.72));padding:12px;box-shadow:0 18px 50px rgba(0,0,0,.24)}.preview{position:relative;aspect-ratio:16/10;background:#020504;border:1px solid rgba(247,241,232,.1);overflow:hidden;margin-bottom:16px}.preview video{display:block;width:100%;height:100%;object-fit:cover;filter:saturate(1.08) contrast(1.04)}.preview:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 45%,rgba(2,5,4,.72));}.play{position:absolute;left:10px;bottom:10px;z-index:2;min-height:30px;padding:0 10px;background:rgba(102,247,223,.88);border-color:transparent;color:#020504}.no-preview{display:grid;place-content:center;gap:8px;text-align:center;background:repeating-linear-gradient(135deg,rgba(102,247,223,.08) 0 1px,transparent 1px 12px),#050807}.no-preview span{color:var(--cyan);font:900 18px/.9 var(--display);text-transform:uppercase}.no-preview b{color:var(--quiet);font:800 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}.effect-top{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:0 6px}.number{min-width:54px;color:var(--cyan);font:900 32px/.86 var(--display)}h3{margin:0;font:900 1.26rem/.96 var(--display)}.effect p{margin:9px 0 0;color:var(--muted);font:750 .92rem/1.38 Inter,system-ui,sans-serif}.asset-row{display:flex;flex-wrap:wrap;gap:7px;margin:18px 6px 12px}.chip{border:1px solid rgba(247,241,232,.14);color:var(--quiet);padding:7px 8px;font:800 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}.chip.on{border-color:rgba(102,247,223,.38);color:var(--cyan);background:rgba(102,247,223,.07)}.files{list-style:none;padding:0 6px 4px;margin:auto 0 0;display:grid;gap:6px}.files li{display:flex;justify-content:space-between;gap:10px;border-top:1px solid rgba(247,241,232,.08);padding-top:7px;color:rgba(247,241,232,.72);font:750 11px/1.2 var(--mono)}.files b{color:rgba(247,241,232,.45);font-weight:800;white-space:nowrap}.empty{display:none;margin:40px 0;padding:30px;border:1px solid var(--line);color:var(--muted);font:800 1rem/1.4 var(--mono)}footer{margin-top:60px;padding-top:28px;border-top:1px solid var(--line);color:var(--quiet);font:800 11px/1.55 var(--mono)}@media(max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.category-head{grid-template-columns:1fr}}@media(max-width:640px){.wrap{width:min(100vw - 24px,1500px)}.grid{grid-template-columns:1fr}h1{font-size:clamp(3.3rem,18vw,5.2rem)}.search{grid-template-columns:1fr}}
+</style></head><body><main class="wrap"><header><div class="brand">The AIgent motion reference</div><h1>Animation pack menu</h1><p class="sub">A complete visual catalog of the Awwwards Pack archive available for deck transitions, kinetic type, scroll sections, WebGL scenes, grids, sliders, and 3D motion studies.</p><div class="stats"><div class="stat"><span>Total items</span><b>54</b></div><div class="stat"><span>With code</span><b>30</b></div><div class="stat"><span>With examples</span><b>36</b></div><div class="stat"><span>Indexed size</span><b>1.96 GB</b></div></div></header><div class="toolbar" aria-label="Animation menu controls"><div class="search"><input id="search" type="search" placeholder="Search by category, number, file, or deck use" /><button type="button" id="clear">Clear</button></div><div class="filters category-filters"><button type="button" class="is-active" data-filter="all">All<span>54</span></button><button type="button" data-filter="Page Transitions">Page Transitions<span>1</span></button>
+<button type="button" data-filter="Text Animations">Text Animations<span>2</span></button>
+<button type="button" data-filter="Scroll Animation">Scroll Animation<span>33</span></button>
+<button type="button" data-filter="Grid Animations">Grid Animations<span>1</span></button>
+<button type="button" data-filter="Sliders">Sliders<span>2</span></button>
+<button type="button" data-filter="3D Animation">3D Animation<span>1</span></button>
+<button type="button" data-filter="Webgl _ ThreeJS Effects">WebGL<span>14</span></button></div><div class="filters type-filters"><button type="button" class="is-active" data-type="all">All assets</button><button type="button" data-type="code">Code</button><button type="button" data-type="preview">Example</button><button type="button" data-type="code preview">Code plus example</button></div></div><div class="empty" id="empty">No matching motion studies. Clear filters or try a broader search.</div><section class="category" id="page-transitions"><div class="category-head"><div><p class="kicker">1 items</p><h2>Page Transitions</h2></div><p>Click-to-page and slide-to-slide transitions. Use for hero entry, deck chapter changes, CTA arrival.</p></div><div class="grid"><article class="effect" data-category="Page Transitions" data-type="code" data-search="page transitions 13 page transitions page entry, chapter handoff, cta arrival code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">13</span>
+        <div><h3>Page Transitions 13</h3><p>Page entry, chapter handoff, CTA arrival</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">98.2 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>98.2 MB</b></li></ul>
+    </article></div></section>
+<section class="category" id="text-animations"><div class="category-head"><div><p class="kicker">2 items</p><h2>Text Animations</h2></div><p>Kinetic typography and reveal systems. Use for opening copy reveal, word fall, title replacement, line masks.</p></div><div class="grid"><article class="effect" data-category="Text Animations" data-type="preview" data-search="text animations 07 text animations opening reveal, hero line mask, title accents text-7.mp4">
+      <div class="preview"><video controls src="awwwards-previews/text-animations-07.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Text Animations 07 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">07</span>
+        <div><h3>Text Animations 07</h3><p>Opening reveal, hero line mask, title accents</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">21.4 MB</span></div>
+      <ul class="files"><li><span>text-7.mp4</span><b>21.4 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Text Animations" data-type="code" data-search="text animations 17 text animations word fall, type scatter, final pre-cta drama code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">17</span>
+        <div><h3>Text Animations 17</h3><p>Word fall, type scatter, final pre-CTA drama</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">23.6 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>23.6 MB</b></li></ul>
+    </article></div></section>
+<section class="category" id="scroll-animation"><div class="category-head"><div><p class="kicker">33 items</p><h2>Scroll Animation</h2></div><p>Scroll-driven scenes, pinned sections, image/video reveals, sticky story beats. Use for scrub slide pacing, side-enter copy, sticky metric motion, parallax stage builds.</p></div><div class="grid"><article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 01 scroll animation simple scroll reveal or section pacing reference scroll-1.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-01.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 01 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">01</span>
+        <div><h3>Scroll Animation 01</h3><p>Simple scroll reveal or section pacing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">45.5 MB</span></div>
+      <ul class="files"><li><span>scroll-1.mp4</span><b>45.5 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="code" data-search="scroll animation 04 scroll animation scroll story beat, parallax handoff, transition timing reference code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">04</span>
+        <div><h3>Scroll Animation 04</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">2.1 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>2.1 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 05 scroll animation simple scroll reveal or section pacing reference scroll-5.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-05.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 05 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">05</span>
+        <div><h3>Scroll Animation 05</h3><p>Simple scroll reveal or section pacing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">87.7 MB</span></div>
+      <ul class="files"><li><span>scroll-5.mp4</span><b>87.7 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 07 scroll animation simple scroll reveal or section pacing reference scroll-7.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-07.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 07 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">07</span>
+        <div><h3>Scroll Animation 07</h3><p>Simple scroll reveal or section pacing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">59.0 MB</span></div>
+      <ul class="files"><li><span>scroll-7.mp4</span><b>59.0 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 08 scroll animation simple scroll reveal or section pacing reference scroll-8.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-08.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 08 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">08</span>
+        <div><h3>Scroll Animation 08</h3><p>Simple scroll reveal or section pacing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">95.7 MB</span></div>
+      <ul class="files"><li><span>scroll-8.mp4</span><b>95.7 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="code" data-search="scroll animation 09 scroll animation scroll story beat, parallax handoff, transition timing reference code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">09</span>
+        <div><h3>Scroll Animation 09</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">2.2 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>2.2 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 10 scroll animation simple scroll reveal or section pacing reference scroll-10.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-10.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 10 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">10</span>
+        <div><h3>Scroll Animation 10</h3><p>Simple scroll reveal or section pacing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">50.1 MB</span></div>
+      <ul class="files"><li><span>scroll-10.mp4</span><b>50.1 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 11 scroll animation simple scroll reveal or section pacing reference scroll-11.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-11.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 11 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">11</span>
+        <div><h3>Scroll Animation 11</h3><p>Simple scroll reveal or section pacing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">75.3 MB</span></div>
+      <ul class="files"><li><span>scroll-11.mp4</span><b>75.3 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 12 scroll animation simple scroll reveal or section pacing reference scroll-12.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-12.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 12 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">12</span>
+        <div><h3>Scroll Animation 12</h3><p>Simple scroll reveal or section pacing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">83.1 MB</span></div>
+      <ul class="files"><li><span>scroll-12.mp4</span><b>83.1 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 16 scroll animation scroll story beat, parallax handoff, transition timing reference scroll-16.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-16.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 16 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">16</span>
+        <div><h3>Scroll Animation 16</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">73.4 MB</span></div>
+      <ul class="files"><li><span>scroll-16.mp4</span><b>73.4 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="code preview" data-search="scroll animation 17 scroll animation scroll story beat, parallax handoff, transition timing reference code.zip scroll-17.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-17.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 17 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">17</span>
+        <div><h3>Scroll Animation 17</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip on">example yes</span><span class="chip">73.9 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>1.2 MB</b></li><li><span>scroll-17.mp4</span><b>72.7 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="code preview" data-search="scroll animation 18 scroll animation scroll story beat, parallax handoff, transition timing reference code.zip scroll-18.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-18.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 18 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">18</span>
+        <div><h3>Scroll Animation 18</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip on">example yes</span><span class="chip">48.5 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>469.1 KB</b></li><li><span>scroll-18.mp4</span><b>48.1 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 19 scroll animation scroll story beat, parallax handoff, transition timing reference scroll-19.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-19.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 19 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">19</span>
+        <div><h3>Scroll Animation 19</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">24.0 MB</span></div>
+      <ul class="files"><li><span>scroll-19.mp4</span><b>24.0 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="code preview" data-search="scroll animation 20 scroll animation scroll story beat, parallax handoff, transition timing reference scroll-20.mp4 code.zip">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-20.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 20 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">20</span>
+        <div><h3>Scroll Animation 20</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip on">example yes</span><span class="chip">14.1 MB</span></div>
+      <ul class="files"><li><span>scroll-20.mp4</span><b>14.0 MB</b></li><li><span>code.zip</span><b>113.2 KB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="code" data-search="scroll animation 21 scroll animation scroll story beat, parallax handoff, transition timing reference code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">21</span>
+        <div><h3>Scroll Animation 21</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">3.1 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>3.1 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 27 scroll animation scroll story beat, parallax handoff, transition timing reference scroll-27.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-27.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 27 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">27</span>
+        <div><h3>Scroll Animation 27</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">62.3 MB</span></div>
+      <ul class="files"><li><span>scroll-27.mp4</span><b>62.3 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 30 scroll animation scroll story beat, parallax handoff, transition timing reference scroll-30.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-30.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 30 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">30</span>
+        <div><h3>Scroll Animation 30</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">78.0 MB</span></div>
+      <ul class="files"><li><span>scroll-30.mp4</span><b>78.0 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="code preview" data-search="scroll animation 32 scroll animation pinned scrub chapter, sticky facts, staged reveals prev.webm code.zip">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-32.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 32 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">32</span>
+        <div><h3>Scroll Animation 32</h3><p>Pinned scrub chapter, sticky facts, staged reveals</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip on">example yes</span><span class="chip">3.3 MB</span></div>
+      <ul class="files"><li><span>prev.webm</span><b>249.6 KB</b></li><li><span>code.zip</span><b>3.0 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 33 scroll animation pinned scrub chapter, sticky facts, staged reveals prev.webm">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-33.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 33 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">33</span>
+        <div><h3>Scroll Animation 33</h3><p>Pinned scrub chapter, sticky facts, staged reveals</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">225.9 KB</span></div>
+      <ul class="files"><li><span>prev.webm</span><b>225.9 KB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="code" data-search="scroll animation 34 scroll animation pinned scrub chapter, sticky facts, staged reveals code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">34</span>
+        <div><h3>Scroll Animation 34</h3><p>Pinned scrub chapter, sticky facts, staged reveals</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">6.6 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>6.6 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="code" data-search="scroll animation 35 scroll animation pinned scrub chapter, sticky facts, staged reveals code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">35</span>
+        <div><h3>Scroll Animation 35</h3><p>Pinned scrub chapter, sticky facts, staged reveals</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">245.0 KB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>245.0 KB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 36 scroll animation scroll story beat, parallax handoff, transition timing reference scroll-36.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-36.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 36 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">36</span>
+        <div><h3>Scroll Animation 36</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">58.9 MB</span></div>
+      <ul class="files"><li><span>scroll-36.mp4</span><b>58.9 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 41 scroll animation scroll story beat, parallax handoff, transition timing reference scroll-41.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-41.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 41 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">41</span>
+        <div><h3>Scroll Animation 41</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">49.2 MB</span></div>
+      <ul class="files"><li><span>scroll-41.mp4</span><b>49.2 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 42 scroll animation scroll story beat, parallax handoff, transition timing reference scroll-42.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-42.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 42 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">42</span>
+        <div><h3>Scroll Animation 42</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">61.5 MB</span></div>
+      <ul class="files"><li><span>scroll-42.mp4</span><b>61.5 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="code preview" data-search="scroll animation 43 scroll animation pinned scrub chapter, sticky facts, staged reveals code.zip scroll-43.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-43.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 43 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">43</span>
+        <div><h3>Scroll Animation 43</h3><p>Pinned scrub chapter, sticky facts, staged reveals</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip on">example yes</span><span class="chip">82.0 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>23.5 MB</b></li><li><span>scroll-43.mp4</span><b>58.5 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 44 scroll animation scroll story beat, parallax handoff, transition timing reference scroll-44.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-44.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 44 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">44</span>
+        <div><h3>Scroll Animation 44</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">44.2 MB</span></div>
+      <ul class="files"><li><span>scroll-44.mp4</span><b>44.2 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 45 scroll animation scroll story beat, parallax handoff, transition timing reference scroll-45.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-45.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 45 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">45</span>
+        <div><h3>Scroll Animation 45</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">57.8 MB</span></div>
+      <ul class="files"><li><span>scroll-45.mp4</span><b>57.8 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 48 scroll animation scroll story beat, parallax handoff, transition timing reference scroll-48.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-48.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 48 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">48</span>
+        <div><h3>Scroll Animation 48</h3><p>Scroll story beat, parallax handoff, transition timing reference</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">75.1 MB</span></div>
+      <ul class="files"><li><span>scroll-48.mp4</span><b>75.1 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="code" data-search="scroll animation 50 scroll animation pinned scrub chapter, sticky facts, staged reveals code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">50</span>
+        <div><h3>Scroll Animation 50</h3><p>Pinned scrub chapter, sticky facts, staged reveals</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">16.3 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>16.3 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="code preview" data-search="scroll animation 51 scroll animation pinned scrub chapter, sticky facts, staged reveals scroll-51-650.mp4 code.zip">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-51.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 51 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">51</span>
+        <div><h3>Scroll Animation 51</h3><p>Pinned scrub chapter, sticky facts, staged reveals</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip on">example yes</span><span class="chip">2.5 MB</span></div>
+      <ul class="files"><li><span>scroll-51-650.mp4</span><b>865.4 KB</b></li><li><span>code.zip</span><b>1.7 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="code" data-search="scroll animation 54 scroll animation pinned scrub chapter, sticky facts, staged reveals code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">54</span>
+        <div><h3>Scroll Animation 54</h3><p>Pinned scrub chapter, sticky facts, staged reveals</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">25.0 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>25.0 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="code preview" data-search="scroll animation 56 scroll animation pinned scrub chapter, sticky facts, staged reveals scroll-56-650.mp4 code.zip">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-56.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 56 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">56</span>
+        <div><h3>Scroll Animation 56</h3><p>Pinned scrub chapter, sticky facts, staged reveals</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip on">example yes</span><span class="chip">752.7 KB</span></div>
+      <ul class="files"><li><span>scroll-56-650.mp4</span><b>264.6 KB</b></li><li><span>code.zip</span><b>488.0 KB</b></li></ul>
+    </article>
+<article class="effect" data-category="Scroll Animation" data-type="preview" data-search="scroll animation 57 scroll animation pinned scrub chapter, sticky facts, staged reveals scroll-57-650.mp4">
+      <div class="preview"><video controls src="awwwards-previews/scroll-animation-57.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play Scroll Animation 57 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">57</span>
+        <div><h3>Scroll Animation 57</h3><p>Pinned scrub chapter, sticky facts, staged reveals</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">414.1 KB</span></div>
+      <ul class="files"><li><span>scroll-57-650.mp4</span><b>414.1 KB</b></li></ul>
+    </article></div></section>
+<section class="category" id="grid-animations"><div class="category-head"><div><p class="kicker">1 items</p><h2>Grid Animations</h2></div><p>Grid reveal and gallery choreography. Use for inventory cards, proof tiles, offer grids.</p></div><div class="grid"><article class="effect" data-category="Grid Animations" data-type="code" data-search="grid animations 04 grid animations offer grid, proof wall, sponsor package matrix code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">04</span>
+        <div><h3>Grid Animations 04</h3><p>Offer grid, proof wall, sponsor package matrix</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">24.9 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>24.9 MB</b></li></ul>
+    </article></div></section>
+<section class="category" id="sliders"><div class="category-head"><div><p class="kicker">2 items</p><h2>Sliders</h2></div><p>Carousel and horizontal interaction patterns. Use for sponsor inventory browsing or alternate deck menus.</p></div><div class="grid"><article class="effect" data-category="Sliders" data-type="code" data-search="sliders 15 sliders inventory selector, offer carousel, sponsor slot browser code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">15</span>
+        <div><h3>Sliders 15</h3><p>Inventory selector, offer carousel, sponsor slot browser</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">21.7 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>21.7 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Sliders" data-type="code" data-search="sliders 19 sliders inventory selector, offer carousel, sponsor slot browser code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">19</span>
+        <div><h3>Sliders 19</h3><p>Inventory selector, offer carousel, sponsor slot browser</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">5.4 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>5.4 MB</b></li></ul>
+    </article></div></section>
+<section class="category" id="3d-animation"><div class="category-head"><div><p class="kicker">1 items</p><h2>3D Animation</h2></div><p>Object/world motion and depth choreography. Use for logo worlds, monolith sections, premium interstitials.</p></div><div class="grid"><article class="effect" data-category="3D Animation" data-type="code" data-search="3d animation 20 3d animation logo world, premium interstitial, object motion study code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">20</span>
+        <div><h3>3D Animation 20</h3><p>Logo world, premium interstitial, object motion study</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">92.8 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>92.8 MB</b></li></ul>
+    </article></div></section>
+<section class="category" id="webgl-threejs-effects"><div class="category-head"><div><p class="kicker">14 items</p><h2>WebGL / ThreeJS Effects</h2></div><p>Shader, particle, displacement, and 3D canvas effects. Use for ambient backgrounds, signal fields, interactive hero depth.</p></div><div class="grid"><article class="effect" data-category="Webgl _ ThreeJS Effects" data-type="preview" data-search="webgl / threejs effects 02 webgl _ threejs effects ambient hero, particle field, shader transition, depth scene webgl-2.mp4">
+      <div class="preview"><video controls src="awwwards-previews/webgl-threejs-effects-02.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play WebGL / ThreeJS Effects 02 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">02</span>
+        <div><h3>WebGL / ThreeJS Effects 02</h3><p>Ambient hero, particle field, shader transition, depth scene</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">17.5 MB</span></div>
+      <ul class="files"><li><span>webgl-2.mp4</span><b>17.5 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Webgl _ ThreeJS Effects" data-type="preview" data-search="webgl / threejs effects 03 webgl _ threejs effects ambient hero, particle field, shader transition, depth scene webgl-3.mp4">
+      <div class="preview"><video controls src="awwwards-previews/webgl-threejs-effects-03.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play WebGL / ThreeJS Effects 03 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">03</span>
+        <div><h3>WebGL / ThreeJS Effects 03</h3><p>Ambient hero, particle field, shader transition, depth scene</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">72.8 MB</span></div>
+      <ul class="files"><li><span>webgl-3.mp4</span><b>72.8 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Webgl _ ThreeJS Effects" data-type="code" data-search="webgl / threejs effects 04 webgl _ threejs effects ambient hero, particle field, shader transition, depth scene code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">04</span>
+        <div><h3>WebGL / ThreeJS Effects 04</h3><p>Ambient hero, particle field, shader transition, depth scene</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">728.3 KB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>728.3 KB</b></li></ul>
+    </article>
+<article class="effect" data-category="Webgl _ ThreeJS Effects" data-type="preview" data-search="webgl / threejs effects 05 webgl _ threejs effects ambient hero, particle field, shader transition, depth scene webgl-5.mp4">
+      <div class="preview"><video controls src="awwwards-previews/webgl-threejs-effects-05.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play WebGL / ThreeJS Effects 05 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">05</span>
+        <div><h3>WebGL / ThreeJS Effects 05</h3><p>Ambient hero, particle field, shader transition, depth scene</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">79.6 MB</span></div>
+      <ul class="files"><li><span>webgl-5.mp4</span><b>79.6 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Webgl _ ThreeJS Effects" data-type="code preview" data-search="webgl / threejs effects 06 webgl _ threejs effects ambient hero, particle field, shader transition, depth scene code.zip webgl-6.mp4">
+      <div class="preview"><video controls src="awwwards-previews/webgl-threejs-effects-06.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play WebGL / ThreeJS Effects 06 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">06</span>
+        <div><h3>WebGL / ThreeJS Effects 06</h3><p>Ambient hero, particle field, shader transition, depth scene</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip on">example yes</span><span class="chip">53.9 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>2.0 MB</b></li><li><span>webgl-6.mp4</span><b>52.0 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Webgl _ ThreeJS Effects" data-type="preview" data-search="webgl / threejs effects 08 webgl _ threejs effects ambient hero, particle field, shader transition, depth scene webgl-8.mp4">
+      <div class="preview"><video controls src="awwwards-previews/webgl-threejs-effects-08.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play WebGL / ThreeJS Effects 08 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">08</span>
+        <div><h3>WebGL / ThreeJS Effects 08</h3><p>Ambient hero, particle field, shader transition, depth scene</p></div>
+      </div>
+      <div class="asset-row"><span class="chip ">code no</span><span class="chip on">example yes</span><span class="chip">23.8 MB</span></div>
+      <ul class="files"><li><span>webgl-8.mp4</span><b>23.8 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Webgl _ ThreeJS Effects" data-type="code preview" data-search="webgl / threejs effects 09 webgl _ threejs effects ambient hero, particle field, shader transition, depth scene code.zip webgl-9.mp4">
+      <div class="preview"><video controls src="awwwards-previews/webgl-threejs-effects-09.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play WebGL / ThreeJS Effects 09 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">09</span>
+        <div><h3>WebGL / ThreeJS Effects 09</h3><p>Ambient hero, particle field, shader transition, depth scene</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip on">example yes</span><span class="chip">52.9 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>328.2 KB</b></li><li><span>webgl-9.mp4</span><b>52.6 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Webgl _ ThreeJS Effects" data-type="code" data-search="webgl / threejs effects 10 webgl _ threejs effects ambient hero, particle field, shader transition, depth scene code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">10</span>
+        <div><h3>WebGL / ThreeJS Effects 10</h3><p>Ambient hero, particle field, shader transition, depth scene</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">1.7 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>1.7 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Webgl _ ThreeJS Effects" data-type="code" data-search="webgl / threejs effects 11 webgl _ threejs effects ambient hero, particle field, shader transition, depth scene code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">11</span>
+        <div><h3>WebGL / ThreeJS Effects 11</h3><p>Ambient hero, particle field, shader transition, depth scene</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">2.5 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>2.5 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Webgl _ ThreeJS Effects" data-type="code preview" data-search="webgl / threejs effects 12 webgl _ threejs effects ambient hero, particle field, shader transition, depth scene webgl-12.mp4 code.zip">
+      <div class="preview"><video controls src="awwwards-previews/webgl-threejs-effects-12.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play WebGL / ThreeJS Effects 12 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">12</span>
+        <div><h3>WebGL / ThreeJS Effects 12</h3><p>Ambient hero, particle field, shader transition, depth scene</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip on">example yes</span><span class="chip">38.6 MB</span></div>
+      <ul class="files"><li><span>webgl-12.mp4</span><b>36.1 MB</b></li><li><span>code.zip</span><b>2.5 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Webgl _ ThreeJS Effects" data-type="code" data-search="webgl / threejs effects 13 webgl _ threejs effects ambient hero, particle field, shader transition, depth scene code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">13</span>
+        <div><h3>WebGL / ThreeJS Effects 13</h3><p>Ambient hero, particle field, shader transition, depth scene</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">7.1 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>7.1 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Webgl _ ThreeJS Effects" data-type="code" data-search="webgl / threejs effects 15 webgl _ threejs effects ambient hero, particle field, shader transition, depth scene code.zip">
+      <div class="preview no-preview"><span>Code only</span><b>Extract source to inspect</b></div>
+      <div class="effect-top">
+        <span class="number">15</span>
+        <div><h3>WebGL / ThreeJS Effects 15</h3><p>Ambient hero, particle field, shader transition, depth scene</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip ">example no</span><span class="chip">2.3 MB</span></div>
+      <ul class="files"><li><span>code.zip</span><b>2.3 MB</b></li></ul>
+    </article>
+<article class="effect" data-category="Webgl _ ThreeJS Effects" data-type="code preview" data-search="webgl / threejs effects 16 webgl _ threejs effects ambient hero, particle field, shader transition, depth scene webgl-9-650.mp4 code.zip">
+      <div class="preview"><video controls src="awwwards-previews/webgl-threejs-effects-16.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play WebGL / ThreeJS Effects 16 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">16</span>
+        <div><h3>WebGL / ThreeJS Effects 16</h3><p>Ambient hero, particle field, shader transition, depth scene</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip on">example yes</span><span class="chip">1.7 MB</span></div>
+      <ul class="files"><li><span>webgl-9-650.mp4</span><b>1.4 MB</b></li><li><span>code.zip</span><b>314.3 KB</b></li></ul>
+    </article>
+<article class="effect" data-category="Webgl _ ThreeJS Effects" data-type="code preview" data-search="webgl / threejs effects 18 webgl _ threejs effects ambient hero, particle field, shader transition, depth scene webgl-18-650.mp4 code.zip">
+      <div class="preview"><video controls src="awwwards-previews/webgl-threejs-effects-18.mp4" muted playsinline loop preload="metadata"></video><button type="button" class="play" aria-label="Play WebGL / ThreeJS Effects 18 preview">Play</button></div>
+      <div class="effect-top">
+        <span class="number">18</span>
+        <div><h3>WebGL / ThreeJS Effects 18</h3><p>Ambient hero, particle field, shader transition, depth scene</p></div>
+      </div>
+      <div class="asset-row"><span class="chip on">code yes</span><span class="chip on">example yes</span><span class="chip">3.1 MB</span></div>
+      <ul class="files"><li><span>webgl-18-650.mp4</span><b>669.0 KB</b></li><li><span>code.zip</span><b>2.5 MB</b></li></ul>
+    </article></div></section><footer>Source archive: C:/Users/will/Downloads/Awwwards Pack-20260629T194044Z-3-003.zip<br />Examples are compressed reference clips generated from preview media in the archive. Nested code zips remain inside the source archive unless intentionally extracted for implementation.</footer></main><script>
+const search=document.querySelector('#search'),clear=document.querySelector('#clear'),effects=[...document.querySelectorAll('.effect')],categories=[...document.querySelectorAll('.category')],empty=document.querySelector('#empty');let category='all',type='all';function applyFilters(){const q=search.value.trim().toLowerCase();let visible=0;for(const card of effects){const categoryOk=category==='all'||card.dataset.category===category;const typeOk=type==='all'||card.dataset.type===type||(type==='code'&&card.dataset.type.includes('code'))||(type==='preview'&&card.dataset.type.includes('preview'));const searchOk=!q||card.dataset.search.includes(q);const show=categoryOk&&typeOk&&searchOk;card.style.display=show?'':'none';if(show)visible++;const v=card.querySelector('video');if(v&&!show)v.pause()}for(const section of categories){const hasVisible=[...section.querySelectorAll('.effect')].some(card=>card.style.display!=='none');section.style.display=hasVisible?'':'none'}empty.style.display=visible?'none':'block'}document.querySelectorAll('[data-filter]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(b=>b.classList.remove('is-active'));btn.classList.add('is-active');category=btn.dataset.filter;applyFilters()}));document.querySelectorAll('[data-type]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-type]').forEach(b=>b.classList.remove('is-active'));btn.classList.add('is-active');type=btn.dataset.type;applyFilters()}));search.addEventListener('input',applyFilters);clear.addEventListener('click',()=>{search.value='';category='all';type='all';document.querySelectorAll('button').forEach(b=>b.classList.remove('is-active'));document.querySelector('[data-filter="all"]').classList.add('is-active');document.querySelector('[data-type="all"]').classList.add('is-active');applyFilters();search.focus()});document.querySelectorAll('.preview video').forEach(video=>{const card=video.closest('.effect');const btn=card.querySelector('.play');const setLabel=()=>{if(btn)btn.textContent=video.paused?'Play':'Pause'};btn?.addEventListener('click',()=>{document.querySelectorAll('.preview video').forEach(v=>{if(v!==video)v.pause()});if(video.paused)video.play();else video.pause();setLabel()});video.addEventListener('play',setLabel);video.addEventListener('pause',setLabel);card.addEventListener('mouseenter',()=>video.play().catch(()=>{}));card.addEventListener('mouseleave',()=>video.pause())});
+</script></body></html>

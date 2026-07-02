@@ -10,6 +10,9 @@ const required = [
   "templates/spline-scroll-landing/index.html",
   "templates/asset-scroll-gallery/index.html",
   "docs/source-stack-intake.md",
+  "docs/cinematic-scroll-deck-playbook.md",
+  "docs/awwwards-animation-menu.md",
+  "docs/awwwards-animation-menu.html",
   "skills/aigent-3d-scroll-system/SKILL.md",
   "skills/aigent-landing-page-polish/SKILL.md",
   "skills/aigent-asset-gallery-system/SKILL.md"

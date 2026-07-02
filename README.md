@@ -36,6 +36,7 @@ Open:
 - `http://127.0.0.1:4177/templates/free-design-stack/`
 - `http://127.0.0.1:4177/templates/spline-scroll-landing/`
 - `http://127.0.0.1:4177/templates/asset-scroll-gallery/`
+- `http://127.0.0.1:4177/docs/awwwards-animation-menu.html`
 
 Use a different port if needed:
 
@@ -72,7 +73,7 @@ The smoke test opens the key pages on desktop and mobile viewports and verifies 
 - `templates/spline-scroll-landing/` - a Spline + GSAP scroll landing page starter.
 - `templates/asset-scroll-gallery/` - a scroll-driven resource/gallery template.
 - `skills/` - Codex/Claude-compatible skills for directing agents.
-- `docs/` - product framing, design principles, 3D scroll playbook, mobile QA, publishing, source intake rules, and local animation-pack intake.
+- `docs/` - product framing, design principles, 3D scroll and cinematic deck playbooks, mobile QA, publishing, source intake rules, local animation-pack intake, and the visual Awwwards animation menu.
 - `assets/video/` - local demo video scrub assets for the cinematic template.
 - `screenshots/` - reference captures from desktop and mobile iterations.
 
@@ -108,6 +109,18 @@ Current transition order:
 3. Two-panel vertical reveal.
 
 The dust video is fixed over the whole page with `mix-blend-mode: screen`, so particles and light rays can tie the scenes together without blocking the interface.
+
+For sponsorship decks and hero-loop-to-scrub experiences, read:
+
+`docs/cinematic-scroll-deck-playbook.md`
+
+That playbook captures the hard-earned rules for click-to-deck entry, opening-copy reveal, sticky metric migration, video scrub readiness, MP4 range serving, transition windows, and avoiding duplicate copy/scroll cue regressions.
+
+For choosing transition, text, scroll, WebGL, slider, grid, and 3D motion references from the local animation pack, open:
+
+`docs/awwwards-animation-menu.html`
+
+The companion note is `docs/awwwards-animation-menu.md`. The menu includes compressed visual examples for preview-backed effects and keeps the original large zip out of the repo.
 
 ## Swapping The Video Assets
 
@@ -189,6 +202,7 @@ and verify desktop/mobile before you call it done.
 - Keep mobile as a first-class screen, not an afterthought.
 - Use glass/fog surfaces only when the background is worth seeing through.
 - Verify real browser screenshots before shipping.
+- For cinematic decks, keep opening copy tied to one source of truth and verify scrub `currentTime` in Chrome.
 
 ## Adding New Sources Or Skills
 
