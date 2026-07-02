@@ -38,6 +38,15 @@ Best fits for this repo:
 - Gallery/card entrance effects for `templates/asset-scroll-gallery`.
 - WebGL distortion references for a future Three.js template.
 
+Deck effects adapted as AIgent-authored patterns:
+
+- Block wipe for hero-to-deck transitions. Use dark charcoal/steel tones when the hero loop is black/grey, and overlap rows by 1px to avoid hairline gaps.
+- Side reveal for deck copy. Text should enter from the side closest to its layout anchor, not default bottom-up on every slide.
+- Fact migration for sticky header metrics. Facts pin only after their large source slide leaves, and migrate from source element to header pill.
+- Word fall for the second-to-last slide before a final CTA, used as a release/lock-in moment rather than a generic text reveal.
+
+See `docs/cinematic-scroll-deck-playbook.md` for the production rules learned while implementing these effects in a live video-scrub deck.
+
 ## Animmaster Vite Template
 
 Reference docs:

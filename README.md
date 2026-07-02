@@ -72,7 +72,7 @@ The smoke test opens the key pages on desktop and mobile viewports and verifies 
 - `templates/spline-scroll-landing/` - a Spline + GSAP scroll landing page starter.
 - `templates/asset-scroll-gallery/` - a scroll-driven resource/gallery template.
 - `skills/` - Codex/Claude-compatible skills for directing agents.
-- `docs/` - product framing, design principles, 3D scroll playbook, mobile QA, publishing, source intake rules, and local animation-pack intake.
+- `docs/` - product framing, design principles, 3D scroll and cinematic deck playbooks, mobile QA, publishing, source intake rules, and local animation-pack intake.
 - `assets/video/` - local demo video scrub assets for the cinematic template.
 - `screenshots/` - reference captures from desktop and mobile iterations.
 
@@ -108,6 +108,12 @@ Current transition order:
 3. Two-panel vertical reveal.
 
 The dust video is fixed over the whole page with `mix-blend-mode: screen`, so particles and light rays can tie the scenes together without blocking the interface.
+
+For sponsorship decks and hero-loop-to-scrub experiences, read:
+
+`docs/cinematic-scroll-deck-playbook.md`
+
+That playbook captures the hard-earned rules for click-to-deck entry, opening-copy reveal, sticky metric migration, video scrub readiness, MP4 range serving, transition windows, and avoiding duplicate copy/scroll cue regressions.
 
 ## Swapping The Video Assets
 
@@ -189,6 +195,7 @@ and verify desktop/mobile before you call it done.
 - Keep mobile as a first-class screen, not an afterthought.
 - Use glass/fog surfaces only when the background is worth seeing through.
 - Verify real browser screenshots before shipping.
+- For cinematic decks, keep opening copy tied to one source of truth and verify scrub `currentTime` in Chrome.
 
 ## Adding New Sources Or Skills
 

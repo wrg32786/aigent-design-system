@@ -67,6 +67,22 @@ For tunnels, vortexes, and control-room backgrounds:
 - Use `prefers-reduced-motion`.
 - Hover states should feel premium: slight lift, border glow, no cartoon scaling.
 
+## Cinematic Deck Rules
+
+When a hero loop hands off into a pinned video-scrub deck:
+
+- Target the deck boundary on click, not a nested sticky scene anchor.
+- Reveal opening copy immediately on the first scrub frame.
+- Use one source of truth for opening copy. Do not add a duplicate overlay unless the scene copy is removed or hidden.
+- Hide generic `Scroll` cues on the first deck slide after the hero.
+- Make deck copy enter from the side closest to its layout anchor, not bottom-up by default.
+- Give video-to-video transitions enough scroll distance to read. Push transitions should move opaque video, not behave like crossfades.
+- Treat videos as scrub-ready on `canplay` or `readyState >= 2`, not metadata alone.
+- Confirm MP4 range requests return `206` and `Accept-Ranges: bytes`.
+- Pin sticky facts only after their source slide has left.
+
+For the full checklist, read `docs/cinematic-scroll-deck-playbook.md` in this repo.
+
 ## Verification
 
 Before final:
