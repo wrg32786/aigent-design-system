@@ -120,7 +120,7 @@ For choosing transition, text, scroll, WebGL, slider, grid, and 3D motion refere
 
 `docs/awwwards-animation-menu.html`
 
-The companion note is `docs/awwwards-animation-menu.md`. The menu includes compressed visual examples for preview-backed effects and keeps the original large zip out of the repo.
+The companion note is `docs/awwwards-animation-menu.md`. The menu indexes preview-backed effects, but third-party preview media and the original large zip stay out of the public repo.
 
 ## Swapping The Video Assets
 

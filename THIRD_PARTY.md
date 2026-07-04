@@ -16,6 +16,8 @@ The local `3d-scroll-website-skill-pack.zip` was inspected as inspiration for wo
 
 The source stack listed in `docs/source-stack-intake.md` is treated the same way: links and lessons are recorded, but third-party code, templates, and skill files are not copied into this repo unless their licenses are reviewed first.
 
+The local Awwwards animation archive is also treated as a reference-only source. The public repo may include an AIgent-authored index of effect categories and intended uses, but it must not include the original archive, nested code zips, or extracted preview media unless redistribution rights are explicitly cleared.
+
 Before adding outside skill packs, templates, images, fonts, or frame sequences directly to this repo, verify:
 
 1. License permits commercial and open-source redistribution.

@@ -6,8 +6,8 @@ Use this note when reviewing local animation packs, Awwwards-style references, o
 
 Local files inspected:
 
-- `C:/Users/will/Downloads/Awwwards Pack-20260629T194044Z-3-003.zip`
-- `C:/Users/will/Downloads/Animmaster Vite Template.zip`
+- Awwwards animation pack archive, intentionally not vendored.
+- Animmaster Vite template archive, intentionally not vendored.
 
 These files are source references. Do not vendor them directly into this repo unless the license and redistribution rights are clear.
 

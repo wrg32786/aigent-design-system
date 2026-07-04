@@ -1,16 +1,16 @@
 # Awwwards Animation Pack Menu
 
-Source archive: `C:/Users/will/Downloads/Awwwards Pack-20260629T194044Z-3-003.zip`
+Source archive: local Awwwards animation pack, intentionally not vendored.
 
-This repo includes a browsable visual HTML menu at [awwwards-animation-menu.html](./awwwards-animation-menu.html). It includes compressed reference clips in [awwwards-previews/](./awwwards-previews/) for effects that shipped with preview media. The original 2 GB source archive is intentionally not vendored.
+This repo includes a browsable public-safe HTML menu at [awwwards-animation-menu.html](./awwwards-animation-menu.html). It indexes effects that shipped with preview media, but the third-party preview clips, nested code zips, and original 2 GB source archive are intentionally not vendored.
 
 ## Inventory
 
 - Total items: 54
 - Items with code: 30
-- Items with visual examples: 36
+- Items with preview references: 36
 - Indexed archive payload: 1.96 GB
-- Generated preview payload: 3.1 MB
+- Bundled preview payload: 0 MB
 
 - Page Transitions: 1 items
 - Text Animations: 2 items
@@ -31,4 +31,4 @@ For the AIgent sponsorship deck, prioritize:
 - Scroll Animation for pinned scrub scenes, sticky fact migration, and staged side-entry text.
 - WebGL / ThreeJS Effects for ambient hero depth and particle fields.
 
-Keep heavyweight preview videos and nested code zips out of the design-system repo unless a selected effect becomes a reusable template.
+Keep preview videos and nested code zips out of the design-system repo unless a selected effect is license-cleared and rebuilt as an AIgent-owned reusable template.
