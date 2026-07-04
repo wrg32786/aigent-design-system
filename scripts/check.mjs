@@ -28,7 +28,7 @@ if (missing.length) {
 
 for (const skill of required.filter((file) => file.endsWith("SKILL.md"))) {
   const body = fs.readFileSync(path.join(process.cwd(), skill), "utf8");
-  if (!body.startsWith("---\nname:")) {
+  if (!/^---\r?\nname:/.test(body)) {
     console.error(`Invalid skill frontmatter: ${skill}`);
     process.exit(1);
   }

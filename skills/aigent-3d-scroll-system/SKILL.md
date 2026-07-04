@@ -72,14 +72,20 @@ For tunnels, vortexes, and control-room backgrounds:
 When a hero loop hands off into a pinned video-scrub deck:
 
 - Target the deck boundary on click, not a nested sticky scene anchor.
-- Reveal opening copy immediately on the first scrub frame.
+- For presented sponsorship decks, block free scrolling after entry and drive the internal scroll timeline with clear `Next` and `Previous` controls.
+- Land guided moves on approved pause points where the clip is near its end state and copy is fully rendered.
+- Reveal opening copy immediately on the first scrub frame or first approved pause point.
 - Use one source of truth for opening copy. Do not add a duplicate overlay unless the scene copy is removed or hidden.
 - Hide generic `Scroll` cues on the first deck slide after the hero.
 - Make deck copy enter from the side closest to its layout anchor, not bottom-up by default.
 - Give video-to-video transitions enough scroll distance to read. Push transitions should move opaque video, not behave like crossfades.
 - Treat videos as scrub-ready on `canplay` or `readyState >= 2`, not metadata alone.
+- Use 1080p scrub exports with frequent keyframes or all-intra encoding when clarity matters. Do not downgrade to blurry media to mask seek problems.
+- Load the hero poster and hero loop first, warm the first scrub clip on CTA intent, then warm later clips only near their transition windows.
+- Match video seek cadence to the source frame rate instead of seeking on every possible scroll tick.
 - Confirm MP4 range requests return `206` and `Accept-Ranges: bytes`.
 - Pin sticky facts only after their source slide has left.
+- On mobile, use `object-fit: contain` for a hero loop that contains a readable brand mark.
 
 For the full checklist, read `docs/cinematic-scroll-deck-playbook.md` in this repo.
 
@@ -93,5 +99,7 @@ Before final:
 - Confirm active sticky nav does not cover content.
 - Confirm scene reaches its intended end state by the page bottom.
 - Confirm links and external-link cues are actually clickable.
+- For guided scrub decks, click through every `Next` and `Previous` pause point and inspect active video `currentTime`.
+- Confirm the first page load does not request all 1080p scrub videos before interaction.
 
 Use browser tooling or Playwright, not visual guessing.

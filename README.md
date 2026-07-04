@@ -114,7 +114,7 @@ For sponsorship decks and hero-loop-to-scrub experiences, read:
 
 `docs/cinematic-scroll-deck-playbook.md`
 
-That playbook captures the hard-earned rules for click-to-deck entry, opening-copy reveal, sticky metric migration, video scrub readiness, MP4 range serving, transition windows, and avoiding duplicate copy/scroll cue regressions.
+That playbook captures the hard-earned rules for click-to-deck entry, button-guided deck navigation, opening-copy reveal, sticky metric migration, 1080p scrub encoding, lazy video warming, MP4 range serving, transition windows, mobile hero fitting, and avoiding duplicate copy/scroll cue regressions.
 
 For choosing transition, text, scroll, WebGL, slider, grid, and 3D motion references from the local animation pack, open:
 
@@ -126,6 +126,8 @@ The companion note is `docs/awwwards-animation-menu.md`. The menu includes compr
 
 For smooth scroll scrubbing, use short, high-quality MP4 files with all-keyframe or frequent-keyframe encoding. Long GOP video can feel choppy when the browser jumps around with `currentTime`.
 
+The live deck pattern now uses dedicated 1080p scrub exports. Do not downgrade the media to hide a seeking problem; re-encode the 1080p file for scrub-readiness instead.
+
 Good source clips:
 
 - Slow camera movement.
@@ -133,6 +135,14 @@ Good source clips:
 - Minimal hard cuts.
 - Enough negative space for text.
 - Dark or medium contrast backgrounds if the copy is light.
+
+Loading rules:
+
+- Load the hero poster and hero loop first.
+- Do not preload every 1080p scrub clip on initial paint.
+- Warm the first scrub clip on CTA intent or delayed idle time.
+- Warm the next clip near the transition window, not on every timeline update.
+- Schedule metrics/API fetches during idle time when they are not needed for first paint.
 
 After replacing a clip, run:
 
@@ -147,7 +157,10 @@ Then manually check:
 - Scrubbing feels smooth.
 - Transition timing works in both scroll directions.
 - Text does not overlap the browser chrome on mobile.
+- Mobile hero video fits the brand mark to screen width when the mark must be readable.
 - Glass cards remain readable over the brightest frame.
+- In guided decks, `Next` and `Previous` land on approved pause points with copy fully rendered.
+- Later 1080p videos keep visible motion instead of becoming static after the first clip.
 
 ## Installing The Agent Skills
 
@@ -202,7 +215,7 @@ and verify desktop/mobile before you call it done.
 - Keep mobile as a first-class screen, not an afterthought.
 - Use glass/fog surfaces only when the background is worth seeing through.
 - Verify real browser screenshots before shipping.
-- For cinematic decks, keep opening copy tied to one source of truth and verify scrub `currentTime` in Chrome.
+- For cinematic decks, keep opening copy tied to one source of truth, verify scrub `currentTime` in Chrome, and prefer button-guided pause points when the deck should feel presented rather than freely scrolled.
 
 ## Adding New Sources Or Skills
 

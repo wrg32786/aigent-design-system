@@ -21,6 +21,11 @@ Run this before shipping any page built from this system.
 - Buttons do not resize when prices or labels change.
 - External-link cues are part of the link, not dead icons.
 - Background motion does not make text hard to read.
+- Hero videos with readable brand marks fit the mark to the mobile screen width.
+- Primary CTAs stay visible above browser chrome.
+- Button-guided decks do not allow accidental wheel/touch scrolling after entry.
+- `Next` and `Previous` controls are large enough to notice and tap.
+- Sticky metric/fact pills remain readable after they migrate into the header.
 
 ## Reduced Motion
 
