@@ -4,11 +4,14 @@ Premium AI-native web design patterns, cinematic scroll templates, and agent ski
 
 This repo is a free design stack for builders who want AI-generated pages to feel less generic. It packages static HTML templates, shared CSS tokens, reusable agent skills, video-scrub landing page patterns, and QA rules that help Codex, Claude Code, and similar agents produce more polished frontend work.
 
-The flagship demo is the free design stack page:
+## Flagship demos
 
-`templates/free-design-stack/index.html`
+Live sites built with this stack:
 
-It uses pinned scroll, scrubbed video backgrounds, mixed scene transitions, GSAP text reveals, liquid/fog glass surfaces, and mobile-safe layout rules.
+- **[The AIgent](https://theaigent.xyz)** — our homepage
+- **[AIgent Tools](https://tools.theaigent.xyz)** — the public tools & repo library
+
+In-repo demo: `templates/free-design-stack/index.html` — pinned scroll, scrubbed video backgrounds, mixed scene transitions, GSAP text reveals, liquid/fog glass surfaces, and mobile-safe layout rules.
 
 ## Quick Start
 
