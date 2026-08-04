@@ -1,19 +1,30 @@
 # AIgent Design System
 
-Premium AI-native web design patterns, cinematic scroll templates, and agent skills from The AIgent.
+A modular cinematic web kit for building scroll-driven landing pages, product stories, galleries, and interactive decks with humans or coding agents.
 
-This repo is a free design stack for builders who want AI-generated pages to feel less generic. It packages static HTML templates, shared CSS tokens, reusable agent skills, video-scrub landing page patterns, and QA rules that help Codex, Claude Code, and similar agents produce more polished frontend work.
+> **The core is brand-neutral.** The AIgent's cyan, cream, and black visual language is included as one theme preset and as the styling for several showcase pages. New projects should use the semantic `ds-*` API.
 
-## Flagship demos
+Built and maintained by [The AIgent](https://theaigent.xyz). Free and MIT-licensed for AIgent-authored code and documentation.
 
-Live sites built with this stack:
+## See It Working
 
-- **[The AIgent](https://theaigent.xyz)** — our homepage
-- **[AIgent Tools](https://tools.theaigent.xyz)** — the public tools & repo library
+Live sites informed by the system:
 
-In-repo demo: `templates/free-design-stack/index.html` — pinned scroll, scrubbed video backgrounds, mixed scene transitions, GSAP text reveals, liquid/fog glass surfaces, and mobile-safe layout rules.
+- [The AIgent](https://theaigent.xyz)
+- [AIgent Tools](https://tools.theaigent.xyz)
 
-## Quick Start
+Local demos:
+
+| Start here | Best for | Runtime |
+| --- | --- | --- |
+| `templates/modular-scroll-starter/` | A clean, brand-neutral project | Native CSS + JavaScript |
+| `templates/free-design-stack/` | Cinematic video scrubbing and scene transitions | GSAP + local MP4 assets |
+| `templates/spline-scroll-landing/` | A scroll-mapped 3D background | Spline + GSAP |
+| `templates/asset-scroll-gallery/` | Resource libraries and editorial galleries | Spline + native JavaScript |
+
+The modular starter is the recommended entry point. The other pages are richer showcases that demonstrate specific media techniques.
+
+## Start In Two Minutes
 
 Requirements:
 
@@ -21,27 +32,17 @@ Requirements:
 - npm
 - A modern browser
 
-Install dependencies:
-
 ```bash
 npm install
-```
-
-Run the local static server:
-
-```bash
 npm run serve
 ```
 
 Open:
 
 - `http://127.0.0.1:4177/`
-- `http://127.0.0.1:4177/templates/free-design-stack/`
-- `http://127.0.0.1:4177/templates/spline-scroll-landing/`
-- `http://127.0.0.1:4177/templates/asset-scroll-gallery/`
-- `http://127.0.0.1:4177/docs/awwwards-animation-menu.html`
+- `http://127.0.0.1:4177/templates/modular-scroll-starter/`
 
-Use a different port if needed:
+Use a different port when needed:
 
 ```bash
 PORT=8788 npm run serve
@@ -53,123 +54,202 @@ PowerShell:
 $env:PORT = "8788"; npm run serve
 ```
 
-## Validate
-
-Run the static checks:
+Run the checks:
 
 ```bash
 npm run check
-```
-
-Run the browser smoke tests:
-
-```bash
 npm run smoke
 ```
 
-The smoke test opens the key pages on desktop and mobile viewports and verifies that they render.
+`check` validates the repository contract and module exports. `smoke` opens every key page at desktop and mobile sizes, checks basic rendering, and catches horizontal overflow.
 
-## What Is Inside
+## Use The System Without A Template
 
-- `tokens/aigent-tokens.css` - shared type, color, spacing, motion, and surface tokens.
-- `templates/free-design-stack/` - the public cinematic product page for this stack.
-- `templates/spline-scroll-landing/` - a Spline + GSAP scroll landing page starter.
-- `templates/asset-scroll-gallery/` - a scroll-driven resource/gallery template.
-- `skills/` - Codex/Claude-compatible skills for directing agents.
-- `docs/` - product framing, design principles, 3D scroll and cinematic deck playbooks, mobile QA, publishing, source intake rules, local animation-pack intake, and the visual Awwwards animation menu.
-- `assets/video/` - local demo video scrub assets for the cinematic template.
-- `screenshots/` - reference captures from desktop and mobile iterations.
+### 1. Load the neutral system
 
-## The Cinematic Page Pattern
-
-The `free-design-stack` template is built around five layers:
-
-1. A fixed media stage.
-2. Four scrubbed scene videos.
-3. One global dust/light overlay video.
-4. A 2D content layer with GSAP text and card animation.
-5. Glass buttons/cards that stay readable over motion.
-
-The page uses the "pin then release" pattern:
-
-- The media stage pins while the user scrolls through the page.
-- Scroll progress drives `video.currentTime`.
-- Text and cards reveal as their sections enter.
-- The pinned media releases naturally when the scroll sequence is over.
-
-Current video slots:
-
-- `assets/video/design-stack-01-cave.mp4`
-- `assets/video/design-stack-02-ink.mp4`
-- `assets/video/design-stack-03-drone.mp4`
-- `assets/video/design-stack-03-fracture.mp4`
-- `assets/video/design-stack-dust.mp4`
-
-Current transition order:
-
-1. Horizontal blinds reveal.
-2. Crossfade.
-3. Two-panel vertical reveal.
-
-The dust video is fixed over the whole page with `mix-blend-mode: screen`, so particles and light rays can tie the scenes together without blocking the interface.
-
-For sponsorship decks and hero-loop-to-scrub experiences, read:
-
-`docs/cinematic-scroll-deck-playbook.md`
-
-That playbook captures the hard-earned rules for click-to-deck entry, button-guided deck navigation, opening-copy reveal, sticky metric migration, 1080p scrub encoding, lazy video warming, MP4 range serving, transition windows, mobile hero fitting, and avoiding duplicate copy/scroll cue regressions.
-
-For choosing transition, text, scroll, WebGL, slider, grid, and 3D motion references from the local animation pack, open:
-
-`docs/awwwards-animation-menu.html`
-
-The companion note is `docs/awwwards-animation-menu.md`. The menu indexes preview-backed effects, but third-party preview media and the original large zip stay out of the public repo.
-
-## Swapping The Video Assets
-
-For smooth scroll scrubbing, use short, high-quality MP4 files with all-keyframe or frequent-keyframe encoding. Long GOP video can feel choppy when the browser jumps around with `currentTime`.
-
-The live deck pattern now uses dedicated 1080p scrub exports. Do not downgrade the media to hide a seeking problem; re-encode the 1080p file for scrub-readiness instead.
-
-Good source clips:
-
-- Slow camera movement.
-- Clear depth or texture.
-- Minimal hard cuts.
-- Enough negative space for text.
-- Dark or medium contrast backgrounds if the copy is light.
-
-Loading rules:
-
-- Load the hero poster and hero loop first.
-- Do not preload every 1080p scrub clip on initial paint.
-- Warm the first scrub clip on CTA intent or delayed idle time.
-- Warm the next clip near the transition window, not on every timeline update.
-- Schedule metrics/API fetches during idle time when they are not needed for first paint.
-
-After replacing a clip, run:
-
-```bash
-npm run serve
-npm run smoke
+```html
+<html lang="en" data-theme="graphite">
+  <head>
+    <link rel="stylesheet" href="/tokens/system.css" />
+  </head>
+  <body class="ds-shell">
+    <main class="ds-container">
+      <p class="ds-eyebrow">Product system</p>
+      <section class="ds-panel">...</section>
+      <a class="ds-button" data-variant="solid" href="#start">Start</a>
+    </main>
+  </body>
+</html>
 ```
 
-Then manually check:
+The generic API uses semantic names:
 
-- Top hero loads cleanly.
-- Scrubbing feels smooth.
-- Transition timing works in both scroll directions.
-- Text does not overlap the browser chrome on mobile.
-- Mobile hero video fits the brand mark to screen width when the mark must be readable.
-- Glass cards remain readable over the brightest frame.
-- In guided decks, `Next` and `Previous` land on approved pause points with copy fully rendered.
-- Later 1080p videos keep visible motion instead of becoming static after the first clip.
+- `--ds-color-*` for color roles
+- `--ds-font-*` for typography
+- `--ds-radius-*`, `--ds-space-*`, and `--ds-shadow-*` for layout and surfaces
+- `--ds-scroll` and `--ds-scene-*` for scroll-linked scenes
+- `.ds-shell`, `.ds-container`, `.ds-panel`, `.ds-button`, and `.ds-eyebrow` for small primitives
 
-## Installing The Agent Skills
+It does not require React, Tailwind, a build step, or an animation package.
 
-Copy any folder under `skills/` into your agent's skills directory.
+### 2. Choose a theme
 
-Claude Code style:
+Set `data-theme` on the root element:
+
+```html
+<html data-theme="ember">
+```
+
+Included presets:
+
+- `graphite` — neutral violet and blue on charcoal
+- `aigent` — The AIgent cyan and amber palette
+- `ember` — warm orange and gold
+- `cobalt` — blue and mint
+- `paper` — light editorial palette
+
+### 3. Add the motion module
+
+```html
+<script type="module">
+  import {
+    mountReveals,
+    mountScrollScene,
+    mountThemePicker
+  } from "/modules/motion.js";
+
+  mountScrollScene({
+    progressMultiplier: 1.5,
+    scale: 0.9,
+    rotation: -64,
+    brightness: [0.76, 1]
+  });
+
+  mountReveals();
+  mountThemePicker();
+</script>
+```
+
+The scroll-scene helper only writes semantic CSS variables. The scene can be:
+
+- a CSS composition
+- a Spline embed
+- a video or frame sequence
+- a Three.js canvas
+- a WebGL shader
+- a static image with subtle depth transforms
+
+The content layer does not need to know which media technique is behind it.
+
+## Make A Custom Theme
+
+Override the RGB triplets and the derived semantic values update automatically:
+
+```css
+[data-theme="my-brand"] {
+  color-scheme: dark;
+  --ds-bg-rgb: 9 12 18;
+  --ds-surface-rgb: 20 27 39;
+  --ds-text-rgb: 246 248 252;
+  --ds-accent-rgb: 255 90 140;
+  --ds-accent-2-rgb: 255 205 92;
+  --ds-color-accent-ink: #16040b;
+}
+```
+
+Then select it:
+
+```html
+<html data-theme="my-brand">
+```
+
+Keep the triplets space-separated because the system uses them for alpha variants such as `rgb(var(--ds-accent-rgb) / 0.2)`.
+
+## Architecture
+
+```text
+tokens/
+  system.css          semantic tokens, theme presets, and generic primitives
+  aigent-tokens.css   The AIgent preset plus compatibility aliases
+
+modules/
+  motion.js           scroll progress, scene transforms, reveals, theme picker
+
+templates/
+  modular-scroll-starter/
+  free-design-stack/
+  spline-scroll-landing/
+  asset-scroll-gallery/
+
+skills/
+  aigent-3d-scroll-system/
+  aigent-landing-page-polish/
+  aigent-asset-gallery-system/
+
+docs/
+  design principles, cinematic playbooks, QA, publishing, and source intake
+```
+
+The layers are intentionally separate:
+
+1. **Content** — copy, links, product data, and calls to action.
+2. **Theme** — semantic tokens and typography.
+3. **Scene** — video, 3D, WebGL, images, or CSS art.
+4. **Motion** — small modules that map scroll and viewport state to CSS.
+5. **Template** — the composition that joins those layers for one use case.
+
+A reusable page should accept new copy, a new palette, and new media without rewriting its motion engine.
+
+## Existing AIgent Compatibility
+
+The original templates use `--aigent-*` tokens and `.aigent-*` classes. They remain supported through `tokens/aigent-tokens.css`.
+
+For new work, prefer:
+
+```html
+<link rel="stylesheet" href="/tokens/system.css" />
+```
+
+Use the legacy entry only when adapting an existing AIgent-branded page:
+
+```html
+<link rel="stylesheet" href="/tokens/aigent-tokens.css" />
+```
+
+This keeps existing demos stable while the repository moves toward the neutral API.
+
+## Choosing A Media Technique
+
+Use the lightest technique that carries the idea:
+
+| Technique | Use it when | Avoid it when |
+| --- | --- | --- |
+| CSS transforms | The scene is abstract or mostly decorative | Photoreal art direction is required |
+| Spline | You need a fast interactive 3D scene | Bundle weight or mobile GPU limits are strict |
+| Video scrub | You need controlled, photoreal cinematic direction | The source video cannot be encoded for seeking |
+| Frame sequence | Exact frame control and mobile consistency matter | Asset size cannot be managed |
+| Three.js/WebGL | The user must manipulate live geometry or lighting | A rendered sequence would tell the same story |
+
+The design system does not force one renderer. It standardizes the page around the renderer.
+
+## Video Scrub Rules
+
+For smooth seeking:
+
+- Prefer short MP4 files with frequent keyframes or all-intra encoding.
+- Load the hero poster and loop first.
+- Warm the first scrub clip on intent or delayed idle time.
+- Warm later clips near their transition windows.
+- Verify byte-range requests return `206` with `Accept-Ranges: bytes`.
+- Do not hide a seeking problem by shipping blurry media.
+
+The full production checklist is in `docs/cinematic-scroll-deck-playbook.md`.
+
+## Agent Skills
+
+Folders under `skills/` are operating instructions for Codex, Claude Code, and similar coding agents. They are not runtime dependencies.
+
+Claude Code:
 
 ```powershell
 New-Item -ItemType Directory -Force -Path "$HOME\.claude\skills"
@@ -178,7 +258,7 @@ Copy-Item -Recurse .\skills\aigent-asset-gallery-system "$HOME\.claude\skills\"
 Copy-Item -Recurse .\skills\aigent-landing-page-polish "$HOME\.claude\skills\"
 ```
 
-Codex style:
+Codex:
 
 ```powershell
 New-Item -ItemType Directory -Force -Path "$HOME\.codex\skills"
@@ -187,80 +267,68 @@ Copy-Item -Recurse .\skills\aigent-asset-gallery-system "$HOME\.codex\skills\"
 Copy-Item -Recurse .\skills\aigent-landing-page-polish "$HOME\.codex\skills\"
 ```
 
-Use the skills as operating instructions for an agent. They are not runtime dependencies.
-
-## How To Use This Repo With An Agent
-
-Give the agent this repo and ask it to:
-
-1. Read `docs/design-principles.md`.
-2. Read the skill that matches the task.
-3. Start from the closest template.
-4. Keep the page static unless a framework is truly needed.
-5. Verify desktop and mobile.
-6. Update docs when a new pattern becomes reusable.
-
-Good prompt:
+A useful prompt:
 
 ```text
-Use the AIgent design system. Start from templates/free-design-stack.
-Replace the copy and scene assets for my product, keep the pinned video scrub pattern,
-and verify desktop/mobile before you call it done.
+Use this repository as a cinematic web system.
+
+Read docs/design-principles.md and the closest skill.
+Start from templates/modular-scroll-starter.
+Keep the ds-* token and motion APIs, but create a new visual identity,
+new composition, and product-specific copy. Do not reproduce The AIgent palette
+unless it fits the brand. Verify 1440px and 390px before calling it done.
 ```
 
-## Design Rules
+## Quality Bar
 
-- Build the usable page first, not a marketing shell.
-- Use immersive media for websites and tools, not decorative filler.
-- Keep copy brief and plain.
-- Animate with purpose: reveal, orient, compare, or reward.
-- Avoid generic AI gradients and random floating objects.
-- Keep mobile as a first-class screen, not an afterthought.
-- Use glass/fog surfaces only when the background is worth seeing through.
-- Verify real browser screenshots before shipping.
-- For cinematic decks, keep opening copy tied to one source of truth, verify scrub `currentTime` in Chrome, and prefer button-guided pause points when the deck should feel presented rather than freely scrolled.
+Before publishing:
 
-## Adding New Sources Or Skills
+- The first viewport clearly explains what the page is and what action to take.
+- Motion reveals, orients, compares, or rewards; it is not filler.
+- The focal point remains intentional while the scene moves.
+- Text stays readable over the brightest and busiest frame.
+- `prefers-reduced-motion` produces a complete, usable page.
+- Keyboard focus is visible.
+- Links and controls are real, labeled, and reachable.
+- Desktop and mobile have no horizontal overflow.
+- The page is checked in a real browser, not judged from source alone.
 
-Do not paste random third-party skill files or templates directly into this repo.
+## Adding A Reusable Pattern
 
-Use this intake path:
+Do not paste third-party templates or skill files directly into the repository.
 
-1. Add the source link to `docs/source-stack-intake.md`, or use `docs/animation-asset-intake.md` for large local effect packs.
-2. Write what it teaches in plain English.
-3. Convert the lesson into an AIgent-authored rule, template section, prompt, or QA check.
-4. Review the license before vendoring any file.
-5. Update `THIRD_PARTY.md` if anything external is included directly.
+1. Record the source in `docs/source-stack-intake.md`, or use `docs/animation-asset-intake.md` for large local packs.
+2. Describe the transferable lesson in plain English.
+3. Implement the smallest original token, module, template section, prompt, or QA rule that captures it.
+4. Verify the license before vendoring anything.
+5. Update `THIRD_PARTY.md` when external material is included directly.
+6. Run `npm run check` and `npm run smoke`.
 
-## Publishing A Page
+## Publishing
 
-The templates are static. To publish one:
+The templates are static:
 
-1. Copy the template folder or compiled page into the target static site.
-2. Copy any required video assets.
-3. Rewrite relative asset paths if the destination is different.
-4. Verify every MP4 and CSS file returns `200`.
-5. Check desktop and mobile.
-6. Push the static site repo.
+1. Copy the chosen template into the target site.
+2. Copy `tokens/system.css` and any imported modules.
+3. Replace media and content.
+4. Fix relative paths.
+5. Confirm assets return `200`; scrub media should also support range requests.
+6. Run desktop and mobile checks.
+7. Deploy to any static host.
 
-For The AIgent tools site, this design can be published as:
+## Project Direction
 
-`tools.theaigent.xyz/pro-design`
+This is an early `0.x` public kit. It is deliberately not a large component library.
 
-## Project Status
+Near-term work:
 
-Early public kit. The goal is not to become a bloated component library. The goal is to package taste, scroll craft, agent instructions, and reusable patterns that help AI builders ship better-looking work.
-
-Near-term roadmap:
-
-- Add a React/Next version of the free design stack page.
-- Add Blender/frame-sequence examples.
-- Add more screenshot-based visual QA.
-- Add a small gallery of approved video scrub asset styles.
-- Add an install script for the skills.
+- migrate the remaining showcase pages from hard-coded brand values to the semantic token API
+- extract only the motion patterns proven across at least two real pages
+- add lightweight visual-regression captures for the starter and showcases
+- add framework adapters after the static contracts stabilize
 
 ## License
 
-MIT for AIgent-authored code and docs.
+MIT for AIgent-authored code and documentation.
 
-See `THIRD_PARTY.md` before publishing or redistributing imported third-party material, generated media, Spline scenes, fonts, or outside skill files.
+Read `THIRD_PARTY.md` before publishing or redistributing imported media, Spline scenes, fonts, generated assets, or outside code.
