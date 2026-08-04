@@ -2,44 +2,74 @@
 
 This repository is intended to remain open-source safe.
 
-## Included Directly
+## AIgent-authored material
 
-- AIgent-authored documentation, tokens, templates, modules, scripts, and skills are MIT licensed.
-- Demo video assets in `assets/video/` are treated as AIgent-authored or generated demonstration media for this kit. Replace them before client work when a project requires different provenance or a commercial media warranty.
-- Runtime showcase dependencies are loaded from public CDNs by example pages:
-  - `@splinetool/viewer`
-  - `gsap`
+AIgent-authored documentation, tokens, templates, modules, scripts, recipes, manifests, and skills are MIT licensed.
+
+The demonstration video assets already under `assets/video/` are treated as AIgent-authored or generated demonstration media. Replace them when a project requires different provenance or a commercial media warranty.
+
+## Linked tools and resources
+
+`creative-production/catalog.json` and `integrations/catalog.json` link to third-party:
+
+- asset libraries and marketplaces
+- stock footage, VFX, audio, and templates
+- AI generation platforms and open models
+- authoring, editing, encoding, and optimization tools
+- browser runtimes and animation libraries
+
+The catalogs do not vendor third-party code, models, media, prompts, workflows, or agent skills.
+
+Summaries are informational and date-stamped. Pricing, model availability, plan rights, and item licenses change. The exact official terms and item page at the time of production control.
+
+## Runtime dependencies used by examples
+
+Some showcase pages load public CDN examples such as:
+
+- `@splinetool/viewer`
+- GSAP
+
+Projects should pin and review their own production dependencies.
 
 ## Impeccable
 
-The context-first design workflow, surface-mode vocabulary, anti-reference discipline, bounded visual QA, and the idea of deterministic frontend taste checks were informed by:
+The context-first design workflow, surface-mode vocabulary, anti-reference discipline, bounded visual QA, and deterministic frontend-check concept were informed by:
 
-- **Project:** `pbakaus/impeccable`
-- **License:** Apache License 2.0
-- **Source:** https://github.com/pbakaus/impeccable
+- Project: `pbakaus/impeccable`
+- License: Apache License 2.0
+- Source: https://github.com/pbakaus/impeccable
 
-No Impeccable source files, detector implementation, command framework, or skill text are vendored in this repository. The AIgent files are original implementations specialized for cinematic websites and the production lessons from `theaigent.xyz` and `tools.theaigent.xyz`.
+No Impeccable source files, detector implementation, command framework, or skill text are vendored.
 
-Users who want Impeccable's full command and detector system should install it from the original project.
+## GSAP skills
 
-## Reference-Only Material
+The official GSAP agent-skills repository is linked as a tool-specific reference. This repository contains original higher-level choreography and production skills; it does not copy the official skill files.
 
-The local `3d-scroll-website-skill-pack.zip` was inspected as inspiration for workflow shape, but its files are not vendored. The skills here are rewritten around original design rules, Spline and GSAP experience-page patterns, and mobile QA lessons.
+## Large local reference material
 
-The source stack listed in `docs/source-stack-intake.md` is treated the same way: links and lessons are recorded, but third-party code, templates, and skill files are not copied unless their licenses are reviewed first.
+Previously inspected animation and 3D skill archives remain reference-only. Original archives, code zips, and preview media are not included unless redistribution rights are explicitly cleared.
 
-The local Awwwards animation archive is also reference-only. The public repository may include an AIgent-authored index of effect categories and intended uses, but it must not include the original archive, nested code zips, or extracted preview media unless redistribution rights are explicitly cleared.
+## External assets
 
-Before adding outside skills, templates, images, fonts, frame sequences, or code directly:
+Before including any outside model, texture, image, footage, audio, font, Spline scene, generated output, or frame sequence:
 
-1. Verify the license permits the intended redistribution and commercial use.
-2. Preserve required notices and attribution.
-3. Confirm generated assets are cleared for reuse.
-4. Remove API keys, tracking IDs, private URLs, customer data, and internal comments.
-5. Record the source and exact material included here.
+1. Verify commercial and redistribution rights.
+2. Record the exact source and license.
+3. Preserve required attribution.
+4. Check likeness, trademark, property, editorial-only, geographic, and enterprise restrictions.
+5. Ensure no secrets, signed URLs, customer data, or personal billing information are present.
+6. Create an asset manifest.
+7. Commit only optimized public outputs.
 
-## Spline Scenes
+## Software licenses
 
-The example templates use Spline's documented web embed pattern through `<spline-viewer>`.
+Production software can have separate licenses for application code, plugins, models, editors, and outputs. Examples:
 
-For public production use, replace placeholder scene URLs with a scene you own, have permission to embed, or exported yourself. A `prod.spline.design` URL is not automatically redistribution-safe merely because it loads.
+- Blender application code is GPL; artwork output is not automatically GPL.
+- FFmpeg obligations depend on how the binary was configured.
+- Theatre.js Core and Studio have different licenses.
+- Remotion licensing depends on organization size.
+- Rive runtime and editor/export access have different terms.
+- ComfyUI, checkpoints, LoRAs, and custom nodes must be reviewed separately.
+
+Nothing in this file is legal advice.

@@ -1,84 +1,98 @@
 # Design Principles
 
-## Begin with product truth
+## Build the experience first
 
-Read `PRODUCT.md`, `DESIGN.md`, the target page, and one representative source of the existing visual system before editing. A missing design document does not erase a coherent identity already present in code or production pages.
+The first screen is the offer, artifact, task, or world. Do not lead with generic marketing scaffolding when the user asked for a tool, gallery, product, or experience.
 
-## Choose the surface mode
+## Product truth before styling
 
-- **Persuade:** make the offer, proof, and action immediately legible.
-- **Operate:** prioritize task completion, state, and familiar controls.
-- **Read:** prioritize structure, line length, rhythm, and wayfinding.
-- **Experience:** let the artifact or world lead from the first viewport.
+Read the product and design context. Determine the surface mode, proof, primary action, constraints, and anti-references before choosing a palette or library.
 
-The mode determines the hierarchy. The company category does not.
+## One visual world
 
-## Build an own-world page
+A strong page uses one coherent family of:
 
-A strong direction comes from the audience and subject, not from the default look of its category. Define a concrete visual world, the category rut, and the anti-references before choosing colors.
+- material
+- camera
+- lighting
+- type
+- spatial composition
+- media
+- transitions
 
-A palette swap is not a new direction. Type, composition, material, navigation, motion, and responsive behavior must agree.
+Do not combine unrelated stock clips, 3D objects, overlays, and effects merely because they are available.
 
-## Show the proof
+## Use media as structure
 
-The page itself should demonstrate the quality it claims. Use real product behavior, real media, real copy, or honestly labeled illustrative material. Do not invent customers, benchmarks, prices, or capabilities.
+Video and 3D should establish place, reveal state, compare, orient, or reward. They are not decorative proof that the site is modern.
 
-## Use the lightest renderer that carries the idea
+Prefer the lightest medium that carries the idea:
 
-- CSS for graphic or abstract depth.
-- Spline for a fast interactive 3D scene.
-- Video scrub for controlled photoreal direction.
-- Frame sequences for exact playback and mobile consistency.
-- Three.js or WebGL only when live geometry, lighting, or manipulation matters.
-
-The renderer is a scene implementation, not the page architecture.
-
-## Motion has a job
-
-Choose one authored motion idea for the page. Supporting reveals should stay quiet. Motion may reveal, orient, compare, explain state, or reward; it should not exist because every section needs an entrance.
-
-Keep the default state readable, honor `prefers-reduced-motion`, and avoid bounce or elastic easing unless the product’s physical behavior genuinely calls for it.
-
-## Refuse the common generated tells
-
-Unless the brief specifically earns them:
-
-- no identical icon-heading-text card grid as the page scaffold
-- no nested cards
-- no repeated eyebrow above every heading
-- no gradient text
-- no glass used as generic decoration
-- no pure neutral black ground when a tinted dark belongs to the world
-- no mono used merely to signal “technical”
-- no random floating 3D object
-- no glow without an emitted-light or active-state reason
-- no section numbers unless the sequence itself matters
-
-## Treat typography as structure
-
-Use a display face with a point of view on Persuade and Experience surfaces. Use workhorse faces where operating or reading speed matters. Maintain clear scale and weight steps, keep body copy near 65–75 characters per line, and test real copy at every breakpoint.
-
-## Use fewer surfaces
-
-Prefer rules, spacing, lists, and composition before adding another card. A border and shadow should not both explain the same elevation. Pills are for compact controls; they are not the default shape for every object.
-
-## Verify the built result
-
-Check desktop and mobile together, fix the whole batch, then confirm once. Verify:
-
-- first-viewport clarity
-- WCAG AA contrast
-- keyboard focus and semantic controls
-- touch targets
-- real-copy overflow
-- horizontal overflow
-- reduced-motion completeness
-- media loading and seek behavior
-- one coherent product-specific visual system
-
-Run:
-
-```bash
-npm run audit -- <path>
-npm run smoke
+```text
+still → CSS → video → sequence → model-viewer → Spline → Three.js
 ```
+
+Offline rendering often beats live 3D when the camera is fixed.
+
+## Keep language human
+
+Use short lines and product language. Translate jargon when the audience does not already use it. Controls name the action. Errors name the problem and recovery.
+
+## Composition over card count
+
+Use fewer, stronger regions. Lists, rules, direct labels, and negative space are often better than identical cards. Never nest cards.
+
+## Motion rules
+
+- one signature motion idea per page
+- supporting motion stays subordinate
+- reveal content while it is readable
+- reverse travel restores state
+- mobile does not inherit desktop timing blindly
+- no autoplay audio
+- reduced motion preserves hierarchy and access
+- motion libraries do not justify motion
+
+## Media production rules
+
+- brief the asset before sourcing or generating
+- record source and rights
+- edit generated output
+- create desktop and mobile compositions
+- create poster and reduced-motion states
+- optimize for the selected runtime
+- load assets near use
+- keep source masters outside Git
+
+## Typography
+
+- clear scale and weight hierarchy
+- readable body measure
+- actual copy tested at every breakpoint
+- mono reserved for code, data, status, and measurement
+- display tracking no tighter than `-0.04em`
+- no automatic italic serif as a premium shortcut
+
+## Material and depth
+
+- one elevation signal: border or shadow
+- glass only over media worth seeing
+- glow only when light or active state earns it
+- small radii for neutral systems
+- pills for compact controls or an intentional brand decision
+
+## Mobile
+
+Mobile is a composition:
+
+- focal point survives the crop
+- asset variant fits the device
+- controls remain reachable
+- text remains readable
+- 3D has a bounded fallback
+- video does not block first content
+- no horizontal page overflow
+
+## Verification
+
+Screenshots and browser behavior decide. Run catalogs, asset checks, design audit, and smoke tests. Inspect desktop, mobile, reduced motion, keyboard, slow loading, and media failure.

@@ -1,112 +1,164 @@
 # Design System
 
-This file records the durable visual and interaction decisions for the repository itself. Product truth lives in `PRODUCT.md`. Route-specific exceptions belong in the template or page they affect.
+This file records durable visual, media, and interaction decisions. Product truth lives in `PRODUCT.md`. Route-specific exceptions belong with the page.
 
-## 1. Two layers, one repository
+## 1. Two visual layers
 
 ### Neutral core
 
-The public `ds-*` API is brand-neutral. It provides semantic roles, not a finished identity:
+The public `ds-*` API provides semantic roles, not a finished identity:
 
-- color roles rather than brand color names
-- display, body, accent, and mono font roles
+- color roles rather than brand names
+- display, body, accent, and data type roles
 - restrained surface, rule, spacing, radius, and motion tokens
-- small primitives for containers, controls, status text, lists, and panels
-- motion modules that publish scroll and viewport state through CSS variables
+- small accessible primitives
+- motion modules that publish scroll and viewport state
 
-The neutral starter must demonstrate craft without becoming a second house style. Its default world is architectural print and layered material—not “AI neon.”
+The neutral starter demonstrates craft without becoming a second house style.
 
 ### The AIgent preset
 
-The AIgent identity remains an included theme and a compatibility layer. It is an established world, not the default answer for outside projects.
+The AIgent identity remains an included theme and compatibility layer. It is an established world, not the default answer for outside projects.
 
 ## 2. The AIgent visual world
 
 **Creative north star:** an editorial command center at night.
 
-The world combines a late-night operations room, an independent technology publication, and a cinematic control deck. It should feel built by operators rather than sold by a SaaS template.
+It combines a late-night operations room, an independent technology publication, and a cinematic control deck.
 
 ### Color
 
 - Green-black ground, never flat neutral black.
-- Warm cream text rather than cold white.
-- Cyan is a signal: active state, direction, proof, and system status.
-- Amber is secondary: warmth, caution, or an editorial counterpoint.
-- Glow is sparse and tied to emitted light or active instrumentation.
+- Warm cream text.
+- Cyan signals active state, direction, proof, and system status.
+- Amber adds warmth, caution, or editorial counterpoint.
+- Glow belongs to emitted light or active instrumentation.
 
 ### Typography
 
 - Condensed or tightly composed grotesk display type carries identity and scale.
-- Body copy uses a readable workhorse sans.
+- Body uses a readable workhorse sans.
 - Mono is reserved for status, measurements, labels, code, and instrumentation.
-- A serif accent is allowed only when it creates a deliberate editorial contrast; it is never the automatic “premium” move.
-- Headings should remain legible with real copy at every breakpoint. Tracking should not go tighter than `-0.04em`.
+- Serif contrast is deliberate, never an automatic premium move.
+- Tracking does not go tighter than `-0.04em`.
 
 ### Composition
 
-- The first viewport is the identity or artifact, not a stack of marketing cards.
-- One dominant focal point leads each chapter.
-- Fixed instrumentation may persist across a narrative page when it communicates progress or state.
-- Numbered chapters are permitted when the visitor is moving through an actual sequence.
-- Dense utility surfaces use rules, lists, and direct labels before they use cards.
-- Negative space is structural. It is not an empty region waiting for another widget.
+- The first viewport is the identity, offer, or artifact.
+- One focal point leads each chapter.
+- Fixed instrumentation may persist when it communicates progress or state.
+- Numbered chapters are allowed when sequence carries meaning.
+- Utility surfaces use rules and lists before cards.
+- Negative space is structural.
 
 ### Material
 
 - Matte dark surfaces and crisp rules are the base.
-- Glass is reserved for controls or content that must remain readable over valuable moving media.
-- Borders and shadows should not both announce the same elevation.
-- Pills are for compact controls and status chips. Primary page actions may use them inside the AIgent world, but neutral primitives default to smaller radii.
+- Glass is reserved for controls or content over valuable moving media.
+- Border and shadow do not both announce the same elevation.
+- Pills are compact controls or intentional brand actions, not the default container.
 
 ### Motion
 
-- One continuous authored motion idea should carry a page.
-- On `theaigent.xyz`, that idea is descent through a cinematic system.
-- On `tools.theaigent.xyz`, motion supports orientation and access without slowing utility.
-- Reveals are subordinate to the main scene. Avoid an identical fade-up on every block.
-- Use transforms, opacity, clip paths, masks, light, and material changes only when they preserve smoothness.
-- Reduced motion must preserve hierarchy, state, and access to all content.
+- One continuous authored idea carries a page.
+- On `theaigent.xyz`, the idea is descent through a cinematic system.
+- On `tools.theaigent.xyz`, motion supports orientation and access.
+- Supporting reveals remain subordinate.
+- Reduced motion preserves hierarchy, state, and access.
 
-## 3. Surface modes
+## 3. Media is part of the direction
 
-Choose the mode from the surface, not from the company:
+A cinematic page needs one dominant asset system, not a collection of effects.
 
-- **Persuade** — the visitor decides and acts. The offer, proof, and primary action must read immediately.
-- **Operate** — the visitor completes a task. Scanability, state, and familiar controls outrank spectacle.
-- **Read** — the visitor understands material. Structure, measure, rhythm, and wayfinding lead.
-- **Experience** — the artifact or world is the product. Interface chrome recedes and the work leads from the first viewport.
+Define:
 
-A marketing page for a tool is still Persuade. A resource directory is Operate + Read. A cinematic portfolio is Experience.
+- medium
+- subject
+- physical material
+- camera
+- focal point
+- motion
+- text-safe region
+- start and end state
+- loop, scrub, interaction, or still behavior
+- desktop and mobile composition
+- reduced-motion state
+- loading and failure state
 
-## 4. Direction before styling
+### Medium ladder
 
-Before building a new surface, record:
+Use the lightest route that carries the idea:
+
+1. still
+2. CSS motion
+3. encoded video
+4. frame sequence
+5. model-viewer
+6. Spline
+7. Three.js
+8. custom renderer
+
+Offline Blender or Remotion rendering is often preferable to live 3D when the camera is fixed and art direction matters more than manipulation.
+
+### Asset coherence
+
+A page usually needs one family:
+
+- one environment
+- one camera language
+- one material family
+- one grade
+- one transition logic
+
+Random stock clips, floating objects, and unrelated overlays destroy the world.
+
+## 4. Surface modes
+
+- **Persuade** — the visitor decides and acts.
+- **Operate** — the visitor completes a task.
+- **Read** — the visitor understands material.
+- **Experience** — the artifact or world leads.
+
+A homepage can be Persuade while its dashboard is Operate. A resource directory is Operate + Read.
+
+## 5. Direction before styling
+
+Before building:
 
 1. Who is here and what success means.
-2. What the page must prove with real content or assets.
+2. What the page must prove.
 3. Which mode owns the surface.
-4. The physical or cultural scene that should shape the design.
-5. The category default and the visual habits this project refuses.
-6. The palette strategy, type character, composition, material, and one signature interaction.
+4. Which physical or cultural scene shapes the design.
+5. The category default and anti-references.
+6. Palette strategy and type character.
+7. Dominant composition.
+8. Primary asset system.
+9. One signature interaction.
+10. Mobile and reduced-motion plan.
 
-Use `docs/project-context.md` as the short template.
+Use `docs/project-context.md`.
 
-## 5. Quality floor
+## 6. Production quality floor
 
-A result is not ready until the built page passes these checks:
+A result is not ready until:
 
-- **Clarity:** the first viewport explains the offer, artifact, or task within seconds.
-- **Contrast:** body text reaches WCAG AA; secondary text is tinted from the surface or foreground, not arbitrary gray.
-- **Hierarchy:** type, spacing, and composition create an obvious reading order.
-- **Measure:** long body copy stays near 65–75 characters per line.
-- **Spacing:** related items sit together; sections receive visibly larger separation.
-- **Motion:** the page has one signature motion and restrained supporting transitions.
-- **States:** focus, hover, disabled, loading, error, and empty states exist where the product needs them.
-- **Responsive:** real copy and real controls work at desktop and mobile widths without overflow.
-- **Integrity:** the page expresses this product and could not be relabeled for an unrelated one without obvious mismatch.
+- first viewport is clear within seconds
+- body contrast reaches WCAG AA
+- hierarchy and measure are deliberate
+- related items group tightly and chapters separate generously
+- motion has one primary idea
+- focus, loading, error, empty, and disabled states exist where needed
+- real copy works at desktop and mobile widths
+- media loading follows use
+- video has poster and failure states
+- 3D has loading, fallback, bounded pixel ratio, and offscreen pause
+- every public asset has a manifest
+- rights and attribution are resolved
+- no private records or credentials are public
+- the page could not be relabeled for an unrelated product
 
-Run `npm run audit -- <path>` and inspect the page in a real browser before publishing.
+Run the repository checks and inspect the actual browser result.
 
-## 6. Reuse rules
+## 7. Reuse
 
-Extract a token, primitive, or module only after the same intent appears in at least two real pages. Reuse existing helpers before adding another one. Preserve established page behavior when refining; replace a visual world only when the task is explicitly a redesign.
+Extract only after the same intent appears in multiple real pages. Reuse existing tokens, modules, recipes, and skills before adding another layer.
