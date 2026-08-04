@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Browse and install the page systems, interface systems, patterns, skills, production pipelines, and QA tools in the AIgent Cinematic Web System." />
+  <meta name="description" content="Browse and install the page systems, interfaces, patterns, production pipelines, design intelligence, and QA tools in the AIgent Design System." />
   <title>AIgent Design Vault</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,21 +19,21 @@
       min-height: 100svh;
       background:
         linear-gradient(90deg, transparent 0 49.94%, var(--ds-color-rule) 50%, transparent 50.06%) 50% 0 / min(100%, 1180px) 100% no-repeat,
-        radial-gradient(circle at 86% 6%, rgb(var(--ds-accent-2-rgb) / .12), transparent 28rem),
+        radial-gradient(circle at 86% 7%, rgb(var(--ds-accent-2-rgb) / .13), transparent 30rem),
         var(--ds-color-bg);
     }
 
     .vault-bar {
       position: sticky;
-      top: 0;
       z-index: 20;
+      top: 0;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
       min-height: 68px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
       border-bottom: 1px solid var(--ds-color-rule);
-      background: rgb(var(--ds-bg-rgb) / .9);
+      background: rgb(var(--ds-bg-rgb) / .92);
       backdrop-filter: blur(16px);
     }
 
@@ -47,24 +47,26 @@
 
     .vault-status {
       color: var(--ds-color-muted);
-      font: 560 .76rem/1.4 var(--ds-font-mono);
+      font: 560 .72rem/1.4 var(--ds-font-mono);
+      text-align: right;
     }
 
     .hero {
+      min-height: 72svh;
       display: grid;
       grid-template-columns: minmax(0, .72fr) minmax(280px, .3fr);
-      gap: clamp(48px, 8vw, 132px);
       align-items: end;
-      min-height: 72svh;
+      gap: clamp(48px, 8vw, 132px);
       padding-block: 120px 82px;
     }
 
-    h1, h2 {
+    h1, h2, h3 {
       margin: 0;
+      color: var(--ds-color-text);
       font-family: var(--ds-font-display);
       font-weight: 600;
       letter-spacing: -.025em;
-      line-height: .9;
+      line-height: .92;
       text-wrap: balance;
     }
 
@@ -80,8 +82,8 @@
     }
 
     .install-block {
-      border-top: 1px solid var(--ds-color-accent);
       padding-top: 20px;
+      border-top: 1px solid var(--ds-color-accent);
     }
 
     .install-block strong {
@@ -102,9 +104,9 @@
 
     .catalog {
       display: grid;
-      grid-template-columns: 240px minmax(0, 1fr);
-      gap: clamp(32px, 6vw, 92px);
-      padding-block: 42px 120px;
+      grid-template-columns: 230px minmax(0, 1fr);
+      gap: clamp(34px, 6vw, 92px);
+      padding-block: 44px 120px;
       border-top: 1px solid var(--ds-color-rule-strong);
     }
 
@@ -117,7 +119,8 @@
     .search {
       width: 100%;
       min-height: 48px;
-      padding: 0 12px;
+      margin-top: 10px;
+      padding-inline: 12px;
       border: 1px solid var(--ds-color-rule-strong);
       border-radius: var(--ds-radius-control);
       background: var(--ds-color-surface);
@@ -132,7 +135,7 @@
 
     .filter-list button {
       min-height: 42px;
-      padding: 0 10px;
+      padding-inline: 10px;
       border: 0;
       border-radius: var(--ds-radius-control);
       background: transparent;
@@ -157,8 +160,8 @@
 
     .catalog-head {
       display: flex;
-      justify-content: space-between;
       align-items: end;
+      justify-content: space-between;
       gap: 24px;
       padding-bottom: 28px;
     }
@@ -166,26 +169,21 @@
     .catalog-head output {
       color: var(--ds-color-muted);
       font: 560 .72rem/1.4 var(--ds-font-mono);
+      white-space: nowrap;
     }
 
     .items { border-top: 1px solid var(--ds-color-rule-strong); }
 
     .item {
       display: grid;
-      grid-template-columns: minmax(180px, .34fr) minmax(0, .7fr) minmax(190px, .38fr);
+      grid-template-columns: minmax(170px, .32fr) minmax(0, .7fr) minmax(210px, .4fr);
       gap: clamp(22px, 4vw, 56px);
       align-items: start;
-      padding: 30px 0;
+      padding-block: 30px;
       border-bottom: 1px solid var(--ds-color-rule);
     }
 
-    .item[data-hidden="true"] { display: none; }
-
-    .item-title {
-      margin: 0;
-      color: var(--ds-color-text);
-      font: 600 clamp(1.55rem, 3vw, 2.8rem)/1 var(--ds-font-display);
-    }
+    .item-title { font-size: clamp(1.55rem, 3vw, 2.8rem); }
 
     .item-type {
       display: block;
@@ -213,35 +211,33 @@
       overflow-wrap: anywhere;
     }
 
+    .item-buttons { display: flex; gap: 8px; }
+
     .copy,
     .preview {
       min-height: 42px;
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding-inline: 12px;
       border: 1px solid var(--ds-color-rule-strong);
       border-radius: var(--ds-radius-control);
       background: transparent;
       color: var(--ds-color-text);
-      cursor: pointer;
-    }
-
-    .preview {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--ds-color-rule-strong);
-      border-radius: var(--ds-radius-control);
-      color: var(--ds-color-text);
       text-decoration: none;
+      cursor: pointer;
     }
 
     .copy:hover, .preview:hover { border-color: var(--ds-color-accent); }
 
     .empty {
-      padding: 48px 0;
+      padding-block: 48px;
       color: var(--ds-color-muted);
       font: 520 1rem/1.6 var(--ds-font-body);
     }
 
-    @media (max-width: 860px) {
+    @media (max-width: 900px) {
       .hero, .catalog { grid-template-columns: 1fr; }
       .hero { min-height: auto; padding-top: 132px; }
       .filters { position: relative; top: auto; }
@@ -252,10 +248,11 @@
 
     @media (max-width: 560px) {
       .vault-bar { align-items: flex-start; padding-block: 16px; }
-      .vault-status { text-align: right; }
       h1 { font-size: clamp(4.4rem, 20vw, 7rem); }
       .filter-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .item-actions { grid-template-columns: 1fr; }
+      .item-buttons { flex-direction: column; }
+      .catalog-head { align-items: start; flex-direction: column; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -268,7 +265,7 @@
   <a class="ds-skip-link" href="#catalog">Skip to catalog</a>
   <header class="vault-bar ds-container">
     <a href="../">AIgent Design Vault</a>
-    <span class="vault-status">GitHub registry · framework neutral · open source</span>
+    <span class="vault-status" id="source-status">GitHub registry · framework neutral · open source</span>
   </header>
 
   <main>
@@ -301,123 +298,6 @@
     </section>
   </main>
 
-  <script type="module">
-    const fallback = [
-      { name: "studio-core", title: "Studio Core", description: "Product context, semantic tokens, motion, the AIgent design skill, and deterministic planning.", type: "registry:item" },
-      { name: "immersive-sales-deck", title: "Immersive Sales Deck", description: "A guided cinematic argument with explicit chapter navigation and keyboard control.", type: "registry:block" },
-      { name: "command-center-interface", title: "Command Center Interface", description: "A complete operator workspace with queue, working detail, mobile rail, and command palette.", type: "registry:block" },
-      { name: "threejs-product-stage", title: "Three.js Product Stage", description: "Progressive live 3D with a complete static fallback and device-aware loading.", type: "registry:block" },
-      { name: "design-intelligence", title: "Design Intelligence", description: "Deterministic layout, typography, motion, interface, and component-source decisions.", type: "registry:item" },
-      { name: "patterns-core", title: "Cinematic Patterns", description: "Framework-neutral guided deck, command palette, focus reveal, scene stage, and object stage.", type: "registry:item" },
-      { name: "creative-production", title: "Creative Production", description: "Asset sourcing, generation, rendering, licensing, optimization, and mobile fallbacks.", type: "registry:item" },
-      { name: "quality-suite", title: "Quality Suite", description: "Design, asset, registry, eval, browser, and screenshot verification.", type: "registry:item" }
-    ];
-
-    const categories = {
-      all: "All",
-      page: "Pages & decks",
-      interface: "Interfaces",
-      pattern: "Patterns",
-      intelligence: "Intelligence",
-      production: "Production",
-      quality: "Quality"
-    };
-
-    const categoryFor = (item) => {
-      if (/deck|page|threejs-product|cinematic-page/.test(item.name)) return "page";
-      if (/command-center|interface/.test(item.name)) return "interface";
-      if (/pattern/.test(item.name)) return "pattern";
-      if (/intelligence|skill|studio-core|full-studio/.test(item.name)) return "intelligence";
-      if (/production/.test(item.name)) return "production";
-      if (/quality|vault/.test(item.name)) return "quality";
-      return "pattern";
-    };
-
-    const state = { items: [], category: "all", query: "" };
-    const itemsNode = document.querySelector("#items");
-    const count = document.querySelector("#count");
-    const empty = document.querySelector("#empty");
-    const filters = document.querySelector("#filters");
-    const search = document.querySelector("#search");
-
-    Object.entries(categories).forEach(([id, label], index) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.textContent = label;
-      button.dataset.category = id;
-      button.setAttribute("aria-pressed", String(index === 0));
-      button.addEventListener("click", () => {
-        state.category = id;
-        [...filters.children].forEach((node) => node.setAttribute("aria-pressed", String(node === button)));
-        render();
-      });
-      filters.append(button);
-    });
-
-    search.addEventListener("input", () => {
-      state.query = search.value.trim().toLowerCase();
-      render();
-    });
-
-    const previews = {
-      "cinematic-page": "../templates/modular-scroll-starter/",
-      "immersive-sales-deck": "../templates/immersive-sales-deck/",
-      "command-center-interface": "../templates/command-center-interface/",
-      "threejs-product-stage": "../templates/threejs-product-stage/",
-      "design-vault": "./"
-    };
-
-    function install(item) {
-      return `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/${item.name}`;
-    }
-
-    async function copy(command, button) {
-      try {
-        await navigator.clipboard.writeText(command);
-        const original = button.textContent;
-        button.textContent = "Copied";
-        setTimeout(() => { button.textContent = original; }, 1200);
-      } catch {
-        button.textContent = "Select command";
-        button.previousElementSibling?.focus?.();
-      }
-    }
-
-    function render() {
-      const visible = state.items.filter((item) => {
-        const category = categoryFor(item);
-        const text = `${item.name} ${item.title} ${item.description}`.toLowerCase();
-        return (state.category === "all" || category === state.category) && (!state.query || text.includes(state.query));
-      });
-
-      itemsNode.replaceChildren();
-      visible.forEach((item) => {
-        const article = document.createElement("article");
-        article.className = "item";
-        const command = install(item);
-        const preview = previews[item.name];
-        article.innerHTML = `
-          <div><h3 class="item-title">${item.title || item.name}</h3><span class="item-type">${categories[categoryFor(item)]}</span></div>
-          <p>${item.description}</p>
-          <div class="item-actions"><code class="install-line" tabindex="0">${command}</code><button class="copy" type="button">Copy install</button>${preview ? `<a class="preview" href="${preview}">Open preview</a>` : ""}</div>`;
-        article.querySelector("button").addEventListener("click", (event) => copy(command, event.currentTarget));
-        itemsNode.append(article);
-      });
-
-      count.textContent = `${visible.length} of ${state.items.length} systems`;
-      empty.hidden = visible.length > 0;
-    }
-
-    try {
-      const response = await fetch("../registry.json");
-      if (!response.ok) throw new Error(`Registry returned ${response.status}`);
-      state.items = (await response.json()).items;
-    } catch (error) {
-      console.warn(error);
-      state.items = fallback;
-      count.textContent = "Local fallback catalog";
-    }
-    render();
-  </script>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>
