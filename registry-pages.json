@@ -76,7 +76,8 @@
         "wrg32786/aigent-design-system/patterns-core"
       ],
       "files": [
-        { "path": "vault/index.html", "type": "registry:file", "target": "~/vault/index.html" }
+        { "path": "vault/index.html", "type": "registry:file", "target": "~/vault/index.html" },
+        { "path": "vault/app.js", "type": "registry:file", "target": "~/vault/app.js" }
       ]
     }
   ]
