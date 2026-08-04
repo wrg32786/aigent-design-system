@@ -3,15 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="A brand-neutral cinematic scroll starter built with semantic design tokens and small native JavaScript modules." />
+  <meta name="description" content="A brand-neutral cinematic scroll starter with semantic tokens, deliberate art direction, and small native JavaScript modules." />
   <title>Cinematic Scroll Starter</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter+Tight:wght@700;800;900&family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&family=Martian+Mono:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../../tokens/system.css" />
   <style>
     html {
-      background: var(--ds-color-bg);
       scroll-behavior: smooth;
     }
 
@@ -23,93 +22,110 @@
       color: inherit;
     }
 
+    .progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      z-index: 20;
+      width: calc(var(--ds-scroll) * 100%);
+      height: 2px;
+      background: var(--ds-color-accent);
+    }
+
+    .topbar {
+      position: fixed;
+      z-index: 15;
+      top: 18px;
+      left: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      transform: translateX(-50%);
+    }
+
+    .wordmark {
+      color: var(--ds-color-text);
+      font: 600 0.72rem/1 var(--ds-font-mono);
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
     .scene {
       position: fixed;
-      inset: -16vmax;
       z-index: 0;
+      inset: -10vh -10vw -10vh 36vw;
       display: grid;
       place-items: center;
-      overflow: hidden;
       pointer-events: none;
-      perspective: 1200px;
-      transform: scale(var(--ds-scene-scale)) rotate(var(--ds-scene-rotate));
-      filter: brightness(var(--ds-scene-brightness)) saturate(1.08);
-      transform-origin: 58% 48%;
-      will-change: transform, filter;
+      perspective: 1300px;
+      overflow: hidden;
     }
 
     .scene::before {
       content: "";
       position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 64% 42%, rgb(var(--ds-accent-rgb) / 0.28), transparent 22%),
-        radial-gradient(circle at 58% 52%, rgb(var(--ds-accent-2-rgb) / 0.18), transparent 35%),
-        linear-gradient(135deg, var(--ds-color-bg), var(--ds-color-surface));
-    }
-
-    .scene-grid {
-      position: absolute;
-      width: 130vmax;
-      height: 130vmax;
-      background-image:
-        linear-gradient(rgb(var(--ds-accent-rgb) / 0.16) 1px, transparent 1px),
-        linear-gradient(90deg, rgb(var(--ds-accent-rgb) / 0.16) 1px, transparent 1px);
-      background-size: 6vmax 6vmax;
-      opacity: 0.38;
-      mask-image: radial-gradient(circle, black 5%, transparent 68%);
-      -webkit-mask-image: radial-gradient(circle, black 5%, transparent 68%);
-      transform: rotateX(72deg) translateY(28vmax);
-    }
-
-    .scene-object {
-      position: relative;
-      width: min(66vw, 760px);
-      aspect-ratio: 1;
-      margin-left: 26vw;
-      transform-style: preserve-3d;
-      transform: rotateX(62deg) rotateZ(18deg);
-    }
-
-    .scene-core,
-    .orbit {
-      position: absolute;
-      inset: 12%;
-      border-radius: 50%;
+      inset: 9% 8% 12% 18%;
+      border: 1px solid var(--ds-color-rule);
+      background: rgb(var(--ds-surface-rgb) / 0.28);
+      transform: skewY(-7deg);
     }
 
     .scene-core {
-      inset: 27%;
-      background:
-        radial-gradient(circle at 36% 30%, rgb(var(--ds-text-rgb) / 0.72), transparent 11%),
-        radial-gradient(circle at 48% 44%, var(--ds-color-accent), rgb(var(--ds-accent-2-rgb) / 0.46) 38%, transparent 72%);
-      box-shadow:
-        0 0 7vmax rgb(var(--ds-accent-rgb) / 0.46),
-        inset -2vmax -3vmax 5vmax rgb(0 0 0 / 0.5);
-      transform: translateZ(6vmax);
+      position: relative;
+      width: min(58vw, 760px);
+      aspect-ratio: 0.78;
+      transform:
+        translate3d(var(--ds-scene-x), var(--ds-scene-y), 0)
+        scale(var(--ds-scene-scale))
+        rotate(var(--ds-scene-rotate));
+      transform-origin: 56% 52%;
+      transform-style: preserve-3d;
+      filter: brightness(var(--ds-scene-brightness));
+      will-change: transform;
     }
 
-    .orbit {
-      border: 1px solid rgb(var(--ds-accent-rgb) / 0.54);
-      box-shadow:
-        0 0 2vmax rgb(var(--ds-accent-rgb) / 0.24),
-        inset 0 0 2vmax rgb(var(--ds-accent-2-rgb) / 0.12);
+    .plate {
+      position: absolute;
+      inset: 12%;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+      border: 1px solid var(--ds-color-rule-strong);
+      border-radius: var(--ds-radius-xs);
+      background: var(--plate-bg, var(--ds-color-surface));
+      color: var(--ds-color-text);
+      box-shadow: 0 30px 70px rgb(var(--ds-bg-rgb) / 0.24);
+      font: 600 0.64rem/1 var(--ds-font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
-    .orbit-a {
-      inset: 8%;
-      transform: rotateX(58deg) rotateY(14deg);
+    .plate:nth-child(1) {
+      --plate-bg: var(--ds-color-accent);
+      inset: 8% 19% 26% 4%;
+      color: var(--ds-color-accent-ink);
+      transform: translate3d(-2%, -4%, 70px) rotateZ(-13deg);
     }
 
-    .orbit-b {
-      inset: 17%;
-      border-color: rgb(var(--ds-accent-2-rgb) / 0.54);
-      transform: rotateX(78deg) rotateY(48deg);
+    .plate:nth-child(2) {
+      --plate-bg: var(--ds-color-surface-2);
+      inset: 19% 2% 12% 24%;
+      transform: translate3d(4%, 1%, 30px) rotateZ(9deg);
     }
 
-    .orbit-c {
-      inset: 24%;
-      transform: rotateX(34deg) rotateY(74deg);
+    .plate:nth-child(3) {
+      --plate-bg: rgb(var(--ds-accent-2-rgb) / 0.92);
+      inset: 34% 25% 3% 10%;
+      color: var(--ds-color-bg);
+      transform: translate3d(-2%, 7%, -10px) rotateZ(-4deg);
+    }
+
+    .plate:nth-child(4) {
+      --plate-bg: var(--ds-color-bg);
+      inset: 4% 7% 17% 34%;
+      transform: translate3d(3%, -3%, -50px) rotateZ(17deg);
     }
 
     .veil {
@@ -118,39 +134,8 @@
       z-index: 1;
       pointer-events: none;
       background:
-        linear-gradient(90deg, rgb(var(--ds-bg-rgb) / 0.94), rgb(var(--ds-bg-rgb) / 0.48) 54%, rgb(var(--ds-bg-rgb) / 0.74)),
-        linear-gradient(180deg, rgb(var(--ds-bg-rgb) / 0.08), rgb(var(--ds-bg-rgb) / 0.58));
-    }
-
-    .progress {
-      position: fixed;
-      inset: 0 auto auto 0;
-      z-index: 8;
-      width: calc(var(--ds-scroll) * 100%);
-      height: 2px;
-      background: var(--ds-color-accent);
-      box-shadow: var(--ds-shadow-accent);
-    }
-
-    .topbar {
-      position: fixed;
-      z-index: 7;
-      top: 20px;
-      left: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      transform: translateX(-50%);
-    }
-
-    .wordmark {
-      color: var(--ds-color-text);
-      font: 900 0.74rem/1 var(--ds-font-mono);
-      letter-spacing: 0.14em;
-      text-decoration: none;
-      text-transform: uppercase;
-      white-space: nowrap;
+        linear-gradient(90deg, rgb(var(--ds-bg-rgb) / 0.98) 0 36%, rgb(var(--ds-bg-rgb) / 0.78) 58%, rgb(var(--ds-bg-rgb) / 0.38)),
+        linear-gradient(180deg, rgb(var(--ds-bg-rgb) / 0.05), rgb(var(--ds-bg-rgb) / 0.72));
     }
 
     main {
@@ -162,130 +147,129 @@
       min-height: 100svh;
       display: grid;
       align-items: center;
-      padding-block: 120px 88px;
+      padding-block: 120px 92px;
     }
 
-    .copy {
-      max-width: 790px;
+    .hero-copy,
+    .chapter-copy {
+      max-width: 760px;
     }
 
-    .hero h1,
-    section h2 {
-      margin: 18px 0 0;
+    h1,
+    h2 {
+      margin: 0;
       color: var(--ds-color-text);
       font-family: var(--ds-font-display);
-      font-weight: 900;
-      letter-spacing: -0.045em;
-      line-height: 0.9;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 0.92;
       text-wrap: balance;
     }
 
-    .hero h1 {
-      max-width: 8.8ch;
-      font-size: clamp(4.4rem, 11vw, 10rem);
+    h1 {
+      max-width: 10.5ch;
+      margin-top: 24px;
+      font-size: clamp(4.6rem, 7vw, 7.6rem);
     }
 
-    section h2 {
-      max-width: 10ch;
-      font-size: clamp(3.2rem, 7vw, 7rem);
+    h2 {
+      max-width: 11ch;
+      font-size: clamp(3.4rem, 7.5vw, 7.2rem);
     }
 
-    .accent {
+    .accent-line {
       display: block;
       color: var(--ds-color-accent);
-      font-family: var(--ds-font-accent);
-      font-style: italic;
-      font-weight: 400;
-      letter-spacing: -0.02em;
-      line-height: 1;
-      text-shadow: var(--ds-shadow-accent);
     }
 
     .lead {
-      max-width: 680px;
+      max-width: 650px;
       margin: 28px 0 0;
       color: var(--ds-color-muted);
-      font: 700 clamp(1.08rem, 1.8vw, 1.42rem)/1.5 var(--ds-font-body);
+      font: 520 var(--ds-size-lead)/1.55 var(--ds-font-body);
     }
 
     .actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 12px;
       margin-top: 34px;
     }
 
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 42px;
+    .chapter {
+      grid-template-columns: minmax(68px, 0.14fr) minmax(0, 1fr);
+      gap: clamp(24px, 6vw, 86px);
     }
 
-    .feature {
-      min-height: 190px;
-      padding: 24px;
+    .chapter-index {
+      align-self: start;
+      padding-top: 12px;
+      color: var(--ds-color-soft);
+      font: 500 clamp(2.8rem, 5vw, 5rem)/1 var(--ds-font-display);
+      letter-spacing: -0.03em;
     }
 
-    .feature strong {
-      display: block;
-      margin-bottom: 12px;
-      color: var(--ds-color-accent);
-      font: 800 0.74rem/1 var(--ds-font-mono);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+    .chapter .lead {
+      margin-bottom: 42px;
     }
 
-    .feature p {
-      margin: 0;
-      color: var(--ds-color-muted);
-      font: 650 1rem/1.55 var(--ds-font-body);
-    }
-
-    .split {
-      display: grid;
-      grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1fr);
-      gap: clamp(40px, 8vw, 120px);
-      align-items: center;
-    }
-
-    .code-card {
-      padding: clamp(24px, 4vw, 42px);
+    .code-block {
+      max-width: 720px;
+      margin-top: 44px;
+      padding: clamp(22px, 4vw, 38px);
       overflow: hidden;
+      border-left: 1px solid var(--ds-color-accent);
+      background: rgb(var(--ds-surface-rgb) / 0.82);
     }
 
-    .code-card pre {
+    .code-block pre {
       margin: 0;
       overflow-x: auto;
       color: var(--ds-color-muted);
-      font: 700 0.86rem/1.7 var(--ds-font-mono);
+      font: 500 0.82rem/1.75 var(--ds-font-mono);
       tab-size: 2;
     }
 
-    .code-card .token {
+    .code-block .token {
       color: var(--ds-color-accent);
     }
 
+    .quality-list {
+      max-width: 760px;
+    }
+
+    .quality-list .ds-rule-row {
+      grid-template-columns: minmax(140px, 0.34fr) minmax(0, 1fr);
+    }
+
     .closing {
-      text-align: center;
+      text-align: left;
     }
 
-    .closing .copy {
-      margin-inline: auto;
+    .closing h2 {
+      max-width: 9ch;
     }
 
-    .closing h2,
-    .closing .lead {
-      margin-inline: auto;
+    @media (max-width: 900px) {
+      .scene {
+        inset: 0 -34vw 0 34vw;
+        opacity: 0.78;
+      }
+
+      .scene-core {
+        width: min(100vw, 650px);
+      }
+
+      .veil {
+        background:
+          linear-gradient(90deg, rgb(var(--ds-bg-rgb) / 0.98) 0 48%, rgb(var(--ds-bg-rgb) / 0.6)),
+          linear-gradient(180deg, rgb(var(--ds-bg-rgb) / 0.16), rgb(var(--ds-bg-rgb) / 0.82));
+      }
     }
 
-    .closing .actions {
-      justify-content: center;
-    }
-
-    @media (max-width: 840px) {
+    @media (max-width: 720px) {
       .topbar {
-        top: 12px;
+        top: 10px;
         align-items: flex-start;
       }
 
@@ -303,35 +287,44 @@
       }
 
       .scene {
-        inset: -8vmax -26vmax;
-        transform-origin: 66% 46%;
+        inset: 10vh -70vw 8vh 25vw;
+        opacity: 0.56;
       }
 
-      .scene-object {
-        width: min(110vw, 660px);
-        margin-left: 42vw;
+      .scene-core {
+        width: 130vw;
+      }
+
+      .veil {
+        background:
+          linear-gradient(90deg, rgb(var(--ds-bg-rgb) / 0.97), rgb(var(--ds-bg-rgb) / 0.7)),
+          linear-gradient(180deg, rgb(var(--ds-bg-rgb) / 0.12), rgb(var(--ds-bg-rgb) / 0.86));
       }
 
       section {
         min-height: 94svh;
-        padding-block: 110px 72px;
+        padding-block: 112px 72px;
       }
 
-      .hero h1 {
-        font-size: clamp(4rem, 18vw, 6.4rem);
+      h1 {
+        font-size: clamp(4rem, 19vw, 6.8rem);
       }
 
-      section h2 {
-        font-size: clamp(3.2rem, 15vw, 5.4rem);
+      h2 {
+        font-size: clamp(3.3rem, 16vw, 5.4rem);
       }
 
-      .feature-grid,
-      .split {
+      .chapter {
         grid-template-columns: 1fr;
+        gap: 18px;
       }
 
-      .feature {
-        min-height: auto;
+      .chapter-index {
+        font-size: 2.4rem;
+      }
+
+      .quality-list .ds-rule-row {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -349,11 +342,6 @@
         max-width: calc(100vw - 32px);
       }
 
-      .ds-theme-button {
-        min-height: 1.85rem;
-        padding-inline: 0.38rem;
-      }
-
       .actions .ds-button {
         width: 100%;
       }
@@ -361,20 +349,21 @@
   </style>
 </head>
 <body class="ds-shell">
+  <a class="ds-skip-link" href="#content">Skip to content</a>
+  <div class="progress" aria-hidden="true"></div>
+
   <div class="scene" aria-hidden="true">
-    <div class="scene-grid"></div>
-    <div class="scene-object">
-      <div class="orbit orbit-a"></div>
-      <div class="orbit orbit-b"></div>
-      <div class="orbit orbit-c"></div>
-      <div class="scene-core"></div>
+    <div class="scene-core">
+      <div class="plate">Theme</div>
+      <div class="plate">Scene</div>
+      <div class="plate">Motion</div>
+      <div class="plate">Content</div>
     </div>
   </div>
   <div class="veil"></div>
-  <div class="progress" aria-hidden="true"></div>
 
   <header class="topbar ds-container">
-    <a class="wordmark" href="#top">Cinematic System</a>
+    <a class="wordmark" href="#content">Cinematic System</a>
     <div class="ds-theme-picker" role="group" aria-label="Color theme">
       <button class="ds-theme-button" type="button" data-set-theme="graphite">Graphite</button>
       <button class="ds-theme-button" type="button" data-set-theme="aigent">AIgent</button>
@@ -384,64 +373,55 @@
     </div>
   </header>
 
-  <main id="top">
+  <main id="content">
     <section class="hero ds-container">
-      <div class="copy">
-        <p class="ds-eyebrow" data-reveal>Modular starter / zero animation dependencies</p>
-        <h1 data-reveal style="--reveal-delay: 80ms">Make scrolling feel <span class="accent">like a place.</span></h1>
-        <p class="lead" data-reveal style="--reveal-delay: 150ms">
-          A brand-neutral foundation for cinematic product pages. Change the theme, replace the scene, and keep the motion code.
+      <div class="hero-copy">
+        <p class="ds-status" data-reveal="quiet">Experience surface · native CSS + JavaScript</p>
+        <h1 data-reveal style="--reveal-delay: 70ms">A cinematic page needs <span class="accent-line">a point of view.</span></h1>
+        <p class="lead" data-reveal style="--reveal-delay: 140ms">
+          This starter separates the reusable mechanics from the visual world. Keep the contract. Replace the art direction.
         </p>
-        <div class="actions" data-reveal style="--reveal-delay: 220ms">
-          <a class="ds-button" data-variant="solid" href="#system">See the system</a>
-          <a class="ds-button" data-variant="ghost" href="../../README.md">Read the guide</a>
+        <div class="actions" data-reveal style="--reveal-delay: 210ms">
+          <a class="ds-button" data-variant="solid" href="#define">Use the system</a>
+          <a class="ds-button" data-variant="quiet" href="../../README.md">Read the guide</a>
         </div>
       </div>
     </section>
 
-    <section id="system" class="ds-container">
-      <div class="copy">
-        <p class="ds-eyebrow" data-reveal>01 / Separate the layers</p>
-        <h2 data-reveal>Content, theme, scene, <span class="accent">motion.</span></h2>
+    <section id="define" class="chapter ds-container">
+      <div class="chapter-index" aria-hidden="true">01</div>
+      <div class="chapter-copy">
+        <h2 data-reveal>Define the world before the effects.</h2>
         <p class="lead" data-reveal>
-          Each layer has one job. Copy can change without touching animation. A new palette needs token overrides, not a CSS rewrite.
+          Name the audience, the action, the proof, and the visual habits you refuse. A palette without that context is decoration.
         </p>
-        <div class="feature-grid">
-          <article class="feature ds-panel" data-reveal>
-            <strong>Tokens</strong>
-            <p>Semantic color, type, surface, radius, spacing, and motion variables.</p>
-          </article>
-          <article class="feature ds-panel" data-reveal style="--reveal-delay: 70ms">
-            <strong>Primitives</strong>
-            <p>Small classes for shells, panels, buttons, labels, and theme controls.</p>
-          </article>
-          <article class="feature ds-panel" data-reveal style="--reveal-delay: 140ms">
-            <strong>Modules</strong>
-            <p>Native scroll progress, scene transforms, reveals, and theme switching.</p>
-          </article>
-        </div>
+        <ul class="ds-rule-list" data-reveal="quiet">
+          <li class="ds-rule-row"><strong>Product</strong><span>Who is here, what must they understand, and what should they do?</span></li>
+          <li class="ds-rule-row"><strong>Mode</strong><span>Persuade, operate, read, or experience. The surface decides the priority.</span></li>
+          <li class="ds-rule-row"><strong>World</strong><span>Choose type, material, composition, color, and one signature interaction from the subject—not from a template category.</span></li>
+          <li class="ds-rule-row"><strong>Anti-reference</strong><span>Write down what would make a polished result feel generic or wrong.</span></li>
+        </ul>
       </div>
     </section>
 
-    <section class="ds-container">
-      <div class="split">
-        <div class="copy">
-          <p class="ds-eyebrow" data-reveal>02 / Configure, do not fork</p>
-          <h2 data-reveal>One motion engine. <span class="accent">Different worlds.</span></h2>
-          <p class="lead" data-reveal>
-            The scene reads CSS variables. Use the same module with Spline, video, a frame sequence, WebGL, or a plain CSS object.
-          </p>
-        </div>
-        <div class="code-card ds-panel" data-reveal>
+    <section class="chapter ds-container">
+      <div class="chapter-index" aria-hidden="true">02</div>
+      <div class="chapter-copy">
+        <h2 data-reveal>Compose with layers, not a forked template.</h2>
+        <p class="lead" data-reveal>
+          Tokens own the visual roles. The scene owns the media. Motion publishes a few CSS variables. Content remains ordinary HTML.
+        </p>
+        <div class="code-block" data-reveal>
 <pre><code>import {
   <span class="token">mountScrollScene</span>,
   <span class="token">mountReveals</span>
 } from "/modules/motion.js";
 
 mountScrollScene({
-  progressMultiplier: 1.5,
-  scale: 0.9,
-  rotation: -64
+  progressMultiplier: 1.35,
+  scale: 0.48,
+  rotation: -18,
+  translateY: -36
 });
 
 mountReveals();</code></pre>
@@ -449,15 +429,30 @@ mountReveals();</code></pre>
       </div>
     </section>
 
-    <section class="closing ds-container">
-      <div class="copy">
-        <p class="ds-eyebrow" data-reveal>03 / Make it yours</p>
-        <h2 data-reveal>Keep the system. <span class="accent">Lose the sameness.</span></h2>
+    <section class="chapter ds-container">
+      <div class="chapter-index" aria-hidden="true">03</div>
+      <div class="chapter-copy">
+        <h2 data-reveal>Verify the result, not the intention.</h2>
         <p class="lead" data-reveal>
-          Start with the neutral API, then make the type, palette, imagery, pacing, and composition specific to the product.
+          A dramatic page still has to explain itself, work by keyboard, fit real copy, and remain complete with motion reduced.
+        </p>
+        <ul class="quality-list ds-rule-list" data-reveal="quiet">
+          <li class="ds-rule-row"><strong>First viewport</strong><span>The offer, artifact, or task is obvious within seconds.</span></li>
+          <li class="ds-rule-row"><strong>Hierarchy</strong><span>One focal point leads. Supporting content does not compete with it.</span></li>
+          <li class="ds-rule-row"><strong>Motion</strong><span>One authored moment carries the page; repeated entrance effects stay quiet.</span></li>
+          <li class="ds-rule-row"><strong>Access</strong><span>Contrast, focus, touch targets, semantic HTML, and reduced motion survive the spectacle.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="closing ds-container">
+      <div class="chapter-copy">
+        <h2 data-reveal>Start neutral. Earn the spectacle.</h2>
+        <p class="lead" data-reveal>
+          The live AIgent sites show one committed world. This starter exists so the next site can commit to a different one.
         </p>
         <div class="actions" data-reveal>
-          <a class="ds-button" data-variant="solid" href="../../README.md#make-a-custom-theme">Build a custom theme</a>
+          <a class="ds-button" data-variant="solid" href="../../docs/project-context.md">Write the project context</a>
         </div>
       </div>
     </section>
@@ -471,10 +466,11 @@ mountReveals();</code></pre>
     } from "../../modules/motion.js";
 
     mountScrollScene({
-      progressMultiplier: 1.45,
-      scale: 0.92,
-      rotation: -64,
-      brightness: [0.76, 1]
+      progressMultiplier: 1.32,
+      scale: 0.48,
+      rotation: -18,
+      translateY: -36,
+      brightness: [0.9, 1]
     });
     mountReveals();
     mountThemePicker();
