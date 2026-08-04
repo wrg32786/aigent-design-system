@@ -1,0 +1,116 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "items": [
+    {
+      "name": "aigent-design-skill",
+      "type": "registry:item",
+      "title": "AIgent Design Skill",
+      "description": "Install the consolidated Claude design-director skill for immersive websites, sales decks, product interfaces, critique, polish, and verification.",
+      "files": [
+        { "path": "skills/aigent-design/SKILL.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/SKILL.md" },
+        { "path": "skills/aigent-design/commands.json", "type": "registry:file", "target": "~/.claude/skills/aigent-design/commands.json" },
+        { "path": "skills/aigent-design/scripts/context.mjs", "type": "registry:file", "target": "~/.claude/skills/aigent-design/scripts/context.mjs" },
+        { "path": "skills/aigent-design/reference/shape.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/shape.md" },
+        { "path": "skills/aigent-design/reference/new-work.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/new-work.md" },
+        { "path": "skills/aigent-design/reference/layout.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/layout.md" },
+        { "path": "skills/aigent-design/reference/type.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/type.md" },
+        { "path": "skills/aigent-design/reference/color.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/color.md" },
+        { "path": "skills/aigent-design/reference/motion.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/motion.md" },
+        { "path": "skills/aigent-design/reference/media.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/media.md" },
+        { "path": "skills/aigent-design/reference/interface.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/interface.md" },
+        { "path": "skills/aigent-design/reference/deck.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/deck.md" },
+        { "path": "skills/aigent-design/reference/craft-floor.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/craft-floor.md" }
+      ]
+    },
+    {
+      "name": "design-intelligence",
+      "type": "registry:item",
+      "title": "Design Intelligence",
+      "description": "Install deterministic layout, typography, motion, interface, and component-source catalogs with the design planner and validator.",
+      "files": [
+        { "path": "design-intelligence/README.md", "type": "registry:file", "target": "~/design-intelligence/README.md" },
+        { "path": "design-intelligence/brief.schema.json", "type": "registry:file", "target": "~/design-intelligence/brief.schema.json" },
+        { "path": "design-intelligence/example-brief.json", "type": "registry:file", "target": "~/design-intelligence/example-brief.json" },
+        { "path": "design-intelligence/layouts.json", "type": "registry:file", "target": "~/design-intelligence/layouts.json" },
+        { "path": "design-intelligence/type-systems.json", "type": "registry:file", "target": "~/design-intelligence/type-systems.json" },
+        { "path": "design-intelligence/motion-systems.json", "type": "registry:file", "target": "~/design-intelligence/motion-systems.json" },
+        { "path": "design-intelligence/interface-systems.json", "type": "registry:file", "target": "~/design-intelligence/interface-systems.json" },
+        { "path": "design-intelligence/component-sources.json", "type": "registry:file", "target": "~/design-intelligence/component-sources.json" },
+        { "path": "scripts/plan-design.mjs", "type": "registry:file", "target": "~/scripts/plan-design.mjs" },
+        { "path": "scripts/check-intelligence.mjs", "type": "registry:file", "target": "~/scripts/check-intelligence.mjs" }
+      ]
+    },
+    {
+      "name": "studio-core",
+      "type": "registry:item",
+      "title": "AIgent Studio Core",
+      "description": "Install product and design contracts, semantic tokens, native motion, project context, and the consolidated AIgent design skill.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/aigent-design-skill",
+        "wrg32786/aigent-design-system/design-intelligence"
+      ],
+      "files": [
+        { "path": "PRODUCT.md", "type": "registry:file", "target": "~/PRODUCT.md" },
+        { "path": "DESIGN.md", "type": "registry:file", "target": "~/DESIGN.md" },
+        { "path": "docs/project-context.md", "type": "registry:file", "target": "~/docs/project-context.md" },
+        { "path": "docs/design-principles.md", "type": "registry:file", "target": "~/docs/design-principles.md" },
+        { "path": "tokens/system.css", "type": "registry:file", "target": "~/tokens/system.css" },
+        { "path": "tokens/aigent-tokens.css", "type": "registry:file", "target": "~/tokens/aigent-tokens.css" },
+        { "path": "modules/motion.js", "type": "registry:file", "target": "~/modules/motion.js" }
+      ]
+    },
+    {
+      "name": "patterns-core",
+      "type": "registry:item",
+      "title": "Immersive Pattern Core",
+      "description": "Install framework-neutral guided deck, command palette, focus reveal, scene stage, and object stage interaction patterns.",
+      "files": [
+        { "path": "patterns/README.md", "type": "registry:file", "target": "~/patterns/README.md" },
+        { "path": "patterns/guided-deck/guided-deck.css", "type": "registry:file", "target": "~/patterns/guided-deck/guided-deck.css" },
+        { "path": "patterns/guided-deck/guided-deck.js", "type": "registry:file", "target": "~/patterns/guided-deck/guided-deck.js" },
+        { "path": "patterns/command-palette/command-palette.css", "type": "registry:file", "target": "~/patterns/command-palette/command-palette.css" },
+        { "path": "patterns/command-palette/command-palette.js", "type": "registry:file", "target": "~/patterns/command-palette/command-palette.js" },
+        { "path": "patterns/focus-reveal/focus-reveal.css", "type": "registry:file", "target": "~/patterns/focus-reveal/focus-reveal.css" },
+        { "path": "patterns/focus-reveal/focus-reveal.js", "type": "registry:file", "target": "~/patterns/focus-reveal/focus-reveal.js" },
+        { "path": "patterns/scene-stage/scene-stage.css", "type": "registry:file", "target": "~/patterns/scene-stage/scene-stage.css" },
+        { "path": "patterns/scene-stage/scene-stage.js", "type": "registry:file", "target": "~/patterns/scene-stage/scene-stage.js" },
+        { "path": "patterns/object-stage/object-stage.css", "type": "registry:file", "target": "~/patterns/object-stage/object-stage.css" },
+        { "path": "patterns/object-stage/object-stage.js", "type": "registry:file", "target": "~/patterns/object-stage/object-stage.js" }
+      ]
+    },
+    {
+      "name": "guided-deck-pattern",
+      "type": "registry:lib",
+      "title": "Guided Deck Pattern",
+      "description": "Install the reusable guided deck controller and styling for chapter state, progress, focus transfer, direct navigation, and keyboard controls.",
+      "files": [
+        { "path": "patterns/guided-deck/guided-deck.css", "type": "registry:file", "target": "~/patterns/guided-deck/guided-deck.css" },
+        { "path": "patterns/guided-deck/guided-deck.js", "type": "registry:file", "target": "~/patterns/guided-deck/guided-deck.js" }
+      ]
+    },
+    {
+      "name": "command-palette-pattern",
+      "type": "registry:lib",
+      "title": "Command Palette Pattern",
+      "description": "Install a native dialog command palette with filtering, keyboard navigation, command events, accessible focus, and responsive styling.",
+      "files": [
+        { "path": "patterns/command-palette/command-palette.css", "type": "registry:file", "target": "~/patterns/command-palette/command-palette.css" },
+        { "path": "patterns/command-palette/command-palette.js", "type": "registry:file", "target": "~/patterns/command-palette/command-palette.js" }
+      ]
+    },
+    {
+      "name": "scene-stage-pattern",
+      "type": "registry:lib",
+      "title": "Scene Stage Patterns",
+      "description": "Install scene, object, and focus primitives for progressive enhancement, delayed media loading, fallbacks, scroll state, and reduced motion.",
+      "files": [
+        { "path": "patterns/scene-stage/scene-stage.css", "type": "registry:file", "target": "~/patterns/scene-stage/scene-stage.css" },
+        { "path": "patterns/scene-stage/scene-stage.js", "type": "registry:file", "target": "~/patterns/scene-stage/scene-stage.js" },
+        { "path": "patterns/object-stage/object-stage.css", "type": "registry:file", "target": "~/patterns/object-stage/object-stage.css" },
+        { "path": "patterns/object-stage/object-stage.js", "type": "registry:file", "target": "~/patterns/object-stage/object-stage.js" },
+        { "path": "patterns/focus-reveal/focus-reveal.css", "type": "registry:file", "target": "~/patterns/focus-reveal/focus-reveal.css" },
+        { "path": "patterns/focus-reveal/focus-reveal.js", "type": "registry:file", "target": "~/patterns/focus-reveal/focus-reveal.js" }
+      ]
+    }
+  ]
+}
