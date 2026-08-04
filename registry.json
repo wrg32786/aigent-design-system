@@ -829,7 +829,11 @@
           "type": "registry:file",
           "target": "~/.claude/skills/inspiration-originality-audit/SKILL.md"
         }
-      ]
+      ],
+      "devDependencies": [
+        "playwright@^1.61.1"
+      ],
+      "docs": "Run `npx playwright install chromium` before capturing live URLs. FFmpeg and ffprobe are optional and only needed to extract filmstrips from local video references."
     },
     {
       "name": "full-studio",
