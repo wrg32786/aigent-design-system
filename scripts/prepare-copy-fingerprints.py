@@ -1,3 +1,4 @@
+# One-time branch preparation; removed before merge.
 import json
 from pathlib import Path
 
