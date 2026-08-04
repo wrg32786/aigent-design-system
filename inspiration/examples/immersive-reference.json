@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "source": { "id": "immersive-reference", "kind": "structured-reference", "origin": "public-example", "capturedAt": "2026-08-04T00:00:00.000Z" },
+  "confidence": { "overall": 0.8, "structure": 0.86, "typography": 0.72, "material": 0.84, "motion": 0.9, "interaction": 0.7, "media": 0.86 },
+  "structure": { "modes": ["experience", "persuade"], "topology": "pinned-narrative-stage", "sectionCount": 6, "density": "low", "stickyRegions": 2, "fixedRegions": 1, "layout": { "gridRegions": 2, "flexRegions": 5, "contentWidthP90": 1200, "gapMedian": 44 }, "sectionLabels": ["identity", "mechanism", "proof", "conversion"] },
+  "typography": { "families": [{ "value": "condensed display", "count": 8 }, { "value": "neutral sans", "count": 20 }], "categories": ["condensed-sans", "sans-serif"], "sizes": { "minimum": 11, "bodyMedian": 17, "displayP95": 142 }, "weights": [], "headingScale": [], "roleCount": 5 },
+  "material": { "tags": ["hard-edged-material", "rule-driven", "gradient-field"], "foregroundColors": [{ "value": "rgb(240 238 231)", "count": 34 }], "backgroundColors": [{ "value": "rgb(8 10 13)", "count": 31 }], "radiusMedian": 3, "borderDensity": 0.18, "shadowDensity": 0.04, "backdropBlurCount": 1, "gradientCount": 4 },
+  "motion": { "tags": ["scroll-linked", "transform-driven", "masked-reveal", "slow-cinematic"], "animationCount": 14, "scrollLinkedCount": 8, "transformAnimationCount": 12, "opacityAnimationCount": 5, "clipAnimationCount": 3, "durationMedian": 920, "reducedMotionObserved": true },
+  "interaction": { "total": 9, "buttons": 3, "links": 6, "inputs": 0, "dialogs": 0, "patterns": ["link", "button"] },
+  "media": { "images": 2, "video": 1, "canvas": 1, "svg": 1, "iframe": 0, "audio": 0, "threeHints": 1, "splineHints": 0, "renderers": ["threejs", "gsap"], "patterns": ["video", "canvas"] },
+  "responsive": { "viewports": [{ "id": "desktop", "width": 1440, "height": 1000 }, { "id": "mobile", "width": 390, "height": 844 }], "transformations": ["camera travel becomes discrete scene states", "instrument rail becomes compact progress"] },
+  "copyFingerprint": { "headingTokens": ["system", "proof", "build"], "sampleHash": "example2", "sample": "" },
+  "signatures": ["pinned-narrative-stage", "hard-edged-material", "scroll-linked", "threejs", "condensed-sans"],
+  "evidence": { "viewportCount": 2, "elementCount": 240, "cdpNodeCount": 0, "cdpLayoutCount": 0, "reason": "Public example record for deterministic tests." }
+}
