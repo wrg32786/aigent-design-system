@@ -23,18 +23,22 @@ async function preparePage(page) {
   await page.evaluate(() => document.fonts?.ready);
   await page.evaluate(async () => {
     const pause = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
+    const root = document.documentElement;
+    const previousScrollBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+
     const step = Math.max(240, Math.floor(window.innerHeight * 0.72));
     let position = 0;
-    let maximum = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    let maximum = Math.max(0, root.scrollHeight - window.innerHeight);
 
     while (position < maximum) {
       position = Math.min(maximum, position + step);
-      window.scrollTo(0, position);
+      window.scrollTo({ top: position, behavior: "instant" });
       await pause(100);
-      maximum = Math.max(maximum, document.documentElement.scrollHeight - window.innerHeight);
+      maximum = Math.max(maximum, root.scrollHeight - window.innerHeight);
     }
 
-    document.documentElement.classList.remove("is-reveal-ready");
+    root.classList.remove("is-reveal-ready");
     for (const node of document.querySelectorAll("[data-reveal]")) {
       node.classList.add("is-visible");
       Object.assign(node.style, {
@@ -45,8 +49,9 @@ async function preparePage(page) {
       });
     }
 
-    window.scrollTo(0, 0);
-    await pause(180);
+    window.scrollTo({ top: 0, behavior: "instant" });
+    await pause(100);
+    root.style.scrollBehavior = previousScrollBehavior;
   });
 }
 
