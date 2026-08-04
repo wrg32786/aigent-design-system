@@ -53,7 +53,7 @@ async function verifyScrollReveals(page, label) {
       `${label}: ${hidden.length} scroll reveals remained hidden: ${hidden.slice(0, 3).join(" | ")}`,
     );
   }
-  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
 }
 
 const browser = await launchBrowser();
