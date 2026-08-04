@@ -27,24 +27,17 @@ async function text(locator) {
 }
 
 async function verifyScrollReveals(page, label) {
-  const total = await page.locator("[data-reveal]").count();
+  const reveals = page.locator("[data-reveal]");
+  const total = await reveals.count();
   if (!total) return;
 
-  await page.evaluate(async () => {
-    const wait = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
-    const step = Math.max(240, Math.floor(window.innerHeight * 0.72));
-    let position = 0;
-    let maximum = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-    while (position < maximum) {
-      position = Math.min(maximum, position + step);
-      window.scrollTo(0, position);
-      await wait(110);
-      maximum = Math.max(maximum, document.documentElement.scrollHeight - window.innerHeight);
-    }
-  });
+  for (let index = 0; index < total; index += 1) {
+    await reveals.nth(index).scrollIntoViewIfNeeded();
+    await page.waitForTimeout(130);
+  }
   await page.waitForTimeout(800);
 
-  const hidden = await page.locator("[data-reveal]").evaluateAll((nodes) => nodes
+  const hidden = await reveals.evaluateAll((nodes) => nodes
     .filter((node) => {
       const style = getComputedStyle(node);
       return Number(style.opacity) < 0.95 || style.visibility === "hidden";
