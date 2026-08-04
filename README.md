@@ -1,36 +1,37 @@
 # AIgent Design System
 
-A modular cinematic web kit for building scroll-driven landing pages, product stories, galleries, and interactive decks with humans or coding agents.
+A modular cinematic web system for building authored landing pages, product stories, resource libraries, galleries, decks, and scroll experiences with humans or coding agents.
 
-> **The core is brand-neutral.** The AIgent's cyan, cream, and black visual language is included as one theme preset and as the styling for several showcase pages. New projects should use the semantic `ds-*` API.
+The repository contains:
 
-Built and maintained by [The AIgent](https://theaigent.xyz). Free and MIT-licensed for AIgent-authored code and documentation.
+- semantic design tokens and five distinct theme presets
+- small native motion modules
+- static HTML templates for CSS, Spline, and video-scrub experiences
+- product and design context files for agents
+- a neutral design-director skill
+- cinematic production playbooks
+- a deterministic design audit and browser smoke tests
 
-## See It Working
+> **The core is brand-neutral.** The AIgent's cyan, cream, and green-black visual language is one included preset. Outside projects should keep the system and create their own visual world.
 
-Live sites informed by the system:
+## Production Proof
 
-- [The AIgent](https://theaigent.xyz)
-- [AIgent Tools](https://tools.theaigent.xyz)
+The key showcases are live products, not mockups:
 
-Local demos:
+- **[The AIgent](https://theaigent.xyz)** — a Persuade + Experience surface built as a cinematic narrative descent.
+- **[The AIgent Tools](https://tools.theaigent.xyz)** — an Operate + Read surface that adapts the same identity into a dense public vault.
 
-| Start here | Best for | Runtime |
-| --- | --- | --- |
-| `templates/modular-scroll-starter/` | A clean, brand-neutral project | Native CSS + JavaScript |
-| `templates/free-design-stack/` | Cinematic video scrubbing and scene transitions | GSAP + local MP4 assets |
-| `templates/spline-scroll-landing/` | A scroll-mapped 3D background | Spline + GSAP |
-| `templates/asset-scroll-gallery/` | Resource libraries and editorial galleries | Spline + native JavaScript |
+They demonstrate the quality bar: product-specific composition, large editorial type, purposeful motion, useful instrumentation, mobile behavior, and one coherent visual world across different jobs.
 
-The modular starter is the recommended entry point. The other pages are richer showcases that demonstrate specific media techniques.
+They are proof of the system—not universal page templates.
 
-## Start In Two Minutes
+## Start Here
 
 Requirements:
 
 - Node.js 20 or newer
 - npm
-- A modern browser
+- a modern browser
 
 ```bash
 npm install
@@ -42,7 +43,15 @@ Open:
 - `http://127.0.0.1:4177/`
 - `http://127.0.0.1:4177/templates/modular-scroll-starter/`
 
-Use a different port when needed:
+Run the checks:
+
+```bash
+npm run check
+npm run audit -- templates/modular-scroll-starter tokens/system.css
+npm run smoke
+```
+
+Use another port when needed:
 
 ```bash
 PORT=8788 npm run serve
@@ -54,18 +63,43 @@ PowerShell:
 $env:PORT = "8788"; npm run serve
 ```
 
-Run the checks:
+## What To Open
 
-```bash
-npm run check
-npm run smoke
+| Surface | Use it for | Runtime |
+| --- | --- | --- |
+| `templates/modular-scroll-starter/` | A new brand-neutral cinematic page | Native CSS + JavaScript |
+| `templates/free-design-stack/` | Controlled video scrubbing and scene transitions | GSAP + local MP4 assets |
+| `templates/spline-scroll-landing/` | A scroll-mapped interactive 3D background | Spline + GSAP |
+| `templates/asset-scroll-gallery/` | Resource libraries and editorial galleries | Spline + native JavaScript |
+| `index.html` | The system dossier and production showcase | Native CSS + JavaScript |
+
+Start with the modular starter unless a richer template solves a known media requirement.
+
+## Define The Product Before The Palette
+
+The repository now carries two durable context files:
+
+- `PRODUCT.md` — users, purpose, proof, voice, anti-references, and constraints
+- `DESIGN.md` — the visual world, surface modes, typography, composition, materials, motion, and quality floor
+
+For a new project, copy the compact template from:
+
+```text
+docs/project-context.md
 ```
 
-`check` validates the repository contract and module exports. `smoke` opens every key page at desktop and mobile sizes, checks basic rendering, and catches horizontal overflow.
+Choose the mode from the surface:
 
-## Use The System Without A Template
+| Mode | Visitor success | Priority |
+| --- | --- | --- |
+| Persuade | Decides and acts | Offer, proof, desire, visible action |
+| Operate | Completes a task | Scanability, state, familiar controls |
+| Read | Understands material | Structure, measure, rhythm, wayfinding |
+| Experience | Enters the work | Artifact first, interface recedes |
 
-### 1. Load the neutral system
+A tool's homepage can be Persuade while its dashboard is Operate. Do not force one composition across every route.
+
+## Use The Neutral Core
 
 ```html
 <html lang="en" data-theme="graphite">
@@ -73,8 +107,9 @@ npm run smoke
     <link rel="stylesheet" href="/tokens/system.css" />
   </head>
   <body class="ds-shell">
-    <main class="ds-container">
-      <p class="ds-eyebrow">Product system</p>
+    <a class="ds-skip-link" href="#content">Skip to content</a>
+    <main id="content" class="ds-container">
+      <p class="ds-status">Experience surface</p>
       <section class="ds-panel">...</section>
       <a class="ds-button" data-variant="solid" href="#start">Start</a>
     </main>
@@ -82,47 +117,84 @@ npm run smoke
 </html>
 ```
 
-The generic API uses semantic names:
+The public API uses semantic roles:
 
-- `--ds-color-*` for color roles
-- `--ds-font-*` for typography
-- `--ds-radius-*`, `--ds-space-*`, and `--ds-shadow-*` for layout and surfaces
-- `--ds-scroll` and `--ds-scene-*` for scroll-linked scenes
-- `.ds-shell`, `.ds-container`, `.ds-panel`, `.ds-button`, and `.ds-eyebrow` for small primitives
+- `--ds-color-*` for surfaces, text, accents, and rules
+- `--ds-font-*` and `--ds-size-*` for type roles
+- `--ds-space-*` and `--ds-radius-*` for rhythm and shape
+- `--ds-scroll` and `--ds-scene-*` for scroll-linked media
+- `.ds-shell`, `.ds-container`, `.ds-panel`, `.ds-button`, `.ds-status`, `.ds-rule-list`, and `.ds-skip-link` for small primitives
 
-It does not require React, Tailwind, a build step, or an animation package.
+There is no React, Tailwind, build step, or animation dependency in the neutral core.
 
-### 2. Choose a theme
+## Themes
 
 Set `data-theme` on the root element:
 
 ```html
-<html data-theme="ember">
+<html data-theme="paper">
 ```
 
 Included presets:
 
-- `graphite` — neutral violet and blue on charcoal
-- `aigent` — The AIgent cyan and amber palette
-- `ember` — warm orange and gold
-- `cobalt` — blue and mint
-- `paper` — light editorial palette
+- `graphite` — warm mineral dark with rust and patina
+- `aigent` — cyan and amber on green-black
+- `ember` — orange and gold on a warm dark ground
+- `cobalt` — blue and acid green on deep navy
+- `paper` — light editorial paper, oxblood, and teal
 
-### 3. Add the motion module
+These presets prove the token contract. They are not a substitute for art direction.
+
+### Make a custom theme
+
+Override the source triplets and the derived semantic roles update automatically:
+
+```css
+[data-theme="my-brand"] {
+  color-scheme: dark;
+  --ds-bg-rgb: 14 12 20;
+  --ds-surface-rgb: 31 25 42;
+  --ds-surface-2-rgb: 46 37 60;
+  --ds-text-rgb: 246 242 252;
+  --ds-accent-rgb: 236 90 124;
+  --ds-accent-2-rgb: 118 205 179;
+  --ds-color-accent-ink: #1d0710;
+}
+```
+
+Keep the RGB values space-separated because the system derives alpha variants with expressions such as:
+
+```css
+rgb(var(--ds-accent-rgb) / 0.18)
+```
+
+Change the font roles as part of the same visual decision:
+
+```css
+[data-theme="my-brand"] {
+  --ds-font-display: "Your Display Face", sans-serif;
+  --ds-font-body: "Your Body Face", sans-serif;
+  --ds-font-mono: "Your Data Face", monospace;
+}
+```
+
+## Motion Modules
 
 ```html
 <script type="module">
   import {
     mountReveals,
+    mountScrollProgress,
     mountScrollScene,
     mountThemePicker
   } from "/modules/motion.js";
 
   mountScrollScene({
-    progressMultiplier: 1.5,
-    scale: 0.9,
-    rotation: -64,
-    brightness: [0.76, 1]
+    progressMultiplier: 1.35,
+    scale: 0.48,
+    rotation: -18,
+    translateY: -36,
+    brightness: [0.9, 1]
   });
 
   mountReveals();
@@ -130,50 +202,41 @@ Included presets:
 </script>
 ```
 
-The scroll-scene helper only writes semantic CSS variables. The scene can be:
+The scene helper only publishes CSS variables:
+
+```css
+--ds-scroll
+--ds-scene-progress
+--ds-scene-scale
+--ds-scene-rotate
+--ds-scene-x
+--ds-scene-y
+--ds-scene-brightness
+```
+
+The scene itself can be:
 
 - a CSS composition
+- a static image with depth transforms
 - a Spline embed
 - a video or frame sequence
 - a Three.js canvas
 - a WebGL shader
-- a static image with subtle depth transforms
 
-The content layer does not need to know which media technique is behind it.
-
-## Make A Custom Theme
-
-Override the RGB triplets and the derived semantic values update automatically:
-
-```css
-[data-theme="my-brand"] {
-  color-scheme: dark;
-  --ds-bg-rgb: 9 12 18;
-  --ds-surface-rgb: 20 27 39;
-  --ds-text-rgb: 246 248 252;
-  --ds-accent-rgb: 255 90 140;
-  --ds-accent-2-rgb: 255 205 92;
-  --ds-color-accent-ink: #16040b;
-}
-```
-
-Then select it:
-
-```html
-<html data-theme="my-brand">
-```
-
-Keep the triplets space-separated because the system uses them for alpha variants such as `rgb(var(--ds-accent-rgb) / 0.2)`.
+Content does not need to know which renderer is behind it.
 
 ## Architecture
 
 ```text
+PRODUCT.md              product truth and anti-references
+DESIGN.md               durable visual and interaction decisions
+
 tokens/
-  system.css          semantic tokens, theme presets, and generic primitives
-  aigent-tokens.css   The AIgent preset plus compatibility aliases
+  system.css            neutral semantic tokens, presets, primitives
+  aigent-tokens.css     AIgent preset and compatibility aliases
 
 modules/
-  motion.js           scroll progress, scene transforms, reveals, theme picker
+  motion.js             scroll progress, scene mapping, reveals, themes
 
 templates/
   modular-scroll-starter/
@@ -182,89 +245,106 @@ templates/
   asset-scroll-gallery/
 
 skills/
+  cinematic-web-director/
   aigent-3d-scroll-system/
   aigent-landing-page-polish/
   aigent-asset-gallery-system/
 
+scripts/
+  design-audit.mjs      deterministic frontend checks
+  check.mjs             repository contract and audit self-check
+  smoke.mjs             desktop/mobile browser verification
+
 docs/
-  design principles, cinematic playbooks, QA, publishing, and source intake
+  project context, taste rules, cinematic playbooks, QA, and source intake
 ```
 
-The layers are intentionally separate:
+The layers stay separate:
 
-1. **Content** — copy, links, product data, and calls to action.
-2. **Theme** — semantic tokens and typography.
-3. **Scene** — video, 3D, WebGL, images, or CSS art.
-4. **Motion** — small modules that map scroll and viewport state to CSS.
-5. **Template** — the composition that joins those layers for one use case.
+1. **Content** — copy, proof, links, product data, and actions.
+2. **Theme** — type, color, spacing, surfaces, and component roles.
+3. **Scene** — CSS, images, video, Spline, frame sequences, or WebGL.
+4. **Motion** — small modules mapping scroll and viewport state to CSS.
+5. **Template** — one composition for one use case.
 
-A reusable page should accept new copy, a new palette, and new media without rewriting its motion engine.
+A reusable page accepts new content, a new theme, and new media without rewriting its motion engine.
 
-## Existing AIgent Compatibility
+## Taste Rules
 
-The original templates use `--aigent-*` tokens and `.aigent-*` classes. They remain supported through `tokens/aigent-tokens.css`.
+Read `DESIGN.md` and `docs/design-principles.md` before creating a new page.
 
-For new work, prefer:
+The brief may earn any device. Habit does not. By default:
 
-```html
-<link rel="stylesheet" href="/tokens/system.css" />
+- do not use an identical card grid as the page scaffold
+- do not nest cards
+- do not put an eyebrow above every heading
+- do not number sections unless the sequence matters
+- do not use gradient text as generic emphasis
+- do not use glass without valuable media behind it
+- do not use mono merely to make a page feel technical
+- do not add a floating 3D object without a story or job
+- do not scatter glow across inactive surfaces
+- do not give every section the same entrance animation
+
+Prefer one focal point per chapter, one authored motion idea per page, fewer surfaces, stronger spacing, real proof, and product-specific composition.
+
+## Deterministic Design Audit
+
+Run the audit on any HTML/CSS/JS target:
+
+```bash
+npm run audit -- path/to/page path/to/shared.css
 ```
 
-Use the legacy entry only when adapting an existing AIgent-branded page:
+Strict mode fails on implementation errors:
 
-```html
-<link rel="stylesheet" href="/tokens/aigent-tokens.css" />
+```bash
+npm run audit -- path/to/page path/to/shared.css --strict
 ```
 
-This keeps existing demos stable while the repository moves toward the neutral API.
+The audit currently checks for issues including:
 
-## Choosing A Media Technique
+- missing document language or viewport
+- missing or duplicate `h1`
+- images without alt text
+- non-semantic click targets
+- unsafe `target="_blank"` links
+- removed focus outlines
+- motion without a reduced-motion alternative
+- interactive pages without `focus-visible`
+- `transition: all`
+- bounce or elastic easing by reflex
+- gradient text
+- pure-black page grounds
+- repeated eyebrows and likely three-card scaffolds
+- excessive `will-change`
 
-Use the lightest technique that carries the idea:
-
-| Technique | Use it when | Avoid it when |
-| --- | --- | --- |
-| CSS transforms | The scene is abstract or mostly decorative | Photoreal art direction is required |
-| Spline | You need a fast interactive 3D scene | Bundle weight or mobile GPU limits are strict |
-| Video scrub | You need controlled, photoreal cinematic direction | The source video cannot be encoded for seeking |
-| Frame sequence | Exact frame control and mobile consistency matter | Asset size cannot be managed |
-| Three.js/WebGL | The user must manipulate live geometry or lighting | A rendered sequence would tell the same story |
-
-The design system does not force one renderer. It standardizes the page around the renderer.
-
-## Video Scrub Rules
-
-For smooth seeking:
-
-- Prefer short MP4 files with frequent keyframes or all-intra encoding.
-- Load the hero poster and loop first.
-- Warm the first scrub clip on intent or delayed idle time.
-- Warm later clips near their transition windows.
-- Verify byte-range requests return `206` with `Accept-Ranges: bytes`.
-- Do not hide a seeking problem by shipping blurry media.
-
-The full production checklist is in `docs/cinematic-scroll-deck-playbook.md`.
+It is deliberately small. It catches mechanical drift; browser inspection still decides visual quality.
 
 ## Agent Skills
 
-Folders under `skills/` are operating instructions for Codex, Claude Code, and similar coding agents. They are not runtime dependencies.
+### Neutral director
+
+Use `skills/cinematic-web-director/SKILL.md` for new brands and general cinematic frontend work. It reads the product and design context, chooses the surface mode, preserves existing visual authority, selects the lightest renderer, applies the taste floor, and verifies the result.
+
+### AIgent-specific skills
+
+The existing `aigent-*` skills remain useful when building inside The AIgent visual world or adapting the production showcase patterns.
 
 Claude Code:
 
 ```powershell
 New-Item -ItemType Directory -Force -Path "$HOME\.claude\skills"
+Copy-Item -Recurse .\skills\cinematic-web-director "$HOME\.claude\skills\"
 Copy-Item -Recurse .\skills\aigent-3d-scroll-system "$HOME\.claude\skills\"
-Copy-Item -Recurse .\skills\aigent-asset-gallery-system "$HOME\.claude\skills\"
-Copy-Item -Recurse .\skills\aigent-landing-page-polish "$HOME\.claude\skills\"
 ```
 
 Codex:
 
 ```powershell
 New-Item -ItemType Directory -Force -Path "$HOME\.codex\skills"
+Copy-Item -Recurse .\skills\cinematic-web-director "$HOME\.codex\skills\"
 Copy-Item -Recurse .\skills\aigent-3d-scroll-system "$HOME\.codex\skills\"
-Copy-Item -Recurse .\skills\aigent-asset-gallery-system "$HOME\.codex\skills\"
-Copy-Item -Recurse .\skills\aigent-landing-page-polish "$HOME\.codex\skills\"
 ```
 
 A useful prompt:
@@ -272,49 +352,104 @@ A useful prompt:
 ```text
 Use this repository as a cinematic web system.
 
-Read docs/design-principles.md and the closest skill.
-Start from templates/modular-scroll-starter.
-Keep the ds-* token and motion APIs, but create a new visual identity,
-new composition, and product-specific copy. Do not reproduce The AIgent palette
-unless it fits the brand. Verify 1440px and 390px before calling it done.
+Read PRODUCT.md, DESIGN.md, docs/design-principles.md, and the
+cinematic-web-director skill. Determine the surface mode. Start from the
+modular scroll starter, preserve the ds-* contracts, and create a new visual
+world from this product's audience, proof, and anti-references. Do not copy
+The AIgent palette unless the brand context earns it. Verify 1440px and 390px,
+run the design audit, and keep one signature motion idea.
 ```
+
+## Optional: Use Impeccable Alongside This Repo
+
+This system's context-first workflow, anti-reference discipline, bounded visual QA, and deterministic audit were informed by [pbakaus/impeccable](https://github.com/pbakaus/impeccable), licensed under Apache 2.0.
+
+No Impeccable code or skill files are vendored here. This repository implements its own smaller workflow around cinematic pages and the production lessons from The AIgent.
+
+Teams already using Impeccable can install it separately and use its `init`, `critique`, `audit`, and `polish` workflows against these templates. `PRODUCT.md` and `DESIGN.md` are intentionally compatible with that context-first model.
+
+## Existing AIgent Compatibility
+
+The original templates use `--aigent-*` tokens and `.aigent-*` classes. They remain supported through:
+
+```html
+<link rel="stylesheet" href="/tokens/aigent-tokens.css" />
+```
+
+New work should prefer:
+
+```html
+<link rel="stylesheet" href="/tokens/system.css" />
+```
+
+The compatibility layer lets the repository improve without breaking the production showcase pages.
+
+## Choosing A Media Technique
+
+Use the lightest technique that carries the concept:
+
+| Technique | Use it when | Avoid it when |
+| --- | --- | --- |
+| CSS transforms and masks | The scene is graphic or abstract | Photoreal art direction is required |
+| Spline | You need a fast interactive 3D scene | Bundle weight or mobile GPU limits are strict |
+| Video scrub | You need controlled photoreal direction | The source cannot be encoded for seeking |
+| Frame sequence | Exact frames and mobile consistency matter | Asset weight cannot be managed |
+| Three.js/WebGL | Live geometry, lighting, or manipulation matters | A rendered sequence would tell the same story |
+
+## Video Scrub Rules
+
+For smooth seeking:
+
+- prefer short MP4 files with frequent keyframes or all-intra encoding
+- load the hero poster and loop first
+- warm the first scrub clip on intent or delayed idle time
+- warm later clips near their transition windows
+- match seek cadence to the source frame rate
+- verify range requests return `206` with `Accept-Ranges: bytes`
+- do not hide a seeking problem by shipping blurry media
+
+The full production checklist is in `docs/cinematic-scroll-deck-playbook.md`.
 
 ## Quality Bar
 
 Before publishing:
 
-- The first viewport clearly explains what the page is and what action to take.
-- Motion reveals, orients, compares, or rewards; it is not filler.
-- The focal point remains intentional while the scene moves.
-- Text stays readable over the brightest and busiest frame.
-- `prefers-reduced-motion` produces a complete, usable page.
-- Keyboard focus is visible.
-- Links and controls are real, labeled, and reachable.
-- Desktop and mobile have no horizontal overflow.
-- The page is checked in a real browser, not judged from source alone.
+- the first viewport clearly explains the offer, artifact, or task
+- real proof or product behavior appears early
+- one focal point leads each chapter
+- body text maintains readable contrast and measure
+- keyboard focus is visible
+- touch targets are usable
+- reduced motion preserves all content and state
+- desktop and mobile have no horizontal overflow
+- media loads in the order it becomes useful
+- links and controls are real, labeled, and reachable
+- the page is inspected in a browser rather than judged from source alone
 
 ## Adding A Reusable Pattern
 
-Do not paste third-party templates or skill files directly into the repository.
+1. Confirm the same intent exists in at least two real pages.
+2. Reuse an existing token, primitive, or module before creating another.
+3. Record outside references in `docs/source-stack-intake.md`.
+4. Implement the smallest original asset that captures the lesson.
+5. Verify the source license before vendoring anything.
+6. Update `THIRD_PARTY.md` when material is included directly.
+7. Run `npm run check`, `npm run audit`, and `npm run smoke`.
 
-1. Record the source in `docs/source-stack-intake.md`, or use `docs/animation-asset-intake.md` for large local packs.
-2. Describe the transferable lesson in plain English.
-3. Implement the smallest original token, module, template section, prompt, or QA rule that captures it.
-4. Verify the license before vendoring anything.
-5. Update `THIRD_PARTY.md` when external material is included directly.
-6. Run `npm run check` and `npm run smoke`.
+Do not build framework adapters or generic components for hypothetical future pages.
 
 ## Publishing
 
 The templates are static:
 
 1. Copy the chosen template into the target site.
-2. Copy `tokens/system.css` and any imported modules.
-3. Replace media and content.
-4. Fix relative paths.
-5. Confirm assets return `200`; scrub media should also support range requests.
-6. Run desktop and mobile checks.
-7. Deploy to any static host.
+2. Copy `tokens/system.css` and required modules.
+3. Write the project's `PRODUCT.md` and `DESIGN.md`.
+4. Replace content and media.
+5. Fix relative paths.
+6. Confirm assets return `200`; scrub media should support range requests.
+7. Run the audit and desktop/mobile checks.
+8. Deploy to any static host.
 
 ## Project Direction
 
@@ -322,10 +457,11 @@ This is an early `0.x` public kit. It is deliberately not a large component libr
 
 Near-term work:
 
-- migrate the remaining showcase pages from hard-coded brand values to the semantic token API
-- extract only the motion patterns proven across at least two real pages
-- add lightweight visual-regression captures for the starter and showcases
-- add framework adapters after the static contracts stabilize
+- migrate the remaining AIgent showcase templates to the semantic token API without changing their visual identity
+- extract only motion patterns proven across multiple production pages
+- add lightweight visual-regression captures
+- document additional production case studies
+- add framework adapters only after the static contracts stabilize
 
 ## License
 
