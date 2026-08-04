@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en" data-theme="graphite">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A brand-neutral cinematic scroll starter built with semantic design tokens and small native JavaScript modules." />
+  <title>Cinematic Scroll Starter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter+Tight:wght@700;800;900&family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../tokens/system.css" />
+  <style>
+    html {
+      background: var(--ds-color-bg);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .scene {
+      position: fixed;
+      inset: -16vmax;
+      z-index: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      pointer-events: none;
+      perspective: 1200px;
+      transform: scale(var(--ds-scene-scale)) rotate(var(--ds-scene-rotate));
+      filter: brightness(var(--ds-scene-brightness)) saturate(1.08);
+      transform-origin: 58% 48%;
+      will-change: transform, filter;
+    }
+
+    .scene::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 64% 42%, rgb(var(--ds-accent-rgb) / 0.28), transparent 22%),
+        radial-gradient(circle at 58% 52%, rgb(var(--ds-accent-2-rgb) / 0.18), transparent 35%),
+        linear-gradient(135deg, var(--ds-color-bg), var(--ds-color-surface));
+    }
+
+    .scene-grid {
+      position: absolute;
+      width: 130vmax;
+      height: 130vmax;
+      background-image:
+        linear-gradient(rgb(var(--ds-accent-rgb) / 0.16) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(var(--ds-accent-rgb) / 0.16) 1px, transparent 1px);
+      background-size: 6vmax 6vmax;
+      opacity: 0.38;
+      mask-image: radial-gradient(circle, black 5%, transparent 68%);
+      -webkit-mask-image: radial-gradient(circle, black 5%, transparent 68%);
+      transform: rotateX(72deg) translateY(28vmax);
+    }
+
+    .scene-object {
+      position: relative;
+      width: min(66vw, 760px);
+      aspect-ratio: 1;
+      margin-left: 26vw;
+      transform-style: preserve-3d;
+      transform: rotateX(62deg) rotateZ(18deg);
+    }
+
+    .scene-core,
+    .orbit {
+      position: absolute;
+      inset: 12%;
+      border-radius: 50%;
+    }
+
+    .scene-core {
+      inset: 27%;
+      background:
+        radial-gradient(circle at 36% 30%, rgb(var(--ds-text-rgb) / 0.72), transparent 11%),
+        radial-gradient(circle at 48% 44%, var(--ds-color-accent), rgb(var(--ds-accent-2-rgb) / 0.46) 38%, transparent 72%);
+      box-shadow:
+        0 0 7vmax rgb(var(--ds-accent-rgb) / 0.46),
+        inset -2vmax -3vmax 5vmax rgb(0 0 0 / 0.5);
+      transform: translateZ(6vmax);
+    }
+
+    .orbit {
+      border: 1px solid rgb(var(--ds-accent-rgb) / 0.54);
+      box-shadow:
+        0 0 2vmax rgb(var(--ds-accent-rgb) / 0.24),
+        inset 0 0 2vmax rgb(var(--ds-accent-2-rgb) / 0.12);
+    }
+
+    .orbit-a {
+      inset: 8%;
+      transform: rotateX(58deg) rotateY(14deg);
+    }
+
+    .orbit-b {
+      inset: 17%;
+      border-color: rgb(var(--ds-accent-2-rgb) / 0.54);
+      transform: rotateX(78deg) rotateY(48deg);
+    }
+
+    .orbit-c {
+      inset: 24%;
+      transform: rotateX(34deg) rotateY(74deg);
+    }
+
+    .veil {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgb(var(--ds-bg-rgb) / 0.94), rgb(var(--ds-bg-rgb) / 0.48) 54%, rgb(var(--ds-bg-rgb) / 0.74)),
+        linear-gradient(180deg, rgb(var(--ds-bg-rgb) / 0.08), rgb(var(--ds-bg-rgb) / 0.58));
+    }
+
+    .progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      z-index: 8;
+      width: calc(var(--ds-scroll) * 100%);
+      height: 2px;
+      background: var(--ds-color-accent);
+      box-shadow: var(--ds-shadow-accent);
+    }
+
+    .topbar {
+      position: fixed;
+      z-index: 7;
+      top: 20px;
+      left: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      transform: translateX(-50%);
+    }
+
+    .wordmark {
+      color: var(--ds-color-text);
+      font: 900 0.74rem/1 var(--ds-font-mono);
+      letter-spacing: 0.14em;
+      text-decoration: none;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+    }
+
+    section {
+      min-height: 100svh;
+      display: grid;
+      align-items: center;
+      padding-block: 120px 88px;
+    }
+
+    .copy {
+      max-width: 790px;
+    }
+
+    .hero h1,
+    section h2 {
+      margin: 18px 0 0;
+      color: var(--ds-color-text);
+      font-family: var(--ds-font-display);
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 0.9;
+      text-wrap: balance;
+    }
+
+    .hero h1 {
+      max-width: 8.8ch;
+      font-size: clamp(4.4rem, 11vw, 10rem);
+    }
+
+    section h2 {
+      max-width: 10ch;
+      font-size: clamp(3.2rem, 7vw, 7rem);
+    }
+
+    .accent {
+      display: block;
+      color: var(--ds-color-accent);
+      font-family: var(--ds-font-accent);
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-shadow: var(--ds-shadow-accent);
+    }
+
+    .lead {
+      max-width: 680px;
+      margin: 28px 0 0;
+      color: var(--ds-color-muted);
+      font: 700 clamp(1.08rem, 1.8vw, 1.42rem)/1.5 var(--ds-font-body);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 42px;
+    }
+
+    .feature {
+      min-height: 190px;
+      padding: 24px;
+    }
+
+    .feature strong {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--ds-color-accent);
+      font: 800 0.74rem/1 var(--ds-font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .feature p {
+      margin: 0;
+      color: var(--ds-color-muted);
+      font: 650 1rem/1.55 var(--ds-font-body);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1fr);
+      gap: clamp(40px, 8vw, 120px);
+      align-items: center;
+    }
+
+    .code-card {
+      padding: clamp(24px, 4vw, 42px);
+      overflow: hidden;
+    }
+
+    .code-card pre {
+      margin: 0;
+      overflow-x: auto;
+      color: var(--ds-color-muted);
+      font: 700 0.86rem/1.7 var(--ds-font-mono);
+      tab-size: 2;
+    }
+
+    .code-card .token {
+      color: var(--ds-color-accent);
+    }
+
+    .closing {
+      text-align: center;
+    }
+
+    .closing .copy {
+      margin-inline: auto;
+    }
+
+    .closing h2,
+    .closing .lead {
+      margin-inline: auto;
+    }
+
+    .closing .actions {
+      justify-content: center;
+    }
+
+    @media (max-width: 840px) {
+      .topbar {
+        top: 12px;
+        align-items: flex-start;
+      }
+
+      .wordmark {
+        padding-top: 12px;
+      }
+
+      .ds-theme-picker {
+        max-width: 70vw;
+        overflow-x: auto;
+      }
+
+      .ds-theme-button {
+        flex: 0 0 auto;
+      }
+
+      .scene {
+        inset: -8vmax -26vmax;
+        transform-origin: 66% 46%;
+      }
+
+      .scene-object {
+        width: min(110vw, 660px);
+        margin-left: 42vw;
+      }
+
+      section {
+        min-height: 94svh;
+        padding-block: 110px 72px;
+      }
+
+      .hero h1 {
+        font-size: clamp(4rem, 18vw, 6.4rem);
+      }
+
+      section h2 {
+        font-size: clamp(3.2rem, 15vw, 5.4rem);
+      }
+
+      .feature-grid,
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      .feature {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .topbar {
+        display: block;
+      }
+
+      .wordmark {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .ds-theme-picker {
+        max-width: calc(100vw - 32px);
+      }
+
+      .ds-theme-button {
+        min-height: 1.85rem;
+        padding-inline: 0.38rem;
+      }
+
+      .actions .ds-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="ds-shell">
+  <div class="scene" aria-hidden="true">
+    <div class="scene-grid"></div>
+    <div class="scene-object">
+      <div class="orbit orbit-a"></div>
+      <div class="orbit orbit-b"></div>
+      <div class="orbit orbit-c"></div>
+      <div class="scene-core"></div>
+    </div>
+  </div>
+  <div class="veil"></div>
+  <div class="progress" aria-hidden="true"></div>
+
+  <header class="topbar ds-container">
+    <a class="wordmark" href="#top">Cinematic System</a>
+    <div class="ds-theme-picker" role="group" aria-label="Color theme">
+      <button class="ds-theme-button" type="button" data-set-theme="graphite">Graphite</button>
+      <button class="ds-theme-button" type="button" data-set-theme="aigent">AIgent</button>
+      <button class="ds-theme-button" type="button" data-set-theme="ember">Ember</button>
+      <button class="ds-theme-button" type="button" data-set-theme="cobalt">Cobalt</button>
+      <button class="ds-theme-button" type="button" data-set-theme="paper">Paper</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero ds-container">
+      <div class="copy">
+        <p class="ds-eyebrow" data-reveal>Modular starter / zero animation dependencies</p>
+        <h1 data-reveal style="--reveal-delay: 80ms">Make scrolling feel <span class="accent">like a place.</span></h1>
+        <p class="lead" data-reveal style="--reveal-delay: 150ms">
+          A brand-neutral foundation for cinematic product pages. Change the theme, replace the scene, and keep the motion code.
+        </p>
+        <div class="actions" data-reveal style="--reveal-delay: 220ms">
+          <a class="ds-button" data-variant="solid" href="#system">See the system</a>
+          <a class="ds-button" data-variant="ghost" href="../../README.md">Read the guide</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="system" class="ds-container">
+      <div class="copy">
+        <p class="ds-eyebrow" data-reveal>01 / Separate the layers</p>
+        <h2 data-reveal>Content, theme, scene, <span class="accent">motion.</span></h2>
+        <p class="lead" data-reveal>
+          Each layer has one job. Copy can change without touching animation. A new palette needs token overrides, not a CSS rewrite.
+        </p>
+        <div class="feature-grid">
+          <article class="feature ds-panel" data-reveal>
+            <strong>Tokens</strong>
+            <p>Semantic color, type, surface, radius, spacing, and motion variables.</p>
+          </article>
+          <article class="feature ds-panel" data-reveal style="--reveal-delay: 70ms">
+            <strong>Primitives</strong>
+            <p>Small classes for shells, panels, buttons, labels, and theme controls.</p>
+          </article>
+          <article class="feature ds-panel" data-reveal style="--reveal-delay: 140ms">
+            <strong>Modules</strong>
+            <p>Native scroll progress, scene transforms, reveals, and theme switching.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-container">
+      <div class="split">
+        <div class="copy">
+          <p class="ds-eyebrow" data-reveal>02 / Configure, do not fork</p>
+          <h2 data-reveal>One motion engine. <span class="accent">Different worlds.</span></h2>
+          <p class="lead" data-reveal>
+            The scene reads CSS variables. Use the same module with Spline, video, a frame sequence, WebGL, or a plain CSS object.
+          </p>
+        </div>
+        <div class="code-card ds-panel" data-reveal>
+<pre><code>import {
+  <span class="token">mountScrollScene</span>,
+  <span class="token">mountReveals</span>
+} from "/modules/motion.js";
+
+mountScrollScene({
+  progressMultiplier: 1.5,
+  scale: 0.9,
+  rotation: -64
+});
+
+mountReveals();</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing ds-container">
+      <div class="copy">
+        <p class="ds-eyebrow" data-reveal>03 / Make it yours</p>
+        <h2 data-reveal>Keep the system. <span class="accent">Lose the sameness.</span></h2>
+        <p class="lead" data-reveal>
+          Start with the neutral API, then make the type, palette, imagery, pacing, and composition specific to the product.
+        </p>
+        <div class="actions" data-reveal>
+          <a class="ds-button" data-variant="solid" href="../../README.md#make-a-custom-theme">Build a custom theme</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import {
+      mountReveals,
+      mountScrollScene,
+      mountThemePicker
+    } from "../../modules/motion.js";
+
+    mountScrollScene({
+      progressMultiplier: 1.45,
+      scale: 0.92,
+      rotation: -64,
+      brightness: [0.76, 1]
+    });
+    mountReveals();
+    mountThemePicker();
+  </script>
+</body>
+</html>
