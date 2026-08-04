@@ -9,7 +9,7 @@
   "interaction": { "total": 12, "buttons": 2, "links": 10, "inputs": 0, "dialogs": 0, "patterns": ["link", "button"] },
   "media": { "images": 5, "video": 0, "canvas": 0, "svg": 3, "iframe": 0, "audio": 0, "threeHints": 0, "splineHints": 0, "renderers": [], "patterns": ["img", "svg"] },
   "responsive": { "viewports": [{ "id": "desktop", "width": 1440, "height": 1000 }, { "id": "mobile", "width": 390, "height": 844 }], "transformations": ["margin notes linearize below related paragraphs", "two columns become one reading stream"] },
-  "copyFingerprint": { "headingTokens": ["thesis", "evidence", "decision"], "sampleHash": "example", "sample": "" },
+  "copyFingerprint": { "headingTokens": ["thesis", "evidence", "decision"], "sampleHash": "example", "shingleHashes": [], "wordCount": 0, "sampleLength": 0 },
   "signatures": ["editorial-sequence", "paper-editorial", "rule-driven", "serif", "motion-restrained"],
   "evidence": { "viewportCount": 2, "elementCount": 180, "cdpNodeCount": 0, "cdpLayoutCount": 0, "reason": "Public example record for deterministic tests." }
 }
