@@ -1,18 +1,50 @@
-# Release Checklist
+# Publish Checklist
 
-Before merging a public release:
+## Product and direction
 
-- [ ] `PRODUCT.md` and `DESIGN.md` match the intended product and visual authority.
-- [ ] New work uses semantic `ds-*` roles unless it is intentionally AIgent-branded.
-- [ ] Outside references are recorded in `docs/source-stack-intake.md` and license obligations are reflected in `THIRD_PARTY.md`.
-- [ ] Placeholder scenes, media, tracking IDs, private URLs, and customer data are removed.
-- [ ] `npm run check` passes.
-- [ ] `npm run audit -- <changed paths> --strict` passes.
-- [ ] `npm run smoke` passes at desktop and mobile sizes.
-- [ ] Keyboard focus, reduced motion, contrast, links, and touch targets are verified.
-- [ ] The first viewport makes the surface's job and primary action clear.
-- [ ] The design still belongs to the product after the decorative media is hidden.
+- `PRODUCT.md` and `DESIGN.md` reflect the project.
+- The surface mode is explicit.
+- The first viewport is clear.
+- The media has a job.
+- The page has one signature motion idea.
 
-For video scrubbing, also verify byte-range support, seek behavior, poster loading, and mobile fitting using `docs/cinematic-scroll-deck-playbook.md`.
+## Assets
 
-A merge makes the repository source live. Production sites deploy separately unless their own repositories or deployment pipelines consume this package.
+- Every production asset has a manifest.
+- Commercial use is resolved.
+- Attribution is present where required.
+- Desktop, mobile, poster, and reduced-motion outputs exist where applicable.
+- Source masters and private records are outside Git.
+- No credentials, signed URLs, customer data, or personal billing records are public.
+- Asset budget overrides are recorded.
+- Video and GLB files are optimized.
+- Scrub media supports byte ranges.
+
+## Page
+
+- Semantic content works without rich media.
+- Loading and failure states exist.
+- Keyboard focus is visible.
+- Touch targets are usable.
+- No autoplay audio.
+- Reduced motion preserves all content and actions.
+- Desktop and mobile have no horizontal overflow.
+- Real copy is tested at 200% zoom.
+
+## Commands
+
+```bash
+npm run catalogs
+npm run assets
+npm run audit -- path/to/page path/to/shared.css
+npm run check
+npm run smoke
+```
+
+## Public repository
+
+- Third-party notices are current.
+- Demo assets are intentionally public.
+- Links point to official sources.
+- Commit and pull-request titles are plain and product-facing.
+- No agent names, private task context, local paths, or internal operating notes appear in public history.

@@ -19,3 +19,35 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run check
+
+  browser:
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Run browser smoke tests
+        run: |
+          npm run serve > /tmp/aigent-design-system-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4177/ > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+
+          if ! curl --fail --silent http://127.0.0.1:4177/ > /dev/null; then
+            cat /tmp/aigent-design-system-server.log
+            exit 1
+          fi
+
+          npm run smoke

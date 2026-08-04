@@ -1,31 +1,46 @@
-# AIgent Design System
+# AIgent Cinematic Web System
 
-A modular cinematic web system for building authored landing pages, product stories, resource libraries, galleries, decks, and scroll experiences with humans or coding agents.
+A modular, agent-native production system for creating high-end scroll websites: art direction, video and 3D asset production, motion runtimes, reusable page systems, provenance, performance budgets, and browser QA.
 
-The repository contains:
+The goal is not to make every site look like The AIgent. The goal is to give builders and coding agents the complete path from a product brief to an authored, production-ready cinematic website.
 
-- semantic design tokens and five distinct theme presets
-- small native motion modules
-- static HTML templates for CSS, Spline, and video-scrub experiences
-- product and design context files for agents
-- a neutral design-director skill
-- cinematic production playbooks
-- a deterministic design audit and browser smoke tests
+> **The neutral core remains dependency-free.** GSAP, Three.js, Spline, Remotion, Theatre.js, Rive, React Three Fiber, Blender, FFmpeg, and other tools are opt-in routes selected only when the page earns them.
 
-> **The core is brand-neutral.** The AIgent's cyan, cream, and green-black visual language is one included preset. Outside projects should keep the system and create their own visual world.
+## Production proof
 
-## Production Proof
-
-The key showcases are live products, not mockups:
+The system is grounded in live products:
 
 - **[The AIgent](https://theaigent.xyz)** — a Persuade + Experience surface built as a cinematic narrative descent.
-- **[The AIgent Tools](https://tools.theaigent.xyz)** — an Operate + Read surface that adapts the same identity into a dense public vault.
+- **[The AIgent Tools](https://tools.theaigent.xyz)** — an Operate + Read surface that adapts the same identity into a useful public vault.
 
-They demonstrate the quality bar: product-specific composition, large editorial type, purposeful motion, useful instrumentation, mobile behavior, and one coherent visual world across different jobs.
+They define the craft level, not a universal palette or template.
 
-They are proof of the system—not universal page templates.
+## One system, four stages
 
-## Start Here
+```text
+DIRECT
+Product truth, surface mode, visual world, composition, one signature motion
+
+PRODUCE
+Source, generate, model, animate, render, edit, clear, and optimize media
+
+BUILD
+Semantic tokens, static templates, GSAP, model-viewer, Spline, Three.js,
+Remotion outputs, Theatre.js, Rive, or React Three Fiber
+
+VERIFY
+Provenance, asset budgets, accessibility, responsive behavior,
+reduced motion, browser smoke tests, and visual judgment
+```
+
+| Stage | Start here |
+| --- | --- |
+| Direct | `PRODUCT.md`, `DESIGN.md`, `docs/project-context.md` |
+| Produce | `creative-production/README.md`, `creative-production/catalog.json` |
+| Build | `templates/`, `integrations/`, `recipes/`, `tokens/`, `modules/` |
+| Verify | `scripts/`, `assets/manifests/`, `skills/cinematic-site-qa/` |
+
+## Start
 
 Requirements:
 
@@ -40,55 +55,244 @@ npm run serve
 
 Open:
 
-- `http://127.0.0.1:4177/`
-- `http://127.0.0.1:4177/templates/modular-scroll-starter/`
+```text
+http://127.0.0.1:4177/
+http://127.0.0.1:4177/templates/modular-scroll-starter/
+```
 
-Run the checks:
+Run the production checks:
 
 ```bash
-npm run check
+npm run catalogs
+npm run assets
 npm run audit -- templates/modular-scroll-starter tokens/system.css
+npm run check
 npm run smoke
 ```
 
-Use another port when needed:
+## Choose a page system
 
-```bash
-PORT=8788 npm run serve
-```
-
-PowerShell:
-
-```powershell
-$env:PORT = "8788"; npm run serve
-```
-
-## What To Open
-
-| Surface | Use it for | Runtime |
+| System | Use it for | Default runtime |
 | --- | --- | --- |
 | `templates/modular-scroll-starter/` | A new brand-neutral cinematic page | Native CSS + JavaScript |
-| `templates/free-design-stack/` | Controlled video scrubbing and scene transitions | GSAP + local MP4 assets |
-| `templates/spline-scroll-landing/` | A scroll-mapped interactive 3D background | Spline + GSAP |
+| `templates/free-design-stack/` | Pinned media and video-scrub narratives | GSAP + local video |
+| `templates/spline-scroll-landing/` | A visually-authored 3D background | Spline + GSAP |
 | `templates/asset-scroll-gallery/` | Resource libraries and editorial galleries | Spline + native JavaScript |
-| `index.html` | The system dossier and production showcase | Native CSS + JavaScript |
+| `recipes/video-hero/` | One cinematic shot carrying the first viewport | HTML video |
+| `recipes/interactive-3d-object/` | Inspectable or configurable product object | model-viewer or Three.js |
+| `recipes/video-scrub-deck/` | Exact copy and media beats | GSAP + scrub-ready video |
+| `recipes/remotion-hero-loop/` | Code-driven multi-format media | Remotion at build time |
 
-Start with the modular starter unless a richer template solves a known media requirement.
+Start with the modular starter unless a richer system solves a known requirement.
 
-## Define The Product Before The Palette
+## Produce the media
 
-The repository now carries two durable context files:
+Cinematic pages depend on the right media, but the asset must serve the page rather than decorate it.
 
-- `PRODUCT.md` — users, purpose, proof, voice, anti-references, and constraints
-- `DESIGN.md` — the visual world, surface modes, typography, composition, materials, motion, and quality floor
+```text
+creative-production/
+  catalog.json                 current source and tool directory
+  briefs/                      hero, scene, 3D, and frame-sequence briefs
+  sources/                     free, paid, hosted, and local routes
+  pipelines/                   video, GLB, Blender, Remotion, runtime choice
+  standards/                   budgets, provenance, mobile fallbacks
+```
 
-For a new project, copy the compact template from:
+### Resource catalog
+
+`creative-production/catalog.json` contains a curated, machine-readable directory of:
+
+- CC0 models, textures, and HDRIs
+- free and item-licensed 3D marketplaces
+- free stock video, VFX, audio, and subscription libraries
+- hosted AI video and AI 3D platforms
+- local open generation models and ComfyUI
+- Blender, DaVinci Resolve, FFmpeg, and glTF Transform
+
+Every entry records:
+
+- route and category
+- cost tier
+- license clarity
+- commercial-use posture
+- attribution expectations
+- web readiness
+- official source, license, and pricing pages
+- cautions
+- date last checked
+
+Pricing, model availability, and rights change. The exact asset page and plan active at production time always override the summary.
+
+Validate the catalog:
+
+```bash
+npm run catalogs
+```
+
+### Asset directories
+
+```text
+assets/
+  manifests/          source, rights, production, outputs
+  source/             ignored local working files
+  web/
+    models/           optimized GLB
+    video/            encoded website video
+    textures/         delivery textures
+    posters/          poster and reduced-motion images
+    sequences/        bounded frame sequences
+  video/              existing showcase assets
+```
+
+Keep `.blend`, EXR, FBX, raw footage, marketplace downloads, caches, and private generation records outside Git.
+
+Copy the example manifest:
+
+```text
+assets/manifests/example.asset-manifest.json
+```
+
+Then run:
+
+```bash
+npm run assets
+```
+
+## Select the medium before the library
+
+| Requirement | Preferred route |
+| --- | --- |
+| Controlled still state | Image + CSS |
+| Atmospheric movement | Short encoded video |
+| Exact scroll frames | Frame sequence or scrub-ready video |
+| One rotatable product | model-viewer |
+| Visually-authored 3D | Spline |
+| Live shaders, geometry, lighting, or manipulation | Three.js |
+| React product with justified live 3D | React Three Fiber |
+| Code-driven loops, diagrams, titles, and variants | Remotion render |
+| Complex modeling, lighting, or photoreal scene | Blender render |
+| Interactive vector state machine | Rive |
+
+A pre-rendered Blender or Remotion asset is often more cinematic, lighter, and more predictable than live 3D. Live 3D earns its cost only when interaction matters.
+
+## Optional integrations
+
+The root package does not install these.
+
+| Integration | Role | Install |
+| --- | --- | --- |
+| GSAP | Coordinated scroll and timeline choreography | `npm install gsap` |
+| Three.js | Live WebGL and interactive 3D | `npm install three` |
+| model-viewer | Simple GLB orbit, hotspots, and AR | `npm install @google/model-viewer` |
+| Spline | Visual 3D authoring and embedding | `npm install @splinetool/runtime` |
+| Remotion | Programmatic rendered web media | `npx create-video@latest` |
+| Theatre.js | Visual keyframes for Three.js and DOM | `npm install @theatre/core @theatre/studio` |
+| Rive | Interactive vector state machines | `npm install @rive-app/canvas` |
+| React Three Fiber | Three.js inside an existing React product | `npm install three @react-three/fiber` |
+
+Read `integrations/README.md` and `integrations/catalog.json` before adding one.
+
+### Dependency rule
+
+Use the first rung that carries the requirement:
+
+```text
+native platform
+→ existing module
+→ optional integration
+→ custom runtime code
+```
+
+Do not make every template depend on every tool.
+
+## Agent skills
+
+`skills/cinematic-studio/` routes the complete workflow.
+
+### Full production
+
+| Skill | Responsibility |
+| --- | --- |
+| `cinematic-studio` | Direct → produce → build → verify |
+| `cinematic-web-director` | Surface mode and visual direction |
+| `creative-asset-director` | Medium, source, generation, and production brief |
+| `video-asset-pipeline` | Web video, posters, mobile, scrub exports |
+| `web-3d-asset-pipeline` | 3D source, Blender cleanup, GLB optimization |
+| `asset-provenance-audit` | Rights, attribution, manifests, secret safety |
+| `cinematic-site-qa` | Final mechanical and visual QA |
+
+### Runtime and motion
+
+| Skill | Responsibility |
+| --- | --- |
+| `gsap-scroll-choreography` | Coordinated scroll timelines |
+| `threejs-web-scene` | Three.js and React Three Fiber |
+| `spline-web-scene` | Spline production and integration |
+| `remotion-web-assets` | Programmatic rendered media |
+| `video-scrub-deck` | Guided and free-scroll video decks |
+
+### Existing systems
+
+| Skill | Responsibility |
+| --- | --- |
+| `modular-scroll-page` | Neutral starter |
+| `cinematic-asset-gallery` | Neutral resource/gallery page |
+| `aigent-3d-scroll-system` | The AIgent 3D and deck system |
+| `aigent-landing-page-polish` | The AIgent conversion and polish rules |
+| `aigent-asset-gallery-system` | The AIgent gallery identity |
+
+Read `skills/README.md` for the complete index.
+
+Install a skill by copying its folder into the agent's skills directory.
+
+Claude Code:
+
+```powershell
+New-Item -ItemType Directory -Force -Path "$HOME\.claude\skills"
+Copy-Item -Recurse .\skills\cinematic-studio "$HOME\.claude\skills\"
+Copy-Item -Recurse .\skills\creative-asset-director "$HOME\.claude\skills\"
+Copy-Item -Recurse .\skills\cinematic-site-qa "$HOME\.claude\skills\"
+```
+
+Codex:
+
+```powershell
+New-Item -ItemType Directory -Force -Path "$HOME\.codex\skills"
+Copy-Item -Recurse .\skills\cinematic-studio "$HOME\.codex\skills\"
+Copy-Item -Recurse .\skills\creative-asset-director "$HOME\.codex\skills\"
+Copy-Item -Recurse .\skills\cinematic-site-qa "$HOME\.codex\skills\"
+```
+
+Suggested prompt:
+
+```text
+Use this repository as a complete cinematic web studio.
+
+Read PRODUCT.md, DESIGN.md, docs/project-context.md, and the cinematic-studio
+skill. Determine the surface mode and one signature visual idea. If required
+media does not exist, use the creative-asset-director and the resource catalog
+to choose a commercially usable source, generation, or render route. Produce
+desktop, mobile, poster, and reduced-motion outputs with a provenance manifest.
+
+Use the lightest runtime that carries the interaction. Preserve the ds-* API,
+verify 1440px and 390px, run catalogs, assets, design audit, and browser smoke,
+and do not copy The AIgent palette unless the project context earns it.
+```
+
+## Define product and design truth
+
+The repository carries two durable context contracts:
+
+- `PRODUCT.md` — users, purpose, proof, voice, anti-references, constraints
+- `DESIGN.md` — visual world, composition, typography, media, motion, quality floor
+
+Copy the project template:
 
 ```text
 docs/project-context.md
 ```
 
-Choose the mode from the surface:
+Choose the surface mode:
 
 | Mode | Visitor success | Priority |
 | --- | --- | --- |
@@ -97,9 +301,9 @@ Choose the mode from the surface:
 | Read | Understands material | Structure, measure, rhythm, wayfinding |
 | Experience | Enters the work | Artifact first, interface recedes |
 
-A tool's homepage can be Persuade while its dashboard is Operate. Do not force one composition across every route.
+A homepage can be Persuade while its product UI is Operate. Do not force one composition or motion language across every route.
 
-## Use The Neutral Core
+## Use the neutral core
 
 ```html
 <html lang="en" data-theme="graphite">
@@ -119,66 +323,15 @@ A tool's homepage can be Persuade while its dashboard is Operate. Do not force o
 
 The public API uses semantic roles:
 
-- `--ds-color-*` for surfaces, text, accents, and rules
-- `--ds-font-*` and `--ds-size-*` for type roles
-- `--ds-space-*` and `--ds-radius-*` for rhythm and shape
-- `--ds-scroll` and `--ds-scene-*` for scroll-linked media
-- `.ds-shell`, `.ds-container`, `.ds-panel`, `.ds-button`, `.ds-status`, `.ds-rule-list`, and `.ds-skip-link` for small primitives
+- `--ds-color-*`
+- `--ds-font-*` and `--ds-size-*`
+- `--ds-space-*` and `--ds-radius-*`
+- `--ds-scroll` and `--ds-scene-*`
+- `.ds-shell`, `.ds-container`, `.ds-panel`, `.ds-button`, `.ds-status`, `.ds-rule-list`, `.ds-skip-link`
 
-There is no React, Tailwind, build step, or animation dependency in the neutral core.
+The included Graphite, AIgent, Ember, Cobalt, and Paper themes prove the contract. They are starting examples, not substitutes for art direction.
 
-## Themes
-
-Set `data-theme` on the root element:
-
-```html
-<html data-theme="paper">
-```
-
-Included presets:
-
-- `graphite` — warm mineral dark with rust and patina
-- `aigent` — cyan and amber on green-black
-- `ember` — orange and gold on a warm dark ground
-- `cobalt` — blue and acid green on deep navy
-- `paper` — light editorial paper, oxblood, and teal
-
-These presets prove the token contract. They are not a substitute for art direction.
-
-### Make a custom theme
-
-Override the source triplets and the derived semantic roles update automatically:
-
-```css
-[data-theme="my-brand"] {
-  color-scheme: dark;
-  --ds-bg-rgb: 14 12 20;
-  --ds-surface-rgb: 31 25 42;
-  --ds-surface-2-rgb: 46 37 60;
-  --ds-text-rgb: 246 242 252;
-  --ds-accent-rgb: 236 90 124;
-  --ds-accent-2-rgb: 118 205 179;
-  --ds-color-accent-ink: #1d0710;
-}
-```
-
-Keep the RGB values space-separated because the system derives alpha variants with expressions such as:
-
-```css
-rgb(var(--ds-accent-rgb) / 0.18)
-```
-
-Change the font roles as part of the same visual decision:
-
-```css
-[data-theme="my-brand"] {
-  --ds-font-display: "Your Display Face", sans-serif;
-  --ds-font-body: "Your Body Face", sans-serif;
-  --ds-font-mono: "Your Data Face", monospace;
-}
-```
-
-## Motion Modules
+## Native motion modules
 
 ```html
 <script type="module">
@@ -202,269 +355,87 @@ Change the font roles as part of the same visual decision:
 </script>
 ```
 
-The scene helper only publishes CSS variables:
+The scene helper publishes CSS variables. Content does not know whether the scene is CSS, video, Spline, a frame sequence, or WebGL.
 
-```css
---ds-scroll
---ds-scene-progress
---ds-scene-scale
---ds-scene-rotate
---ds-scene-x
---ds-scene-y
---ds-scene-brightness
+## Quality floor
+
+Before publishing:
+
+- the first viewport explains the offer, artifact, or task
+- real proof or product behavior appears early
+- one focal point leads each chapter
+- one authored motion idea carries the page
+- the media belongs to the product world
+- body text meets readable contrast and measure
+- keyboard focus is visible
+- touch targets are usable
+- reduced motion preserves content and state
+- mobile receives an authored composition
+- assets load when they become useful
+- video and 3D have loading and failure states
+- every production asset has resolved rights
+- no credentials or private records are public
+- desktop and mobile have no horizontal overflow
+- the page is inspected in a browser
+
+## Validation commands
+
+```bash
+npm run catalogs
+npm run assets
+npm run audit -- path/to/page path/to/shared.css
+npm run check
+npm run smoke
 ```
 
-The scene itself can be:
+- `catalogs` validates source and integration records.
+- `assets` validates manifests, public output paths, file existence, budgets, and basic secret safety.
+- `audit` catches deterministic frontend drift.
+- `check` validates the repository contract and all skills.
+- `smoke` opens key pages at desktop and mobile sizes.
 
-- a CSS composition
-- a static image with depth transforms
-- a Spline embed
-- a video or frame sequence
-- a Three.js canvas
-- a WebGL shader
-
-Content does not need to know which renderer is behind it.
+GitHub Actions runs the repository check and browser smoke suite.
 
 ## Architecture
 
 ```text
-PRODUCT.md              product truth and anti-references
-DESIGN.md               durable visual and interaction decisions
+PRODUCT.md
+DESIGN.md
+
+creative-production/
+assets/
+integrations/
+recipes/
 
 tokens/
-  system.css            neutral semantic tokens, presets, primitives
-  aigent-tokens.css     AIgent preset and compatibility aliases
-
 modules/
-  motion.js             scroll progress, scene mapping, reveals, themes
-
 templates/
-  modular-scroll-starter/
-  free-design-stack/
-  spline-scroll-landing/
-  asset-scroll-gallery/
-
 skills/
-  cinematic-web-director/
-  aigent-3d-scroll-system/
-  aigent-landing-page-polish/
-  aigent-asset-gallery-system/
-
 scripts/
-  design-audit.mjs      deterministic frontend checks
-  check.mjs             repository contract and audit self-check
-  smoke.mjs             desktop/mobile browser verification
-
 docs/
-  project context, taste rules, cinematic playbooks, QA, and source intake
 ```
 
-The layers stay separate:
+The system layers remain separate:
 
-1. **Content** — copy, proof, links, product data, and actions.
-2. **Theme** — type, color, spacing, surfaces, and component roles.
-3. **Scene** — CSS, images, video, Spline, frame sequences, or WebGL.
-4. **Motion** — small modules mapping scroll and viewport state to CSS.
-5. **Template** — one composition for one use case.
+1. **Truth** — product, users, proof, constraints.
+2. **Direction** — mode, visual world, composition, motion.
+3. **Production** — source, generate, model, render, edit.
+4. **Delivery** — optimize, encode, manifest, fallback.
+5. **Runtime** — page, motion, video, 3D.
+6. **Verification** — rights, budgets, accessibility, browser QA.
 
-A reusable page accepts new content, a new theme, and new media without rewriting its motion engine.
+## Reuse rule
 
-## Taste Rules
+Extract a token, module, recipe, or skill only when the same intent appears in more than one real page.
 
-Read `DESIGN.md` and `docs/design-principles.md` before creating a new page.
+Do not build framework adapters, generic components, or animation abstractions for hypothetical future work.
 
-The brief may earn any device. Habit does not. By default:
+## Third-party material
 
-- do not use an identical card grid as the page scaffold
-- do not nest cards
-- do not put an eyebrow above every heading
-- do not number sections unless the sequence matters
-- do not use gradient text as generic emphasis
-- do not use glass without valuable media behind it
-- do not use mono merely to make a page feel technical
-- do not add a floating 3D object without a story or job
-- do not scatter glow across inactive surfaces
-- do not give every section the same entrance animation
+This repository links to external tools, marketplaces, and generation services but does not vendor their code, models, assets, or agent skills.
 
-Prefer one focal point per chapter, one authored motion idea per page, fewer surfaces, stronger spacing, real proof, and product-specific composition.
-
-## Deterministic Design Audit
-
-Run the audit on any HTML/CSS/JS target:
-
-```bash
-npm run audit -- path/to/page path/to/shared.css
-```
-
-Strict mode fails on implementation errors:
-
-```bash
-npm run audit -- path/to/page path/to/shared.css --strict
-```
-
-The audit currently checks for issues including:
-
-- missing document language or viewport
-- missing or duplicate `h1`
-- images without alt text
-- non-semantic click targets
-- unsafe `target="_blank"` links
-- removed focus outlines
-- motion without a reduced-motion alternative
-- interactive pages without `focus-visible`
-- `transition: all`
-- bounce or elastic easing by reflex
-- gradient text
-- pure-black page grounds
-- repeated eyebrows and likely three-card scaffolds
-- excessive `will-change`
-
-It is deliberately small. It catches mechanical drift; browser inspection still decides visual quality.
-
-## Agent Skills
-
-### Neutral director
-
-Use `skills/cinematic-web-director/SKILL.md` for new brands and general cinematic frontend work. It reads the product and design context, chooses the surface mode, preserves existing visual authority, selects the lightest renderer, applies the taste floor, and verifies the result.
-
-### AIgent-specific skills
-
-The existing `aigent-*` skills remain useful when building inside The AIgent visual world or adapting the production showcase patterns.
-
-Claude Code:
-
-```powershell
-New-Item -ItemType Directory -Force -Path "$HOME\.claude\skills"
-Copy-Item -Recurse .\skills\cinematic-web-director "$HOME\.claude\skills\"
-Copy-Item -Recurse .\skills\aigent-3d-scroll-system "$HOME\.claude\skills\"
-```
-
-Codex:
-
-```powershell
-New-Item -ItemType Directory -Force -Path "$HOME\.codex\skills"
-Copy-Item -Recurse .\skills\cinematic-web-director "$HOME\.codex\skills\"
-Copy-Item -Recurse .\skills\aigent-3d-scroll-system "$HOME\.codex\skills\"
-```
-
-A useful prompt:
-
-```text
-Use this repository as a cinematic web system.
-
-Read PRODUCT.md, DESIGN.md, docs/design-principles.md, and the
-cinematic-web-director skill. Determine the surface mode. Start from the
-modular scroll starter, preserve the ds-* contracts, and create a new visual
-world from this product's audience, proof, and anti-references. Do not copy
-The AIgent palette unless the brand context earns it. Verify 1440px and 390px,
-run the design audit, and keep one signature motion idea.
-```
-
-## Optional: Use Impeccable Alongside This Repo
-
-This system's context-first workflow, anti-reference discipline, bounded visual QA, and deterministic audit were informed by [pbakaus/impeccable](https://github.com/pbakaus/impeccable), licensed under Apache 2.0.
-
-No Impeccable code or skill files are vendored here. This repository implements its own smaller workflow around cinematic pages and the production lessons from The AIgent.
-
-Teams already using Impeccable can install it separately and use its `init`, `critique`, `audit`, and `polish` workflows against these templates. `PRODUCT.md` and `DESIGN.md` are intentionally compatible with that context-first model.
-
-## Existing AIgent Compatibility
-
-The original templates use `--aigent-*` tokens and `.aigent-*` classes. They remain supported through:
-
-```html
-<link rel="stylesheet" href="/tokens/aigent-tokens.css" />
-```
-
-New work should prefer:
-
-```html
-<link rel="stylesheet" href="/tokens/system.css" />
-```
-
-The compatibility layer lets the repository improve without breaking the production showcase pages.
-
-## Choosing A Media Technique
-
-Use the lightest technique that carries the concept:
-
-| Technique | Use it when | Avoid it when |
-| --- | --- | --- |
-| CSS transforms and masks | The scene is graphic or abstract | Photoreal art direction is required |
-| Spline | You need a fast interactive 3D scene | Bundle weight or mobile GPU limits are strict |
-| Video scrub | You need controlled photoreal direction | The source cannot be encoded for seeking |
-| Frame sequence | Exact frames and mobile consistency matter | Asset weight cannot be managed |
-| Three.js/WebGL | Live geometry, lighting, or manipulation matters | A rendered sequence would tell the same story |
-
-## Video Scrub Rules
-
-For smooth seeking:
-
-- prefer short MP4 files with frequent keyframes or all-intra encoding
-- load the hero poster and loop first
-- warm the first scrub clip on intent or delayed idle time
-- warm later clips near their transition windows
-- match seek cadence to the source frame rate
-- verify range requests return `206` with `Accept-Ranges: bytes`
-- do not hide a seeking problem by shipping blurry media
-
-The full production checklist is in `docs/cinematic-scroll-deck-playbook.md`.
-
-## Quality Bar
-
-Before publishing:
-
-- the first viewport clearly explains the offer, artifact, or task
-- real proof or product behavior appears early
-- one focal point leads each chapter
-- body text maintains readable contrast and measure
-- keyboard focus is visible
-- touch targets are usable
-- reduced motion preserves all content and state
-- desktop and mobile have no horizontal overflow
-- media loads in the order it becomes useful
-- links and controls are real, labeled, and reachable
-- the page is inspected in a browser rather than judged from source alone
-
-## Adding A Reusable Pattern
-
-1. Confirm the same intent exists in at least two real pages.
-2. Reuse an existing token, primitive, or module before creating another.
-3. Record outside references in `docs/source-stack-intake.md`.
-4. Implement the smallest original asset that captures the lesson.
-5. Verify the source license before vendoring anything.
-6. Update `THIRD_PARTY.md` when material is included directly.
-7. Run `npm run check`, `npm run audit`, and `npm run smoke`.
-
-Do not build framework adapters or generic components for hypothetical future pages.
-
-## Publishing
-
-The templates are static:
-
-1. Copy the chosen template into the target site.
-2. Copy `tokens/system.css` and required modules.
-3. Write the project's `PRODUCT.md` and `DESIGN.md`.
-4. Replace content and media.
-5. Fix relative paths.
-6. Confirm assets return `200`; scrub media should support range requests.
-7. Run the audit and desktop/mobile checks.
-8. Deploy to any static host.
-
-## Project Direction
-
-This is an early `0.x` public kit. It is deliberately not a large component library.
-
-Near-term work:
-
-- migrate the remaining AIgent showcase templates to the semantic token API without changing their visual identity
-- extract only motion patterns proven across multiple production pages
-- add lightweight visual-regression captures
-- document additional production case studies
-- add framework adapters only after the static contracts stabilize
+Read `THIRD_PARTY.md`. Verify the exact license and plan before using any external asset or service in production.
 
 ## License
 
 MIT for AIgent-authored code and documentation.
-
-Read `THIRD_PARTY.md` before publishing or redistributing imported media, Spline scenes, fonts, generated assets, or outside code.

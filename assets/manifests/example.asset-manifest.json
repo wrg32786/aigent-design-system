@@ -1,0 +1,60 @@
+{
+  "$schema": "./asset-manifest.schema.json",
+  "schemaVersion": 1,
+  "exampleOnly": true,
+  "id": "example-control-room-hero",
+  "role": "hero-video",
+  "status": "draft",
+  "source": {
+    "type": "generated",
+    "provider": "Example provider",
+    "sourceUrl": "https://example.com/generation-record",
+    "license": "Example paid-plan commercial terms",
+    "commercialUse": "paid-plan",
+    "attributionRequired": false,
+    "verifiedAt": "2026-08-04",
+    "privateRecordReference": "private-asset-log/example-control-room-hero"
+  },
+  "production": {
+    "tools": [
+      "DaVinci Resolve",
+      "FFmpeg"
+    ],
+    "edited": true,
+    "brief": "creative-production/briefs/hero-video.md",
+    "version": "1",
+    "notes": "Illustrative manifest. Replace every value for a real asset."
+  },
+  "outputs": [
+    {
+      "file": "assets/web/video/example-control-room-desktop.mp4",
+      "variant": "desktop",
+      "format": "mp4",
+      "width": 1920,
+      "height": 1080,
+      "durationSeconds": 8,
+      "bytes": 6200000,
+      "preload": "intent"
+    },
+    {
+      "file": "assets/web/video/example-control-room-mobile.mp4",
+      "variant": "mobile",
+      "format": "mp4",
+      "width": 1080,
+      "height": 1350,
+      "durationSeconds": 8,
+      "bytes": 3100000,
+      "preload": "intent"
+    },
+    {
+      "file": "assets/web/posters/example-control-room.jpg",
+      "variant": "poster",
+      "format": "jpg",
+      "width": 1600,
+      "height": 900,
+      "bytes": 240000,
+      "preload": "auto"
+    }
+  ],
+  "notes": "Set exampleOnly to false and point outputs to real files before using this as a production manifest."
+}

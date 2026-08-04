@@ -3,6 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { auditPaths, auditSources } from "./design-audit.mjs";
+import { checkAssetManifests } from "./check-assets.mjs";
+import { checkCatalogs } from "./check-catalogs.mjs";
 
 const required = [
   "README.md",
@@ -17,6 +19,28 @@ const required = [
   "templates/free-design-stack/index.html",
   "templates/spline-scroll-landing/index.html",
   "templates/asset-scroll-gallery/index.html",
+  "creative-production/README.md",
+  "creative-production/catalog.json",
+  "creative-production/sources/3d-assets.md",
+  "creative-production/sources/video-and-vfx.md",
+  "creative-production/sources/ai-generation.md",
+  "creative-production/pipelines/video-assets.md",
+  "creative-production/pipelines/web-3d-assets.md",
+  "creative-production/pipelines/blender.md",
+  "creative-production/pipelines/remotion.md",
+  "creative-production/pipelines/runtime-selection.md",
+  "creative-production/standards/asset-budgets.md",
+  "creative-production/standards/provenance.md",
+  "creative-production/standards/mobile-fallbacks.md",
+  "assets/README.md",
+  "assets/manifests/asset-manifest.schema.json",
+  "assets/manifests/example.asset-manifest.json",
+  "integrations/README.md",
+  "integrations/catalog.json",
+  "recipes/README.md",
+  "skills/README.md",
+  "scripts/check-assets.mjs",
+  "scripts/check-catalogs.mjs",
   "docs/project-context.md",
   "docs/product-brief.md",
   "docs/roadmap.md",
@@ -26,10 +50,6 @@ const required = [
   "docs/cinematic-scroll-deck-playbook.md",
   "docs/awwwards-animation-menu.md",
   "docs/awwwards-animation-menu.html",
-  "skills/cinematic-web-director/SKILL.md",
-  "skills/aigent-3d-scroll-system/SKILL.md",
-  "skills/aigent-landing-page-polish/SKILL.md",
-  "skills/aigent-asset-gallery-system/SKILL.md",
   ".github/workflows/validate.yml"
 ];
 
@@ -42,12 +62,29 @@ if (missing.length) {
   process.exit(1);
 }
 
-for (const skill of required.filter((relativePath) => relativePath.endsWith("SKILL.md"))) {
-  const body = fs.readFileSync(file(skill), "utf8");
-  if (!/^---\r?\nname:/.test(body)) {
-    console.error(`Invalid skill frontmatter: ${skill}`);
-    process.exit(1);
-  }
+const skillRoot = file("skills");
+const skillFiles = fs.readdirSync(skillRoot, { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => path.join(skillRoot, entry.name, "SKILL.md"))
+  .filter((skill) => fs.existsSync(skill))
+  .sort();
+
+assert.ok(skillFiles.length >= 17, `Expected at least 17 installable skills; found ${skillFiles.length}.`);
+
+const skillNames = new Set();
+for (const skill of skillFiles) {
+  const body = fs.readFileSync(skill, "utf8");
+  const frontmatter = /^---\r?\nname:\s*([^\r\n]+)\r?\ndescription:\s*([^\r\n]+)\r?\n---/m.exec(body);
+  assert.ok(frontmatter, `Invalid skill frontmatter: ${path.relative(process.cwd(), skill)}`);
+
+  const [, name, description] = frontmatter;
+  assert.ok(/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name), `Skill name must be kebab-case: ${name}`);
+  assert.ok(description.trim().length >= 24, `Skill description is too short: ${name}`);
+  assert.ok(!skillNames.has(name), `Duplicate skill name: ${name}`);
+  skillNames.add(name);
+
+  const directoryName = path.basename(path.dirname(skill));
+  assert.equal(name, directoryName, `Skill name and directory differ: ${name} / ${directoryName}`);
 }
 
 const tokenBody = fs.readFileSync(file("tokens/system.css"), "utf8");
@@ -81,6 +118,40 @@ for (const exportName of ["mountScrollProgress", "mountScrollScene", "mountRevea
   assert.equal(typeof motion[exportName], "function", `Missing motion export: ${exportName}`);
 }
 
+const catalogFindings = checkCatalogs();
+const catalogErrors = catalogFindings.filter((item) => item.severity === "error");
+assert.deepEqual(catalogErrors, [], `Catalog validation failed:\n${JSON.stringify(catalogErrors, null, 2)}`);
+
+const assetFindings = checkAssetManifests();
+const assetErrors = assetFindings.filter((item) => item.severity === "error");
+assert.deepEqual(assetErrors, [], `Asset manifest validation failed:\n${JSON.stringify(assetErrors, null, 2)}`);
+
+const resourceCatalog = JSON.parse(fs.readFileSync(file("creative-production/catalog.json"), "utf8"));
+assert.ok(resourceCatalog.resources.length >= 25, "Creative resource catalog is unexpectedly small.");
+
+const integrationCatalog = JSON.parse(fs.readFileSync(file("integrations/catalog.json"), "utf8"));
+assert.ok(integrationCatalog.integrations.length >= 8, "Integration catalog is unexpectedly small.");
+assert.ok(integrationCatalog.integrations.every((item) => item.required === false), "Neutral core must not require optional integrations.");
+
+const packageJson = JSON.parse(fs.readFileSync(file("package.json"), "utf8"));
+for (const script of ["serve", "audit", "assets", "catalogs", "check", "smoke"]) {
+  assert.equal(typeof packageJson.scripts?.[script], "string", `Missing package script: ${script}`);
+}
+
+const readme = fs.readFileSync(file("README.md"), "utf8");
+for (const contract of [
+  "Direct",
+  "Produce",
+  "Build",
+  "Verify",
+  "creative-production/catalog.json",
+  "assets/manifests/",
+  "integrations/catalog.json",
+  "skills/cinematic-studio/"
+]) {
+  assert.ok(readme.toLowerCase().includes(contract.toLowerCase()), `README is missing production contract: ${contract}`);
+}
+
 const audit = auditPaths([
   file("templates/modular-scroll-starter"),
   file("tokens/system.css")
@@ -96,4 +167,4 @@ for (const rule of ["a11y/html-lang", "responsive/viewport", "hierarchy/h1-count
   assert.ok(detectorProof.some((item) => item.rule === rule), `Design audit self-check missed ${rule}`);
 }
 
-console.log("Design system check passed.");
+console.log(`Design system check passed with ${skillFiles.length} skills, ${resourceCatalog.resources.length} resources, and ${integrationCatalog.integrations.length} integrations.`);

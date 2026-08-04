@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-08-04",
+  "principle": "The neutral core remains dependency-free. Install a renderer only when the page requirement earns it.",
+  "integrations": [
+    {
+      "id": "gsap",
+      "name": "GSAP",
+      "role": "scroll choreography and timeline animation",
+      "phase": "runtime",
+      "required": false,
+      "install": "npm install gsap",
+      "license": "GSAP standard license; currently free including plugins and commercial use",
+      "officialUrl": "https://gsap.com/",
+      "licenseUrl": "https://gsap.com/community/standard-license/",
+      "docsUrl": "https://gsap.com/docs/v3/",
+      "useWhen": [
+        "multiple scene states must align to one timeline",
+        "pinned scroll and video timing need precise control",
+        "DOM choreography exceeds native CSS transitions"
+      ],
+      "avoidWhen": [
+        "one IntersectionObserver reveal solves the page",
+        "the animation exists only to show that a library is installed"
+      ],
+      "relatedSkill": "skills/gsap-scroll-choreography/SKILL.md"
+    },
+    {
+      "id": "threejs",
+      "name": "Three.js",
+      "role": "live interactive 3D and WebGL scenes",
+      "phase": "runtime",
+      "required": false,
+      "install": "npm install three",
+      "license": "MIT",
+      "officialUrl": "https://threejs.org/",
+      "licenseUrl": "https://threejs.org/license/",
+      "docsUrl": "https://threejs.org/docs/",
+      "useWhen": [
+        "the visitor manipulates geometry, camera, lighting, or materials",
+        "procedural or personalized visuals matter",
+        "a rendered sequence cannot express the interaction"
+      ],
+      "avoidWhen": [
+        "the object only needs rotation or hotspots",
+        "a video or frame sequence tells the same story more reliably"
+      ],
+      "relatedSkill": "skills/threejs-web-scene/SKILL.md"
+    },
+    {
+      "id": "model-viewer",
+      "name": "model-viewer",
+      "role": "simple GLB display, hotspots, and AR",
+      "phase": "runtime",
+      "required": false,
+      "install": "npm install @google/model-viewer",
+      "license": "Apache-2.0",
+      "officialUrl": "https://modelviewer.dev/",
+      "licenseUrl": "https://github.com/google/model-viewer/blob/master/LICENSE",
+      "docsUrl": "https://modelviewer.dev/docs/",
+      "useWhen": [
+        "a product model needs orbit controls",
+        "hotspots or AR add value",
+        "Three.js would be unnecessary infrastructure"
+      ],
+      "avoidWhen": [
+        "the scene needs custom shaders, multiple coordinated objects, or procedural camera behavior"
+      ],
+      "relatedSkill": "skills/web-3d-asset-pipeline/SKILL.md"
+    },
+    {
+      "id": "spline",
+      "name": "Spline",
+      "role": "visual 3D authoring and web embedding",
+      "phase": "authoring-and-runtime",
+      "required": false,
+      "install": "npm install @splinetool/runtime",
+      "license": "Plan and export terms",
+      "officialUrl": "https://spline.design/",
+      "licenseUrl": "https://spline.design/terms",
+      "docsUrl": "https://docs.spline.design/",
+      "useWhen": [
+        "a designer needs direct scene authoring",
+        "rapid interactive 3D iteration matters",
+        "an embed can carry the experience"
+      ],
+      "avoidWhen": [
+        "watermark-free export is required but the plan does not allow it",
+        "mobile GPU cost is too high",
+        "the page needs deep custom rendering control"
+      ],
+      "relatedSkill": "skills/spline-web-scene/SKILL.md"
+    },
+    {
+      "id": "remotion",
+      "name": "Remotion",
+      "role": "programmatic video, poster, and sequence rendering",
+      "phase": "build-time",
+      "required": false,
+      "install": "npx create-video@latest",
+      "license": "Free for individuals and companies up to three people; larger companies generally need a company license",
+      "officialUrl": "https://www.remotion.dev/",
+      "licenseUrl": "https://www.remotion.dev/license",
+      "docsUrl": "https://www.remotion.dev/docs/",
+      "useWhen": [
+        "one composition must render multiple aspect ratios",
+        "product data or code drives the visual",
+        "loops, transitions, posters, and social variants should share one source"
+      ],
+      "avoidWhen": [
+        "a hand-edited clip is faster",
+        "the site would unnecessarily ship React or Remotion in the browser"
+      ],
+      "relatedSkill": "skills/remotion-web-assets/SKILL.md"
+    },
+    {
+      "id": "theatrejs",
+      "name": "Theatre.js",
+      "role": "visual timeline authoring for Three.js and DOM",
+      "phase": "authoring-and-runtime",
+      "required": false,
+      "install": "npm install @theatre/core @theatre/studio",
+      "license": "Core Apache-2.0; Studio AGPL-3.0 and intended for authoring",
+      "officialUrl": "https://www.theatrejs.com/",
+      "licenseUrl": "https://github.com/theatre-js/theatre/blob/main/LICENSE",
+      "docsUrl": "https://www.theatrejs.com/docs/latest",
+      "useWhen": [
+        "camera and object choreography needs a visual timeline",
+        "a Three.js scene has many approved beats"
+      ],
+      "avoidWhen": [
+        "a short GSAP timeline is easier to inspect",
+        "the page does not need persistent keyframed scene state"
+      ],
+      "relatedSkill": "skills/threejs-web-scene/SKILL.md"
+    },
+    {
+      "id": "rive",
+      "name": "Rive",
+      "role": "interactive vector animation and state machines",
+      "phase": "authoring-and-runtime",
+      "required": false,
+      "install": "npm install @rive-app/canvas",
+      "license": "Web runtime MIT; editor/export access follows the active plan",
+      "officialUrl": "https://rive.app/",
+      "licenseUrl": "https://github.com/rive-app/rive-wasm/blob/master/LICENSE",
+      "docsUrl": "https://rive.app/docs/runtimes/web/",
+      "useWhen": [
+        "2D motion must respond to real product state",
+        "a compact state machine is better than video"
+      ],
+      "avoidWhen": [
+        "the task is photoreal 3D",
+        "a CSS transition handles the state"
+      ],
+      "relatedSkill": "skills/cinematic-studio/SKILL.md"
+    },
+    {
+      "id": "react-three-fiber",
+      "name": "React Three Fiber",
+      "role": "React renderer for Three.js",
+      "phase": "runtime",
+      "required": false,
+      "install": "npm install three @react-three/fiber",
+      "license": "MIT",
+      "officialUrl": "https://r3f.docs.pmnd.rs/",
+      "licenseUrl": "https://github.com/pmndrs/react-three-fiber/blob/master/LICENSE",
+      "docsUrl": "https://r3f.docs.pmnd.rs/getting-started/introduction",
+      "useWhen": [
+        "the existing product is React and live 3D is justified",
+        "scene state should integrate with React state"
+      ],
+      "avoidWhen": [
+        "the project is static HTML",
+        "adding React exists only to reach Three.js"
+      ],
+      "relatedSkill": "skills/threejs-web-scene/SKILL.md"
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/wrg32786/aigent-design-system/assets/manifests/asset-manifest.schema.json",
+  "title": "Cinematic web asset manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "role",
+    "status",
+    "source",
+    "production",
+    "outputs"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "exampleOnly": {
+      "type": "boolean",
+      "default": false
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "role": {
+      "enum": [
+        "hero-video",
+        "scene-video",
+        "scrub-video",
+        "poster",
+        "frame-sequence",
+        "3d-model",
+        "texture",
+        "audio",
+        "vfx",
+        "other"
+      ]
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "approved",
+        "published",
+        "retired"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "provider",
+        "commercialUse",
+        "attributionRequired",
+        "verifiedAt"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "owned",
+            "commissioned",
+            "stock",
+            "generated",
+            "open-source"
+          ]
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commercialUse": {
+          "enum": [
+            "yes",
+            "with-attribution",
+            "paid-plan",
+            "no",
+            "verify"
+          ]
+        },
+        "attributionRequired": {
+          "type": "boolean"
+        },
+        "attributionText": {
+          "type": "string"
+        },
+        "verifiedAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "privateRecordReference": {
+          "type": "string",
+          "description": "Safe relative or private-system reference. Never put credentials or personal billing data here."
+        }
+      }
+    },
+    "production": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tools",
+        "edited"
+      ],
+      "properties": {
+        "tools": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "edited": {
+          "type": "boolean"
+        },
+        "brief": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "file",
+          "variant"
+        ],
+        "properties": {
+          "file": {
+            "type": "string",
+            "pattern": "^assets/(video|web|audio)/"
+          },
+          "variant": {
+            "enum": [
+              "desktop",
+              "mobile",
+              "poster",
+              "reduced-motion",
+              "source-preview",
+              "shared"
+            ]
+          },
+          "format": {
+            "type": "string"
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "durationSeconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "frameCount": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "preload": {
+            "enum": [
+              "none",
+              "metadata",
+              "auto",
+              "intent",
+              "near-use"
+            ]
+          },
+          "fallbackFor": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "budgetOverrideReason": {
+            "type": "string",
+            "minLength": 12
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}
