@@ -1,41 +1,26 @@
 # Product Brief
 
-## One-Line Promise
+`PRODUCT.md` is the canonical product context for this repository. Keep product truth in one place.
 
-Give builders a free, copyable design system that helps AI agents make premium 3D web experiences instead of generic pages.
+## Promise
 
-## Why This Exists
+Give builders and coding agents a copyable system for producing authored cinematic web experiences instead of interchangeable AI-generated pages.
 
-AI coding agents can produce working pages quickly, but the default taste level is often flat: predictable cards, vague gradients, oversized copy, and animation that feels decorative rather than directed.
+## What Ships
 
-The AIgent Design System packages the taste rules and implementation patterns we keep reusing:
+- a brand-neutral token and primitive layer
+- production-proven scroll, Spline, and video patterns
+- context files that establish product truth and visual authority
+- agent skills that choose the lightest renderer and preserve the design direction
+- deterministic checks for accessibility, theming, responsive behavior, and common generated-design shortcuts
 
-- scroll-driven 3D backgrounds
-- short, sharp landing-page copy
-- premium buttons and panels
-- mobile-first reveal timing
-- asset-gallery layouts
-- plain-English card descriptions
-- real browser QA
-- agent skills that auto-invoke the right design process
+## Proof
 
-## Audience
+- `theaigent.xyz` demonstrates the Persuade + Experience mode.
+- `tools.theaigent.xyz` demonstrates the Operate + Read mode.
 
-- AI operators building public tools and landing pages.
-- Solo founders using Claude Code, Codex, Cursor, or similar agents.
-- Designers who want repeatable AI-friendly art direction.
-- Newsletter/community builders who need better free assets.
+The live sites establish the craft bar. They do not force their palette or composition on adopters.
 
-## Free Product Ladder
+## Success
 
-1. **Free repo:** templates, docs, and skills.
-2. **Free community asset pages:** examples, repo lists, prompt packs, build notes.
-3. **AIgent OS:** agent harness and operating layer.
-4. **Pantheon:** multi-agent command environment.
-
-## Success Criteria
-
-- A new user can run the static demos in under 2 minutes.
-- An agent can use the included skills without extra explanation.
-- A builder can copy one template and replace content in under an hour.
-- The repo demonstrates taste without forcing a heavy framework.
+A new user can run the repository in minutes, choose a suitable template, replace the visual world without rewriting the motion contract, and leave behind a runnable check that catches obvious regression.
