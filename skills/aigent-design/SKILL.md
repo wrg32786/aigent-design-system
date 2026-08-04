@@ -1,15 +1,13 @@
 ---
 name: aigent-design
-description: Turn Claude or another coding agent into a professional website and interface designer for immersive 3D sites, cinematic landing pages, sales decks, galleries, dashboards, tools, and complete product UI. Routes product context, layout, typography, media, motion, open-source components, implementation, and QA through one coherent design workflow.
+description: Turn Claude or another coding agent into a professional design studio for immersive websites, 3D experiences, cinematic decks, product interfaces, inspiration synthesis, creative media, critique, and production verification.
 ---
 
 # AIgent Design
 
-Use this as the single entry point for the flagship design system. It routes to the repository's specialist production skills when a task needs video, 3D, GSAP, Spline, Three.js, Remotion, provenance, or browser QA.
+Use this as the single entry point for the flagship design system. It routes to specialist inspiration, video, 3D, GSAP, Spline, Three.js, Remotion, provenance, and browser-QA skills only when needed.
 
 ## Start once
-
-Run:
 
 ```bash
 node skills/aigent-design/scripts/context.mjs --command <command> --target <path>
@@ -21,47 +19,45 @@ Then read:
 2. `DESIGN.md`
 3. the target surface brief, if present
 4. `design-intelligence/README.md`
-5. the one reference that owns the requested command
+5. the one reference that owns the command
 6. `reference/craft-floor.md` immediately before implementation or final review
 
-Do not load every reference into the context window.
+Do not load every reference into context.
 
 ## Commands
 
 | Command | Owns |
 | --- | --- |
 | `shape` | clarify the design brief, then stop |
+| `inspire` | inspect references, create Design DNA, synthesize a direction, and record influence |
 | `create` | new surface or replacement visual world |
 | `page` | cinematic page, story, gallery, or landing surface |
 | `deck` | immersive sales, launch, sponsorship, or presentation deck |
 | `interface` | product UI, dashboard, editor, command center, or resource system |
 | `asset` | video, 3D, frame sequence, poster, texture, or rendered media |
 | `layout` | hierarchy, grouping, density, structure, responsive adaptation |
-| `typeset` | font roles, type hierarchy, reading, delivery |
-| `color` | palette strategy, semantic roles, contrast, material |
-| `animate` | focal motion, continuity, feedback, reduced motion |
+| `typeset` | font roles, hierarchy, reading, and delivery |
+| `color` | palette strategy, semantic roles, contrast, and material |
+| `animate` | focal motion, continuity, feedback, and reduced motion |
 | `critique` | design review with evidence and priorities |
 | `polish` | final pass on an already working surface |
-| `audit` | deterministic, browser, asset, registry, and rights checks |
+| `audit` | deterministic, inspiration, browser, asset, registry, and rights checks |
 | `extract` | convert proven work into a reusable recipe or registry item |
-| `install` | choose and install a local kit or external component source |
+| `install` | choose and install the smallest useful system or component source |
 | `eval` | score a finished result without faking visual judgment |
-
-Unknown or broad requests route to `create`, `page`, `interface`, or `deck` based on the surface.
 
 ## Core laws
 
-- The brief wins. Pinned product truth, constraints, and visual commitments outrank generic taste advice.
+- Product truth and explicit user constraints outrank generic taste advice.
 - Choose the mode from the surface: Persuade, Operate, Read, or Experience.
-- Refinement preserves. Redesign replaces. Do not split the difference.
-- Existing visual authority can live in code, assets, and production surfaces even when `DESIGN.md` is incomplete.
+- Inspiration is evidence, not a specification.
+- Whole-surface inspiration uses at least three references; no source controls more than two design dimensions.
+- Show the reference matrix, transformations, and exclusions before implementation.
+- Never reuse source copy, assets, marks, section order, exact type pairing, exact keyframes, or source code.
 - Generate multiple viable structures before committing to a whole new surface.
-- The first viewport must make the offer, artifact, or task legible.
 - One dominant composition and one signature motion idea carry the surface.
-- Media is part of the design direction, not a decorative dependency added later.
-- Use the first medium and runtime that carries the requirement.
-- External components accelerate engineering; they never choose the visual world.
-- Operate and Read surfaces favor familiar behavior, complete states, and stable density.
+- Media is part of the direction, not decoration added later.
+- Use the first medium, runtime, component, or browser feature that carries the requirement.
 - Mobile is recomposed, not shrunk.
 - Reduced motion preserves meaning and hierarchy.
 - Real browser evidence decides whether the work is done.
@@ -70,21 +66,35 @@ Unknown or broad requests route to `create`, `page`, `interface`, or `deck` base
 
 For open whole-surface work:
 
-1. Complete `design-intelligence/example-brief.json` or an equivalent brief.
-2. Run `npm run plan -- <brief.json> --out .aigent/design-plan.json`.
-3. Inspect the recommended layout, seeded exploration direction, and conventional fallback.
-4. Select one direction based on audience identification and product clarity.
-5. Record a short direction contract in the surface:
+1. Complete a product brief.
+2. When references are involved, run Design Forensics and compose the inspiration plan first.
+3. Run `npm run plan -- <brief.json> --out .aigent/design-plan.json`.
+4. Inspect the recommended direction, seeded exploration, and conventional fallback.
+5. Record:
 
 ```text
 THESIS
 OWN WORLD
 STRUCTURE
+INSPIRATION AND TRANSFORMATIONS
 MOTION
 PROOF AND FALLBACKS
 ```
 
-The planner is a forcing function against habitual output. It does not overrule a clear brief.
+## Inspiration routing
+
+- `design-forensics` — live URL, screenshot, motion, or structured reference to Design DNA
+- `reference-synthesis` — reference matrix, required transformations, AIgent pattern mapping, and influence ledger
+- `inspiration-originality-audit` — source dominance, copy overlap, asset reuse, and weak transformation review
+
+Primary commands:
+
+```bash
+node scripts/inspire.mjs add <url-or-file>
+node scripts/inspire.mjs compose --brief brief.json --refs a,b,c
+node scripts/inspire.mjs apply plan.json --target .
+node scripts/inspire.mjs audit --target-dna target.json --plan plan.json --refs a,b,c
+```
 
 ## Production routing
 
@@ -100,16 +110,6 @@ The planner is a forcing function against habitual output. It does not overrule 
 
 ## Completion
 
-A finished result includes:
+A finished result includes product-specific content, a committed visual world, working desktop and mobile states, reduced motion, complete UI states, optimized and manifest-backed media, an influence ledger when references were used, deterministic and browser checks, and no unresolved rights or private records.
 
-- product-specific content and structure
-- a committed visual world
-- a working desktop state
-- an authored mobile state
-- reduced-motion behavior
-- complete loading, empty, error, and failure states where applicable
-- optimized and manifest-backed production media
-- deterministic and browser checks
-- no unresolved claims, rights, or credentials
-
-A prompt, mood board, partial component list, or technically working effect is not a finished design.
+A prompt, mood board, screenshot imitation, partial component list, or technically working effect is not a finished design.
