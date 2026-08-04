@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theaigent.xyz/schemas/reference-matrix.schema.json",
+  "title": "AIgent Reference Matrix",
+  "type": "object",
+  "required": ["assignments", "dimensions"],
+  "properties": {
+    "assignments": { "type": "object", "required": ["structure", "typography", "material", "motion", "interaction", "media"], "additionalProperties": { "type": "string" } },
+    "dimensions": { "type": "array", "minItems": 6, "items": { "type": "object", "required": ["dimension", "sourceId", "sourceLabel", "extractedPrinciple", "requiredTransformation", "excluded"], "properties": { "dimension": { "enum": ["structure", "typography", "material", "motion", "interaction", "media"] }, "sourceId": { "type": "string" }, "sourceLabel": { "type": "string" }, "extractedPrinciple": { "type": "string" }, "requiredTransformation": { "type": "string" }, "excluded": { "type": "array", "items": { "type": "string" } } } } }
+  }
+}
