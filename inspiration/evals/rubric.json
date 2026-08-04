@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "name": "InspirationBench",
+  "total": 100,
+  "mechanical": {
+    "total": 35,
+    "criteria": {
+      "referenceMatrixComplete": 6,
+      "influenceLimit": 5,
+      "transformationsRecorded": 5,
+      "noCopyOverlapWarning": 5,
+      "mobileAndReducedMotion": 6,
+      "browserAndAssetChecks": 8
+    }
+  },
+  "human": {
+    "total": 65,
+    "criteria": {
+      "productClarity": 10,
+      "productSpecificity": 10,
+      "compositionAndHierarchy": 10,
+      "typographyAndMaterial": 8,
+      "motionAndMedia": 8,
+      "responsiveFinish": 7,
+      "correctReferenceExtraction": 6,
+      "originalityAndTransformation": 6
+    }
+  },
+  "conditions": ["no-references", "raw-references", "inspiration-intelligence"]
+}
