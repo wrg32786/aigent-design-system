@@ -1,32 +1,34 @@
 # Roadmap
 
-## Current foundation
+## 0.2 — Installable design intelligence
 
-- semantic neutral token system and The AIgent compatibility preset
-- native scroll and reveal modules
-- modular, Spline, video-scrub, and gallery page systems
-- product and design context contracts
-- deterministic design audit
-- desktop and mobile smoke tests
-- creative production source catalog
-- asset briefs and production pipelines
-- optional integration catalog
-- provenance manifests and asset budgets
-- full cinematic production skill set
+- GitHub-native registry and zero-dependency CLI
+- consolidated AIgent Design skill
+- deterministic layout, typography, motion, interface, and component-source planner
+- immersive sales deck
+- command-center product interface
+- progressive Three.js product stage
+- reusable guided deck, command palette, focus reveal, scene stage, and object stage
+- searchable Design Vault
+- fixed design eval briefs and scoring contract
+- browser capture artifacts
+- contribution and release infrastructure
 
 ## Next
 
-- installable pattern registry
-- live Design Vault on The AIgent Tools
-- production case studies for `theaigent.xyz` and `tools.theaigent.xyz`
-- visual screenshot baselines
-- five fixed Taste Evals comparing baseline and system-directed agent output
+- publish the Design Vault as a first-class route on The AIgent Tools
+- run and publish baseline-versus-system evals with fixed models and briefs
+- add visual-regression baselines after reference captures stabilize
+- add a complete model-viewer product reference with an owned optimized GLB
+- add a complete Remotion source composition and rendered website outputs
+- add an owned Spline reference scene with loading and failure proof
 - migrate legacy showcase templates to semantic tokens without visual drift
+- submit a stable namespace to the public shadcn registry directory after the GitHub item contract has production use
 
 ## Later
 
 - public built-with-the-system gallery
-- bounded framework adapters proven by real projects
-- automated preview capture for recipes
+- additional framework adapters proven by real projects
+- automated WebGL performance tiers and context-loss verification
 - additional production recipes extracted from shipped pages
-- release packaging after the registry contracts stabilize
+- release tags and compatibility policy for registry items

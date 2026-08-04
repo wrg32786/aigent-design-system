@@ -1,25 +1,39 @@
 {
   "name": "aigent-design-system",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
-  "description": "An agent-native cinematic web production system with design direction, asset pipelines, optional runtimes, templates, skills, provenance, and QA.",
+  "description": "An installable, agent-native cinematic web studio with design intelligence, immersive page systems, creative-production pipelines, skills, provenance, evals, and browser QA.",
   "type": "module",
+  "bin": {
+    "aigent-design": "scripts/cli.mjs"
+  },
   "scripts": {
     "serve": "node scripts/serve.mjs",
+    "plan": "node scripts/plan-design.mjs",
     "audit": "node scripts/design-audit.mjs",
     "assets": "node scripts/check-assets.mjs",
     "catalogs": "node scripts/check-catalogs.mjs",
+    "intelligence": "node scripts/check-intelligence.mjs",
+    "registry": "node scripts/check-registry.mjs",
+    "eval": "node scripts/check-evals.mjs",
+    "score": "node scripts/score-design.mjs",
     "check": "node scripts/check.mjs",
-    "smoke": "node scripts/smoke.mjs"
+    "smoke": "node scripts/smoke.mjs",
+    "capture": "node scripts/capture.mjs"
   },
   "keywords": [
     "ai",
     "design-system",
     "creative-production",
     "cinematic-web",
+    "immersive-web",
+    "design-intelligence",
+    "code-registry",
     "design-tokens",
     "design-audit",
     "asset-pipeline",
+    "sales-deck",
+    "product-interface",
     "scroll-animation",
     "video-scrub",
     "3d-web",
@@ -32,6 +46,9 @@
     "agent-skills"
   ],
   "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
   "devDependencies": {
     "playwright": "^1.61.1"
   }

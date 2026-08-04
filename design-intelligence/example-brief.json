@@ -1,0 +1,17 @@
+{
+  "$schema": "./brief.schema.json",
+  "name": "Autonomous operations platform launch",
+  "modes": ["persuade", "experience"],
+  "audience": "Technical founders and operations leaders evaluating an autonomous agent platform",
+  "visitorGoal": "Understand the operating model, see proof, and request access",
+  "productMechanism": "A persistent agent fleet coordinates work, records decisions, and escalates only what needs a human",
+  "proof": ["live command center", "activity trace", "operator approval workflow"],
+  "contentProfile": "narrative",
+  "contentLength": "medium",
+  "density": "low",
+  "interactionLevel": "medium",
+  "media": {"available": ["images", "data"], "needsProduction": true, "preferred": "auto"},
+  "framework": "vanilla",
+  "brand": {"existingWorld": false, "adjectives": ["decisive", "cinematic", "operational", "human-supervised"], "antiReferences": ["generic purple AI gradient", "floating chatbot orb", "identical feature cards"], "themePreference": "dark"},
+  "constraints": {"mobilePriority": true, "reducedMotion": true, "maxInitialKB": 900, "noWebGL": false, "noAutoplay": false, "accessibility": "AA"}
+}

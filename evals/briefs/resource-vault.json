@@ -1,0 +1,52 @@
+{
+  "$schema": "../../design-intelligence/brief.schema.json",
+  "name": "Open source resource vault",
+  "modes": [
+    "operate",
+    "read"
+  ],
+  "audience": "Builders searching a curated collection of tools, examples, and implementation guidance",
+  "visitorGoal": "Find the right resource quickly, understand why it matters, and open or install it",
+  "productMechanism": "A curated taxonomy combines direct search, useful filters, editorial descriptions, and source provenance",
+  "proof": [
+    "real resource catalog",
+    "license metadata",
+    "install actions"
+  ],
+  "contentProfile": "gallery",
+  "contentLength": "long",
+  "density": "high",
+  "interactionLevel": "medium",
+  "media": {
+    "available": [
+      "images",
+      "data"
+    ],
+    "needsProduction": false,
+    "preferred": "css"
+  },
+  "brand": {
+    "existingWorld": false,
+    "adjectives": [
+      "editorial",
+      "useful",
+      "curated",
+      "fast"
+    ],
+    "antiReferences": [
+      "Pinterest masonry clone",
+      "identical resource cards",
+      "filter chips without hierarchy"
+    ],
+    "themePreference": "auto"
+  },
+  "framework": "vanilla",
+  "constraints": {
+    "mobilePriority": true,
+    "reducedMotion": true,
+    "maxInitialKB": 900,
+    "noWebGL": false,
+    "noAutoplay": false,
+    "accessibility": "AA"
+  }
+}

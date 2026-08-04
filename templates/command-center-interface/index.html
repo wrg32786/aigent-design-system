@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" data-theme="graphite">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A production-minded command center interface with queue filtering, keyboard navigation, detail state, and a command palette." />
+  <title>Command Center Interface</title>
+  <link rel="stylesheet" href="../../tokens/system.css" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="ds-shell">
+  <!--
+  THESIS: A command center is a priority model made visible, not a dashboard of decorative cards.
+  OWN WORLD: Matte graphite, rust signal, patina state, stable rules, familiar controls.
+  STRUCTURE: Navigation → priority queue → working detail → trace and decision.
+  MOTION: Shared state continuity only; no page-load choreography.
+  PROOF AND FALLBACKS: Real interactive filters, selection, commands, mobile navigation, and keyboard paths.
+  -->
+  <a class="ds-skip-link" href="#workspace">Skip to workspace</a>
+  <div class="app">
+    <aside class="rail" id="rail" aria-label="Primary navigation">
+      <a class="brand" href="../../"><span>AIgent Control</span><span class="signal" aria-label="System online"></span></a>
+      <ul class="nav-list">
+        <li><button type="button" aria-current="page">Needs review <output id="review-count">4</output></button></li>
+        <li><button type="button">In progress <output>3</output></button></li>
+        <li><button type="button">Completed <output>18</output></button></li>
+        <li><button type="button">Knowledge <output>52</output></button></li>
+      </ul>
+      <p class="rail-footer">Press <kbd>⌘ K</kbd> or <kbd>Ctrl K</kbd> for commands.</p>
+    </aside>
+
+    <section class="queue" aria-labelledby="queue-title">
+      <header class="pane-head">
+        <h1 id="queue-title">Needs review</h1>
+        <p>Prioritized work that requires a human decision.</p>
+        <div class="search-row">
+          <input id="search" type="search" placeholder="Filter work…" aria-label="Filter work" />
+          <button class="palette-button" id="open-palette" type="button">Commands</button>
+        </div>
+      </header>
+      <ul class="queue-list" id="queue-list"></ul>
+      <p class="empty-state" id="empty-state" hidden>No matching work. Clear the filter or switch to another queue.</p>
+    </section>
+
+    <main class="workspace" id="workspace" tabindex="-1">
+      <div class="workspace-body" id="workspace-body"></div>
+    </main>
+  </div>
+
+  <button class="mobile-nav" id="mobile-nav" type="button" aria-controls="rail" aria-expanded="false" aria-label="Open navigation"><span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span></button>
+
+  <dialog id="command-dialog" aria-labelledby="command-title">
+    <form method="dialog" class="palette">
+      <label id="command-title" for="command-search" class="ds-status">Command palette</label>
+      <input id="command-search" autocomplete="off" placeholder="Type a command…" />
+      <ul id="command-list">
+        <li><button value="close" data-command="focus-search">Focus queue search</button></li>
+        <li><button value="close" data-command="approve">Approve selected task</button></li>
+        <li><button value="close" data-command="request">Request changes</button></li>
+        <li><button value="close" data-command="navigation">Toggle navigation</button></li>
+      </ul>
+    </form>
+  </dialog>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

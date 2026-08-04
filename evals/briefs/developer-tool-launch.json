@@ -1,0 +1,52 @@
+{
+  "$schema": "../../design-intelligence/brief.schema.json",
+  "name": "Developer tool launch",
+  "modes": [
+    "persuade",
+    "experience"
+  ],
+  "audience": "Developers and technical founders evaluating an agent development platform",
+  "visitorGoal": "Understand the unique mechanism, see credible proof, and start the product",
+  "productMechanism": "The platform lets one operator direct a persistent team of coding agents through visible plans, work, and approvals",
+  "proof": [
+    "live orchestration view",
+    "repository activity",
+    "operator approval path"
+  ],
+  "contentProfile": "narrative",
+  "contentLength": "medium",
+  "density": "low",
+  "interactionLevel": "medium",
+  "media": {
+    "available": [
+      "images",
+      "data"
+    ],
+    "needsProduction": true,
+    "preferred": "auto"
+  },
+  "brand": {
+    "existingWorld": false,
+    "adjectives": [
+      "precise",
+      "cinematic",
+      "technical",
+      "operator-led"
+    ],
+    "antiReferences": [
+      "purple AI gradient",
+      "floating chatbot sphere",
+      "three equal feature cards"
+    ],
+    "themePreference": "dark"
+  },
+  "framework": "vanilla",
+  "constraints": {
+    "mobilePriority": true,
+    "reducedMotion": true,
+    "maxInitialKB": 900,
+    "noWebGL": false,
+    "noAutoplay": false,
+    "accessibility": "AA"
+  }
+}

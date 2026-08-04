@@ -1,0 +1,37 @@
+name: Propose a pattern
+about: Propose a proven page, interface, motion, or media pattern
+labels: [pattern]
+body:
+  - type: textarea
+    id: job
+    attributes:
+      label: Product or interaction job
+      description: What real job does the pattern solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proof
+    attributes:
+      label: Production proof
+      description: Where has the same intent been used successfully?
+    validations:
+      required: true
+  - type: textarea
+    id: contract
+    attributes:
+      label: Use and avoid contract
+      description: When should an agent use this, and when should it choose something lighter or different?
+    validations:
+      required: true
+  - type: textarea
+    id: accessibility
+    attributes:
+      label: Accessibility, mobile, and fallback
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and licenses
+    validations:
+      required: true

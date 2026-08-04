@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" data-theme="cobalt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A progressively enhanced Three.js product stage with a complete CSS fallback, reduced motion, lazy initialization, and offscreen pause." />
+  <title>Three.js Product Stage</title>
+  <link rel="stylesheet" href="../../tokens/system.css" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="ds-shell">
+  <!--
+  THESIS: Live 3D earns its cost only when the object responds and reveals structure.
+  OWN WORLD: Deep cobalt instrument chamber, acid signal, controlled light, no random particle field.
+  STRUCTURE: Complete static first view → optional live object → production rules.
+  MOTION: One bounded orbital instrument responding to scroll and pointer.
+  PROOF AND FALLBACKS: CSS fallback, lazy Three.js, status, reduced motion, offscreen pause, bounded pixel ratio.
+  -->
+  <a class="ds-skip-link" href="#content">Skip to content</a>
+  <main class="page" id="content">
+    <header class="topbar">
+      <a href="../../">AIgent Design System</a>
+      <span>Progressive 3D stage</span>
+    </header>
+
+    <section class="stage" id="stage" aria-labelledby="hero-title">
+      <div class="fallback" aria-hidden="true">
+        <div class="instrument"><span class="ring"></span><span class="core"></span></div>
+      </div>
+      <div id="webgl" aria-hidden="true"></div>
+      <div class="veil"></div>
+      <div class="hero">
+        <div class="copy">
+          <p class="ds-status">Live 3D / progressive enhancement</p>
+          <h1 id="hero-title">Interaction must earn the renderer.</h1>
+          <p class="lead">The complete page works before Three.js loads. Live geometry activates only when the device, motion preference, and connection allow it.</p>
+          <div class="actions">
+            <button class="ds-button" data-variant="solid" id="enable-3d" type="button">Enable live 3D</button>
+            <a class="ds-button" data-variant="quiet" href="#production">Read the production rules</a>
+          </div>
+        </div>
+      </div>
+      <p class="status" id="status" role="status">Static fallback active</p>
+    </section>
+
+    <section class="details" id="production">
+      <div class="details-inner">
+        <h2>Build the fallback first.</h2>
+        <div class="details-list">
+          <article class="detail"><strong>Purpose</strong><p>Use live 3D for inspection, configuration, procedural state, geometry, lighting, or direct manipulation—not for an object that only floats.</p></article>
+          <article class="detail"><strong>Load</strong><p>Initialize near the viewport, cap device pixel ratio, avoid blocking the first useful view, and surface a clear failure state.</p></article>
+          <article class="detail"><strong>Pause</strong><p>Stop the render loop when the stage is offscreen or the document is hidden. Kill work the visitor cannot see.</p></article>
+          <article class="detail"><strong>Fallback</strong><p>Provide a complete poster or CSS state, preserve copy and action, and remove spatial travel under reduced motion.</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

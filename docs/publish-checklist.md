@@ -1,50 +1,44 @@
-# Publish Checklist
+# Publish checklist
 
-## Product and direction
+## Product truth
 
-- `PRODUCT.md` and `DESIGN.md` reflect the project.
-- The surface mode is explicit.
-- The first viewport is clear.
-- The media has a job.
-- The page has one signature motion idea.
+- `PRODUCT.md` and `DESIGN.md` match the shipped system.
+- The README's install commands resolve to current registry items.
+- Claims are supported by live products, runnable references, or clearly labeled examples.
 
-## Assets
+## Registry and CLI
 
-- Every production asset has a manifest.
-- Commercial use is resolved.
-- Attribution is present where required.
-- Desktop, mobile, poster, and reduced-motion outputs exist where applicable.
-- Source masters and private records are outside Git.
-- No credentials, signed URLs, customer data, or personal billing records are public.
-- Asset budget overrides are recorded.
-- Video and GLB files are optimized.
-- Scrub media supports byte ranges.
+- `npm run registry` passes.
+- Every item has a useful title, description, explicit files, and project-root targets.
+- `aigent-design list`, `doctor`, `plan`, and a dry-run install work.
+- Official shadcn GitHub registry validation passes on the release ref.
+- Install commands use a tag or full commit SHA in formal release notes when reproducibility matters.
 
-## Page
+## Design intelligence and skills
 
-- Semantic content works without rich media.
-- Loading and failure states exist.
-- Keyboard focus is visible.
-- Touch targets are usable.
-- No autoplay audio.
-- Reduced motion preserves all content and actions.
-- Desktop and mobile have no horizontal overflow.
-- Real copy is tested at 200% zoom.
+- `npm run intelligence` and `npm run eval` pass.
+- The consolidated skill remains the public entry point.
+- Specialist skills own distinct production jobs.
+- New layout, type, motion, or interface records have a use/avoid contract and mobile behavior.
 
-## Commands
+## Browser proof
 
-```bash
-npm run catalogs
-npm run assets
-npm run audit -- path/to/page path/to/shared.css
-npm run check
-npm run smoke
-```
+- `npm run smoke` passes in Chromium.
+- `npm run capture` produces desktop, mobile, and reduced-motion proof.
+- One `h1`, no horizontal overflow, visible focus, keyboard access, and functional reduced motion are verified.
+- Live 3D, video, Spline, and dialog surfaces preserve complete fallbacks.
 
-## Public repository
+## Assets and rights
 
-- Third-party notices are current.
-- Demo assets are intentionally public.
-- Links point to official sources.
-- Commit and pull-request titles are plain and product-facing.
-- No agent names, private task context, local paths, or internal operating notes appear in public history.
+- `npm run catalogs` and `npm run assets` pass.
+- Every public production asset has a manifest.
+- Source, commercial use, attribution, and verification date are resolved.
+- Raw source packages, marketplace downloads, private prompts, generation records, and signed URLs are absent.
+- Spline scenes, fonts, models, footage, audio, and generated assets are owned or cleared.
+
+## Repository safety
+
+- Commit and PR titles describe the shipped change plainly.
+- No local paths, agent names, internal tickets, account details, API keys, or private operational notes appear in files or history.
+- `THIRD_PARTY.md`, `CHANGELOG.md`, and version metadata are current.
+- Contribution and security instructions remain accurate.

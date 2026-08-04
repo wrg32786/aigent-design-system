@@ -9,6 +9,8 @@ build/
 .env.*
 !.env.example
 
+artifacts/
+.aigent/
 creative-production/.cache/
 
 assets/source/*

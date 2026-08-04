@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "mechanicalPoints": 40,
+  "humanPoints": 60,
+  "humanCategories": [
+    { "id": "product-clarity", "label": "Product clarity", "weight": 10, "question": "Can the visitor understand the offer, artifact, or task and the primary action within seconds?" },
+    { "id": "product-specificity", "label": "Product specificity", "weight": 10, "question": "Could this surface be relabeled for an unrelated product without obvious mismatch?" },
+    { "id": "composition", "label": "Composition and hierarchy", "weight": 10, "question": "Does reading order, grouping, density, rhythm, and responsive structure express product priority?" },
+    { "id": "typography", "label": "Typography", "weight": 10, "question": "Do the type roles create voice and hierarchy while surviving real copy, zoom, and mobile widths?" },
+    { "id": "motion-media", "label": "Motion and media", "weight": 10, "question": "Does one authored motion and asset system serve meaning rather than decoration?" },
+    { "id": "finish", "label": "Finish and coherence", "weight": 10, "question": "Do controls, states, surfaces, details, and external components feel like one intentional system?" }
+  ],
+  "ratingScale": {
+    "min": 0,
+    "max": 5,
+    "labels": {
+      "0": "missing or actively harmful",
+      "1": "major failure",
+      "2": "partial and generic",
+      "3": "competent",
+      "4": "strong professional work",
+      "5": "distinctive, resolved, and production-ready"
+    }
+  }
+}

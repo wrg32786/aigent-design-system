@@ -1,0 +1,50 @@
+{
+  "$schema": "../../design-intelligence/brief.schema.json",
+  "name": "Autonomous operations dashboard",
+  "modes": [
+    "operate"
+  ],
+  "audience": "Operations leaders reviewing agent work and resolving exceptions during the workday",
+  "visitorGoal": "Identify what needs attention, inspect evidence, and approve or redirect work",
+  "productMechanism": "A priority queue routes only blocked, risky, or authority-bound work to the human operator",
+  "proof": [
+    "real task queue",
+    "activity trace",
+    "approval states"
+  ],
+  "contentProfile": "data-heavy",
+  "contentLength": "medium",
+  "density": "high",
+  "interactionLevel": "high",
+  "media": {
+    "available": [
+      "data"
+    ],
+    "needsProduction": false,
+    "preferred": "css"
+  },
+  "brand": {
+    "existingWorld": false,
+    "adjectives": [
+      "calm",
+      "decisive",
+      "dense",
+      "trustworthy"
+    ],
+    "antiReferences": [
+      "decorative dashboard metrics",
+      "glass card mosaic",
+      "page-load animation"
+    ],
+    "themePreference": "dark"
+  },
+  "framework": "vanilla",
+  "constraints": {
+    "mobilePriority": true,
+    "reducedMotion": true,
+    "maxInitialKB": 900,
+    "noWebGL": false,
+    "noAutoplay": false,
+    "accessibility": "AA"
+  }
+}

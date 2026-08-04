@@ -1,0 +1,53 @@
+{
+  "$schema": "../../design-intelligence/brief.schema.json",
+  "name": "Robotics product story",
+  "modes": [
+    "persuade",
+    "experience"
+  ],
+  "audience": "Industrial buyers and technology partners evaluating a new autonomous inspection robot",
+  "visitorGoal": "Understand the machine, see it operate, and request a deployment consultation",
+  "productMechanism": "The robot maps hazardous infrastructure, identifies anomalies, and returns inspectable evidence without sending a person into danger",
+  "proof": [
+    "field footage",
+    "3D product model",
+    "inspection results"
+  ],
+  "contentProfile": "narrative",
+  "contentLength": "medium",
+  "density": "low",
+  "interactionLevel": "high",
+  "media": {
+    "available": [
+      "video",
+      "3d",
+      "data"
+    ],
+    "needsProduction": true,
+    "preferred": "threejs"
+  },
+  "brand": {
+    "existingWorld": false,
+    "adjectives": [
+      "industrial",
+      "tactile",
+      "credible",
+      "advanced"
+    ],
+    "antiReferences": [
+      "floating chrome robot",
+      "blue hologram HUD everywhere",
+      "empty futurism"
+    ],
+    "themePreference": "dark"
+  },
+  "framework": "vanilla",
+  "constraints": {
+    "mobilePriority": true,
+    "reducedMotion": true,
+    "maxInitialKB": 900,
+    "noWebGL": false,
+    "noAutoplay": false,
+    "accessibility": "AA"
+  }
+}
