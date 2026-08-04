@@ -58,10 +58,15 @@ function loadRegistry(root, file, findings, stack = []) {
   return { ...source, items };
 }
 
-export function checkRegistry(root = process.cwd()) {
+export function readRegistry(root = process.cwd()) {
   const findings = [];
   const registryPath = path.join(root, "registry.json");
   const registry = loadRegistry(root, registryPath, findings);
+  return { registry, findings };
+}
+
+export function checkRegistry(root = process.cwd()) {
+  const { registry, findings } = readRegistry(root);
 
   if (!registry.name || !registry.homepage) findings.push({ severity: "error", message: "Registry name and homepage are required." });
   if (!registry.items.length) findings.push({ severity: "error", message: "Registry requires items." });
