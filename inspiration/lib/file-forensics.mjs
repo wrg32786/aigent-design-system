@@ -10,7 +10,10 @@ import {
   nowIso,
   readJson,
   relativePath,
+  shingles,
+  shortHash,
   sourceIdFor,
+  tokenize,
   writeJson,
 } from "./common.mjs";
 import { deriveDesignDna, emptyDesignDna } from "./design-dna.mjs";
@@ -21,15 +24,47 @@ const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp"]);
 const VIDEO_EXTENSIONS = new Set([".mp4", ".mov", ".mkv", ".webm", ".avi"]);
 const JSON_EXTENSIONS = new Set([".json"]);
 
-function mergeAnalysis(base, supplied) {
-  if (!supplied) return base;
+function normalizeCopyFingerprint(value = {}) {
+  const rawSample = typeof value.sample === "string" ? value.sample : "";
+  const fallbackText = rawSample || (value.headingTokens || []).join(" ");
+  const suppliedHashes = Array.isArray(value.shingleHashes)
+    ? value.shingleHashes.filter((item) => typeof item === "string")
+    : [];
+  const shingleHashes = suppliedHashes.length
+    ? suppliedHashes
+    : [...shingles(fallbackText)].map((item) => shortHash(item, 16)).slice(0, 1200);
+
   return {
-    ...base,
-    ...supplied,
-    source: { ...(base.source || {}), ...(supplied.source || {}) },
-    confidence: { ...(base.confidence || {}), ...(supplied.confidence || {}) },
-    evidence: { ...(base.evidence || {}), ...(supplied.evidence || {}) },
+    headingTokens: Array.isArray(value.headingTokens)
+      ? value.headingTokens.filter((item) => typeof item === "string").slice(0, 120)
+      : [],
+    sampleHash: value.sampleHash || (fallbackText ? shortHash(fallbackText, 16) : null),
+    shingleHashes,
+    wordCount: Number.isInteger(value.wordCount) && value.wordCount >= 0
+      ? value.wordCount
+      : tokenize(fallbackText).length,
+    sampleLength: Number.isInteger(value.sampleLength) && value.sampleLength >= 0
+      ? value.sampleLength
+      : rawSample.length,
   };
+}
+
+function mergeAnalysis(base, supplied) {
+  const merged = supplied
+    ? {
+      ...base,
+      ...supplied,
+      source: { ...(base.source || {}), ...(supplied.source || {}) },
+      confidence: { ...(base.confidence || {}), ...(supplied.confidence || {}) },
+      evidence: { ...(base.evidence || {}), ...(supplied.evidence || {}) },
+    }
+    : { ...base };
+
+  merged.copyFingerprint = normalizeCopyFingerprint({
+    ...(base.copyFingerprint || {}),
+    ...(supplied?.copyFingerprint || {}),
+  });
+  return merged;
 }
 
 function inferKind(file, explicit) {
@@ -42,24 +77,66 @@ function inferKind(file, explicit) {
 }
 
 function captureVideoFrames(source, destination, count = 7) {
-  if (!commandExists("ffmpeg") || !commandExists("ffprobe")) return { frames: [], warning: "FFmpeg and ffprobe were not both available; no filmstrip was extracted." };
-  const probe = spawnSync("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", source], { encoding: "utf8" });
+  if (!commandExists("ffmpeg") || !commandExists("ffprobe")) {
+    return {
+      frames: [],
+      warning: "FFmpeg and ffprobe were not both available; no filmstrip was extracted.",
+    };
+  }
+
+  const probe = spawnSync(
+    "ffprobe",
+    [
+      "-v",
+      "error",
+      "-show_entries",
+      "format=duration",
+      "-of",
+      "default=noprint_wrappers=1:nokey=1",
+      source,
+    ],
+    { encoding: "utf8" },
+  );
   const duration = Number.parseFloat(probe.stdout || "0");
-  if (!Number.isFinite(duration) || duration <= 0) return { frames: [], warning: "Video duration could not be read." };
+  if (!Number.isFinite(duration) || duration <= 0) {
+    return { frames: [], warning: "Video duration could not be read." };
+  }
+
   const frames = [];
   for (let index = 0; index < count; index += 1) {
     const progress = count === 1 ? 0 : index / (count - 1);
     const at = Math.max(0, Math.min(duration - 0.02, duration * progress));
     const target = path.join(destination, `motion-${String(index).padStart(2, "0")}.jpg`);
-    const result = spawnSync("ffmpeg", ["-loglevel", "error", "-ss", String(at), "-i", source, "-frames:v", "1", "-q:v", "2", "-y", target]);
-    if (result.status === 0 && fs.existsSync(target)) frames.push({ progress, at, file: path.basename(target) });
+    const result = spawnSync(
+      "ffmpeg",
+      [
+        "-loglevel",
+        "error",
+        "-ss",
+        String(at),
+        "-i",
+        source,
+        "-frames:v",
+        "1",
+        "-q:v",
+        "2",
+        "-y",
+        target,
+      ],
+    );
+    if (result.status === 0 && fs.existsSync(target)) {
+      frames.push({ progress, at, file: path.basename(target) });
+    }
   }
   return { duration, frames };
 }
 
 export function importFile(input, options = {}) {
   const sourceFile = path.resolve(input);
-  if (!fs.existsSync(sourceFile) || !fs.statSync(sourceFile).isFile()) throw new Error(`Inspiration file not found: ${input}`);
+  if (!fs.existsSync(sourceFile) || !fs.statSync(sourceFile).isFile()) {
+    throw new Error(`Inspiration file not found: ${input}`);
+  }
+
   const id = options.id || sourceIdFor(sourceFile, options.label);
   const store = openStore(options.root);
   const directory = sourceDirectory(store, id);
@@ -77,37 +154,86 @@ export function importFile(input, options = {}) {
     bytes: fs.statSync(sourceFile).size,
   };
   let captures = [];
+
   if (IMAGE_EXTENSIONS.has(extension)) {
     evidence.image = imageMetadata(sourceFile);
     captures = [{
-      viewport: { id: "source", width: evidence.image.width || 0, height: evidence.image.height || 0 },
+      viewport: {
+        id: "source",
+        width: evidence.image.width || 0,
+        height: evidence.image.height || 0,
+      },
       screenshots: { source: relativePath(directory, copied) },
-      page: { title: options.label || path.basename(sourceFile), documentWidth: evidence.image.width || 0, documentHeight: evidence.image.height || 0 },
-      elements: [], sections: [], interactions: [], media: [{ kind: "image", source: relativePath(directory, copied), rect: { x: 0, y: 0, width: evidence.image.width || 0, height: evidence.image.height || 0 } }],
+      page: {
+        title: options.label || path.basename(sourceFile),
+        documentWidth: evidence.image.width || 0,
+        documentHeight: evidence.image.height || 0,
+      },
+      elements: [],
+      sections: [],
+      interactions: [],
+      media: [{
+        kind: "image",
+        source: relativePath(directory, copied),
+        rect: {
+          x: 0,
+          y: 0,
+          width: evidence.image.width || 0,
+          height: evidence.image.height || 0,
+        },
+      }],
       mediaSummary: { images: 1, video: 0, audio: 0, canvas: 0, svg: 0, iframe: 0 },
       interactionSummary: { links: 0, buttons: 0, inputs: 0, dialogs: 0 },
-      animations: [], copy: { headings: [], sample: "" },
+      animations: [],
+      copy: { headings: [], sample: "" },
     }];
   } else if (VIDEO_EXTENSIONS.has(extension)) {
-    evidence.video = captureVideoFrames(sourceFile, capturesDirectory, Math.max(3, options.frames || 7));
+    evidence.video = captureVideoFrames(
+      sourceFile,
+      capturesDirectory,
+      Math.max(3, options.frames || 7),
+    );
   } else if (JSON_EXTENSIONS.has(extension)) {
-    try { evidence.structured = readJson(sourceFile); } catch (error) { evidence.parseError = error.message; }
+    try {
+      evidence.structured = readJson(sourceFile);
+    } catch (error) {
+      evidence.parseError = error.message;
+    }
   }
 
   writeJson(path.join(evidenceDirectory, "file.json"), evidence);
-  let dna = captures.length ? deriveDesignDna(captures, { id, kind, origin: sourceFile, capturedAt: nowIso() }) : emptyDesignDna(kind, "This source needs model-assisted visual annotation before its design details can be trusted.");
+
+  let dna = captures.length
+    ? deriveDesignDna(captures, {
+      id,
+      kind,
+      origin: sourceFile,
+      capturedAt: nowIso(),
+    })
+    : emptyDesignDna(
+      kind,
+      "This source needs model-assisted visual annotation before its design details can be trusted.",
+    );
+
   let supplied = null;
   if (options.analysis) {
     const analysisFile = path.resolve(options.analysis);
     supplied = readJson(analysisFile);
     copyFile(analysisFile, path.join(evidenceDirectory, "analysis.json"));
-  } else if (evidence.structured?.structure || evidence.structured?.designDna) supplied = evidence.structured.designDna || evidence.structured;
+  } else if (evidence.structured?.structure || evidence.structured?.designDna) {
+    supplied = evidence.structured.designDna || evidence.structured;
+  }
+
   dna = mergeAnalysis(dna, supplied);
   dna.source = { id, kind, origin: sourceFile, capturedAt: nowIso() };
   dna.confidence = {
     ...(dna.confidence || {}),
-    overall: supplied ? Math.max(dna.confidence?.overall || 0, 0.72) : Math.min(dna.confidence?.overall || 0.25, 0.35),
-    limitation: supplied ? "A supplied annotation was merged with file evidence." : "File metadata alone cannot recover reliable layout, typography, material, or interaction details.",
+    overall: supplied
+      ? Math.max(dna.confidence?.overall || 0, 0.72)
+      : Math.min(dna.confidence?.overall || 0.25, 0.35),
+    limitation: supplied
+      ? "A supplied annotation was merged with file evidence."
+      : "File metadata alone cannot recover reliable layout, typography, material, or interaction details.",
   };
 
   const capturedAt = nowIso();
@@ -119,9 +245,17 @@ export function importFile(input, options = {}) {
     origin: sourceFile,
     createdAt: capturedAt,
     updatedAt: capturedAt,
-    capture: { sourceFile: path.basename(sourceFile), frames: evidence.video?.frames || [], analysisProvided: Boolean(supplied) },
-    evidence: [{ file: "evidence/file.json", source: relativePath(directory, copied) }],
+    capture: {
+      sourceFile: path.basename(sourceFile),
+      frames: evidence.video?.frames || [],
+      analysisProvided: Boolean(supplied),
+    },
+    evidence: [{
+      file: "evidence/file.json",
+      source: relativePath(directory, copied),
+    }],
   };
+
   saveSource(store, source, dna);
   source.report = generateSourceReport(directory, source, dna, captures);
   saveSource(store, source, dna);
