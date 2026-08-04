@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theaigent.xyz/schemas/influence-ledger.schema.json",
+  "title": "AIgent Influence Ledger",
+  "type": "object",
+  "required": ["schemaVersion", "project", "createdAt", "sources", "transformations", "status"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "project": { "type": "string" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "sources": { "type": "array", "items": { "type": "object", "required": ["id", "label", "usedFor", "notUsed"], "properties": { "id": { "type": "string" }, "label": { "type": "string" }, "origin": { "type": "string" }, "usedFor": { "type": "array", "items": { "type": "string" }, "maxItems": 2 }, "notUsed": { "type": "array", "items": { "type": "string" } } } } },
+    "transformations": { "type": "array", "minItems": 6, "items": { "type": "object", "required": ["dimension", "sourceId", "transformation"] } },
+    "status": { "enum": ["planned", "implemented", "audited"] },
+    "audit": { "type": "object" }
+  }
+}
