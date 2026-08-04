@@ -1,6 +1,6 @@
 # Design System
 
-This file records durable visual, media, interaction, and design-intelligence decisions. Product truth lives in `PRODUCT.md`. Route-specific exceptions belong with the page or interface.
+This file records durable visual, media, interaction, design-intelligence, and inspiration-synthesis decisions. Product truth lives in `PRODUCT.md`. Route-specific exceptions belong with the page or interface.
 
 ## 1. Two visual layers
 
@@ -14,8 +14,6 @@ The public `ds-*` API provides semantic roles, not a finished identity:
 - small accessible primitives
 - native motion modules that publish scroll and viewport state
 
-The neutral starter demonstrates craft without becoming a second house style.
-
 ### The AIgent preset
 
 The AIgent identity remains an included theme and compatibility layer. It is an established world, not the default answer for outside projects.
@@ -24,119 +22,74 @@ The AIgent identity remains an included theme and compatibility layer. It is an 
 
 **Creative north star:** an editorial command center at night.
 
-It combines a late-night operations room, an independent technology publication, and a cinematic control deck.
-
-### Color
-
-- Green-black ground, never flat neutral black.
-- Warm cream text.
-- Cyan signals active state, direction, proof, and system status.
-- Amber adds warmth, caution, or editorial counterpoint.
-- Glow belongs to emitted light or active instrumentation.
-
-### Typography
-
-- Condensed or tightly composed grotesk display type carries identity and scale.
-- Body uses a readable workhorse sans.
-- Mono is reserved for status, measurements, labels, code, and instrumentation.
-- Serif contrast is deliberate, never an automatic premium move.
-- Tracking does not go tighter than `-0.04em`.
-
-### Composition
-
-- The first viewport is the identity, offer, artifact, or task.
+- Green-black ground, warm cream text, cyan active signal, amber counterpoint.
+- Condensed or tightly composed display, readable workhorse body, mono only for instrumentation.
+- Matte surfaces and crisp rules before decorative glass.
 - One focal point leads each chapter or work region.
-- Fixed instrumentation may persist when it communicates progress or state.
-- Numbered chapters are allowed when sequence carries meaning.
-- Utility surfaces use rules, lists, and direct labels before cards.
-- Negative space is structural.
-
-### Material
-
-- Matte dark surfaces and crisp rules are the base.
-- Glass is reserved for controls or content over valuable moving media.
-- Border and shadow do not both announce the same elevation.
-- Pills are compact controls or intentional brand actions, not the default container.
-
-### Motion
-
-- One continuous authored idea carries a marketing or experience surface.
-- On `theaigent.xyz`, the idea is descent through a cinematic system.
-- On `tools.theaigent.xyz`, motion supports orientation and access.
-- Product UI uses fast motion for state and continuity, not page-load theater.
-- Reduced motion preserves hierarchy, state, and access.
+- Motion supports a continuous authored idea on experience surfaces and state continuity on product UI.
 
 ## 3. Design intelligence before layout code
 
-A new surface begins with a product brief and an inspectable plan.
+A new surface begins with product truth and an inspectable plan. Resolve:
 
-The planner must resolve:
-
-- visitor mode
-- primary reading or task path
-- grouping and density
-- layout grammar
+- visitor mode and primary path
+- grouping, density, and layout grammar
 - type roles and stress tests
-- focal motion and supporting motion
-- media route
-- runtime
-- compatible component sources
+- focal and supporting motion
+- media route and runtime
+- component-source strategy
 - mobile behavior
 - anti-patterns
 - production deliverables
 - verification
 
-The recommended direction is not the only option. Every plan also includes a seeded exploration and a conventional fallback. Product truth and user authority can override the plan.
+Use proximity before another container. Use cards only for genuinely bounded peers. Typography is a role system, not a list of fashionable fonts.
 
-### Layout assessment
+## 4. Inspiration before synthesis
 
-Before moving boxes, identify:
+A reference is evidence, not a specification.
 
-- primary and secondary elements under a squint test
-- meaningful groups and separation
-- tight and generous spacing rhythm
-- topology appropriate to content and task
-- density appropriate to frequency and complexity
-- narrow, intermediate, wide, zoomed, localized, empty, and overflow behavior
-- agreement between visual, DOM, keyboard, and assistive-technology order
+### Capture
 
-Use proximity before another container. Use cards only when the content is truly a set of bounded peers.
+Prefer a live URL because it can reveal DOM order, geometry, computed styles, responsive behavior, interactions, media, animation timing, and failure states. Screenshot and motion references require lower confidence unless a visual model or reviewer supplies an annotation.
 
-### Typography assessment
+Store local captures under `.aigent/inspiration`. Do not commit third-party screenshots, private pages, authenticated flows, extracted copy, or source packages.
 
-Typography is a role system:
+### Normalize
 
-- display
-- heading
-- body
-- label
-- metadata
-- data or code
+Every reference becomes Design DNA across:
 
-Use the fewest families and roles that make hierarchy unmistakable. Keep prose near 45–75 characters. Stress-test long headings, localization, 200% zoom, narrow containers, missing weights, and fallback metrics.
+```text
+structure
+ typography
+ material
+ motion
+ interaction
+ media
+```
 
-Operate surfaces usually prefer one stable family and a fixed scale. Persuade and Experience surfaces may use a more expressive display voice when the world earns it.
+Keep measurements separate from interpretation and record confidence by dimension.
 
-## 4. Media is part of the direction
+### Synthesize
 
-A cinematic page needs one dominant asset system, not a collection of effects.
+Whole-surface work uses at least three references. No source controls more than two dimensions.
 
-Define:
+Each reference-matrix assignment must include:
 
-- medium
-- subject
-- physical material
-- camera
-- focal point
-- motion
-- text-safe region
-- start and end state
-- loop, scrub, interaction, or still behavior
-- desktop and mobile composition
-- reduced-motion state
-- loading and failure state
+- extracted principle
+- target-product reason
+- required transformation
+- excluded source expression
 
-### Medium ladder
+The result must replace source copy, assets, marks, section order, exact type pairing, exact animation sequence, and source code.
+
+### Audit
+
+After implementation, compare target Design DNA against every reference. Review source dominance, copy overlap, weak transformations, original asset production, mobile composition, and reduced motion. Similarity scores are review heuristics, not legal conclusions.
+
+## 5. Media is part of the direction
+
+A cinematic page needs one dominant asset system, not a collection of effects. Define medium, subject, material, camera, focal point, motion, text-safe region, start/end state, desktop/mobile composition, reduced-motion state, loading, and failure.
 
 Use the lightest route that carries the idea:
 
@@ -149,56 +102,33 @@ Use the lightest route that carries the idea:
 7. Three.js
 8. custom renderer
 
-Offline Blender or Remotion rendering is often preferable to live 3D when the camera is fixed and art direction matters more than manipulation.
+Offline Blender or Remotion rendering is often preferable when the camera is fixed and art direction matters more than manipulation.
 
-### Asset coherence
-
-A page usually needs one environment, camera language, material family, grade, and transition logic. Random stock clips, floating objects, and unrelated overlays destroy the world.
-
-## 5. Surface modes
+## 6. Surface modes
 
 - **Persuade** — the visitor decides and acts.
 - **Operate** — the visitor completes a task.
 - **Read** — the visitor understands material.
 - **Experience** — the artifact or world leads.
 
-A homepage can be Persuade while its dashboard is Operate. A resource directory is Operate + Read. A cinematic sales deck is Persuade + Experience with controlled navigation.
+Marketing composition must not become the default for operator UI. Operate surfaces favor familiar behavior, complete states, stable density, and 120–250ms routine transitions.
 
-### Operate rules
-
-- familiar interaction is a feature
-- one type family is often right
-- fixed type roles beat fluid marketing scale
-- complete hover, focus, active, disabled, loading, empty, error, and success states
-- responsive behavior changes structure rather than merely shrinking it
-- 120–250ms routine transitions
-- no decorative page-load sequence
-- overlays must escape clipping containers
-
-## 6. Component-source discipline
+## 7. Component-source discipline
 
 Use mature accessible primitives for standard interaction before inventing replacements.
 
 - choose one visible component language
-- prefer headless behavior for interfaces
 - install only what the task needs
-- restyle external components into the project's type, spacing, surface, icon, and state system
-- do not combine multiple libraries' default skins
+- restyle external behavior into the project’s type, spacing, surface, icon, and state system
+- do not combine multiple libraries’ default skins
 - record the source and current license
-- do not vendor restricted code through the AIgent registry
+- do not vendor restricted code through the registry
 
-The product-specific value comes from composition, content, media, interaction, and finish—not another custom button implementation.
+## 8. Motion thesis
 
-## 7. Motion thesis
+Before implementation, state focal moment, continuity relationships, feedback states, and performance budget.
 
-Before implementation, state:
-
-- focal moment
-- continuity relationships
-- feedback states
-- performance budget
-
-Motion must acknowledge action, explain state or spatial relationship, direct attention at a meaningful moment, or embody the chosen world. A generic fade-and-rise is not a motion thesis.
+Motion must acknowledge action, explain state or spatial relationship, direct attention, or embody the chosen world. A generic fade-and-rise is not a thesis.
 
 Typical timing:
 
@@ -207,9 +137,9 @@ Typical timing:
 - 300–500ms layout or view transition
 - 500–900ms authored focal sequence
 
-Exit faster than entrance. Avoid bounce and elastic curves by reflex. Pause nonessential loops offscreen and hidden.
+Pause nonessential loops offscreen and hidden. Reduced motion preserves hierarchy and meaning.
 
-## 8. Direction before styling
+## 9. Direction before styling
 
 Before building:
 
@@ -217,39 +147,35 @@ Before building:
 2. What the surface must prove.
 3. Which mode owns it.
 4. Which physical or cultural scene shapes the world.
-5. The category default and anti-references.
-6. Palette strategy and type character.
-7. Dominant composition.
-8. Primary asset system.
+5. Which references inform each dimension.
+6. What must be transformed and excluded.
+7. Palette strategy and type character.
+8. Dominant composition and primary asset system.
 9. One signature interaction.
 10. Component-source strategy.
 11. Mobile and reduced-motion plan.
 
-Use `docs/project-context.md` and the design planner.
-
-## 9. Production quality floor
+## 10. Production quality floor
 
 A result is not ready until:
 
-- the first viewport is clear within seconds
+- first viewport is clear within seconds
 - body contrast reaches WCAG AA
-- hierarchy and measure are deliberate
-- related items group tightly and chapters separate generously
+- hierarchy, measure, and grouping are deliberate
 - motion has one primary idea
-- focus, loading, error, empty, and disabled states exist where needed
-- real copy works at desktop and mobile widths
+- focus, loading, error, empty, disabled, and failure states exist where needed
 - media loading follows use
-- video has poster and failure states
-- 3D has loading, fallback, bounded pixel ratio, and offscreen pause
-- external components feel native to one visual world
+- video and 3D have complete fallbacks
+- external components feel native to one world
 - every public asset has a manifest
-- rights and attribution are resolved
+- inspiration influence and transformations are recorded
+- source dominance and copy overlap are reviewed
 - no private records or credentials are public
 - the page could not be relabeled for an unrelated product
 - browser smoke and visual capture complete
 
-Mechanical checks are a floor. Human review decides product clarity, specificity, composition, typography, motion/media, and final coherence.
+Mechanical checks are a floor. Human review decides product clarity, specificity, composition, typography, motion/media, originality, and final coherence.
 
-## 10. Reuse
+## 11. Reuse
 
 Extract only after the same intent appears in multiple real surfaces. Reuse existing tokens, modules, patterns, registry items, recipes, and skills before adding another layer.
