@@ -1,0 +1,83 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "items": [
+    {
+      "name": "cinematic-page",
+      "type": "registry:block",
+      "title": "Cinematic Scroll Page",
+      "description": "Install the brand-neutral cinematic scroll starter with semantic themes, native scene mapping, responsive composition, and reduced motion.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/studio-core",
+        "wrg32786/aigent-design-system/patterns-core"
+      ],
+      "files": [
+        { "path": "templates/modular-scroll-starter/index.html", "type": "registry:file", "target": "~/templates/modular-scroll-starter/index.html" },
+        { "path": "skills/modular-scroll-page/SKILL.md", "type": "registry:file", "target": "~/skills/modular-scroll-page/SKILL.md" },
+        { "path": "skills/cinematic-web-director/SKILL.md", "type": "registry:file", "target": "~/skills/cinematic-web-director/SKILL.md" }
+      ]
+    },
+    {
+      "name": "immersive-sales-deck",
+      "type": "registry:block",
+      "title": "Immersive Sales Deck",
+      "description": "Install a complete six-chapter sales deck with direct navigation, keyboard controls, directional transitions, mobile layout, and reduced motion.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/studio-core",
+        "wrg32786/aigent-design-system/guided-deck-pattern"
+      ],
+      "files": [
+        { "path": "templates/immersive-sales-deck/index.html", "type": "registry:file", "target": "~/templates/immersive-sales-deck/index.html" },
+        { "path": "templates/immersive-sales-deck/styles.css", "type": "registry:file", "target": "~/templates/immersive-sales-deck/styles.css" },
+        { "path": "templates/immersive-sales-deck/app.js", "type": "registry:file", "target": "~/templates/immersive-sales-deck/app.js" },
+        { "path": "docs/cinematic-scroll-deck-playbook.md", "type": "registry:file", "target": "~/docs/cinematic-scroll-deck-playbook.md" },
+        { "path": "skills/video-scrub-deck/SKILL.md", "type": "registry:file", "target": "~/skills/video-scrub-deck/SKILL.md" }
+      ]
+    },
+    {
+      "name": "command-center-interface",
+      "type": "registry:block",
+      "title": "Command Center Interface",
+      "description": "Install an operator command center with queue navigation, searchable command palette, task detail, activity trace, responsive layout, and complete states.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/studio-core",
+        "wrg32786/aigent-design-system/command-palette-pattern"
+      ],
+      "files": [
+        { "path": "templates/command-center-interface/index.html", "type": "registry:file", "target": "~/templates/command-center-interface/index.html" },
+        { "path": "templates/command-center-interface/styles.css", "type": "registry:file", "target": "~/templates/command-center-interface/styles.css" },
+        { "path": "templates/command-center-interface/app.js", "type": "registry:file", "target": "~/templates/command-center-interface/app.js" }
+      ]
+    },
+    {
+      "name": "threejs-product-stage",
+      "type": "registry:block",
+      "title": "Progressive Three.js Product Stage",
+      "description": "Install a progressive Three.js product stage with complete CSS fallback, opt-in loading, bounded pixel ratio, lifecycle controls, and WebGL recovery.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/studio-core",
+        "wrg32786/aigent-design-system/scene-stage-pattern"
+      ],
+      "dependencies": ["three"],
+      "files": [
+        { "path": "templates/threejs-product-stage/index.html", "type": "registry:file", "target": "~/templates/threejs-product-stage/index.html" },
+        { "path": "templates/threejs-product-stage/styles.css", "type": "registry:file", "target": "~/templates/threejs-product-stage/styles.css" },
+        { "path": "templates/threejs-product-stage/app.js", "type": "registry:file", "target": "~/templates/threejs-product-stage/app.js" },
+        { "path": "skills/threejs-web-scene/SKILL.md", "type": "registry:file", "target": "~/skills/threejs-web-scene/SKILL.md" },
+        { "path": "skills/web-3d-asset-pipeline/SKILL.md", "type": "registry:file", "target": "~/skills/web-3d-asset-pipeline/SKILL.md" }
+      ]
+    },
+    {
+      "name": "design-vault",
+      "type": "registry:block",
+      "title": "Design Vault",
+      "description": "Install the searchable catalog for browsing pages, interfaces, patterns, design intelligence, production systems, skills, previews, and install commands.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/studio-core",
+        "wrg32786/aigent-design-system/patterns-core"
+      ],
+      "files": [
+        { "path": "vault/index.html", "type": "registry:file", "target": "~/vault/index.html" }
+      ]
+    }
+  ]
+}
