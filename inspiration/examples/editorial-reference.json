@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "source": { "id": "editorial-reference", "kind": "structured-reference", "origin": "public-example", "capturedAt": "2026-08-04T00:00:00.000Z" },
+  "confidence": { "overall": 0.78, "structure": 0.82, "typography": 0.88, "material": 0.76, "motion": 0.58, "interaction": 0.64, "media": 0.66 },
+  "structure": { "modes": ["read", "persuade"], "topology": "editorial-sequence", "sectionCount": 7, "density": "medium", "stickyRegions": 1, "fixedRegions": 0, "layout": { "gridRegions": 3, "flexRegions": 2, "contentWidthP90": 1180, "gapMedian": 28 }, "sectionLabels": ["thesis", "contents", "evidence", "counterpoint", "decision"] },
+  "typography": { "families": [{ "value": "high-contrast serif", "count": 8 }, { "value": "neutral sans", "count": 24 }], "categories": ["serif", "sans-serif"], "sizes": { "minimum": 12, "bodyMedian": 18, "displayP95": 88 }, "weights": [], "headingScale": [], "roleCount": 5 },
+  "material": { "tags": ["paper-editorial", "rule-driven", "controlled-radius"], "foregroundColors": [{ "value": "rgb(28 29 31)", "count": 40 }], "backgroundColors": [{ "value": "rgb(246 243 235)", "count": 28 }], "radiusMedian": 2, "borderDensity": 0.23, "shadowDensity": 0.01, "backdropBlurCount": 0, "gradientCount": 0 },
+  "motion": { "tags": ["motion-restrained", "opacity-driven"], "animationCount": 4, "scrollLinkedCount": 0, "transformAnimationCount": 0, "opacityAnimationCount": 4, "clipAnimationCount": 0, "durationMedian": 380, "reducedMotionObserved": true },
+  "interaction": { "total": 12, "buttons": 2, "links": 10, "inputs": 0, "dialogs": 0, "patterns": ["link", "button"] },
+  "media": { "images": 5, "video": 0, "canvas": 0, "svg": 3, "iframe": 0, "audio": 0, "threeHints": 0, "splineHints": 0, "renderers": [], "patterns": ["img", "svg"] },
+  "responsive": { "viewports": [{ "id": "desktop", "width": 1440, "height": 1000 }, { "id": "mobile", "width": 390, "height": 844 }], "transformations": ["margin notes linearize below related paragraphs", "two columns become one reading stream"] },
+  "copyFingerprint": { "headingTokens": ["thesis", "evidence", "decision"], "sampleHash": "example", "sample": "" },
+  "signatures": ["editorial-sequence", "paper-editorial", "rule-driven", "serif", "motion-restrained"],
+  "evidence": { "viewportCount": 2, "elementCount": 180, "cdpNodeCount": 0, "cdpLayoutCount": 0, "reason": "Public example record for deterministic tests." }
+}
