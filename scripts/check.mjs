@@ -6,7 +6,7 @@ import { auditPaths, auditSources } from "./design-audit.mjs";
 import { checkAssetManifests } from "./check-assets.mjs";
 import { checkCatalogs } from "./check-catalogs.mjs";
 import { checkIntelligence } from "./check-intelligence.mjs";
-import { checkRegistry } from "./check-registry.mjs";
+import { checkRegistry, readRegistry } from "./check-registry.mjs";
 import { checkEvals } from "./check-evals.mjs";
 
 const required = [
@@ -19,6 +19,9 @@ const required = [
   "LICENSE",
   "THIRD_PARTY.md",
   "registry.json",
+  "registry-core.json",
+  "registry-pages.json",
+  "registry-production.json",
   "tokens/system.css",
   "tokens/aigent-tokens.css",
   "modules/motion.js",
@@ -170,7 +173,7 @@ for (const [label, findings] of [
   assert.deepEqual(errors, [], `${label} validation failed:\n${JSON.stringify(errors, null, 2)}`);
 }
 
-const registry = JSON.parse(fs.readFileSync(file("registry.json"), "utf8"));
+const { registry } = readRegistry();
 assert.ok(registry.items.length >= 15, "Installable registry is unexpectedly small.");
 
 const resourceCatalog = JSON.parse(fs.readFileSync(file("creative-production/catalog.json"), "utf8"));
