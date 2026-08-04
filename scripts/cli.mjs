@@ -5,15 +5,52 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const registryPath = path.join(packageRoot, "registry.json");
+const repositoryPrefix = "wrg32786/aigent-design-system/";
 
 function fail(message) {
   console.error(message);
   process.exitCode = 1;
 }
 
+function safeRegistryPath(parent, declared) {
+  if (!declared || path.isAbsolute(declared)) throw new Error(`Unsafe registry include: ${declared}`);
+  const resolved = path.resolve(path.dirname(parent), declared);
+  if (resolved !== packageRoot && !resolved.startsWith(`${packageRoot}${path.sep}`)) {
+    throw new Error(`Registry include leaves the package: ${declared}`);
+  }
+  return resolved;
+}
+
+function readRegistryFile(file, seen = new Set()) {
+  if (seen.has(file)) throw new Error(`Registry include cycle: ${path.relative(packageRoot, file)}`);
+  if (!fs.existsSync(file)) throw new Error(`Registry not found: ${file}`);
+  seen.add(file);
+
+  const source = JSON.parse(fs.readFileSync(file, "utf8"));
+  const base = path.relative(packageRoot, path.dirname(file)).split(path.sep).join("/");
+  const items = (source.items || []).map((item) => ({
+    ...item,
+    files: (item.files || []).map((entry) => ({
+      ...entry,
+      path: base ? path.posix.normalize(`${base}/${entry.path}`) : entry.path,
+    })),
+  }));
+
+  for (const include of source.include || []) {
+    items.push(...readRegistryFile(safeRegistryPath(file, include), new Set(seen)).items);
+  }
+  return { ...source, items };
+}
+
 function readRegistry() {
-  if (!fs.existsSync(registryPath)) throw new Error(`Registry not found: ${registryPath}`);
-  return JSON.parse(fs.readFileSync(registryPath, "utf8"));
+  return readRegistryFile(registryPath);
+}
+
+function dependencyName(dependency) {
+  const address = dependency.split("#")[0];
+  if (!address.includes("/")) return address;
+  if (address.startsWith(repositoryPrefix)) return address.slice(repositoryPrefix.length);
+  throw new Error(`The local CLI cannot install external registry dependency: ${dependency}`);
 }
 
 function option(args, name, fallback = null) {
@@ -41,9 +78,7 @@ function destinationFor(file, targetRoot) {
 
 function list(registry) {
   const width = Math.max(...registry.items.map((item) => item.name.length));
-  for (const item of registry.items) {
-    console.log(`${item.name.padEnd(width)}  ${item.description}`);
-  }
+  for (const item of registry.items) console.log(`${item.name.padEnd(width)}  ${item.description}`);
 }
 
 function resolveItems(registry, name, stack = [], resolved = []) {
@@ -52,7 +87,7 @@ function resolveItems(registry, name, stack = [], resolved = []) {
   if (stack.includes(name)) throw new Error(`Registry dependency cycle: ${[...stack, name].join(" -> ")}`);
   if (resolved.some((candidate) => candidate.name === name)) return resolved;
   for (const dependency of item.registryDependencies || []) {
-    resolveItems(registry, dependency, [...stack, name], resolved);
+    resolveItems(registry, dependencyName(dependency), [...stack, name], resolved);
   }
   resolved.push(item);
   return resolved;
@@ -62,22 +97,19 @@ function add(registry, name, args) {
   const items = resolveItems(registry, name);
   const { force, dryRun, target } = flags(args);
   const byDestination = new Map();
+
   for (const item of items) {
     for (const file of item.files) {
       const source = path.resolve(packageRoot, file.path);
       const destination = destinationFor(file, target);
-      if (!source.startsWith(`${packageRoot}${path.sep}`) || !fs.existsSync(source)) {
-        throw new Error(`Registry source is missing: ${file.path}`);
-      }
+      if (!source.startsWith(`${packageRoot}${path.sep}`) || !fs.existsSync(source)) throw new Error(`Registry source is missing: ${file.path}`);
       const existing = byDestination.get(destination);
-      if (existing && existing.source !== source) {
-        throw new Error(`Registry items target the same file from different sources: ${file.target}`);
-      }
+      if (existing && existing.source !== source) throw new Error(`Registry items target the same file from different sources: ${file.target}`);
       byDestination.set(destination, { item: item.name, file, source, destination, exists: fs.existsSync(destination) });
     }
   }
-  const operations = [...byDestination.values()];
 
+  const operations = [...byDestination.values()];
   const conflicts = operations.filter((operation) => operation.exists && !force);
   if (conflicts.length) {
     const files = conflicts.map((operation) => path.relative(target, operation.destination)).join("\n- ");
@@ -91,7 +123,6 @@ function add(registry, name, args) {
     fs.mkdirSync(path.dirname(operation.destination), { recursive: true });
     fs.copyFileSync(operation.source, operation.destination);
   }
-
   if (!dryRun) console.log(`Installed ${operations.length} files.`);
 }
 
@@ -103,7 +134,6 @@ function doctor(registry) {
       if (!fs.existsSync(path.join(packageRoot, file.path))) failures.push(`Missing registry source: ${file.path}`);
     }
   }
-
   if (failures.length) {
     failures.forEach((message) => console.error(`error: ${message}`));
     process.exitCode = 1;
@@ -113,7 +143,8 @@ function doctor(registry) {
 }
 
 async function plan(args) {
-  const brief = args.find((arg) => !arg.startsWith("--"));
+  const optionValues = new Set([option(args, "--out")].filter(Boolean));
+  const brief = args.find((arg) => !arg.startsWith("--") && !optionValues.has(arg));
   if (!brief) throw new Error("Usage: aigent-design plan <brief.json> [--out plan.json]");
   const planner = await import(pathToFileURL(path.join(packageRoot, "scripts/plan-design.mjs")));
   const source = JSON.parse(fs.readFileSync(path.resolve(brief), "utf8"));
@@ -124,9 +155,7 @@ async function plan(args) {
     fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
     fs.writeFileSync(path.resolve(out), text);
     console.log(`Wrote ${out}`);
-  } else {
-    process.stdout.write(text);
-  }
+  } else process.stdout.write(text);
 }
 
 function help() {
