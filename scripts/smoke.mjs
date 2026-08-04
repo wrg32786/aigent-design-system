@@ -54,9 +54,13 @@ try {
       }
 
       if (url === "/templates/immersive-sales-deck/") {
+        await page.waitForFunction(() => document.documentElement.dataset.deckReady === "true");
+        if ((await page.locator("#slide-label").innerText()) !== "Slide 1 of 6") throw new Error(`${viewport.name} ${url}: deck initial state failed`);
         await page.locator("#next").click();
+        await page.waitForFunction(() => document.documentElement.dataset.activeSlide === "2");
         if ((await page.locator("#slide-label").innerText()) !== "Slide 2 of 6") throw new Error(`${viewport.name} ${url}: deck navigation failed`);
         await page.locator("#previous").click();
+        await page.waitForFunction(() => document.documentElement.dataset.activeSlide === "1");
       }
 
       if (url === "/templates/command-center-interface/") {
