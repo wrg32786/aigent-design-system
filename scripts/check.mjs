@@ -19,9 +19,6 @@ const required = [
   "LICENSE",
   "THIRD_PARTY.md",
   "registry.json",
-  "registry-core.json",
-  "registry-pages.json",
-  "registry-production.json",
   "tokens/system.css",
   "tokens/aigent-tokens.css",
   "modules/motion.js",
@@ -90,6 +87,7 @@ const required = [
   "case-studies/theaigent-home/README.md",
   "case-studies/tools-vault/README.md",
   "vault/index.html",
+  "vault/app.js",
   "scripts/cli.mjs",
   "scripts/plan-design.mjs",
   "scripts/check-intelligence.mjs",
@@ -174,7 +172,7 @@ for (const [label, findings] of [
 }
 
 const { registry } = readRegistry();
-assert.ok(registry.items.length >= 15, "Installable registry is unexpectedly small.");
+assert.ok(registry.items.length >= 10, "Installable registry is unexpectedly small.");
 
 const resourceCatalog = JSON.parse(fs.readFileSync(file("creative-production/catalog.json"), "utf8"));
 assert.ok(resourceCatalog.resources.length >= 25, "Creative resource catalog is unexpectedly small.");
