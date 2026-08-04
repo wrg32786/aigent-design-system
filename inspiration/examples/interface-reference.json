@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "source": { "id": "interface-reference", "kind": "structured-reference", "origin": "public-example", "capturedAt": "2026-08-04T00:00:00.000Z" },
+  "confidence": { "overall": 0.81, "structure": 0.85, "typography": 0.79, "material": 0.72, "motion": 0.74, "interaction": 0.92, "media": 0.5 },
+  "structure": { "modes": ["operate"], "topology": "operator-workspace", "sectionCount": 4, "density": "high", "stickyRegions": 2, "fixedRegions": 1, "layout": { "gridRegions": 8, "flexRegions": 12, "contentWidthP90": 1440, "gapMedian": 16 }, "sectionLabels": ["navigation", "queue", "workspace", "trace"] },
+  "typography": { "families": [{ "value": "neutral sans", "count": 48 }, { "value": "technical mono", "count": 14 }], "categories": ["sans-serif", "monospaced"], "sizes": { "minimum": 11, "bodyMedian": 15, "displayP95": 46 }, "weights": [], "headingScale": [], "roleCount": 6 },
+  "material": { "tags": ["rule-driven", "hard-edged-material", "flat-surface-system"], "foregroundColors": [{ "value": "rgb(232 236 239)", "count": 54 }], "backgroundColors": [{ "value": "rgb(14 17 21)", "count": 40 }], "radiusMedian": 4, "borderDensity": 0.28, "shadowDensity": 0.01, "backdropBlurCount": 0, "gradientCount": 0 },
+  "motion": { "tags": ["fast-interface", "motion-restrained"], "animationCount": 8, "scrollLinkedCount": 0, "transformAnimationCount": 3, "opacityAnimationCount": 4, "clipAnimationCount": 0, "durationMedian": 180, "reducedMotionObserved": true },
+  "interaction": { "total": 38, "buttons": 18, "links": 8, "inputs": 5, "dialogs": 1, "patterns": ["button", "input", "dialog", "link"] },
+  "media": { "images": 0, "video": 0, "canvas": 1, "svg": 6, "iframe": 0, "audio": 0, "threeHints": 0, "splineHints": 0, "renderers": [], "patterns": ["canvas", "svg"] },
+  "responsive": { "viewports": [{ "id": "desktop", "width": 1440, "height": 1000 }, { "id": "mobile", "width": 390, "height": 844 }], "transformations": ["three panes become list then detail routes", "secondary navigation moves to a sheet"] },
+  "copyFingerprint": { "headingTokens": ["review", "activity", "evidence"], "sampleHash": "example3", "sample": "" },
+  "signatures": ["operator-workspace", "rule-driven", "fast-interface", "monospaced", "dialog"],
+  "evidence": { "viewportCount": 2, "elementCount": 330, "cdpNodeCount": 0, "cdpLayoutCount": 0, "reason": "Public example record for deterministic UI synthesis." }
+}
