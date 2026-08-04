@@ -1,6 +1,6 @@
 # Project Context
 
-Copy this into a new project's root and answer it before building. Keep the brief about product, behavior, and visual authority—not CSS values.
+Copy this into a new project's root and answer it before building. Keep the brief about product, behavior, inspiration, and visual authority—not CSS values.
 
 ## Product
 
@@ -33,6 +33,24 @@ Copy this into a new project's root and answer it before building. Keep the brie
 - What would make a polished result feel wrong:
 - Category default to avoid:
 - Other anti-references:
+
+## Inspiration
+
+- Live URLs, screenshots, motion clips, Figma/Penpot frames, or structured references:
+- What each reference is allowed to influence:
+- What each reference must not influence:
+- Required transformation for structure:
+- Required transformation for typography:
+- Required transformation for material:
+- Required transformation for motion:
+- Required transformation for interaction:
+- Required transformation for media:
+- Source copy, assets, marks, section order, type pairing, keyframes, and code explicitly excluded:
+- Local inspiration-store path:
+- Influence-ledger path:
+- Originality-review threshold or human reviewer:
+
+Whole-surface work should use at least three references so no source controls more than two design dimensions.
 
 ## Visual world
 
