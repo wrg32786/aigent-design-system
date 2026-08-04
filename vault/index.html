@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en" data-theme="graphite">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Browse and install the page systems, interfaces, patterns, production pipelines, design intelligence, and QA tools in the AIgent Design System." />
+  <title>AIgent Design Vault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&family=Martian+Mono:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../tokens/system.css" />
+  <style>
+    html { scroll-behavior: smooth; }
+    body { overflow-x: hidden; }
+    button, input { font: inherit; }
+    a { color: inherit; }
+
+    .vault-shell {
+      min-height: 100svh;
+      background:
+        linear-gradient(90deg, transparent 0 49.94%, var(--ds-color-rule) 50%, transparent 50.06%) 50% 0 / min(100%, 1180px) 100% no-repeat,
+        radial-gradient(circle at 86% 7%, rgb(var(--ds-accent-2-rgb) / .13), transparent 30rem),
+        var(--ds-color-bg);
+    }
+
+    .vault-bar {
+      position: sticky;
+      z-index: 20;
+      top: 0;
+      display: flex;
+      min-height: 68px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border-bottom: 1px solid var(--ds-color-rule);
+      background: rgb(var(--ds-bg-rgb) / .92);
+      backdrop-filter: blur(16px);
+    }
+
+    .vault-bar a {
+      color: var(--ds-color-accent);
+      font: 650 .68rem/1.3 var(--ds-font-mono);
+      letter-spacing: .12em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .vault-status {
+      color: var(--ds-color-muted);
+      font: 560 .72rem/1.4 var(--ds-font-mono);
+      text-align: right;
+    }
+
+    .hero {
+      min-height: 72svh;
+      display: grid;
+      grid-template-columns: minmax(0, .72fr) minmax(280px, .3fr);
+      align-items: end;
+      gap: clamp(48px, 8vw, 132px);
+      padding-block: 120px 82px;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      color: var(--ds-color-text);
+      font-family: var(--ds-font-display);
+      font-weight: 600;
+      letter-spacing: -.025em;
+      line-height: .92;
+      text-wrap: balance;
+    }
+
+    h1 { max-width: 9ch; font-size: clamp(5rem, 12vw, 11rem); }
+    h1 span { display: block; color: var(--ds-color-accent); }
+    h2 { font-size: clamp(2.8rem, 5vw, 5.2rem); }
+
+    .lead {
+      max-width: 680px;
+      margin: 28px 0 0;
+      color: var(--ds-color-muted);
+      font: 520 var(--ds-size-lead)/1.56 var(--ds-font-body);
+    }
+
+    .install-block {
+      padding-top: 20px;
+      border-top: 1px solid var(--ds-color-accent);
+    }
+
+    .install-block strong {
+      display: block;
+      color: var(--ds-color-accent);
+      font: 650 .68rem/1.3 var(--ds-font-mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .install-block code {
+      display: block;
+      margin-top: 16px;
+      color: var(--ds-color-text);
+      font: 520 .82rem/1.65 var(--ds-font-mono);
+      overflow-wrap: anywhere;
+    }
+
+    .catalog {
+      display: grid;
+      grid-template-columns: 230px minmax(0, 1fr);
+      gap: clamp(34px, 6vw, 92px);
+      padding-block: 44px 120px;
+      border-top: 1px solid var(--ds-color-rule-strong);
+    }
+
+    .filters {
+      position: sticky;
+      top: 94px;
+      align-self: start;
+    }
+
+    .search {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 10px;
+      padding-inline: 12px;
+      border: 1px solid var(--ds-color-rule-strong);
+      border-radius: var(--ds-radius-control);
+      background: var(--ds-color-surface);
+      color: var(--ds-color-text);
+    }
+
+    .filter-list {
+      display: grid;
+      gap: 4px;
+      margin-top: 14px;
+    }
+
+    .filter-list button {
+      min-height: 42px;
+      padding-inline: 10px;
+      border: 0;
+      border-radius: var(--ds-radius-control);
+      background: transparent;
+      color: var(--ds-color-muted);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .filter-list button:hover,
+    .filter-list button[aria-pressed="true"] {
+      background: rgb(var(--ds-accent-rgb) / .12);
+      color: var(--ds-color-text);
+    }
+
+    .filter-list button:focus-visible,
+    .search:focus-visible,
+    .copy:focus-visible,
+    .preview:focus-visible {
+      outline: 3px solid var(--ds-color-accent);
+      outline-offset: 3px;
+    }
+
+    .catalog-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 28px;
+    }
+
+    .catalog-head output {
+      color: var(--ds-color-muted);
+      font: 560 .72rem/1.4 var(--ds-font-mono);
+      white-space: nowrap;
+    }
+
+    .items { border-top: 1px solid var(--ds-color-rule-strong); }
+
+    .item {
+      display: grid;
+      grid-template-columns: minmax(170px, .32fr) minmax(0, .7fr) minmax(210px, .4fr);
+      gap: clamp(22px, 4vw, 56px);
+      align-items: start;
+      padding-block: 30px;
+      border-bottom: 1px solid var(--ds-color-rule);
+    }
+
+    .item-title { font-size: clamp(1.55rem, 3vw, 2.8rem); }
+
+    .item-type {
+      display: block;
+      margin-top: 10px;
+      color: var(--ds-color-accent);
+      font: 600 .64rem/1.4 var(--ds-font-mono);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .item p {
+      margin: 0;
+      color: var(--ds-color-muted);
+      font: 520 1rem/1.6 var(--ds-font-body);
+    }
+
+    .item-actions { display: grid; gap: 10px; }
+
+    .install-line {
+      padding: 12px;
+      border: 1px solid var(--ds-color-rule);
+      border-radius: var(--ds-radius-sm);
+      color: var(--ds-color-muted);
+      font: 520 .7rem/1.55 var(--ds-font-mono);
+      overflow-wrap: anywhere;
+    }
+
+    .item-buttons { display: flex; gap: 8px; }
+
+    .copy,
+    .preview {
+      min-height: 42px;
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding-inline: 12px;
+      border: 1px solid var(--ds-color-rule-strong);
+      border-radius: var(--ds-radius-control);
+      background: transparent;
+      color: var(--ds-color-text);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .copy:hover, .preview:hover { border-color: var(--ds-color-accent); }
+
+    .empty {
+      padding-block: 48px;
+      color: var(--ds-color-muted);
+      font: 520 1rem/1.6 var(--ds-font-body);
+    }
+
+    @media (max-width: 900px) {
+      .hero, .catalog { grid-template-columns: 1fr; }
+      .hero { min-height: auto; padding-top: 132px; }
+      .filters { position: relative; top: auto; }
+      .filter-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .item { grid-template-columns: 1fr; }
+      .item-actions { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+    }
+
+    @media (max-width: 560px) {
+      .vault-bar { align-items: flex-start; padding-block: 16px; }
+      h1 { font-size: clamp(4.4rem, 20vw, 7rem); }
+      .filter-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .item-actions { grid-template-columns: 1fr; }
+      .item-buttons { flex-direction: column; }
+      .catalog-head { align-items: start; flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .vault-bar { backdrop-filter: none; }
+    }
+  </style>
+</head>
+<body class="ds-shell vault-shell">
+  <a class="ds-skip-link" href="#catalog">Skip to catalog</a>
+  <header class="vault-bar ds-container">
+    <a href="../">AIgent Design Vault</a>
+    <span class="vault-status" id="source-status">GitHub registry · framework neutral · open source</span>
+  </header>
+
+  <main>
+    <section class="hero ds-container">
+      <div>
+        <h1>Choose the system. <span>Keep the identity.</span></h1>
+        <p class="lead">Install complete cinematic pages, product interfaces, interaction patterns, design intelligence, asset pipelines, and Claude skills directly from GitHub.</p>
+      </div>
+      <aside class="install-block">
+        <strong>Start with the studio core</strong>
+        <code>pnpm dlx shadcn@latest add wrg32786/aigent-design-system/studio-core</code>
+      </aside>
+    </section>
+
+    <section class="catalog ds-container" id="catalog">
+      <aside class="filters" aria-label="Catalog filters">
+        <label class="ds-status" for="search">Find a system</label>
+        <input class="search" id="search" type="search" placeholder="Search pages, UI, motion…" autocomplete="off" />
+        <div class="filter-list" id="filters"></div>
+      </aside>
+
+      <div>
+        <header class="catalog-head">
+          <h2>Installable systems.</h2>
+          <output id="count">Loading registry…</output>
+        </header>
+        <div class="items" id="items" aria-live="polite"></div>
+        <p class="empty" id="empty" hidden>No item matches this filter. Clear the search or choose another system type.</p>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

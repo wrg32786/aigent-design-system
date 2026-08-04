@@ -1,0 +1,33 @@
+[data-object-stage] {
+  position: relative;
+  overflow: clip;
+  isolation: isolate;
+}
+
+[data-object-fallback],
+[data-object-host] {
+  position: absolute;
+  inset: 0;
+}
+
+[data-object-host] {
+  opacity: 0;
+  transition: opacity 420ms ease;
+}
+
+[data-object-stage][data-object-state="ready"] [data-object-host] {
+  opacity: 1;
+}
+
+[data-object-stage][data-object-state="ready"] [data-object-fallback] {
+  opacity: 0;
+}
+
+[data-object-stage][data-object-state="loading"] [data-object-enable] {
+  cursor: progress;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-object-host] { display: none; }
+  [data-object-fallback] { opacity: 1 !important; }
+}

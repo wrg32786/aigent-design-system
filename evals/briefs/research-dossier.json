@@ -1,0 +1,51 @@
+{
+  "$schema": "../../design-intelligence/brief.schema.json",
+  "name": "AI research dossier",
+  "modes": [
+    "read"
+  ],
+  "audience": "Technical decision makers comparing an emerging AI architecture and its evidence",
+  "visitorGoal": "Understand the thesis, inspect the evidence, and navigate the source material",
+  "productMechanism": "The dossier connects claims to experiments, implementation notes, limitations, and primary sources",
+  "proof": [
+    "experiment table",
+    "source excerpts",
+    "architecture diagram"
+  ],
+  "contentProfile": "editorial",
+  "contentLength": "long",
+  "density": "medium",
+  "interactionLevel": "low",
+  "media": {
+    "available": [
+      "images",
+      "data"
+    ],
+    "needsProduction": false,
+    "preferred": "still"
+  },
+  "brand": {
+    "existingWorld": false,
+    "adjectives": [
+      "scholarly",
+      "contemporary",
+      "rigorous",
+      "clear"
+    ],
+    "antiReferences": [
+      "newspaper cosplay",
+      "cream serif default",
+      "marketing cards inside an article"
+    ],
+    "themePreference": "light"
+  },
+  "framework": "vanilla",
+  "constraints": {
+    "mobilePriority": true,
+    "reducedMotion": true,
+    "maxInitialKB": 900,
+    "noWebGL": false,
+    "noAutoplay": false,
+    "accessibility": "AA"
+  }
+}

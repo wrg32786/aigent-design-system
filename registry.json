@@ -1,0 +1,255 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "aigent-design-system",
+  "homepage": "https://github.com/wrg32786/aigent-design-system",
+  "items": [
+    {
+      "name": "aigent-design-skill",
+      "type": "registry:item",
+      "title": "AIgent Design Skill",
+      "description": "Install the consolidated Claude design-director skill for immersive websites, sales decks, product interfaces, critique, polish, and verification.",
+      "files": [
+        { "path": "skills/aigent-design/SKILL.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/SKILL.md" },
+        { "path": "skills/aigent-design/commands.json", "type": "registry:file", "target": "~/.claude/skills/aigent-design/commands.json" },
+        { "path": "skills/aigent-design/scripts/context.mjs", "type": "registry:file", "target": "~/.claude/skills/aigent-design/scripts/context.mjs" },
+        { "path": "skills/aigent-design/reference/shape.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/shape.md" },
+        { "path": "skills/aigent-design/reference/new-work.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/new-work.md" },
+        { "path": "skills/aigent-design/reference/layout.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/layout.md" },
+        { "path": "skills/aigent-design/reference/type.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/type.md" },
+        { "path": "skills/aigent-design/reference/color.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/color.md" },
+        { "path": "skills/aigent-design/reference/motion.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/motion.md" },
+        { "path": "skills/aigent-design/reference/media.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/media.md" },
+        { "path": "skills/aigent-design/reference/interface.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/interface.md" },
+        { "path": "skills/aigent-design/reference/deck.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/deck.md" },
+        { "path": "skills/aigent-design/reference/craft-floor.md", "type": "registry:file", "target": "~/.claude/skills/aigent-design/reference/craft-floor.md" }
+      ]
+    },
+    {
+      "name": "design-intelligence",
+      "type": "registry:item",
+      "title": "Design Intelligence",
+      "description": "Install deterministic layout, typography, motion, interface, and component-source catalogs with the design planner and validator.",
+      "files": [
+        { "path": "design-intelligence/README.md", "type": "registry:file", "target": "~/design-intelligence/README.md" },
+        { "path": "design-intelligence/brief.schema.json", "type": "registry:file", "target": "~/design-intelligence/brief.schema.json" },
+        { "path": "design-intelligence/example-brief.json", "type": "registry:file", "target": "~/design-intelligence/example-brief.json" },
+        { "path": "design-intelligence/layouts.json", "type": "registry:file", "target": "~/design-intelligence/layouts.json" },
+        { "path": "design-intelligence/type-systems.json", "type": "registry:file", "target": "~/design-intelligence/type-systems.json" },
+        { "path": "design-intelligence/motion-systems.json", "type": "registry:file", "target": "~/design-intelligence/motion-systems.json" },
+        { "path": "design-intelligence/interface-systems.json", "type": "registry:file", "target": "~/design-intelligence/interface-systems.json" },
+        { "path": "design-intelligence/component-sources.json", "type": "registry:file", "target": "~/design-intelligence/component-sources.json" },
+        { "path": "scripts/plan-design.mjs", "type": "registry:file", "target": "~/scripts/plan-design.mjs" },
+        { "path": "scripts/check-intelligence.mjs", "type": "registry:file", "target": "~/scripts/check-intelligence.mjs" }
+      ]
+    },
+    {
+      "name": "studio-core",
+      "type": "registry:item",
+      "title": "AIgent Studio Core",
+      "description": "Install product and design contracts, semantic tokens, native motion, project context, the Claude skill, and deterministic design planning.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/aigent-design-skill",
+        "wrg32786/aigent-design-system/design-intelligence"
+      ],
+      "files": [
+        { "path": "PRODUCT.md", "type": "registry:file", "target": "~/PRODUCT.md" },
+        { "path": "DESIGN.md", "type": "registry:file", "target": "~/DESIGN.md" },
+        { "path": "docs/project-context.md", "type": "registry:file", "target": "~/docs/project-context.md" },
+        { "path": "docs/design-principles.md", "type": "registry:file", "target": "~/docs/design-principles.md" },
+        { "path": "tokens/system.css", "type": "registry:file", "target": "~/tokens/system.css" },
+        { "path": "tokens/aigent-tokens.css", "type": "registry:file", "target": "~/tokens/aigent-tokens.css" },
+        { "path": "modules/motion.js", "type": "registry:file", "target": "~/modules/motion.js" }
+      ]
+    },
+    {
+      "name": "patterns-core",
+      "type": "registry:item",
+      "title": "Immersive Pattern Core",
+      "description": "Install guided deck, command palette, focus reveal, scene stage, and object stage interactions as framework-neutral HTML, CSS, and JavaScript patterns.",
+      "files": [
+        { "path": "patterns/README.md", "type": "registry:file", "target": "~/patterns/README.md" },
+        { "path": "patterns/guided-deck/guided-deck.css", "type": "registry:file", "target": "~/patterns/guided-deck/guided-deck.css" },
+        { "path": "patterns/guided-deck/guided-deck.js", "type": "registry:file", "target": "~/patterns/guided-deck/guided-deck.js" },
+        { "path": "patterns/command-palette/command-palette.css", "type": "registry:file", "target": "~/patterns/command-palette/command-palette.css" },
+        { "path": "patterns/command-palette/command-palette.js", "type": "registry:file", "target": "~/patterns/command-palette/command-palette.js" },
+        { "path": "patterns/focus-reveal/focus-reveal.css", "type": "registry:file", "target": "~/patterns/focus-reveal/focus-reveal.css" },
+        { "path": "patterns/focus-reveal/focus-reveal.js", "type": "registry:file", "target": "~/patterns/focus-reveal/focus-reveal.js" },
+        { "path": "patterns/scene-stage/scene-stage.css", "type": "registry:file", "target": "~/patterns/scene-stage/scene-stage.css" },
+        { "path": "patterns/scene-stage/scene-stage.js", "type": "registry:file", "target": "~/patterns/scene-stage/scene-stage.js" },
+        { "path": "patterns/object-stage/object-stage.css", "type": "registry:file", "target": "~/patterns/object-stage/object-stage.css" },
+        { "path": "patterns/object-stage/object-stage.js", "type": "registry:file", "target": "~/patterns/object-stage/object-stage.js" }
+      ]
+    },
+    {
+      "name": "cinematic-page",
+      "type": "registry:block",
+      "title": "Cinematic Scroll Page",
+      "description": "Install the brand-neutral cinematic scroll starter with semantic themes, native scene mapping, responsive composition, and reduced motion.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/studio-core",
+        "wrg32786/aigent-design-system/patterns-core"
+      ],
+      "files": [
+        { "path": "templates/modular-scroll-starter/index.html", "type": "registry:file", "target": "~/templates/modular-scroll-starter/index.html" },
+        { "path": "skills/modular-scroll-page/SKILL.md", "type": "registry:file", "target": "~/skills/modular-scroll-page/SKILL.md" },
+        { "path": "skills/cinematic-web-director/SKILL.md", "type": "registry:file", "target": "~/skills/cinematic-web-director/SKILL.md" }
+      ]
+    },
+    {
+      "name": "immersive-sales-deck",
+      "type": "registry:block",
+      "title": "Immersive Sales Deck",
+      "description": "Install a complete six-chapter sales deck with direct navigation, keyboard controls, directional transitions, mobile layout, and reduced motion.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/studio-core",
+        "wrg32786/aigent-design-system/patterns-core"
+      ],
+      "files": [
+        { "path": "templates/immersive-sales-deck/index.html", "type": "registry:file", "target": "~/templates/immersive-sales-deck/index.html" },
+        { "path": "templates/immersive-sales-deck/styles.css", "type": "registry:file", "target": "~/templates/immersive-sales-deck/styles.css" },
+        { "path": "templates/immersive-sales-deck/app.js", "type": "registry:file", "target": "~/templates/immersive-sales-deck/app.js" },
+        { "path": "docs/cinematic-scroll-deck-playbook.md", "type": "registry:file", "target": "~/docs/cinematic-scroll-deck-playbook.md" },
+        { "path": "skills/video-scrub-deck/SKILL.md", "type": "registry:file", "target": "~/skills/video-scrub-deck/SKILL.md" }
+      ]
+    },
+    {
+      "name": "command-center-interface",
+      "type": "registry:block",
+      "title": "Command Center Interface",
+      "description": "Install an operator command center with queue navigation, searchable command palette, task detail, activity trace, responsive layout, and complete states.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/studio-core",
+        "wrg32786/aigent-design-system/patterns-core"
+      ],
+      "files": [
+        { "path": "templates/command-center-interface/index.html", "type": "registry:file", "target": "~/templates/command-center-interface/index.html" },
+        { "path": "templates/command-center-interface/styles.css", "type": "registry:file", "target": "~/templates/command-center-interface/styles.css" },
+        { "path": "templates/command-center-interface/app.js", "type": "registry:file", "target": "~/templates/command-center-interface/app.js" }
+      ]
+    },
+    {
+      "name": "threejs-product-stage",
+      "type": "registry:block",
+      "title": "Progressive Three.js Product Stage",
+      "description": "Install a progressive Three.js product stage with complete CSS fallback, opt-in loading, bounded pixel ratio, lifecycle controls, and WebGL recovery.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/studio-core",
+        "wrg32786/aigent-design-system/patterns-core"
+      ],
+      "dependencies": ["three"],
+      "files": [
+        { "path": "templates/threejs-product-stage/index.html", "type": "registry:file", "target": "~/templates/threejs-product-stage/index.html" },
+        { "path": "templates/threejs-product-stage/styles.css", "type": "registry:file", "target": "~/templates/threejs-product-stage/styles.css" },
+        { "path": "templates/threejs-product-stage/app.js", "type": "registry:file", "target": "~/templates/threejs-product-stage/app.js" },
+        { "path": "skills/threejs-web-scene/SKILL.md", "type": "registry:file", "target": "~/skills/threejs-web-scene/SKILL.md" },
+        { "path": "skills/web-3d-asset-pipeline/SKILL.md", "type": "registry:file", "target": "~/skills/web-3d-asset-pipeline/SKILL.md" }
+      ]
+    },
+    {
+      "name": "creative-production",
+      "type": "registry:item",
+      "title": "Creative Production System",
+      "description": "Install the curated source catalog, media briefs, production pipelines, provenance manifests, integration guides, recipes, and specialist asset skills.",
+      "files": [
+        { "path": "creative-production/README.md", "type": "registry:file", "target": "~/creative-production/README.md" },
+        { "path": "creative-production/catalog.json", "type": "registry:file", "target": "~/creative-production/catalog.json" },
+        { "path": "creative-production/briefs/hero-video.md", "type": "registry:file", "target": "~/creative-production/briefs/hero-video.md" },
+        { "path": "creative-production/briefs/cinematic-scene.md", "type": "registry:file", "target": "~/creative-production/briefs/cinematic-scene.md" },
+        { "path": "creative-production/briefs/interactive-3d-object.md", "type": "registry:file", "target": "~/creative-production/briefs/interactive-3d-object.md" },
+        { "path": "creative-production/briefs/scroll-frame-sequence.md", "type": "registry:file", "target": "~/creative-production/briefs/scroll-frame-sequence.md" },
+        { "path": "creative-production/pipelines/video-assets.md", "type": "registry:file", "target": "~/creative-production/pipelines/video-assets.md" },
+        { "path": "creative-production/pipelines/web-3d-assets.md", "type": "registry:file", "target": "~/creative-production/pipelines/web-3d-assets.md" },
+        { "path": "creative-production/pipelines/blender.md", "type": "registry:file", "target": "~/creative-production/pipelines/blender.md" },
+        { "path": "creative-production/pipelines/remotion.md", "type": "registry:file", "target": "~/creative-production/pipelines/remotion.md" },
+        { "path": "creative-production/pipelines/runtime-selection.md", "type": "registry:file", "target": "~/creative-production/pipelines/runtime-selection.md" },
+        { "path": "creative-production/standards/asset-budgets.md", "type": "registry:file", "target": "~/creative-production/standards/asset-budgets.md" },
+        { "path": "creative-production/standards/mobile-fallbacks.md", "type": "registry:file", "target": "~/creative-production/standards/mobile-fallbacks.md" },
+        { "path": "creative-production/standards/provenance.md", "type": "registry:file", "target": "~/creative-production/standards/provenance.md" },
+        { "path": "assets/README.md", "type": "registry:file", "target": "~/assets/README.md" },
+        { "path": "assets/manifests/asset-manifest.schema.json", "type": "registry:file", "target": "~/assets/manifests/asset-manifest.schema.json" },
+        { "path": "assets/manifests/example.asset-manifest.json", "type": "registry:file", "target": "~/assets/manifests/example.asset-manifest.json" },
+        { "path": "integrations/README.md", "type": "registry:file", "target": "~/integrations/README.md" },
+        { "path": "integrations/catalog.json", "type": "registry:file", "target": "~/integrations/catalog.json" },
+        { "path": "recipes/README.md", "type": "registry:file", "target": "~/recipes/README.md" },
+        { "path": "skills/cinematic-studio/SKILL.md", "type": "registry:file", "target": "~/skills/cinematic-studio/SKILL.md" },
+        { "path": "skills/creative-asset-director/SKILL.md", "type": "registry:file", "target": "~/skills/creative-asset-director/SKILL.md" },
+        { "path": "skills/video-asset-pipeline/SKILL.md", "type": "registry:file", "target": "~/skills/video-asset-pipeline/SKILL.md" },
+        { "path": "skills/web-3d-asset-pipeline/SKILL.md", "type": "registry:file", "target": "~/skills/web-3d-asset-pipeline/SKILL.md" },
+        { "path": "skills/remotion-web-assets/SKILL.md", "type": "registry:file", "target": "~/skills/remotion-web-assets/SKILL.md" },
+        { "path": "skills/spline-web-scene/SKILL.md", "type": "registry:file", "target": "~/skills/spline-web-scene/SKILL.md" },
+        { "path": "skills/gsap-scroll-choreography/SKILL.md", "type": "registry:file", "target": "~/skills/gsap-scroll-choreography/SKILL.md" },
+        { "path": "skills/asset-provenance-audit/SKILL.md", "type": "registry:file", "target": "~/skills/asset-provenance-audit/SKILL.md" }
+      ]
+    },
+    {
+      "name": "quality-suite",
+      "type": "registry:item",
+      "title": "Cinematic Quality Suite",
+      "description": "Install deterministic design, asset, catalog, registry, eval, scoring, capture, and browser QA tools with five fixed evaluation briefs.",
+      "files": [
+        { "path": "scripts/design-audit.mjs", "type": "registry:file", "target": "~/scripts/design-audit.mjs" },
+        { "path": "scripts/check-assets.mjs", "type": "registry:file", "target": "~/scripts/check-assets.mjs" },
+        { "path": "scripts/check-catalogs.mjs", "type": "registry:file", "target": "~/scripts/check-catalogs.mjs" },
+        { "path": "scripts/check-intelligence.mjs", "type": "registry:file", "target": "~/scripts/check-intelligence.mjs" },
+        { "path": "scripts/check-registry.mjs", "type": "registry:file", "target": "~/scripts/check-registry.mjs" },
+        { "path": "scripts/check-evals.mjs", "type": "registry:file", "target": "~/scripts/check-evals.mjs" },
+        { "path": "scripts/score-design.mjs", "type": "registry:file", "target": "~/scripts/score-design.mjs" },
+        { "path": "scripts/capture.mjs", "type": "registry:file", "target": "~/scripts/capture.mjs" },
+        { "path": "scripts/smoke.mjs", "type": "registry:file", "target": "~/scripts/smoke.mjs" },
+        { "path": "evals/README.md", "type": "registry:file", "target": "~/evals/README.md" },
+        { "path": "evals/rubric.json", "type": "registry:file", "target": "~/evals/rubric.json" },
+        { "path": "evals/review.schema.json", "type": "registry:file", "target": "~/evals/review.schema.json" },
+        { "path": "evals/briefs/developer-tool-launch.json", "type": "registry:file", "target": "~/evals/briefs/developer-tool-launch.json" },
+        { "path": "evals/briefs/operations-dashboard.json", "type": "registry:file", "target": "~/evals/briefs/operations-dashboard.json" },
+        { "path": "evals/briefs/research-dossier.json", "type": "registry:file", "target": "~/evals/briefs/research-dossier.json" },
+        { "path": "evals/briefs/cinematic-product-story.json", "type": "registry:file", "target": "~/evals/briefs/cinematic-product-story.json" },
+        { "path": "evals/briefs/resource-vault.json", "type": "registry:file", "target": "~/evals/briefs/resource-vault.json" },
+        { "path": "skills/cinematic-site-qa/SKILL.md", "type": "registry:file", "target": "~/skills/cinematic-site-qa/SKILL.md" }
+      ]
+    },
+    {
+      "name": "design-vault",
+      "type": "registry:block",
+      "title": "Design Vault",
+      "description": "Install the searchable catalog for browsing pages, interfaces, patterns, design intelligence, production systems, skills, previews, and install commands.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/studio-core",
+        "wrg32786/aigent-design-system/patterns-core"
+      ],
+      "files": [
+        { "path": "vault/index.html", "type": "registry:file", "target": "~/vault/index.html" },
+        { "path": "vault/app.js", "type": "registry:file", "target": "~/vault/app.js" }
+      ]
+    },
+    {
+      "name": "full-studio",
+      "type": "registry:item",
+      "title": "Complete AIgent Design Studio",
+      "description": "Install the complete flagship system: design intelligence, Claude skill, patterns, reference pages, creative production, QA, Design Vault, and production case studies.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/studio-core",
+        "wrg32786/aigent-design-system/patterns-core",
+        "wrg32786/aigent-design-system/cinematic-page",
+        "wrg32786/aigent-design-system/immersive-sales-deck",
+        "wrg32786/aigent-design-system/command-center-interface",
+        "wrg32786/aigent-design-system/threejs-product-stage",
+        "wrg32786/aigent-design-system/creative-production",
+        "wrg32786/aigent-design-system/quality-suite",
+        "wrg32786/aigent-design-system/design-vault"
+      ],
+      "files": [
+        { "path": "README.md", "type": "registry:file", "target": "~/AIgent-Design-System.md" },
+        { "path": "CHANGELOG.md", "type": "registry:file", "target": "~/AIgent-Design-CHANGELOG.md" },
+        { "path": "CONTRIBUTING.md", "type": "registry:file", "target": "~/AIgent-Design-CONTRIBUTING.md" },
+        { "path": "SECURITY.md", "type": "registry:file", "target": "~/AIgent-Design-SECURITY.md" },
+        { "path": "case-studies/README.md", "type": "registry:file", "target": "~/case-studies/README.md" },
+        { "path": "case-studies/theaigent-home/README.md", "type": "registry:file", "target": "~/case-studies/theaigent-home/README.md" },
+        { "path": "case-studies/tools-vault/README.md", "type": "registry:file", "target": "~/case-studies/tools-vault/README.md" },
+        { "path": "skills/aigent-3d-scroll-system/SKILL.md", "type": "registry:file", "target": "~/skills/aigent-3d-scroll-system/SKILL.md" },
+        { "path": "skills/aigent-landing-page-polish/SKILL.md", "type": "registry:file", "target": "~/skills/aigent-landing-page-polish/SKILL.md" },
+        { "path": "skills/aigent-asset-gallery-system/SKILL.md", "type": "registry:file", "target": "~/skills/aigent-asset-gallery-system/SKILL.md" },
+        { "path": "skills/cinematic-asset-gallery/SKILL.md", "type": "registry:file", "target": "~/skills/cinematic-asset-gallery/SKILL.md" }
+      ]
+    }
+  ]
+}

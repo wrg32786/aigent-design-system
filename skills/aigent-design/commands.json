@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "commands": [
+    {
+      "name": "shape",
+      "owns": "Clarify job, audience, proof, states, constraints, and return a design brief without code.",
+      "reference": "reference/shape.md"
+    },
+    {
+      "name": "create",
+      "owns": "Create or replace a complete visual world and surface.",
+      "reference": "reference/new-work.md"
+    },
+    {
+      "name": "page",
+      "owns": "Build a cinematic landing page, story, gallery, or immersive web surface.",
+      "reference": "reference/new-work.md"
+    },
+    {
+      "name": "deck",
+      "owns": "Build an immersive sales, sponsorship, launch, or presentation deck.",
+      "reference": "reference/deck.md"
+    },
+    {
+      "name": "interface",
+      "owns": "Build or improve product UI, dashboards, tools, editors, or resource systems.",
+      "reference": "reference/interface.md"
+    },
+    {
+      "name": "asset",
+      "owns": "Choose, source, generate, render, optimize, and manifest video or 3D media.",
+      "reference": "reference/media.md"
+    },
+    {
+      "name": "layout",
+      "owns": "Repair hierarchy, grouping, density, structure, and responsive behavior.",
+      "reference": "reference/layout.md"
+    },
+    {
+      "name": "typeset",
+      "owns": "Choose or repair type roles, font systems, measure, and delivery.",
+      "reference": "reference/type.md"
+    },
+    {
+      "name": "color",
+      "owns": "Choose or repair palette strategy, semantic roles, contrast, material, and surface hierarchy.",
+      "reference": "reference/color.md"
+    },
+    {
+      "name": "animate",
+      "owns": "Define and implement one focal motion system plus supporting state transitions.",
+      "reference": "reference/motion.md"
+    },
+    {
+      "name": "critique",
+      "owns": "Assess product clarity, composition, world coherence, interaction, media, and implementation.",
+      "reference": "reference/craft-floor.md"
+    },
+    {
+      "name": "polish",
+      "owns": "Finish a working surface without changing its product truth or visual authority.",
+      "reference": "reference/craft-floor.md"
+    },
+    {
+      "name": "audit",
+      "owns": "Run deterministic, browser, asset, registry, and provenance checks.",
+      "reference": "reference/craft-floor.md"
+    },
+    {
+      "name": "extract",
+      "owns": "Promote proven patterns into tokens, recipes, registry items, or skills.",
+      "reference": "reference/craft-floor.md"
+    },
+    {
+      "name": "install",
+      "owns": "Find and install the smallest registry item or external component source that solves the need.",
+      "reference": "reference/interface.md"
+    },
+    {
+      "name": "eval",
+      "owns": "Score a finished surface against the AIgent rubric without inventing results.",
+      "reference": "reference/craft-floor.md"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+[data-command-palette] {
+  width: min(620px, calc(100vw - 32px));
+  max-height: min(720px, calc(100svh - 48px));
+  padding: 0;
+  border: 1px solid var(--ds-color-rule-strong, #555);
+  border-radius: var(--ds-radius-md, 10px);
+  background: var(--ds-color-surface, #171717);
+  color: var(--ds-color-text, #fff);
+  box-shadow: 0 36px 100px rgb(0 0 0 / 0.42);
+}
+
+[data-command-palette]::backdrop {
+  background: rgb(0 0 0 / 0.62);
+  backdrop-filter: blur(7px);
+}
+
+[data-command-palette] input {
+  width: 100%;
+  min-height: 58px;
+  padding: 0 20px;
+  border: 0;
+  border-bottom: 1px solid var(--ds-color-rule, #444);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+[data-command-list] {
+  max-height: 52svh;
+  margin: 0;
+  padding: 8px;
+  overflow: auto;
+  list-style: none;
+}
+
+[data-command-list] button {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--ds-radius-sm, 6px);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+[data-command-list] button:hover,
+[data-command-list] button:focus-visible {
+  outline: 2px solid var(--ds-color-accent, #dc6948);
+  outline-offset: -2px;
+  background: rgb(var(--ds-accent-rgb, 220 105 72) / 0.13);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-command-palette]::backdrop { backdrop-filter: none; }
+}

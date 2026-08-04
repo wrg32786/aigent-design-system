@@ -1,0 +1,28 @@
+.is-focus-reveal-ready [data-focus-reveal] {
+  opacity: 0.16;
+  filter: blur(12px);
+  transform: scale(0.985);
+  clip-path: inset(4% 0 12% 0);
+  transition:
+    opacity 760ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 760ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 760ms cubic-bezier(0.16, 1, 0.3, 1),
+    clip-path 760ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.is-focus-reveal-ready [data-focus-reveal][data-visible="true"] {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+  clip-path: inset(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-focus-reveal-ready [data-focus-reveal] {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+}

@@ -1,0 +1,30 @@
+name: Correct a source record
+about: Correct a license, pricing, capability, or availability record in the creative catalog
+labels: [source-correction]
+body:
+  - type: input
+    id: record
+    attributes:
+      label: Catalog record ID
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Correction
+    validations:
+      required: true
+  - type: input
+    id: official-source
+    attributes:
+      label: Official source URL
+      description: Use the provider's official license, pricing, documentation, or repository page.
+    validations:
+      required: true
+  - type: input
+    id: checked
+    attributes:
+      label: Date checked
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true

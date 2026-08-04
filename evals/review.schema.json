@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AIgent design human review",
+  "type": "object",
+  "required": ["reviewer", "ratings", "verdict"],
+  "additionalProperties": false,
+  "properties": {
+    "reviewer": { "type": "string", "minLength": 2 },
+    "ratings": {
+      "type": "object",
+      "required": ["product-clarity", "product-specificity", "composition", "typography", "motion-media", "finish"],
+      "additionalProperties": false,
+      "properties": {
+        "product-clarity": { "type": "number", "minimum": 0, "maximum": 5 },
+        "product-specificity": { "type": "number", "minimum": 0, "maximum": 5 },
+        "composition": { "type": "number", "minimum": 0, "maximum": 5 },
+        "typography": { "type": "number", "minimum": 0, "maximum": 5 },
+        "motion-media": { "type": "number", "minimum": 0, "maximum": 5 },
+        "finish": { "type": "number", "minimum": 0, "maximum": 5 }
+      }
+    },
+    "verdict": { "type": "string", "minLength": 8 },
+    "strengths": { "type": "array", "items": { "type": "string" } },
+    "failures": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,69 @@
+[data-guided-deck] {
+  --deck-progress: 0;
+  --deck-duration: 620ms;
+  --deck-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-guided-deck].is-deck-ready [data-deck-slide] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  clip-path: inset(0 0 0 100%);
+  transition:
+    opacity calc(var(--deck-duration) * 0.55) ease,
+    clip-path var(--deck-duration) var(--deck-ease),
+    visibility 0s linear var(--deck-duration);
+}
+
+[data-guided-deck].is-deck-ready[data-direction="backward"] [data-deck-slide] {
+  clip-path: inset(0 100% 0 0);
+}
+
+[data-guided-deck].is-deck-ready [data-deck-slide][data-active="true"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  clip-path: inset(0 0 0 0);
+  transition-delay: 0s;
+}
+
+.deck-chapter {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.deck-chapter::before {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  margin: auto;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.36;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.deck-chapter:hover::before,
+.deck-chapter[aria-current="step"]::before {
+  transform: scale(1.65);
+  opacity: 1;
+}
+
+.deck-chapter:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-guided-deck].is-deck-ready [data-deck-slide] {
+    clip-path: none;
+    transition: opacity 1ms linear, visibility 1ms linear;
+  }
+}
