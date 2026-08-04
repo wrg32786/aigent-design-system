@@ -26,6 +26,35 @@ async function text(locator) {
   return ((await locator.textContent()) || "").trim();
 }
 
+async function verifyScrollReveals(page, label) {
+  const total = await page.locator("[data-reveal]").count();
+  if (!total) return;
+
+  await page.evaluate(async () => {
+    const wait = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
+    const step = Math.max(240, Math.floor(window.innerHeight * 0.72));
+    let position = 0;
+    let maximum = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    while (position < maximum) {
+      position = Math.min(maximum, position + step);
+      window.scrollTo(0, position);
+      await wait(110);
+      maximum = Math.max(maximum, document.documentElement.scrollHeight - window.innerHeight);
+    }
+  });
+  await page.waitForTimeout(800);
+
+  const hidden = await page.locator("[data-reveal]").evaluateAll((nodes) => nodes
+    .filter((node) => {
+      const style = getComputedStyle(node);
+      return Number(style.opacity) < 0.95 || style.visibility === "hidden";
+    })
+    .map((node) => node.textContent?.trim().slice(0, 60) || node.tagName));
+
+  if (hidden.length) throw new Error(`${label}: ${hidden.length} scroll reveals remained hidden: ${hidden.slice(0, 3).join(" | ")}`);
+  await page.evaluate(() => window.scrollTo(0, 0));
+}
+
 const browser = await launchBrowser();
 try {
   for (const viewport of viewports) {
@@ -49,6 +78,10 @@ try {
       if (h1s !== 1) throw new Error(`${viewport.name} ${url}: expected one h1, found ${h1s}`);
       if (horizontalOverflow) throw new Error(`${viewport.name} ${url}: horizontal overflow`);
       if (errors.length) throw new Error(`${viewport.name} ${url}: page error: ${errors.join(" | ")}`);
+
+      if (url === "/" || url === "/templates/modular-scroll-starter/") {
+        await verifyScrollReveals(page, `${viewport.name} ${url}`);
+      }
 
       if (url === "/templates/modular-scroll-starter/") {
         await page.locator('[data-set-theme="paper"]').click();
