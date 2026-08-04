@@ -4,34 +4,16 @@ function prefersReducedMotion() {
   return globalThis.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
 }
 
-export function mountScrollScene({
-  root = document.documentElement,
-  progressMultiplier = 1.75,
-  scale = 1.35,
-  rotation = -72,
-  brightness = [0.78, 1],
-} = {}) {
+function mountViewportLoop(update) {
   let frame = 0;
 
-  function update() {
-    frame = 0;
-    const max = Math.max(1, root.scrollHeight - globalThis.innerHeight);
-    const progress = clamp(globalThis.scrollY / max);
-    const sceneProgress = prefersReducedMotion()
-      ? 0
-      : clamp(progress * progressMultiplier);
-
-    root.style.setProperty("--ds-scroll", progress.toFixed(4));
-    root.style.setProperty("--ds-scene-scale", (1 + sceneProgress * scale).toFixed(3));
-    root.style.setProperty("--ds-scene-rotate", `${(sceneProgress * rotation).toFixed(2)}deg`);
-    root.style.setProperty(
-      "--ds-scene-brightness",
-      (brightness[0] + sceneProgress * (brightness[1] - brightness[0])).toFixed(2),
-    );
-  }
-
   function requestUpdate() {
-    if (!frame) frame = requestAnimationFrame(update);
+    if (!frame) {
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        update();
+      });
+    }
   }
 
   globalThis.addEventListener("scroll", requestUpdate, { passive: true });
@@ -43,6 +25,45 @@ export function mountScrollScene({
     globalThis.removeEventListener("scroll", requestUpdate);
     globalThis.removeEventListener("resize", requestUpdate);
   };
+}
+
+export function mountScrollProgress({
+  root = document.documentElement,
+  property = "--ds-scroll",
+} = {}) {
+  return mountViewportLoop(() => {
+    const max = Math.max(1, root.scrollHeight - globalThis.innerHeight);
+    root.style.setProperty(property, clamp(globalThis.scrollY / max).toFixed(4));
+  });
+}
+
+export function mountScrollScene({
+  root = document.documentElement,
+  progressMultiplier = 1.75,
+  scale = 1.35,
+  rotation = -72,
+  translateX = 0,
+  translateY = 0,
+  brightness = [0.78, 1],
+} = {}) {
+  return mountViewportLoop(() => {
+    const max = Math.max(1, root.scrollHeight - globalThis.innerHeight);
+    const progress = clamp(globalThis.scrollY / max);
+    const sceneProgress = prefersReducedMotion()
+      ? 0
+      : clamp(progress * progressMultiplier);
+
+    root.style.setProperty("--ds-scroll", progress.toFixed(4));
+    root.style.setProperty("--ds-scene-progress", sceneProgress.toFixed(4));
+    root.style.setProperty("--ds-scene-scale", (1 + sceneProgress * scale).toFixed(3));
+    root.style.setProperty("--ds-scene-rotate", `${(sceneProgress * rotation).toFixed(2)}deg`);
+    root.style.setProperty("--ds-scene-x", `${(sceneProgress * translateX).toFixed(2)}px`);
+    root.style.setProperty("--ds-scene-y", `${(sceneProgress * translateY).toFixed(2)}px`);
+    root.style.setProperty(
+      "--ds-scene-brightness",
+      (brightness[0] + sceneProgress * (brightness[1] - brightness[0])).toFixed(2),
+    );
+  });
 }
 
 export function mountReveals(
@@ -81,10 +102,12 @@ export function mountThemePicker(
   if (!buttons.length) return () => {};
 
   function setTheme(theme) {
+    if (!theme) return;
     target.dataset.theme = theme;
     for (const button of buttons) {
       button.setAttribute("aria-pressed", String(button.dataset.setTheme === theme));
     }
+    target.dispatchEvent(new CustomEvent("ds:themechange", { detail: { theme } }));
   }
 
   const listeners = buttons.map((button) => {
