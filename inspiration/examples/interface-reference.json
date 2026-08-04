@@ -9,7 +9,7 @@
   "interaction": { "total": 38, "buttons": 18, "links": 8, "inputs": 5, "dialogs": 1, "patterns": ["button", "input", "dialog", "link"] },
   "media": { "images": 0, "video": 0, "canvas": 1, "svg": 6, "iframe": 0, "audio": 0, "threeHints": 0, "splineHints": 0, "renderers": [], "patterns": ["canvas", "svg"] },
   "responsive": { "viewports": [{ "id": "desktop", "width": 1440, "height": 1000 }, { "id": "mobile", "width": 390, "height": 844 }], "transformations": ["three panes become list then detail routes", "secondary navigation moves to a sheet"] },
-  "copyFingerprint": { "headingTokens": ["review", "activity", "evidence"], "sampleHash": "example3", "sample": "" },
+  "copyFingerprint": { "headingTokens": ["review", "activity", "evidence"], "sampleHash": "example3", "shingleHashes": [], "wordCount": 0, "sampleLength": 0 },
   "signatures": ["operator-workspace", "rule-driven", "fast-interface", "monospaced", "dialog"],
   "evidence": { "viewportCount": 2, "elementCount": 330, "cdpNodeCount": 0, "cdpLayoutCount": 0, "reason": "Public example record for deterministic UI synthesis." }
 }
