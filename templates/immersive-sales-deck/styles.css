@@ -4,11 +4,16 @@
       --deck-stage: rgb(var(--ds-bg-rgb) / 0.96);
     }
 
-    html { background: var(--ds-color-bg); }
-    body { overflow: hidden; }
+    html,
+    body {
+      width: 100%;
+      overflow: hidden;
+      background: var(--ds-color-bg);
+    }
 
     .deck {
       min-height: 100svh;
+      overflow: clip;
       background:
         radial-gradient(circle at 72% 32%, rgb(var(--ds-accent-rgb) / .13), transparent 28rem),
         linear-gradient(135deg, var(--ds-color-bg), var(--ds-color-surface));
@@ -61,6 +66,7 @@
     .deck-stage {
       position: relative;
       min-height: 100svh;
+      overflow: clip;
       isolation: isolate;
     }
 
