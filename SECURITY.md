@@ -19,6 +19,7 @@ Do not include live credentials, private screenshots, or personal data in the re
 - asset manifests must not contain signed download URLs or private generation records
 - raw marketplace downloads and source renders stay outside Git
 - inspiration captures and extracted page evidence stay under `.aigent/inspiration`, which is ignored by Git
+- normalized Design DNA stores hashed copy shingles and counts, not raw body-copy samples
 - do not capture authenticated, private, paywalled, personal, or confidential pages without explicit authority
 - do not use URL forensics to bypass access controls or collect data beyond the design task
 - external registry items must be reviewed before installation

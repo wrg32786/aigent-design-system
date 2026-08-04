@@ -38,9 +38,14 @@ export function compareDesignDna(target, source) {
   const motion = jaccard(featureSet(target, ["motion.tags"]), featureSet(source, ["motion.tags"]));
   const interaction = jaccard(featureSet(target, ["interaction.patterns"]), featureSet(source, ["interaction.patterns"]));
   const media = jaccard(featureSet(target, ["media.patterns", "media.renderers"]), featureSet(source, ["media.patterns", "media.renderers"]));
-  const targetCopy = target?.copyFingerprint?.sample || (target?.copyFingerprint?.headingTokens || []).join(" ");
-  const sourceCopy = source?.copyFingerprint?.sample || (source?.copyFingerprint?.headingTokens || []).join(" ");
-  const copy = targetCopy && sourceCopy ? jaccard(shingles(targetCopy), shingles(sourceCopy)) : 0;
+  const targetHashes = new Set(target?.copyFingerprint?.shingleHashes || []);
+  const sourceHashes = new Set(source?.copyFingerprint?.shingleHashes || []);
+  let copy = targetHashes.size && sourceHashes.size ? jaccard(targetHashes, sourceHashes) : 0;
+  if (!targetHashes.size || !sourceHashes.size) {
+    const targetCopy = target?.copyFingerprint?.sample || (target?.copyFingerprint?.headingTokens || []).join(" ");
+    const sourceCopy = source?.copyFingerprint?.sample || (source?.copyFingerprint?.headingTokens || []).join(" ");
+    copy = targetCopy && sourceCopy ? jaccard(shingles(targetCopy), shingles(sourceCopy)) : 0;
+  }
   const weighted = (structure * 0.24) + (typography * 0.13) + (material * 0.17) + (motion * 0.18) + (interaction * 0.13) + (media * 0.1) + (copy * 0.05);
   return {
     overall: Number(weighted.toFixed(4)),

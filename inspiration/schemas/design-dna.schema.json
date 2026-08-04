@@ -3,21 +3,148 @@
   "$id": "https://theaigent.xyz/schemas/design-dna.schema.json",
   "title": "AIgent Design DNA",
   "type": "object",
-  "required": ["schemaVersion", "source", "confidence", "structure", "typography", "material", "motion", "interaction", "media", "responsive", "signatures", "evidence"],
+  "required": [
+    "schemaVersion",
+    "source",
+    "confidence",
+    "structure",
+    "typography",
+    "material",
+    "motion",
+    "interaction",
+    "media",
+    "responsive",
+    "signatures",
+    "evidence"
+  ],
   "properties": {
-    "schemaVersion": { "const": 1 },
-    "source": { "type": "object", "required": ["kind"], "properties": { "id": { "type": ["string", "null"] }, "kind": { "type": "string" }, "origin": { "type": ["string", "null"] }, "capturedAt": { "type": "string" } } },
-    "confidence": { "type": "object", "required": ["overall"], "properties": { "overall": { "type": "number", "minimum": 0, "maximum": 1 } }, "additionalProperties": true },
-    "structure": { "type": "object", "required": ["topology", "modes"], "properties": { "topology": { "type": "string" }, "modes": { "type": "array", "items": { "type": "string" } } } },
-    "typography": { "type": "object" },
-    "material": { "type": "object" },
-    "motion": { "$ref": "./motion-dna.schema.json" },
-    "interaction": { "type": "object" },
-    "media": { "type": "object" },
-    "responsive": { "type": "object" },
-    "copyFingerprint": { "type": "object" },
-    "signatures": { "type": "array", "items": { "type": "string" } },
-    "evidence": { "type": "object" }
+    "schemaVersion": {
+      "const": 1
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "type": "string"
+        },
+        "origin": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "capturedAt": {
+          "type": "string"
+        }
+      }
+    },
+    "confidence": {
+      "type": "object",
+      "required": [
+        "overall"
+      ],
+      "properties": {
+        "overall": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "structure": {
+      "type": "object",
+      "required": [
+        "topology",
+        "modes"
+      ],
+      "properties": {
+        "topology": {
+          "type": "string"
+        },
+        "modes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "typography": {
+      "type": "object"
+    },
+    "material": {
+      "type": "object"
+    },
+    "motion": {
+      "$ref": "./motion-dna.schema.json"
+    },
+    "interaction": {
+      "type": "object"
+    },
+    "media": {
+      "type": "object"
+    },
+    "responsive": {
+      "type": "object"
+    },
+    "copyFingerprint": {
+      "type": "object",
+      "required": [
+        "headingTokens",
+        "sampleHash",
+        "shingleHashes",
+        "wordCount",
+        "sampleLength"
+      ],
+      "properties": {
+        "headingTokens": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sampleHash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "shingleHashes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "wordCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sampleLength": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "signatures": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence": {
+      "type": "object"
+    }
   },
   "additionalProperties": true
 }

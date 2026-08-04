@@ -26,6 +26,8 @@ assert.equal(fixture.designDna.evidence.viewportCount, 2);
 assert.notEqual(fixture.designDna.structure.topology, "unresolved");
 assert.ok(fixture.designDna.evidence.cdpNodeCount > 0);
 assert.ok(fixture.designDna.motion.animationCount > 0);
+assert.equal("sample" in fixture.designDna.copyFingerprint, false);
+assert.ok(fixture.designDna.copyFingerprint.shingleHashes.length > 0);
 assert.ok(fs.existsSync(path.join(fixture.directory, "report.html")));
 for (const capture of fixture.captures) {
   assert.ok(fs.existsSync(path.join(fixture.directory, capture.screenshots.viewport)));

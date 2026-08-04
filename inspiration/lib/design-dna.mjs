@@ -4,6 +4,7 @@ import {
   normalizeCssColor,
   percentile,
   shortHash,
+  shingles,
   tokenize,
   unique,
 } from "./common.mjs";
@@ -362,7 +363,9 @@ export function deriveDesignDna(captures, source = {}) {
     copyFingerprint: {
       headingTokens: unique(tokenize(headings.map((heading) => heading.text).join(" "))).slice(0, 120),
       sampleHash: shortHash(copySample, 16),
-      sample: copySample,
+      shingleHashes: [...shingles(copySample)].map((value) => shortHash(value, 16)).slice(0, 1200),
+      wordCount: tokenize(copySample).length,
+      sampleLength: copySample.length,
     },
     signatures,
     evidence: {
@@ -386,7 +389,7 @@ export function emptyDesignDna(kind = "unknown", reason = "No deterministic evid
     interaction: { total: 0, buttons: 0, links: 0, inputs: 0, dialogs: 0, patterns: [] },
     media: { images: 0, video: 0, canvas: 0, svg: 0, iframe: 0, audio: 0, threeHints: 0, splineHints: 0, renderers: [], patterns: [] },
     responsive: { viewports: [], transformations: [] },
-    copyFingerprint: { headingTokens: [], sampleHash: null, sample: "" },
+    copyFingerprint: { headingTokens: [], sampleHash: null, shingleHashes: [], wordCount: 0, sampleLength: 0 },
     signatures: [kind, "unresolved"],
     evidence: { viewportCount: 0, elementCount: 0, cdpNodeCount: 0, cdpLayoutCount: 0, reason },
   };
