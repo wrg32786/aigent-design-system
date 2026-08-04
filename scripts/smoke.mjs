@@ -22,6 +22,10 @@ async function launchBrowser() {
   catch { return chromium.launch({ headless: true }); }
 }
 
+async function text(locator) {
+  return ((await locator.textContent()) || "").trim();
+}
+
 const browser = await launchBrowser();
 try {
   for (const viewport of viewports) {
@@ -55,10 +59,10 @@ try {
 
       if (url === "/templates/immersive-sales-deck/") {
         await page.waitForFunction(() => document.documentElement.dataset.deckReady === "true");
-        if ((await page.locator("#slide-label").innerText()) !== "Slide 1 of 6") throw new Error(`${viewport.name} ${url}: deck initial state failed`);
+        if ((await text(page.locator("#slide-label"))) !== "Slide 1 of 6") throw new Error(`${viewport.name} ${url}: deck initial state failed`);
         await page.locator("#next").click();
         await page.waitForFunction(() => document.documentElement.dataset.activeSlide === "2");
-        if ((await page.locator("#slide-label").innerText()) !== "Slide 2 of 6") throw new Error(`${viewport.name} ${url}: deck navigation failed`);
+        if ((await text(page.locator("#slide-label"))) !== "Slide 2 of 6") throw new Error(`${viewport.name} ${url}: deck navigation failed`);
         await page.locator("#previous").click();
         await page.waitForFunction(() => document.documentElement.dataset.activeSlide === "1");
       }
@@ -72,7 +76,7 @@ try {
       }
 
       if (url === "/templates/threejs-product-stage/") {
-        const status = await page.locator("#status").innerText();
+        const status = await text(page.locator("#status"));
         if (!/fallback|active|loading/i.test(status)) throw new Error(`${viewport.name} ${url}: progressive 3D status missing`);
       }
 
