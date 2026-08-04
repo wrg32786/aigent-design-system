@@ -1,52 +1,84 @@
 # Design Principles
 
-## Build The Experience First
+## Begin with product truth
 
-The first screen should be the product, tool, or artifact. Avoid landing-page filler when the user asked for an app, list, gallery, or usable experience.
+Read `PRODUCT.md`, `DESIGN.md`, the target page, and one representative source of the existing visual system before editing. A missing design document does not erase a coherent identity already present in code or production pages.
 
-## Keep The Language Human
+## Choose the surface mode
 
-Use short lines. Avoid jargon unless the audience already knows it. Translate technical labels into outcomes:
+- **Persuade:** make the offer, proof, and action immediately legible.
+- **Operate:** prioritize task completion, state, and familiar controls.
+- **Read:** prioritize structure, line length, rhythm, and wayfinding.
+- **Experience:** let the artifact or world lead from the first viewport.
 
-- "browser automation" becomes "AI can operate websites for you"
-- "RAG" becomes "AI searches your own docs before answering"
-- "MCP" becomes "connects the agent to tools"
+The mode determines the hierarchy. The company category does not.
 
-## Use 3D As Orientation, Not Decoration
+## Build an own-world page
 
-3D should make the page feel like a place the user moves through. It should not fight the copy. Good uses:
+A strong direction comes from the audience and subject, not from the default look of its category. Define a concrete visual world, the category rut, and the anti-references before choosing colors.
 
-- background motion that tracks scroll progress
-- camera movement between chapters
-- object reveals for key transitions
-- subtle lighting changes that make sections feel alive
+A palette swap is not a new direction. Type, composition, material, navigation, motion, and responsive behavior must agree.
 
-Bad uses:
+## Show the proof
 
-- random floating objects with no story
-- busy animation behind small text
-- scroll effects that finish long after the content ends
+The page itself should demonstrate the quality it claims. Use real product behavior, real media, real copy, or honestly labeled illustrative material. Do not invent customers, benchmarks, prices, or capabilities.
 
-## Motion Rules
+## Use the lightest renderer that carries the idea
 
-- Reveal content when it is readable, not when it is already leaving the viewport.
-- On mobile, trigger earlier.
-- Use one motion idea per section.
-- Keep hover effects responsive and restrained.
-- Honor `prefers-reduced-motion`.
+- CSS for graphic or abstract depth.
+- Spline for a fast interactive 3D scene.
+- Video scrub for controlled photoreal direction.
+- Frame sequences for exact playback and mobile consistency.
+- Three.js or WebGL only when live geometry, lighting, or manipulation matters.
 
-## Premium Surface Rules
+The renderer is a scene implementation, not the page architecture.
 
-- Use fewer, better cards.
-- Use 8-16px radii depending on density.
-- Use thin borders plus glow only where emphasis is needed.
-- Use stable button dimensions so price changes do not cause layout shift.
-- Do not nest cards inside cards.
+## Motion has a job
 
-## Mobile Rules
+Choose one authored motion idea for the page. Supporting reveals should stay quiet. Motion may reveal, orient, compare, explain state, or reward; it should not exist because every section needs an entrance.
 
-- Sticky nav is allowed, but secondary sticky headers usually are not.
-- Center the active nav chip.
-- Make cards visible before the user reaches the section midpoint.
-- Keep copy at least 16px body size.
-- Test at 360px width and on a real phone when possible.
+Keep the default state readable, honor `prefers-reduced-motion`, and avoid bounce or elastic easing unless the product’s physical behavior genuinely calls for it.
+
+## Refuse the common generated tells
+
+Unless the brief specifically earns them:
+
+- no identical icon-heading-text card grid as the page scaffold
+- no nested cards
+- no repeated eyebrow above every heading
+- no gradient text
+- no glass used as generic decoration
+- no pure neutral black ground when a tinted dark belongs to the world
+- no mono used merely to signal “technical”
+- no random floating 3D object
+- no glow without an emitted-light or active-state reason
+- no section numbers unless the sequence itself matters
+
+## Treat typography as structure
+
+Use a display face with a point of view on Persuade and Experience surfaces. Use workhorse faces where operating or reading speed matters. Maintain clear scale and weight steps, keep body copy near 65–75 characters per line, and test real copy at every breakpoint.
+
+## Use fewer surfaces
+
+Prefer rules, spacing, lists, and composition before adding another card. A border and shadow should not both explain the same elevation. Pills are for compact controls; they are not the default shape for every object.
+
+## Verify the built result
+
+Check desktop and mobile together, fix the whole batch, then confirm once. Verify:
+
+- first-viewport clarity
+- WCAG AA contrast
+- keyboard focus and semantic controls
+- touch targets
+- real-copy overflow
+- horizontal overflow
+- reduced-motion completeness
+- media loading and seek behavior
+- one coherent product-specific visual system
+
+Run:
+
+```bash
+npm run audit -- <path>
+npm run smoke
+```

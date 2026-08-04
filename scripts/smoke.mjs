@@ -3,6 +3,7 @@ import { chromium } from "playwright";
 const base = process.env.BASE_URL || "http://127.0.0.1:4177";
 const pages = [
   "/",
+  "/templates/modular-scroll-starter/",
   "/templates/free-design-stack/",
   "/templates/spline-scroll-landing/",
   "/templates/asset-scroll-gallery/"
@@ -33,12 +34,25 @@ try {
       const title = await page.title();
       const bodyText = await page.locator("body").innerText();
       const links = await page.locator("a").count();
-      const horizontalOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 2);
+      const h1s = await page.locator("h1").count();
+      const horizontalOverflow = await page.evaluate(
+        () => document.documentElement.scrollWidth > window.innerWidth + 2
+      );
 
       if (!title) throw new Error(`${viewport.name} ${url}: missing title`);
       if (bodyText.trim().length < 80) throw new Error(`${viewport.name} ${url}: body text too sparse`);
       if (links < 1) throw new Error(`${viewport.name} ${url}: no links found`);
+      if (h1s !== 1) throw new Error(`${viewport.name} ${url}: expected one h1, found ${h1s}`);
       if (horizontalOverflow) throw new Error(`${viewport.name} ${url}: horizontal overflow`);
+
+      if (url === "/templates/modular-scroll-starter/") {
+        await page.locator('[data-set-theme="paper"]').click();
+        const theme = await page.locator("html").getAttribute("data-theme");
+        const pressed = await page.locator('[data-set-theme="paper"]').getAttribute("aria-pressed");
+        if (theme !== "paper" || pressed !== "true") {
+          throw new Error(`${viewport.name} ${url}: theme picker did not update its state`);
+        }
+      }
 
       console.log(`[ok] ${viewport.name} ${url} :: ${title}`);
     }

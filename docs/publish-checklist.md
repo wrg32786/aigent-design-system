@@ -1,15 +1,18 @@
-# Publish Checklist
+# Release Checklist
 
-Before pushing public:
+Before merging a public release:
 
-- Replace placeholder Spline scene URLs with scenes The AIgent owns or wants public.
-- Confirm all third-party assets and references are license-safe.
-- Decide public repo name: `aigent-design-system`, `aigent-design-kit`, or `aigent-creative-system`.
-- Add screenshots or a short demo GIF.
-- Add GitHub topics: `ai`, `design-system`, `spline`, `gsap`, `agent-skills`, `landing-page`.
-- Decide whether to publish to npm later or keep it as a copyable repo.
-- Add a public examples section once the first live page ships from the kit.
+- [ ] `PRODUCT.md` and `DESIGN.md` match the intended product and visual authority.
+- [ ] New work uses semantic `ds-*` roles unless it is intentionally AIgent-branded.
+- [ ] Outside references are recorded in `docs/source-stack-intake.md` and license obligations are reflected in `THIRD_PARTY.md`.
+- [ ] Placeholder scenes, media, tracking IDs, private URLs, and customer data are removed.
+- [ ] `npm run check` passes.
+- [ ] `npm run audit -- <changed paths> --strict` passes.
+- [ ] `npm run smoke` passes at desktop and mobile sizes.
+- [ ] Keyboard focus, reduced motion, contrast, links, and touch targets are verified.
+- [ ] The first viewport makes the surface's job and primary action clear.
+- [ ] The design still belongs to the product after the decorative media is hidden.
 
-Recommended first public release:
+For video scrubbing, also verify byte-range support, seek behavior, poster loading, and mobile fitting using `docs/cinematic-scroll-deck-playbook.md`.
 
-`v0.1.0` - static templates, tokens, docs, and agent skills.
+A merge makes the repository source live. Production sites deploy separately unless their own repositories or deployment pipelines consume this package.

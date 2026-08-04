@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en" data-theme="graphite">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A brand-neutral cinematic scroll starter with semantic tokens, deliberate art direction, and small native JavaScript modules." />
+  <title>Cinematic Scroll Starter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&family=Martian+Mono:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../tokens/system.css" />
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      z-index: 20;
+      width: calc(var(--ds-scroll) * 100%);
+      height: 2px;
+      background: var(--ds-color-accent);
+    }
+
+    .topbar {
+      position: fixed;
+      z-index: 15;
+      top: 18px;
+      left: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      transform: translateX(-50%);
+    }
+
+    .wordmark {
+      color: var(--ds-color-text);
+      font: 600 0.72rem/1 var(--ds-font-mono);
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .scene {
+      position: fixed;
+      z-index: 0;
+      inset: -10vh -10vw -10vh 36vw;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      perspective: 1300px;
+      overflow: hidden;
+    }
+
+    .scene::before {
+      content: "";
+      position: absolute;
+      inset: 9% 8% 12% 18%;
+      border: 1px solid var(--ds-color-rule);
+      background: rgb(var(--ds-surface-rgb) / 0.28);
+      transform: skewY(-7deg);
+    }
+
+    .scene-core {
+      position: relative;
+      width: min(58vw, 760px);
+      aspect-ratio: 0.78;
+      transform:
+        translate3d(var(--ds-scene-x), var(--ds-scene-y), 0)
+        scale(var(--ds-scene-scale))
+        rotate(var(--ds-scene-rotate));
+      transform-origin: 56% 52%;
+      transform-style: preserve-3d;
+      filter: brightness(var(--ds-scene-brightness));
+      will-change: transform;
+    }
+
+    .plate {
+      position: absolute;
+      inset: 12%;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+      border: 1px solid var(--ds-color-rule-strong);
+      border-radius: var(--ds-radius-xs);
+      background: var(--plate-bg, var(--ds-color-surface));
+      color: var(--ds-color-text);
+      box-shadow: 0 30px 70px rgb(var(--ds-bg-rgb) / 0.24);
+      font: 600 0.64rem/1 var(--ds-font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .plate:nth-child(1) {
+      --plate-bg: var(--ds-color-accent);
+      inset: 8% 19% 26% 4%;
+      color: var(--ds-color-accent-ink);
+      transform: translate3d(-2%, -4%, 70px) rotateZ(-13deg);
+    }
+
+    .plate:nth-child(2) {
+      --plate-bg: var(--ds-color-surface-2);
+      inset: 19% 2% 12% 24%;
+      transform: translate3d(4%, 1%, 30px) rotateZ(9deg);
+    }
+
+    .plate:nth-child(3) {
+      --plate-bg: rgb(var(--ds-accent-2-rgb) / 0.92);
+      inset: 34% 25% 3% 10%;
+      color: var(--ds-color-bg);
+      transform: translate3d(-2%, 7%, -10px) rotateZ(-4deg);
+    }
+
+    .plate:nth-child(4) {
+      --plate-bg: var(--ds-color-bg);
+      inset: 4% 7% 17% 34%;
+      transform: translate3d(3%, -3%, -50px) rotateZ(17deg);
+    }
+
+    .veil {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgb(var(--ds-bg-rgb) / 0.98) 0 36%, rgb(var(--ds-bg-rgb) / 0.78) 58%, rgb(var(--ds-bg-rgb) / 0.38)),
+        linear-gradient(180deg, rgb(var(--ds-bg-rgb) / 0.05), rgb(var(--ds-bg-rgb) / 0.72));
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+    }
+
+    section {
+      min-height: 100svh;
+      display: grid;
+      align-items: center;
+      padding-block: 120px 92px;
+    }
+
+    .hero-copy,
+    .chapter-copy {
+      max-width: 760px;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      color: var(--ds-color-text);
+      font-family: var(--ds-font-display);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 0.92;
+      text-wrap: balance;
+    }
+
+    h1 {
+      max-width: 10.5ch;
+      margin-top: 24px;
+      font-size: clamp(4.6rem, 7vw, 7.6rem);
+    }
+
+    h2 {
+      max-width: 11ch;
+      font-size: clamp(3.4rem, 7.5vw, 7.2rem);
+    }
+
+    .accent-line {
+      display: block;
+      color: var(--ds-color-accent);
+    }
+
+    .lead {
+      max-width: 650px;
+      margin: 28px 0 0;
+      color: var(--ds-color-muted);
+      font: 520 var(--ds-size-lead)/1.55 var(--ds-font-body);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .chapter {
+      grid-template-columns: minmax(68px, 0.14fr) minmax(0, 1fr);
+      gap: clamp(24px, 6vw, 86px);
+    }
+
+    .chapter-index {
+      align-self: start;
+      padding-top: 12px;
+      color: var(--ds-color-soft);
+      font: 500 clamp(2.8rem, 5vw, 5rem)/1 var(--ds-font-display);
+      letter-spacing: -0.03em;
+    }
+
+    .chapter .lead {
+      margin-bottom: 42px;
+    }
+
+    .code-block {
+      max-width: 720px;
+      margin-top: 44px;
+      padding: clamp(22px, 4vw, 38px);
+      overflow: hidden;
+      border-left: 1px solid var(--ds-color-accent);
+      background: rgb(var(--ds-surface-rgb) / 0.82);
+    }
+
+    .code-block pre {
+      margin: 0;
+      overflow-x: auto;
+      color: var(--ds-color-muted);
+      font: 500 0.82rem/1.75 var(--ds-font-mono);
+      tab-size: 2;
+    }
+
+    .code-block .token {
+      color: var(--ds-color-accent);
+    }
+
+    .quality-list {
+      max-width: 760px;
+    }
+
+    .quality-list .ds-rule-row {
+      grid-template-columns: minmax(140px, 0.34fr) minmax(0, 1fr);
+    }
+
+    .closing {
+      text-align: left;
+    }
+
+    .closing h2 {
+      max-width: 9ch;
+    }
+
+    @media (max-width: 900px) {
+      .scene {
+        inset: 0 -34vw 0 34vw;
+        opacity: 0.78;
+      }
+
+      .scene-core {
+        width: min(100vw, 650px);
+      }
+
+      .veil {
+        background:
+          linear-gradient(90deg, rgb(var(--ds-bg-rgb) / 0.98) 0 48%, rgb(var(--ds-bg-rgb) / 0.6)),
+          linear-gradient(180deg, rgb(var(--ds-bg-rgb) / 0.16), rgb(var(--ds-bg-rgb) / 0.82));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        top: 10px;
+        align-items: flex-start;
+      }
+
+      .wordmark {
+        padding-top: 12px;
+      }
+
+      .ds-theme-picker {
+        max-width: 70vw;
+        overflow-x: auto;
+      }
+
+      .ds-theme-button {
+        flex: 0 0 auto;
+      }
+
+      .scene {
+        inset: 10vh -70vw 8vh 25vw;
+        opacity: 0.56;
+      }
+
+      .scene-core {
+        width: 130vw;
+      }
+
+      .veil {
+        background:
+          linear-gradient(90deg, rgb(var(--ds-bg-rgb) / 0.97), rgb(var(--ds-bg-rgb) / 0.7)),
+          linear-gradient(180deg, rgb(var(--ds-bg-rgb) / 0.12), rgb(var(--ds-bg-rgb) / 0.86));
+      }
+
+      section {
+        min-height: 94svh;
+        padding-block: 112px 72px;
+      }
+
+      h1 {
+        font-size: clamp(4rem, 19vw, 6.8rem);
+      }
+
+      h2 {
+        font-size: clamp(3.3rem, 16vw, 5.4rem);
+      }
+
+      .chapter {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .chapter-index {
+        font-size: 2.4rem;
+      }
+
+      .quality-list .ds-rule-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .topbar {
+        display: block;
+      }
+
+      .wordmark {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .ds-theme-picker {
+        max-width: calc(100vw - 32px);
+      }
+
+      .actions .ds-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="ds-shell">
+  <a class="ds-skip-link" href="#content">Skip to content</a>
+  <div class="progress" aria-hidden="true"></div>
+
+  <div class="scene" aria-hidden="true">
+    <div class="scene-core">
+      <div class="plate">Theme</div>
+      <div class="plate">Scene</div>
+      <div class="plate">Motion</div>
+      <div class="plate">Content</div>
+    </div>
+  </div>
+  <div class="veil"></div>
+
+  <header class="topbar ds-container">
+    <a class="wordmark" href="#content">Cinematic System</a>
+    <div class="ds-theme-picker" role="group" aria-label="Color theme">
+      <button class="ds-theme-button" type="button" data-set-theme="graphite">Graphite</button>
+      <button class="ds-theme-button" type="button" data-set-theme="aigent">AIgent</button>
+      <button class="ds-theme-button" type="button" data-set-theme="ember">Ember</button>
+      <button class="ds-theme-button" type="button" data-set-theme="cobalt">Cobalt</button>
+      <button class="ds-theme-button" type="button" data-set-theme="paper">Paper</button>
+    </div>
+  </header>
+
+  <main id="content">
+    <section class="hero ds-container">
+      <div class="hero-copy">
+        <p class="ds-status" data-reveal="quiet">Experience surface · native CSS + JavaScript</p>
+        <h1 data-reveal style="--reveal-delay: 70ms">A cinematic page needs <span class="accent-line">a point of view.</span></h1>
+        <p class="lead" data-reveal style="--reveal-delay: 140ms">
+          This starter separates the reusable mechanics from the visual world. Keep the contract. Replace the art direction.
+        </p>
+        <div class="actions" data-reveal style="--reveal-delay: 210ms">
+          <a class="ds-button" data-variant="solid" href="#define">Use the system</a>
+          <a class="ds-button" data-variant="quiet" href="../../README.md">Read the guide</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="define" class="chapter ds-container">
+      <div class="chapter-index" aria-hidden="true">01</div>
+      <div class="chapter-copy">
+        <h2 data-reveal>Define the world before the effects.</h2>
+        <p class="lead" data-reveal>
+          Name the audience, the action, the proof, and the visual habits you refuse. A palette without that context is decoration.
+        </p>
+        <ul class="ds-rule-list" data-reveal="quiet">
+          <li class="ds-rule-row"><strong>Product</strong><span>Who is here, what must they understand, and what should they do?</span></li>
+          <li class="ds-rule-row"><strong>Mode</strong><span>Persuade, operate, read, or experience. The surface decides the priority.</span></li>
+          <li class="ds-rule-row"><strong>World</strong><span>Choose type, material, composition, color, and one signature interaction from the subject—not from a template category.</span></li>
+          <li class="ds-rule-row"><strong>Anti-reference</strong><span>Write down what would make a polished result feel generic or wrong.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="chapter ds-container">
+      <div class="chapter-index" aria-hidden="true">02</div>
+      <div class="chapter-copy">
+        <h2 data-reveal>Compose with layers, not a forked template.</h2>
+        <p class="lead" data-reveal>
+          Tokens own the visual roles. The scene owns the media. Motion publishes a few CSS variables. Content remains ordinary HTML.
+        </p>
+        <div class="code-block" data-reveal>
+<pre><code>import {
+  <span class="token">mountScrollScene</span>,
+  <span class="token">mountReveals</span>
+} from "/modules/motion.js";
+
+mountScrollScene({
+  progressMultiplier: 1.35,
+  scale: 0.48,
+  rotation: -18,
+  translateY: -36
+});
+
+mountReveals();</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter ds-container">
+      <div class="chapter-index" aria-hidden="true">03</div>
+      <div class="chapter-copy">
+        <h2 data-reveal>Verify the result, not the intention.</h2>
+        <p class="lead" data-reveal>
+          A dramatic page still has to explain itself, work by keyboard, fit real copy, and remain complete with motion reduced.
+        </p>
+        <ul class="quality-list ds-rule-list" data-reveal="quiet">
+          <li class="ds-rule-row"><strong>First viewport</strong><span>The offer, artifact, or task is obvious within seconds.</span></li>
+          <li class="ds-rule-row"><strong>Hierarchy</strong><span>One focal point leads. Supporting content does not compete with it.</span></li>
+          <li class="ds-rule-row"><strong>Motion</strong><span>One authored moment carries the page; repeated entrance effects stay quiet.</span></li>
+          <li class="ds-rule-row"><strong>Access</strong><span>Contrast, focus, touch targets, semantic HTML, and reduced motion survive the spectacle.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="closing ds-container">
+      <div class="chapter-copy">
+        <h2 data-reveal>Start neutral. Earn the spectacle.</h2>
+        <p class="lead" data-reveal>
+          The live AIgent sites show one committed world. This starter exists so the next site can commit to a different one.
+        </p>
+        <div class="actions" data-reveal>
+          <a class="ds-button" data-variant="solid" href="../../docs/project-context.md">Write the project context</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import {
+      mountReveals,
+      mountScrollScene,
+      mountThemePicker
+    } from "../../modules/motion.js";
+
+    mountScrollScene({
+      progressMultiplier: 1.32,
+      scale: 0.48,
+      rotation: -18,
+      translateY: -36,
+      brightness: [0.9, 1]
+    });
+    mountReveals();
+    mountThemePicker();
+  </script>
+</body>
+</html>

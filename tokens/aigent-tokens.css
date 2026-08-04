@@ -1,25 +1,46 @@
+@import "./system.css";
+
 :root {
-  --aigent-bg: #030807;
-  --aigent-ink: #f5f2ea;
-  --aigent-muted: rgba(245, 242, 234, 0.72);
-  --aigent-soft: rgba(245, 242, 234, 0.48);
-  --aigent-cyan: #65f4df;
-  --aigent-cyan-deep: #04100e;
-  --aigent-amber: #f0b04d;
-  --aigent-line: rgba(101, 244, 223, 0.2);
-  --aigent-line-warm: rgba(240, 176, 77, 0.28);
-  --aigent-panel: rgba(3, 8, 7, 0.64);
-  --aigent-panel-strong: rgba(3, 8, 7, 0.82);
-  --aigent-display: "Inter Tight", Inter, ui-sans-serif, system-ui, sans-serif;
-  --aigent-text: Inter, ui-sans-serif, system-ui, sans-serif;
-  --aigent-accent-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
-  --aigent-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --aigent-radius-sm: 8px;
-  --aigent-radius-md: 14px;
-  --aigent-radius-lg: 22px;
-  --aigent-shadow-panel: 0 24px 80px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --aigent-shadow-cyan: 0 0 30px rgba(101, 244, 223, 0.24);
-  --aigent-max: 1180px;
+  --ds-bg-rgb: 3 8 7;
+  --ds-surface-rgb: 8 20 17;
+  --ds-surface-2-rgb: 14 31 26;
+  --ds-text-rgb: 245 242 234;
+  --ds-accent-rgb: 101 244 223;
+  --ds-accent-2-rgb: 240 176 77;
+  --ds-color-accent-ink: #04100e;
+  --ds-font-display: "Inter Tight", Inter, ui-sans-serif, system-ui, sans-serif;
+  --ds-font-body: Inter, ui-sans-serif, system-ui, sans-serif;
+  --ds-font-accent: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --ds-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --ds-radius-sm: 8px;
+  --ds-radius-md: 14px;
+  --ds-radius-lg: 22px;
+  --ds-container: 1180px;
+  --ds-shadow-raised: 0 24px 80px rgb(0 0 0 / 0.38), inset 0 1px 0 rgb(255 255 255 / 0.05);
+  --ds-shadow-accent: 0 0 30px rgb(var(--ds-accent-rgb) / 0.24);
+
+  /* Backward-compatible aliases for the original AIgent templates. */
+  --aigent-bg: var(--ds-color-bg);
+  --aigent-ink: var(--ds-color-text);
+  --aigent-muted: var(--ds-color-muted);
+  --aigent-soft: var(--ds-color-soft);
+  --aigent-cyan: var(--ds-color-accent);
+  --aigent-cyan-deep: var(--ds-color-accent-ink);
+  --aigent-amber: var(--ds-color-accent-2);
+  --aigent-line: rgb(var(--ds-accent-rgb) / 0.2);
+  --aigent-line-warm: rgb(var(--ds-accent-2-rgb) / 0.28);
+  --aigent-panel: rgb(var(--ds-bg-rgb) / 0.64);
+  --aigent-panel-strong: rgb(var(--ds-bg-rgb) / 0.82);
+  --aigent-display: var(--ds-font-display);
+  --aigent-text: var(--ds-font-body);
+  --aigent-accent-serif: var(--ds-font-accent);
+  --aigent-mono: var(--ds-font-mono);
+  --aigent-radius-sm: var(--ds-radius-sm);
+  --aigent-radius-md: var(--ds-radius-md);
+  --aigent-radius-lg: var(--ds-radius-lg);
+  --aigent-shadow-panel: var(--ds-shadow-raised);
+  --aigent-shadow-cyan: var(--ds-shadow-accent);
+  --aigent-max: var(--ds-container);
 }
 
 .aigent-shell {
@@ -32,7 +53,7 @@
 .aigent-panel {
   border: 1px solid var(--aigent-line);
   border-radius: var(--aigent-radius-md);
-  background: linear-gradient(135deg, var(--aigent-panel), rgba(101, 244, 223, 0.045));
+  background: linear-gradient(135deg, var(--aigent-panel), rgb(var(--ds-accent-rgb) / 0.045));
   box-shadow: var(--aigent-shadow-panel);
 }
 
@@ -51,27 +72,24 @@
   justify-content: center;
   gap: 0.65rem;
   padding: 0 32px;
-  border: 1px solid rgba(101, 244, 223, 0.64);
+  border: 1px solid rgb(var(--ds-accent-rgb) / 0.64);
   border-radius: 999px;
-  background: linear-gradient(180deg, rgba(101, 244, 223, 0.16), rgba(101, 244, 223, 0.05));
+  background: linear-gradient(180deg, rgb(var(--ds-accent-rgb) / 0.16), rgb(var(--ds-accent-rgb) / 0.05));
   color: var(--aigent-ink);
   font: 800 1rem/1 var(--aigent-text);
   text-align: center;
   text-decoration: none;
-  box-shadow: 0 0 0 1px rgba(245, 242, 234, 0.04), 0 18px 42px rgba(0, 0, 0, 0.32);
+  box-shadow: 0 0 0 1px rgb(var(--ds-text-rgb) / 0.04), 0 18px 42px rgb(0 0 0 / 0.32);
   transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
 .aigent-button:hover {
   transform: translateY(-1px);
   border-color: var(--aigent-cyan);
-  background: linear-gradient(180deg, rgba(101, 244, 223, 0.24), rgba(101, 244, 223, 0.08));
+  background: linear-gradient(180deg, rgb(var(--ds-accent-rgb) / 0.24), rgb(var(--ds-accent-rgb) / 0.08));
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 1ms !important;
-    scroll-behavior: auto !important;
-    transition-duration: 1ms !important;
-  }
+.aigent-button:focus-visible {
+  outline: 3px solid var(--aigent-cyan);
+  outline-offset: 4px;
 }
