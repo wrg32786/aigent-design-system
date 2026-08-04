@@ -29,8 +29,19 @@ async function preparePage(page) {
     while (position < maximum) {
       position = Math.min(maximum, position + step);
       window.scrollTo(0, position);
-      await pause(70);
+      await pause(100);
       maximum = Math.max(maximum, document.documentElement.scrollHeight - window.innerHeight);
+    }
+
+    document.documentElement.classList.remove("is-reveal-ready");
+    for (const node of document.querySelectorAll("[data-reveal]")) {
+      node.classList.add("is-visible");
+      Object.assign(node.style, {
+        opacity: "1",
+        transform: "none",
+        clipPath: "none",
+        transition: "none",
+      });
     }
 
     window.scrollTo(0, 0);
