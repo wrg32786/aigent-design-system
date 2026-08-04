@@ -2,7 +2,7 @@
   "name": "aigent-design-system",
   "version": "0.1.0",
   "private": false,
-  "description": "Premium AI-native web design patterns, 3D scroll templates, and agent skills from The AIgent.",
+  "description": "Modular cinematic web design system with brand-neutral tokens, theme presets, scroll-motion helpers, templates, and agent skills.",
   "type": "module",
   "scripts": {
     "serve": "node scripts/serve.mjs",
@@ -12,6 +12,9 @@
   "keywords": [
     "ai",
     "design-system",
+    "design-tokens",
+    "cinematic-web",
+    "scroll-animation",
     "landing-page",
     "spline",
     "gsap",
