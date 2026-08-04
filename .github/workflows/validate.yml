@@ -12,26 +12,39 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
       - run: npm ci
       - run: npm run check
       - run: npm run registry
       - run: npm run intelligence
       - run: npm run eval
+      - name: Exercise the local CLI
+        run: |
+          rm -rf /tmp/aigent-design-install /tmp/aigent-design-plan.json
+          node scripts/cli.mjs doctor
+          node scripts/cli.mjs add studio-core --target /tmp/aigent-design-install
+          test -f /tmp/aigent-design-install/.claude/skills/aigent-design/SKILL.md
+          test -f /tmp/aigent-design-install/tokens/system.css
+          node scripts/cli.mjs plan design-intelligence/example-brief.json --out /tmp/aigent-design-plan.json
+          test -s /tmp/aigent-design-plan.json
+      - name: Validate the GitHub registry with shadcn
+        run: |
+          REF="${GITHUB_HEAD_REF:-$GITHUB_SHA}"
+          npx --yes shadcn@latest registry validate "${GITHUB_REPOSITORY}#${REF}"
 
   browser:
     needs: check
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
