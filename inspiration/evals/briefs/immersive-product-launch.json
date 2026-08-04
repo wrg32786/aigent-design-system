@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "immersive-product-launch",
+  "product": "A modular robotics inspection platform",
+  "surface": "persuade + experience",
+  "job": "Explain the mechanism, prove reliability, and generate qualified demos",
+  "references": ["one structural", "one typographic/material", "one motion/media"],
+  "constraints": ["original assets", "mobile-first fallback", "reduced motion", "no source copy", "initial media under 6 MB"]
+}
