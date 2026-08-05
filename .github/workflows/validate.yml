@@ -71,7 +71,9 @@ jobs:
           node scripts/cli.mjs resolve \
             --target templates/modular-scroll-starter \
             --url http://127.0.0.1:4177/templates/modular-scroll-starter/ \
-            --out artifacts/resolve
+            --out artifacts/resolve \
+            --no-fail
+          cat artifacts/resolve/latest.md
           test -s artifacts/resolve/latest.json
           node -e 'const r=require("./artifacts/resolve/latest.json"); if(!r.gate.pass||r.browserEvidence.length!==3||r.captures.length!==4)process.exit(1)'
       - run: npm run capture
