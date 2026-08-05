@@ -445,9 +445,10 @@ async function collectPageEvidence(page, viewport, config) {
         .filter((item) => item.right > innerWidth + 2 || item.left < -2)
         .sort((left, right) => Math.max(right.right - innerWidth, -right.left) - Math.max(left.right - innerWidth, -left.left))
         .slice(0, 5);
+      const documentWidth = document.documentElement.scrollWidth;
       const result = {
-        horizontalOverflow: offenders.length > 0,
-        documentWidth: document.documentElement.scrollWidth,
+        horizontalOverflow: documentWidth > innerWidth + 2 && offenders.length > 0,
+        documentWidth,
         offenders,
       };
       document.documentElement.style.fontSize = previous;
