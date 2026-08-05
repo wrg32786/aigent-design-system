@@ -11,29 +11,34 @@ const pages = [
   { id: "immersive-sales-deck", url: "/templates/immersive-sales-deck/" },
   { id: "command-center-interface", url: "/templates/command-center-interface/" },
   { id: "threejs-product-stage", url: "/templates/threejs-product-stage/" },
-  { id: "design-vault", url: "/vault/" }
+  { id: "design-vault", url: "/vault/" },
+  { id: "inspiration-lab", url: "/inspiration/lab/" },
 ];
 const viewports = [
   { id: "desktop", width: 1440, height: 1000 },
-  { id: "mobile", width: 390, height: 844 }
+  { id: "mobile", width: 390, height: 844 },
 ];
 
 async function preparePage(page) {
   await page.evaluate(() => document.fonts?.ready);
   await page.evaluate(async () => {
     const pause = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
+    const root = document.documentElement;
+    const previousScrollBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+
     const step = Math.max(240, Math.floor(window.innerHeight * 0.72));
     let position = 0;
-    let maximum = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    let maximum = Math.max(0, root.scrollHeight - window.innerHeight);
 
     while (position < maximum) {
       position = Math.min(maximum, position + step);
-      window.scrollTo(0, position);
+      window.scrollTo({ top: position, behavior: "instant" });
       await pause(100);
-      maximum = Math.max(maximum, document.documentElement.scrollHeight - window.innerHeight);
+      maximum = Math.max(maximum, root.scrollHeight - window.innerHeight);
     }
 
-    document.documentElement.classList.remove("is-reveal-ready");
+    root.classList.remove("is-reveal-ready");
     for (const node of document.querySelectorAll("[data-reveal]")) {
       node.classList.add("is-visible");
       Object.assign(node.style, {
@@ -44,8 +49,9 @@ async function preparePage(page) {
       });
     }
 
-    window.scrollTo(0, 0);
-    await pause(180);
+    window.scrollTo({ top: 0, behavior: "instant" });
+    await pause(100);
+    root.style.scrollBehavior = previousScrollBehavior;
   });
 }
 
@@ -60,18 +66,32 @@ try {
       await page.goto(`${base}${item.url}`, { waitUntil: "networkidle" });
       await preparePage(page);
       const filename = `${item.id}-${viewport.id}.png`;
-      await page.screenshot({ path: path.join(out, filename), fullPage: true, animations: "disabled" });
+      await page.screenshot({
+        path: path.join(out, filename),
+        fullPage: true,
+        animations: "disabled",
+      });
       manifest.push({ ...item, viewport, file: filename, reducedMotion: false });
       await page.close();
     }
   }
 
-  for (const item of pages.filter((page) => ["cinematic-page", "immersive-sales-deck", "threejs-product-stage"].includes(page.id))) {
+  const reducedMotionPages = new Set([
+    "cinematic-page",
+    "immersive-sales-deck",
+    "threejs-product-stage",
+    "inspiration-lab",
+  ]);
+  for (const item of pages.filter((page) => reducedMotionPages.has(page.id))) {
     const page = await browser.newPage({ viewport: viewports[0], reducedMotion: "reduce" });
     await page.goto(`${base}${item.url}`, { waitUntil: "networkidle" });
     await preparePage(page);
     const filename = `${item.id}-reduced-motion.png`;
-    await page.screenshot({ path: path.join(out, filename), fullPage: true, animations: "disabled" });
+    await page.screenshot({
+      path: path.join(out, filename),
+      fullPage: true,
+      animations: "disabled",
+    });
     manifest.push({ ...item, viewport: viewports[0], file: filename, reducedMotion: true });
     await page.close();
   }
@@ -79,5 +99,8 @@ try {
   await browser.close();
 }
 
-fs.writeFileSync(path.join(out, "manifest.json"), `${JSON.stringify({ generatedAt: new Date().toISOString(), captures: manifest }, null, 2)}\n`);
+fs.writeFileSync(
+  path.join(out, "manifest.json"),
+  `${JSON.stringify({ generatedAt: new Date().toISOString(), captures: manifest }, null, 2)}\n`,
+);
 console.log(`Captured ${manifest.length} visual proofs in ${path.relative(process.cwd(), out)}.`);

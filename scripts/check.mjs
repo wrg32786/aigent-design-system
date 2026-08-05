@@ -19,6 +19,7 @@ const required = [
   "LICENSE",
   "THIRD_PARTY.md",
   "registry.json",
+  "package.json",
   "tokens/system.css",
   "tokens/aigent-tokens.css",
   "modules/motion.js",
@@ -48,6 +49,28 @@ const required = [
   "design-intelligence/motion-systems.json",
   "design-intelligence/component-sources.json",
   "design-intelligence/interface-systems.json",
+  "inspiration/README.md",
+  "inspiration/schemas/source.schema.json",
+  "inspiration/schemas/design-dna.schema.json",
+  "inspiration/schemas/motion-dna.schema.json",
+  "inspiration/schemas/reference-matrix.schema.json",
+  "inspiration/schemas/influence-ledger.schema.json",
+  "inspiration/lib/common.mjs",
+  "inspiration/lib/store.mjs",
+  "inspiration/lib/design-dna.mjs",
+  "inspiration/lib/url-forensics.mjs",
+  "inspiration/lib/file-forensics.mjs",
+  "inspiration/lib/synthesis.mjs",
+  "inspiration/lib/originality.mjs",
+  "inspiration/lib/report.mjs",
+  "inspiration/examples/editorial-reference.json",
+  "inspiration/examples/immersive-reference.json",
+  "inspiration/examples/interface-reference.json",
+  "inspiration/lab/index.html",
+  "inspiration/lab/app.js",
+  "inspiration/fixtures/site/index.html",
+  "inspiration/evals/README.md",
+  "inspiration/evals/rubric.json",
   "creative-production/README.md",
   "creative-production/catalog.json",
   "creative-production/sources/3d-assets.md",
@@ -72,6 +95,7 @@ const required = [
   "skills/aigent-design/commands.json",
   "skills/aigent-design/scripts/context.mjs",
   "skills/aigent-design/reference/shape.md",
+  "skills/aigent-design/reference/inspiration.md",
   "skills/aigent-design/reference/color.md",
   "skills/aigent-design/reference/layout.md",
   "skills/aigent-design/reference/type.md",
@@ -80,6 +104,9 @@ const required = [
   "skills/aigent-design/reference/interface.md",
   "skills/aigent-design/reference/deck.md",
   "skills/aigent-design/reference/craft-floor.md",
+  "skills/design-forensics/SKILL.md",
+  "skills/reference-synthesis/SKILL.md",
+  "skills/inspiration-originality-audit/SKILL.md",
   "evals/README.md",
   "evals/rubric.json",
   "evals/review.schema.json",
@@ -89,6 +116,9 @@ const required = [
   "vault/index.html",
   "vault/app.js",
   "scripts/cli.mjs",
+  "scripts/inspire.mjs",
+  "scripts/check-inspiration.mjs",
+  "scripts/inspiration-smoke.mjs",
   "scripts/plan-design.mjs",
   "scripts/check-intelligence.mjs",
   "scripts/check-registry.mjs",
@@ -108,7 +138,7 @@ const required = [
   ".github/PULL_REQUEST_TEMPLATE.md",
   ".github/ISSUE_TEMPLATE/pattern.yml",
   ".github/ISSUE_TEMPLATE/bug.yml",
-  ".github/ISSUE_TEMPLATE/source-correction.yml"
+  ".github/ISSUE_TEMPLATE/source-correction.yml",
 ];
 
 const file = (relativePath) => path.join(process.cwd(), relativePath);
@@ -127,7 +157,7 @@ const skillFiles = fs.readdirSync(skillRoot, { withFileTypes: true })
   .filter((skill) => fs.existsSync(skill))
   .sort();
 
-assert.ok(skillFiles.length >= 18, `Expected at least 18 installable skills; found ${skillFiles.length}.`);
+assert.ok(skillFiles.length >= 21, `Expected at least 21 installable skills; found ${skillFiles.length}.`);
 const skillNames = new Set();
 for (const skill of skillFiles) {
   const body = fs.readFileSync(skill, "utf8");
@@ -140,7 +170,14 @@ for (const skill of skillFiles) {
   skillNames.add(name);
   assert.equal(name, path.basename(path.dirname(skill)), `Skill name and directory differ: ${name}`);
 }
-assert.ok(skillNames.has("aigent-design"), "Consolidated aigent-design skill is missing.");
+for (const name of [
+  "aigent-design",
+  "design-forensics",
+  "reference-synthesis",
+  "inspiration-originality-audit",
+]) {
+  assert.ok(skillNames.has(name), `Required skill is missing: ${name}`);
+}
 
 const tokenBody = fs.readFileSync(file("tokens/system.css"), "utf8");
 for (const token of [
@@ -152,8 +189,10 @@ for (const token of [
   '[data-theme="aigent"]',
   '[data-theme="ember"]',
   '[data-theme="cobalt"]',
-  '[data-theme="paper"]'
-]) assert.ok(tokenBody.includes(token), `Missing system token or theme: ${token}`);
+  '[data-theme="paper"]',
+]) {
+  assert.ok(tokenBody.includes(token), `Missing system token or theme: ${token}`);
+}
 
 const motion = await import(pathToFileURL(file("modules/motion.js")));
 for (const exportName of ["mountScrollProgress", "mountScrollScene", "mountReveals", "mountThemePicker"]) {
@@ -165,39 +204,71 @@ for (const [label, findings] of [
   ["asset", checkAssetManifests()],
   ["intelligence", checkIntelligence()],
   ["registry", checkRegistry()],
-  ["eval", checkEvals()]
+  ["eval", checkEvals()],
 ]) {
   const errors = findings.filter((item) => item.severity === "error");
   assert.deepEqual(errors, [], `${label} validation failed:\n${JSON.stringify(errors, null, 2)}`);
 }
 
 const { registry } = readRegistry();
-assert.ok(registry.items.length >= 10, "Installable registry is unexpectedly small.");
+assert.ok(registry.items.length >= 13, "Installable registry is unexpectedly small.");
+assert.ok(
+  registry.items.some((item) => item.name === "inspiration-intelligence"),
+  "Inspiration Intelligence is missing from the registry.",
+);
+const fullStudio = registry.items.find((item) => item.name === "full-studio");
+assert.ok(
+  fullStudio.registryDependencies.some((dependency) => dependency.endsWith("/inspiration-intelligence")),
+  "full-studio must install Inspiration Intelligence.",
+);
 
 const resourceCatalog = JSON.parse(fs.readFileSync(file("creative-production/catalog.json"), "utf8"));
 assert.ok(resourceCatalog.resources.length >= 25, "Creative resource catalog is unexpectedly small.");
 const integrationCatalog = JSON.parse(fs.readFileSync(file("integrations/catalog.json"), "utf8"));
 assert.ok(integrationCatalog.integrations.length >= 8, "Integration catalog is unexpectedly small.");
-assert.ok(integrationCatalog.integrations.every((item) => item.required === false), "Neutral core must not require optional integrations.");
+assert.ok(
+  integrationCatalog.integrations.every((item) => item.required === false),
+  "Neutral core must not require optional integrations.",
+);
 
 const packageJson = JSON.parse(fs.readFileSync(file("package.json"), "utf8"));
-assert.equal(packageJson.version, "0.2.0", "Expected package version 0.2.0.");
+assert.equal(packageJson.version, "0.3.0", "Expected package version 0.3.0.");
 assert.equal(packageJson.bin?.["aigent-design"], "scripts/cli.mjs", "Missing CLI bin.");
-for (const script of ["serve", "plan", "audit", "assets", "catalogs", "intelligence", "registry", "eval", "score", "check", "smoke", "capture"]) {
+for (const script of [
+  "serve",
+  "plan",
+  "inspire",
+  "audit",
+  "assets",
+  "catalogs",
+  "intelligence",
+  "inspiration",
+  "registry",
+  "eval",
+  "score",
+  "check",
+  "smoke",
+  "inspiration:smoke",
+  "capture",
+]) {
   assert.equal(typeof packageJson.scripts?.[script], "string", `Missing package script: ${script}`);
 }
 
 const readme = fs.readFileSync(file("README.md"), "utf8");
 for (const contract of [
+  "SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → VERIFY",
   "shadcn@latest add wrg32786/aigent-design-system/studio-core",
-  "design-intelligence/",
-  "skills/aigent-design",
+  "shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence",
+  "Design DNA",
+  "influence ledger",
+  "inspiration:smoke",
   "templates/immersive-sales-deck/",
   "templates/command-center-interface/",
   "templates/threejs-product-stage/",
-  "evals/",
-  "vault/"
-]) assert.ok(readme.includes(contract), `README is missing product contract: ${contract}`);
+  "vault/",
+]) {
+  assert.ok(readme.includes(contract), `README is missing product contract: ${contract}`);
+}
 
 const pages = [
   "index.html",
@@ -205,7 +276,9 @@ const pages = [
   "templates/immersive-sales-deck/index.html",
   "templates/command-center-interface/index.html",
   "templates/threejs-product-stage/index.html",
-  "vault/index.html"
+  "vault/index.html",
+  "inspiration/lab/index.html",
+  "inspiration/fixtures/site/index.html",
 ];
 const audit = auditPaths([...pages.map(file), file("tokens/system.css")]);
 const auditErrors = audit.findings.filter((item) => item.severity === "error");
@@ -213,10 +286,19 @@ assert.deepEqual(auditErrors, [], `Flagship design audit failed:\n${JSON.stringi
 
 const detectorProof = auditSources([{
   file: "bad.html",
-  source: '<html><head><style>a{transition:all .2s;outline:none}</style></head><body><h1>A</h1><h1>B</h1><div onclick="x()">Go</div></body></html>'
+  source: '<html><head><style>a{transition:all .2s;outline:none}</style></head><body><h1>A</h1><h1>B</h1><div onclick="x()">Go</div></body></html>',
 }]);
-for (const rule of ["a11y/html-lang", "responsive/viewport", "hierarchy/h1-count", "a11y/nonsemantic-click", "a11y/outline-none", "performance/transition-all"]) {
+for (const rule of [
+  "a11y/html-lang",
+  "responsive/viewport",
+  "hierarchy/h1-count",
+  "a11y/nonsemantic-click",
+  "a11y/outline-none",
+  "performance/transition-all",
+]) {
   assert.ok(detectorProof.some((item) => item.rule === rule), `Design audit self-check missed ${rule}`);
 }
 
-console.log(`Design system check passed with ${registry.items.length} registry items, ${skillFiles.length} skills, ${resourceCatalog.resources.length} resources, and ${integrationCatalog.integrations.length} integrations.`);
+console.log(
+  `Design system check passed with ${registry.items.length} registry items, ${skillFiles.length} skills, ${resourceCatalog.resources.length} resources, ${integrationCatalog.integrations.length} integrations, and Inspiration Intelligence v0.3.0.`,
+);

@@ -1,30 +1,41 @@
 # Changelog
 
-## 0.2.0 — Design Intelligence and Installable Systems
+## 0.3.0 — Inspiration Intelligence
 
 ### Added
 
-- GitHub-native shadcn registry and zero-dependency local CLI
-- consolidated `aigent-design` skill for pages, decks, interfaces, assets, critique, polish, extraction, and QA
-- deterministic design planner with layout, type, motion, interface, and component-source catalogs
-- immersive sales-deck, command-center, and progressive Three.js reference systems
-- framework-neutral guided deck, command palette, focus reveal, scene stage, and object stage patterns
-- searchable Design Vault
-- fixed design eval briefs, scoring rubric, and mechanical scorer
-- visual capture workflow for desktop, mobile, and reduced motion
-- contribution, security, issue, and pull-request templates
+- URL-first design forensics with Playwright and Chrome DevTools Protocol evidence
+- multi-viewport screenshots, full-page captures, scroll traversal, and motion filmstrips
+- normalized Design DNA for structure, typography, material, motion, interaction, media, and responsive behavior
+- screenshot, video, structured-reference, Figma, and manual-analysis intake path
+- local searchable inspiration store under `.aigent/inspiration`
+- reference synthesis with six design dimensions and a two-dimensions-per-source limit
+- required transformations, source exclusions, AIgent pattern mapping, and influence ledger
+- originality heuristics for source dominance and copy overlap
+- interactive Inspiration Lab
+- Design Forensics, Reference Synthesis, and Inspiration Originality Audit agent skills
+- InspirationBench briefs and rubric
+- registry item and CLI commands for Inspiration Intelligence
+- browser smoke coverage using a real responsive animated fixture
 
 ### Changed
 
-- public positioning now reflects the full flagship system: websites, immersive decks, product UI, media production, installation, and verification
-- CI now validates installable items and captures browser proof
-- package version is now `0.2.0`
+- primary workflow is now `Shape → Inspire → Synthesize → Produce → Build → Verify`
+- package version is now `0.3.0`
+- the consolidated `aigent-design` skill now owns inspiration routing
+- `full-studio` now includes Inspiration Intelligence
+
+## 0.2.0 — Design Intelligence and Installable Systems
+
+- GitHub-native shadcn registry and zero-dependency local CLI
+- consolidated `aigent-design` skill
+- deterministic design planner and complete page, deck, interface, and Three.js reference systems
+- reusable interaction patterns, Design Vault, fixed evals, browser captures, and release infrastructure
 
 ## 0.1.0
 
-- semantic design tokens and theme presets
+- semantic tokens and theme presets
 - dependency-free motion core
-- static cinematic, Spline, video-scrub, and gallery templates
+- cinematic, Spline, video-scrub, and gallery templates
 - creative-production source catalog and asset pipelines
-- specialist agent skills
-- asset provenance, design audit, and browser smoke tests
+- specialist agent skills, provenance, design audit, and browser smoke tests

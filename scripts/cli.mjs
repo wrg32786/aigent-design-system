@@ -78,14 +78,19 @@ function destinationFor(file, targetRoot) {
 
 function list(registry) {
   const width = Math.max(...registry.items.map((item) => item.name.length));
-  for (const item of registry.items) console.log(`${item.name.padEnd(width)}  ${item.description}`);
+  for (const item of registry.items) {
+    console.log(`${item.name.padEnd(width)}  ${item.description}`);
+  }
 }
 
 function resolveItems(registry, name, stack = [], resolved = []) {
   const item = registry.items.find((candidate) => candidate.name === name);
   if (!item) throw new Error(`Unknown item: ${name}. Run "aigent-design list".`);
-  if (stack.includes(name)) throw new Error(`Registry dependency cycle: ${[...stack, name].join(" -> ")}`);
+  if (stack.includes(name)) {
+    throw new Error(`Registry dependency cycle: ${[...stack, name].join(" -> ")}`);
+  }
   if (resolved.some((candidate) => candidate.name === name)) return resolved;
+
   for (const dependency of item.registryDependencies || []) {
     resolveItems(registry, dependencyName(dependency), [...stack, name], resolved);
   }
@@ -102,10 +107,20 @@ function add(registry, name, args) {
     for (const file of item.files) {
       const source = path.resolve(packageRoot, file.path);
       const destination = destinationFor(file, target);
-      if (!source.startsWith(`${packageRoot}${path.sep}`) || !fs.existsSync(source)) throw new Error(`Registry source is missing: ${file.path}`);
+      if (!source.startsWith(`${packageRoot}${path.sep}`) || !fs.existsSync(source)) {
+        throw new Error(`Registry source is missing: ${file.path}`);
+      }
       const existing = byDestination.get(destination);
-      if (existing && existing.source !== source) throw new Error(`Registry items target the same file from different sources: ${file.target}`);
-      byDestination.set(destination, { item: item.name, file, source, destination, exists: fs.existsSync(destination) });
+      if (existing && existing.source !== source) {
+        throw new Error(`Registry items target the same file from different sources: ${file.target}`);
+      }
+      byDestination.set(destination, {
+        item: item.name,
+        file,
+        source,
+        destination,
+        exists: fs.existsSync(destination),
+      });
     }
   }
 
@@ -116,7 +131,9 @@ function add(registry, name, args) {
     throw new Error(`Refusing to overwrite existing files without --force:\n- ${files}`);
   }
 
-  console.log(`${dryRun ? "Would install" : "Installing"} ${name} with ${items.length - 1} dependencies into ${target}`);
+  console.log(
+    `${dryRun ? "Would install" : "Installing"} ${name} with ${items.length - 1} dependencies into ${target}`,
+  );
   for (const operation of operations) {
     console.log(`  ${operation.exists ? "replace" : "create"} ${path.relative(target, operation.destination)}`);
     if (dryRun) continue;
@@ -128,10 +145,14 @@ function add(registry, name, args) {
 
 function doctor(registry) {
   const failures = [];
-  if (Number(process.versions.node.split(".")[0]) < 20) failures.push("Node.js 20 or newer is required.");
+  if (Number(process.versions.node.split(".")[0]) < 20) {
+    failures.push("Node.js 20 or newer is required.");
+  }
   for (const item of registry.items) {
     for (const file of item.files) {
-      if (!fs.existsSync(path.join(packageRoot, file.path))) failures.push(`Missing registry source: ${file.path}`);
+      if (!fs.existsSync(path.join(packageRoot, file.path))) {
+        failures.push(`Missing registry source: ${file.path}`);
+      }
     }
   }
   if (failures.length) {
@@ -146,6 +167,7 @@ async function plan(args) {
   const optionValues = new Set([option(args, "--out")].filter(Boolean));
   const brief = args.find((arg) => !arg.startsWith("--") && !optionValues.has(arg));
   if (!brief) throw new Error("Usage: aigent-design plan <brief.json> [--out plan.json]");
+
   const planner = await import(pathToFileURL(path.join(packageRoot, "scripts/plan-design.mjs")));
   const source = JSON.parse(fs.readFileSync(path.resolve(brief), "utf8"));
   const result = planner.plan(source);
@@ -155,23 +177,39 @@ async function plan(args) {
     fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
     fs.writeFileSync(path.resolve(out), text);
     console.log(`Wrote ${out}`);
-  } else process.stdout.write(text);
+  } else {
+    process.stdout.write(text);
+  }
+}
+
+async function inspire(args) {
+  const { runInspire } = await import(pathToFileURL(path.join(packageRoot, "scripts/inspire.mjs")));
+  await runInspire(args);
 }
 
 function help() {
-  console.log(`AIgent Design\n\nCommands:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n  plan <brief.json> [--out plan.json]\n  doctor\n`);
+  console.log(`AIgent Design\n\nCommands:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  doctor\n`);
 }
 
 try {
   const registry = readRegistry();
   const [command = "help", ...args] = process.argv.slice(2);
-  if (command === "list") list(registry);
-  else if (command === "add") {
-    if (!args[0]) throw new Error("Usage: aigent-design add <item> [--target dir] [--dry-run] [--force]");
+  if (command === "list") {
+    list(registry);
+  } else if (command === "add") {
+    if (!args[0]) {
+      throw new Error("Usage: aigent-design add <item> [--target dir] [--dry-run] [--force]");
+    }
     add(registry, args[0], args.slice(1));
-  } else if (command === "doctor") doctor(registry);
-  else if (command === "plan") await plan(args);
-  else help();
+  } else if (command === "doctor") {
+    doctor(registry);
+  } else if (command === "plan") {
+    await plan(args);
+  } else if (command === "inspire") {
+    await inspire(args);
+  } else {
+    help();
+  }
 } catch (error) {
   fail(error instanceof Error ? error.message : String(error));
 }

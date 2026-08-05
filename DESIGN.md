@@ -1,6 +1,6 @@
 # Design System
 
-This file records durable visual, media, interaction, and design-intelligence decisions. Product truth lives in `PRODUCT.md`. Route-specific exceptions belong with the page or interface.
+This file records durable visual, media, interaction, design-intelligence, and inspiration-synthesis decisions. Product truth lives in `PRODUCT.md`. Route-specific exceptions belong with the page or interface.
 
 ## 1. Two visual layers
 
@@ -117,7 +117,96 @@ Use the fewest families and roles that make hierarchy unmistakable. Keep prose n
 
 Operate surfaces usually prefer one stable family and a fixed scale. Persuade and Experience surfaces may use a more expressive display voice when the world earns it.
 
-## 4. Media is part of the direction
+## 4. Inspiration before synthesis
+
+A reference is evidence, not an implementation specification.
+
+### Capture
+
+Prefer a live URL when it is public and authorized because it can reveal:
+
+- DOM and reading order
+- layout geometry
+- computed visual roles
+- fixed and sticky regions
+- responsive changes
+- interaction states
+- media and runtime hints
+- animation timing and keyframes
+- loading, network, and browser errors
+
+A screenshot cannot prove hidden states, breakpoints, exact fonts, DOM order, accessibility, or animation timing. A motion clip cannot prove interaction semantics, responsive behavior, or source implementation. Record confidence by dimension instead of filling gaps with invented certainty.
+
+Store local captures under `.aigent/inspiration`. Do not commit third-party screenshots, authenticated pages, private records, extracted source copy, or downloaded source packages.
+
+### Normalize
+
+Every reference becomes Design DNA across six dimensions:
+
+```text
+structure
+typography
+material
+motion
+interaction
+media
+```
+
+Keep deterministic measurements separate from interpretation. Preserve source identity, capture date, evidence paths, confidence, and a copy fingerprint rather than copied content.
+
+### Synthesize
+
+Whole-surface work uses at least three references. No source controls more than two dimensions.
+
+Every reference-matrix assignment records:
+
+- source
+- extracted principle
+- target-product reason
+- required transformation
+- excluded source expression
+- mapped AIgent patterns
+- mobile and reduced-motion implications
+
+The result must replace:
+
+- source copy and claims
+- photographs, video, 3D assets, audio, icons, logos, and marks
+- exact section order
+- exact typography pairing and scale
+- exact animation timing, keyframes, camera path, and transition sequence
+- source HTML, CSS, JavaScript, shaders, and private implementation
+
+The target must make sense without knowing the references.
+
+### Influence ledger
+
+Every reference-driven project records:
+
+- which source influenced each dimension
+- which source elements were explicitly excluded
+- transformations planned and implemented
+- original asset and copy ownership
+- audit status
+
+The ledger is a design and governance record, not a claim of legal clearance.
+
+### Originality review
+
+After implementation, compare target Design DNA against every reference. Review:
+
+- source dominance
+- copy overlap
+- structural similarity
+- palette and typography convergence
+- repeated animation logic
+- reused source assets or marks
+- whether each required transformation was actually implemented
+- whether mobile and reduced motion are original and product-appropriate
+
+Similarity scores are review heuristics, not legal conclusions. Rights-sensitive work still requires appropriate human and legal review.
+
+## 5. Media is part of the direction
 
 A cinematic page needs one dominant asset system, not a collection of effects.
 
@@ -155,7 +244,7 @@ Offline Blender or Remotion rendering is often preferable to live 3D when the ca
 
 A page usually needs one environment, camera language, material family, grade, and transition logic. Random stock clips, floating objects, and unrelated overlays destroy the world.
 
-## 5. Surface modes
+## 6. Surface modes
 
 - **Persuade** — the visitor decides and acts.
 - **Operate** — the visitor completes a task.
@@ -175,7 +264,7 @@ A homepage can be Persuade while its dashboard is Operate. A resource directory 
 - no decorative page-load sequence
 - overlays must escape clipping containers
 
-## 6. Component-source discipline
+## 7. Component-source discipline
 
 Use mature accessible primitives for standard interaction before inventing replacements.
 
@@ -189,7 +278,7 @@ Use mature accessible primitives for standard interaction before inventing repla
 
 The product-specific value comes from composition, content, media, interaction, and finish—not another custom button implementation.
 
-## 7. Motion thesis
+## 8. Motion thesis
 
 Before implementation, state:
 
@@ -209,7 +298,7 @@ Typical timing:
 
 Exit faster than entrance. Avoid bounce and elastic curves by reflex. Pause nonessential loops offscreen and hidden.
 
-## 8. Direction before styling
+## 9. Direction before styling
 
 Before building:
 
@@ -218,16 +307,18 @@ Before building:
 3. Which mode owns it.
 4. Which physical or cultural scene shapes the world.
 5. The category default and anti-references.
-6. Palette strategy and type character.
-7. Dominant composition.
-8. Primary asset system.
-9. One signature interaction.
-10. Component-source strategy.
-11. Mobile and reduced-motion plan.
+6. Which references inform each dimension.
+7. What must be transformed and excluded.
+8. Palette strategy and type character.
+9. Dominant composition.
+10. Primary asset system.
+11. One signature interaction.
+12. Component-source strategy.
+13. Mobile and reduced-motion plan.
 
-Use `docs/project-context.md` and the design planner.
+Use `docs/project-context.md`, Design Forensics, the reference matrix, and the design planner.
 
-## 9. Production quality floor
+## 10. Production quality floor
 
 A result is not ready until:
 
@@ -244,12 +335,15 @@ A result is not ready until:
 - external components feel native to one visual world
 - every public asset has a manifest
 - rights and attribution are resolved
-- no private records or credentials are public
+- inspiration influence and transformations are recorded
+- source dominance and copy overlap are reviewed
+- no private records, captures, or credentials are public
 - the page could not be relabeled for an unrelated product
+- the result does not depend on recognizing its references
 - browser smoke and visual capture complete
 
-Mechanical checks are a floor. Human review decides product clarity, specificity, composition, typography, motion/media, and final coherence.
+Mechanical checks are a floor. Human review decides product clarity, specificity, composition, typography, motion/media, originality, and final coherence.
 
-## 10. Reuse
+## 11. Reuse
 
-Extract only after the same intent appears in multiple real surfaces. Reuse existing tokens, modules, patterns, registry items, recipes, and skills before adding another layer.
+Extract only after the same intent appears in multiple real surfaces. Reuse existing tokens, modules, patterns, registry items, recipes, and skills before adding another layer. Keep inspiration evidence local unless the source and redistribution rights are explicitly clear.

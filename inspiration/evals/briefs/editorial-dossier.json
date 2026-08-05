@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "editorial-dossier-inspiration",
+  "product": "A technical market dossier",
+  "surface": "read + persuade",
+  "job": "Help an executive understand evidence, counterpoints, and a recommended decision",
+  "references": ["one reading system", "one evidence layout", "one restrained motion treatment"],
+  "constraints": ["45–75 character measure", "source hierarchy", "200% zoom", "original charts and copy"]
+}

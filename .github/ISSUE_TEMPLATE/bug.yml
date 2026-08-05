@@ -1,19 +1,19 @@
 name: Report a bug
-about: Report a reproducible problem in a template, pattern, script, registry item, or skill
+about: Report a reproducible problem in a template, pattern, script, registry item, inspiration workflow, or skill
 labels: [bug]
 body:
   - type: dropdown
     id: area
     attributes:
       label: Area
-      options: [Registry, CLI, Template, Pattern, Skill, Planner, Asset pipeline, Audit, Browser QA, Documentation]
+      options: [Registry, CLI, Template, Pattern, Skill, Planner, Inspiration forensics, Reference synthesis, Originality audit, Asset pipeline, Audit, Browser QA, Documentation]
     validations:
       required: true
   - type: textarea
     id: reproduction
     attributes:
       label: Reproduction
-      description: Include the command, item, browser, viewport, and exact observed behavior.
+      description: Include the command, item, source kind, browser, viewport, and exact observed behavior. Do not attach private captures or credentials.
     validations:
       required: true
   - type: textarea
@@ -26,6 +26,6 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: Node version, operating system, browser, and framework when relevant.
+      description: Node version, operating system, browser, framework, and optional tools such as FFmpeg when relevant.
     validations:
       required: true

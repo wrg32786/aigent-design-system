@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theaigent.xyz/schemas/motion-dna.schema.json",
+  "title": "AIgent Motion DNA",
+  "type": "object",
+  "required": ["tags", "animationCount", "scrollLinkedCount", "durationMedian"],
+  "properties": {
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "animationCount": { "type": "integer", "minimum": 0 },
+    "scrollLinkedCount": { "type": "integer", "minimum": 0 },
+    "transformAnimationCount": { "type": "integer", "minimum": 0 },
+    "opacityAnimationCount": { "type": "integer", "minimum": 0 },
+    "clipAnimationCount": { "type": "integer", "minimum": 0 },
+    "durationMedian": { "type": "number", "minimum": 0 },
+    "reducedMotionObserved": { "type": "boolean" }
+  },
+  "additionalProperties": true
+}

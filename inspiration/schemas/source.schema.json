@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theaigent.xyz/schemas/inspiration-source.schema.json",
+  "title": "AIgent Inspiration Source",
+  "type": "object",
+  "required": ["schemaVersion", "id", "label", "kind", "origin", "createdAt", "updatedAt"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "label": { "type": "string", "minLength": 1 },
+    "kind": { "enum": ["url", "screenshot", "motion-reference", "structured-reference", "figma", "file"] },
+    "origin": { "type": "string", "minLength": 1 },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "capture": { "type": "object" },
+    "evidence": { "type": "array", "items": { "type": "object" } },
+    "designDna": { "$ref": "./design-dna.schema.json" }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "operator-workspace",
+  "product": "A human-supervised automation command center",
+  "surface": "operate",
+  "job": "Prioritize exceptions, inspect evidence, approve work, and preserve an audit trail",
+  "references": ["one information architecture", "one typography/density", "one state transition"],
+  "constraints": ["complete keyboard path", "no marketing choreography", "mobile list-detail model", "no copied labels or data"]
+}

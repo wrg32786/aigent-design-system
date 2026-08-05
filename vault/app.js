@@ -1,12 +1,58 @@
 const fallback = [
-  { name: "studio-core", title: "Studio Core", description: "Product context, semantic tokens, motion, the AIgent design skill, and deterministic planning.", type: "registry:item" },
-  { name: "immersive-sales-deck", title: "Immersive Sales Deck", description: "A guided cinematic argument with explicit chapter navigation and keyboard control.", type: "registry:block" },
-  { name: "command-center-interface", title: "Command Center Interface", description: "A complete operator workspace with queue, working detail, mobile rail, and command palette.", type: "registry:block" },
-  { name: "threejs-product-stage", title: "Three.js Product Stage", description: "Progressive live 3D with a complete static fallback and device-aware loading.", type: "registry:block" },
-  { name: "design-intelligence", title: "Design Intelligence", description: "Deterministic layout, typography, motion, interface, and component-source decisions.", type: "registry:item" },
-  { name: "patterns-core", title: "Cinematic Patterns", description: "Framework-neutral guided deck, command palette, focus reveal, scene stage, and object stage.", type: "registry:item" },
-  { name: "creative-production", title: "Creative Production", description: "Asset sourcing, generation, rendering, licensing, optimization, and mobile fallbacks.", type: "registry:item" },
-  { name: "quality-suite", title: "Quality Suite", description: "Design, asset, registry, eval, browser, and screenshot verification.", type: "registry:item" }
+  {
+    name: "studio-core",
+    title: "Studio Core",
+    description: "Product context, semantic tokens, motion, the AIgent design skill, and deterministic planning.",
+    type: "registry:item",
+  },
+  {
+    name: "inspiration-intelligence",
+    title: "Inspiration Intelligence",
+    description: "URL forensics, Design DNA, multi-source synthesis, influence ledgers, originality review, and the Inspiration Lab.",
+    type: "registry:item",
+  },
+  {
+    name: "immersive-sales-deck",
+    title: "Immersive Sales Deck",
+    description: "A guided cinematic argument with explicit chapter navigation and keyboard control.",
+    type: "registry:block",
+  },
+  {
+    name: "command-center-interface",
+    title: "Command Center Interface",
+    description: "A complete operator workspace with queue, working detail, mobile rail, and command palette.",
+    type: "registry:block",
+  },
+  {
+    name: "threejs-product-stage",
+    title: "Three.js Product Stage",
+    description: "Progressive live 3D with a complete static fallback and device-aware loading.",
+    type: "registry:block",
+  },
+  {
+    name: "design-intelligence",
+    title: "Design Intelligence",
+    description: "Deterministic layout, typography, motion, interface, and component-source decisions.",
+    type: "registry:item",
+  },
+  {
+    name: "patterns-core",
+    title: "Cinematic Patterns",
+    description: "Framework-neutral guided deck, command palette, focus reveal, scene stage, and object stage.",
+    type: "registry:item",
+  },
+  {
+    name: "creative-production",
+    title: "Creative Production",
+    description: "Asset sourcing, generation, rendering, licensing, optimization, and mobile fallbacks.",
+    type: "registry:item",
+  },
+  {
+    name: "quality-suite",
+    title: "Quality Suite",
+    description: "Design, inspiration, asset, registry, eval, browser, and screenshot verification.",
+    type: "registry:item",
+  },
 ];
 
 const categories = {
@@ -15,8 +61,9 @@ const categories = {
   interface: "Interfaces",
   pattern: "Patterns",
   intelligence: "Design brain",
+  inspiration: "Inspiration",
   production: "Production",
-  quality: "Quality"
+  quality: "Quality",
 };
 
 const previews = {
@@ -24,7 +71,8 @@ const previews = {
   "immersive-sales-deck": "../templates/immersive-sales-deck/",
   "command-center-interface": "../templates/command-center-interface/",
   "threejs-product-stage": "../templates/threejs-product-stage/",
-  "design-vault": "./"
+  "design-vault": "./",
+  "inspiration-intelligence": "../inspiration/lab/",
 };
 
 const state = { items: [], category: "all", query: "" };
@@ -35,6 +83,7 @@ const filtersNode = document.querySelector("#filters");
 const searchNode = document.querySelector("#search");
 
 function categoryFor(item) {
+  if (/inspiration/.test(item.name)) return "inspiration";
   if (/deck|page|threejs-product|cinematic-page/.test(item.name)) return "page";
   if (/command-center|interface/.test(item.name)) return "interface";
   if (/pattern/.test(item.name)) return "pattern";
@@ -64,7 +113,9 @@ function createFilter(id, label) {
   return button;
 }
 
-for (const [id, label] of Object.entries(categories)) filtersNode.append(createFilter(id, label));
+for (const [id, label] of Object.entries(categories)) {
+  filtersNode.append(createFilter(id, label));
+}
 
 searchNode.addEventListener("input", () => {
   state.query = searchNode.value.trim().toLowerCase();
@@ -76,7 +127,9 @@ async function copyCommand(command, button) {
     await navigator.clipboard.writeText(command);
     const original = button.textContent;
     button.textContent = "Copied";
-    window.setTimeout(() => { button.textContent = original; }, 1200);
+    window.setTimeout(() => {
+      button.textContent = original;
+    }, 1200);
   } catch {
     button.textContent = "Copy unavailable";
   }
@@ -131,7 +184,10 @@ function render() {
   const visible = state.items.filter((item) => {
     const category = categoryFor(item);
     const searchable = `${item.name} ${item.title || ""} ${item.description || ""} ${category}`.toLowerCase();
-    return (state.category === "all" || category === state.category) && (!state.query || searchable.includes(state.query));
+    return (
+      (state.category === "all" || category === state.category)
+      && (!state.query || searchable.includes(state.query))
+    );
   });
 
   itemsNode.replaceChildren(...visible.map(renderItem));
@@ -141,7 +197,9 @@ function render() {
 
 async function loadRegistry(url, seen = new Set()) {
   const resolved = new URL(url, location.href);
-  if (seen.has(resolved.href)) throw new Error(`Registry include cycle: ${resolved.pathname}`);
+  if (seen.has(resolved.href)) {
+    throw new Error(`Registry include cycle: ${resolved.pathname}`);
+  }
   seen.add(resolved.href);
 
   const response = await fetch(resolved);

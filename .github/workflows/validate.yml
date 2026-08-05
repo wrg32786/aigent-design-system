@@ -1,13 +1,10 @@
 name: Validate design system
-
 on:
   pull_request:
   push:
     branches: [master]
-
 permissions:
   contents: read
-
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -21,25 +18,30 @@ jobs:
       - run: npm run check
       - run: npm run registry
       - run: npm run intelligence
+      - run: npm run inspiration
       - run: npm run eval
       - name: Exercise the local CLI
         run: |
-          rm -rf /tmp/aigent-design-install /tmp/aigent-design-plan.json
+          rm -rf /tmp/aigent-design-install /tmp/aigent-design-plan.json /tmp/aigent-inspiration /tmp/aigent-inspiration-plan.json
           node scripts/cli.mjs doctor
-          node scripts/cli.mjs add studio-core --target /tmp/aigent-design-install
+          node scripts/cli.mjs add full-studio --target /tmp/aigent-design-install
           test -f /tmp/aigent-design-install/.claude/skills/aigent-design/SKILL.md
-          test -f /tmp/aigent-design-install/tokens/system.css
+          test -f /tmp/aigent-design-install/inspiration/README.md
           node scripts/cli.mjs plan design-intelligence/example-brief.json --out /tmp/aigent-design-plan.json
+          node scripts/cli.mjs inspire add inspiration/examples/editorial-reference.json --root /tmp/aigent-inspiration --id editorial --kind structured-reference --analysis inspiration/examples/editorial-reference.json
+          node scripts/cli.mjs inspire add inspiration/examples/immersive-reference.json --root /tmp/aigent-inspiration --id immersive --kind structured-reference --analysis inspiration/examples/immersive-reference.json
+          node scripts/cli.mjs inspire add inspiration/examples/interface-reference.json --root /tmp/aigent-inspiration --id interface --kind structured-reference --analysis inspiration/examples/interface-reference.json
+          node scripts/cli.mjs inspire compose --root /tmp/aigent-inspiration --brief inspiration/evals/briefs/immersive-product-launch.json --refs editorial,immersive,interface --out /tmp/aigent-inspiration-plan.json
           test -s /tmp/aigent-design-plan.json
+          test -s /tmp/aigent-inspiration-plan.json
       - name: Validate the GitHub registry with shadcn
         run: |
           REF="${GITHUB_HEAD_REF:-$GITHUB_SHA}"
           npx --yes shadcn@latest registry validate "${GITHUB_REPOSITORY}#${REF}"
-
   browser:
     needs: check
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -53,14 +55,13 @@ jobs:
           npm run serve > /tmp/aigent-design-system-server.log 2>&1 &
           echo $! > /tmp/aigent-design-system-server.pid
           for attempt in {1..30}; do
-            if curl --fail --silent http://127.0.0.1:4177/ > /dev/null; then
-              exit 0
-            fi
+            if curl --fail --silent http://127.0.0.1:4177/ > /dev/null; then exit 0; fi
             sleep 1
           done
           cat /tmp/aigent-design-system-server.log
           exit 1
       - run: npm run smoke
+      - run: npm run inspiration:smoke
       - run: npm run capture
       - uses: actions/upload-artifact@v4
         with:

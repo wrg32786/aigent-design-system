@@ -1,34 +1,38 @@
 # Roadmap
 
-## 0.2 — Installable design intelligence
+## 0.3 — Inspiration Intelligence
 
-- GitHub-native registry and zero-dependency CLI
-- consolidated AIgent Design skill
-- deterministic layout, typography, motion, interface, and component-source planner
-- immersive sales deck
-- command-center product interface
-- progressive Three.js product stage
-- reusable guided deck, command palette, focus reveal, scene stage, and object stage
-- searchable Design Vault
-- fixed design eval briefs and scoring contract
-- browser capture artifacts
-- contribution and release infrastructure
+- URL-first design forensics with multi-viewport evidence
+- Design DNA for structure, typography, material, motion, interaction, media, and responsive behavior
+- screenshot, video, structured-reference, Figma, and manual-analysis intake
+- local inspiration search
+- three-source reference synthesis
+- two-dimensions-per-source influence limit
+- required transformations and source exclusions
+- AIgent pattern mapping and influence ledger
+- originality heuristics
+- interactive Inspiration Lab
+- InspirationBench
+- consolidated skill and registry integration
+- real browser capture fixture and CI proof
 
 ## Next
 
-- publish the Design Vault as a first-class route on The AIgent Tools
-- run and publish baseline-versus-system evals with fixed models and briefs
-- add visual-regression baselines after reference captures stabilize
-- add a complete model-viewer product reference with an owned optimized GLB
-- add a complete Remotion source composition and rendered website outputs
-- add an owned Spline reference scene with loading and failure proof
+- publish the Design Vault and Inspiration Lab as first-class routes on The AIgent Tools
+- run and publish no-reference versus raw-reference versus Inspiration Intelligence evals
+- add visual-regression baselines after captures stabilize
+- add optional Chrome DevTools MCP workflow examples for authenticated operator-owned projects
+- add an owned model-viewer reference with an optimized GLB
+- add a complete Remotion composition and rendered outputs
+- add an owned Spline scene with loading and failure proof
 - migrate legacy showcase templates to semantic tokens without visual drift
-- submit a stable namespace to the public shadcn registry directory after the GitHub item contract has production use
+- submit a stable namespace to the public shadcn registry directory after production use
 
 ## Later
 
+- optional local SigLIP and DINOv2 retrieval adapters for large reference libraries
+- diversity-aware reference recommendation
+- Figma and Penpot direction-board round trips
 - public built-with-the-system gallery
 - additional framework adapters proven by real projects
 - automated WebGL performance tiers and context-loss verification
-- additional production recipes extracted from shipped pages
-- release tags and compatibility policy for registry items
