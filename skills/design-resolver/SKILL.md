@@ -5,7 +5,7 @@ description: Run the AIgent render, rank, repair, and verification loop on a web
 
 # Design Resolver
 
-Use this skill after the surface works end to end and before claiming design completion.
+Use this skill after the surface works end to end. It owns mechanical Resolve; route the required rendered judgment to `visual-design-critic`.
 
 ## Read first
 
@@ -40,6 +40,8 @@ Repeat no more than three coherent repair cycles before asking for human directi
 5. Keep product claims, selected visual world, reference transformations, responsive intent, and media strategy intact.
 6. Run the smallest relevant code check.
 7. Rerun Resolve and compare resolved, introduced, and persistent findings.
+8. When the mechanical gate passes, run Vision prepare and open every generated capture.
+9. Complete Vision check and finalize before claiming completion.
 
 ## Repair rules
 
@@ -60,6 +62,7 @@ Stop only when:
 - desktop, tablet, mobile, zoomed text, and reduced motion are complete;
 - product clarity and specificity remain intact;
 - composition, typography, motion, media, and originality receive an explicit visual review;
+- the structured Vision gate passes with no open P0/P1 finding;
 - the result has no unresolved loading, failure, rights, or provenance concern.
 
 A green report without rendered judgment is not design completion.

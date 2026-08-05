@@ -41,7 +41,8 @@ Do not load every reference into context.
 | `animate` | focal motion, continuity, feedback, and reduced motion |
 | `critique` | design review with evidence and priorities |
 | `polish` | final pass on an already working surface |
-| `resolve` | render, rank, repair, rerender, and verify until the gate and visual review pass |
+| `resolve` | render, rank, repair, rerender, and verify mechanical quality |
+| `vision` | open annotated captures, write structured critique, and merge visual judgment with Resolve |
 | `audit` | deterministic, inspiration, browser, asset, registry, and rights checks |
 | `extract` | convert proven work into a reusable recipe or registry item |
 | `install` | choose and install the smallest useful system or component source |
@@ -61,7 +62,8 @@ Do not load every reference into context.
 - Use the first medium, runtime, component, or browser feature that carries the requirement.
 - Mobile is recomposed, not shrunk.
 - Reduced motion preserves meaning and hierarchy.
-- Real browser evidence decides whether the work is done.
+- Real browser evidence decides whether the work is mechanically complete.
+- Every required screenshot must be opened before visual review can be marked complete.
 - Mechanical checks rank problems; they do not get to erase the selected visual world.
 
 ## Planning contract
@@ -119,10 +121,22 @@ npx github:wrg32786/aigent-design-system resolve --init --target .
 npx github:wrg32786/aigent-design-system resolve --target . --url <local-url>
 ```
 
-The resolver combines source and rendered evidence, ranks the highest-value repair group, compares each run, and stops the agent from declaring completion before desktop, tablet, mobile, text zoom, reduced motion, runtime behavior, and explicit visual judgment are complete.
+The resolver combines source and rendered evidence, ranks the highest-value mechanical repair group, and compares each run.
+
+## Vision routing
+
+Use `visual-design-critic` after Resolve has produced captures:
+
+```bash
+npx github:wrg32786/aigent-design-system vision prepare --target .
+npx github:wrg32786/aigent-design-system vision check --target . --review .aigent/resolve/latest.visual-review.json
+npx github:wrg32786/aigent-design-system vision finalize --target . --review .aigent/resolve/latest.visual-review.json
+```
+
+Open every original and annotated image. Use `reference/vision.md`. The combined gate blocks completion until all twelve critique dimensions are recorded and no open P0/P1 visual finding remains.
 
 ## Completion
 
-A finished result includes product-specific content, a committed visual world, working desktop and mobile states, reduced motion, complete UI states, optimized and manifest-backed media, an influence ledger when references were used, a passing Resolve mechanical gate, explicit visual review, and no unresolved rights or private records.
+A finished result includes product-specific content, a committed visual world, working desktop and mobile states, reduced motion, complete UI states, optimized and manifest-backed media, an influence ledger when references were used, a passing Resolve mechanical gate, a passing structured Vision review, and no unresolved rights or private records.
 
 A prompt, mood board, screenshot imitation, partial component list, technically working effect, or green mechanical report without rendered judgment is not a finished design.

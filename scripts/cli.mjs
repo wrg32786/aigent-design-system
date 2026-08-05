@@ -131,9 +131,7 @@ function add(registry, name, args) {
     throw new Error(`Refusing to overwrite existing files without --force:\n- ${files}`);
   }
 
-  console.log(
-    `${dryRun ? "Would install" : "Installing"} ${name} with ${items.length - 1} dependencies into ${target}`,
-  );
+  console.log(`${dryRun ? "Would install" : "Installing"} ${name} with ${items.length - 1} dependencies into ${target}`);
   for (const operation of operations) {
     console.log(`  ${operation.exists ? "replace" : "create"} ${path.relative(target, operation.destination)}`);
     if (dryRun) continue;
@@ -145,14 +143,10 @@ function add(registry, name, args) {
 
 function doctor(registry) {
   const failures = [];
-  if (Number(process.versions.node.split(".")[0]) < 20) {
-    failures.push("Node.js 20 or newer is required.");
-  }
+  if (Number(process.versions.node.split(".")[0]) < 20) failures.push("Node.js 20 or newer is required.");
   for (const item of registry.items) {
     for (const file of item.files) {
-      if (!fs.existsSync(path.join(packageRoot, file.path))) {
-        failures.push(`Missing registry source: ${file.path}`);
-      }
+      if (!fs.existsSync(path.join(packageRoot, file.path))) failures.push(`Missing registry source: ${file.path}`);
     }
   }
   if (failures.length) {
@@ -192,8 +186,13 @@ async function resolve(args) {
   await runResolve(args);
 }
 
+async function vision(args) {
+  const { runVision } = await import(pathToFileURL(path.join(packageRoot, "scripts/vision-review.mjs")));
+  await runVision(args);
+}
+
 function help() {
-  console.log(`AIgent Design\n\nCommands:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  resolve [--target dir] [--url url] [--init] [--no-fail]\n  doctor\n`);
+  console.log(`AIgent Design\n\nCommands:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  resolve [--target dir] [--url url] [--init] [--no-fail]\n  vision <prepare|check|finalize> ...\n  doctor\n`);
 }
 
 try {
@@ -202,9 +201,7 @@ try {
   if (command === "list") {
     list(registry);
   } else if (command === "add") {
-    if (!args[0]) {
-      throw new Error("Usage: aigent-design add <item> [--target dir] [--dry-run] [--force]");
-    }
+    if (!args[0]) throw new Error("Usage: aigent-design add <item> [--target dir] [--dry-run] [--force]");
     add(registry, args[0], args.slice(1));
   } else if (command === "doctor") {
     doctor(registry);
@@ -214,6 +211,8 @@ try {
     await inspire(args);
   } else if (command === "resolve") {
     await resolve(args);
+  } else if (command === "vision") {
+    await vision(args);
   } else {
     help();
   }

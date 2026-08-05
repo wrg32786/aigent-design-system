@@ -1,19 +1,19 @@
 <p align="center">
-  <img src="docs/assets/aigent-design-system-banner.svg" width="100%" alt="The AIgent Design System — Inspire, Produce, Build, Resolve">
+  <img src="docs/assets/aigent-design-system-banner.svg" width="100%" alt="The AIgent Design System — Inspire, Produce, Build, Resolve, See">
 </p>
 
 <h1 align="center">AIgent Design System</h1>
 
 <p align="center"><strong>The agent-native design and production studio for distinctive interfaces, immersive 3D websites, cinematic decks, and the media behind them.</strong></p>
 
-<p align="center"><code>SHAPE · INSPIRE · SYNTHESIZE · PRODUCE · BUILD · RESOLVE</code></p>
+<p align="center"><code>SHAPE · INSPIRE · SYNTHESIZE · PRODUCE · BUILD · RESOLVE · SEE</code></p>
 
-An installable system for turning Claude, Codex, Cursor, and other coding agents into a disciplined design-and-production team—with reference forensics, original synthesis, media pipelines, ranked repair, and browser proof.
+An installable system for turning Claude, Codex, Cursor, and other coding agents into a disciplined design-and-production team—with reference forensics, original synthesis, media pipelines, ranked repair, annotated visual critique, and browser proof.
 
 The system is built to make Claude, Codex, Cursor, and other coding agents operate more like a senior design-and-production team:
 
 ```text
-SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → RESOLVE
+SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → RESOLVE → SEE
 ```
 
 The neutral core remains framework- and dependency-light. Playwright is used for development-time browser evidence. GSAP, Three.js, Spline, Remotion, Rive, React Three Fiber, Theatre.js, Blender, FFmpeg, and external component sources are selected only when the work earns them.
@@ -51,6 +51,12 @@ pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/design-resolver
 ```
 
+### AIgent Vision Critic
+
+```bash
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/vision-critic
+```
+
 ### Complete pages and interfaces
 
 ```bash
@@ -75,6 +81,7 @@ npx github:wrg32786/aigent-design-system add studio-core --target .
 npx github:wrg32786/aigent-design-system plan brief.json --out design-plan.json
 npx github:wrg32786/aigent-design-system inspire doctor
 npx github:wrg32786/aigent-design-system resolve --init --target .
+npx github:wrg32786/aigent-design-system vision prepare --target .
 ```
 
 ## AIgent Resolve
@@ -102,6 +109,36 @@ npx github:wrg32786/aigent-design-system resolve \
 ```
 
 The default gate requires a score of 90, zero errors, no more than five warnings, and an explicit visual review. Generated evidence stays under `.aigent/resolve/`. Mechanical passage does not replace judgment about product clarity, specificity, composition, typography, motion, media, originality, or finish.
+
+## AIgent Vision
+
+AIgent Vision closes the gap between browser facts and design judgment:
+
+```text
+RENDER → MEASURE → CAPTURE → SEE → CRITIQUE → RANK → REPAIR → RERENDER → COMPARE
+```
+
+Resolve creates the real desktop, tablet, mobile, and reduced-motion captures. Vision adds numbered `E###` overlays and an element map, then requires the operating agent, a human reviewer, or an explicit vision adapter to open every original and annotated image.
+
+```bash
+npx github:wrg32786/aigent-design-system vision prepare --target .
+```
+
+The review covers product clarity, hierarchy, composition, typography, color and material, motion and media, interaction, product specificity, originality, responsive quality, trust and usability, and finish. Each finding includes visible evidence, severity, relevant element IDs, a suspected shared owner, a repair, confidence, and what must be preserved.
+
+Write the review to `.aigent/resolve/latest.visual-review.json`, then validate and merge it with Resolve:
+
+```bash
+npx github:wrg32786/aigent-design-system vision check \
+  --target . \
+  --review .aigent/resolve/latest.visual-review.json
+
+npx github:wrg32786/aigent-design-system vision finalize \
+  --target . \
+  --review .aigent/resolve/latest.visual-review.json
+```
+
+Completion requires the mechanical gate, proof that every required capture was reviewed, no open P0/P1 visual finding, and an explicit final verdict. A host that cannot see images must use a human or a declared vision-model adapter; it cannot mark the review complete from source code alone.
 
 ## Inspiration Intelligence
 
@@ -357,6 +394,7 @@ npm run assets
 npm run intelligence
 npm run inspiration
 npm run resolve:check
+npm run vision:check
 npm run registry
 npm run eval
 npm run audit -- path/to/page path/to/shared.css
@@ -394,6 +432,7 @@ registry.json
 design-intelligence/    deterministic design decisions
 inspiration/            forensics, Design DNA, synthesis, originality, lab
 resolve/                ranked render-repair-verification contract
+vision/                 annotated captures and structured visual critique
 creative-production/    media sources, briefs, pipelines, standards
 assets/                  manifests and optimized public outputs
 integrations/            optional runtime guidance

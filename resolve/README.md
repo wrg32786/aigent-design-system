@@ -3,10 +3,10 @@
 AIgent Resolve is the final production loop for a website, deck, or product interface:
 
 ```text
-RENDER → DETECT → RANK → REPAIR → RERENDER → REVIEW
+RENDER → DETECT → RANK → REPAIR → RERENDER → VISION
 ```
 
-It combines the existing source audit with rendered browser evidence and produces one ranked repair contract for the coding agent. It does not blindly rewrite arbitrary UI code.
+It combines source audit and rendered browser evidence into a ranked mechanical repair contract. AIgent Vision then requires the agent to inspect annotated captures and record structured aesthetic judgment. Neither layer blindly rewrites arbitrary UI code.
 
 ## Start
 
@@ -59,6 +59,11 @@ Generated evidence is stored under:
     tablet.png
     mobile.png
     reduced-motion.png
+    desktop.annotated.png
+    tablet.annotated.png
+    mobile.annotated.png
+    reduced-motion.annotated.png
+    element-map.json
 ```
 
 ## Repair contract
@@ -84,7 +89,7 @@ Default mechanical gate:
 }
 ```
 
-Mechanical passage is not a declaration of taste. Completion still requires explicit review of product clarity, specificity, composition, typography, motion and media, originality, and finish.
+Mechanical passage is not a declaration of taste. Run `aigent-design vision prepare`, inspect every capture, write `.aigent/resolve/latest.visual-review.json`, and run `vision finalize`. Completion requires no open P0/P1 visual finding and a final structured verdict.
 
 ## Useful options
 

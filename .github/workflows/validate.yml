@@ -20,6 +20,7 @@ jobs:
       - run: npm run intelligence
       - run: npm run inspiration
       - run: npm run resolve:check
+      - run: npm run vision:check
       - run: npm run eval
       - name: Exercise the local CLI
         run: |
@@ -28,8 +29,11 @@ jobs:
           node scripts/cli.mjs add full-studio --target /tmp/aigent-design-install
           test -f /tmp/aigent-design-install/.claude/skills/aigent-design/SKILL.md
           test -f /tmp/aigent-design-install/.claude/skills/design-resolver/SKILL.md
+          test -f /tmp/aigent-design-install/.claude/skills/visual-design-critic/SKILL.md
           test -f /tmp/aigent-design-install/inspiration/README.md
           test -f /tmp/aigent-design-install/resolve/README.md
+          test -f /tmp/aigent-design-install/vision/README.md
+          test -f /tmp/aigent-design-install/scripts/vision-review.mjs
           node scripts/cli.mjs plan design-intelligence/example-brief.json --out /tmp/aigent-design-plan.json
           node scripts/cli.mjs inspire add inspiration/examples/editorial-reference.json --root /tmp/aigent-inspiration --id editorial --kind structured-reference --analysis inspiration/examples/editorial-reference.json
           node scripts/cli.mjs inspire add inspiration/examples/immersive-reference.json --root /tmp/aigent-inspiration --id immersive --kind structured-reference --analysis inspiration/examples/immersive-reference.json
@@ -44,7 +48,7 @@ jobs:
   browser:
     needs: check
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -52,7 +56,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install chromium
       - name: Start preview server
         run: |
           npm run serve > /tmp/aigent-design-system-server.log 2>&1 &
@@ -65,7 +69,7 @@ jobs:
           exit 1
       - run: npm run smoke
       - run: npm run inspiration:smoke
-      - name: Exercise the rendered resolve loop
+      - name: Exercise Resolve and prepare visual review
         run: |
           rm -rf artifacts/resolve
           node scripts/cli.mjs resolve \
@@ -76,6 +80,20 @@ jobs:
           cat artifacts/resolve/latest.md
           test -s artifacts/resolve/latest.json
           node -e 'const r=require("./artifacts/resolve/latest.json"); if(!r.gate.pass||r.browserEvidence.length!==3||r.captures.length!==4)process.exit(1)'
+          node scripts/cli.mjs vision prepare \
+            --target templates/modular-scroll-starter \
+            --url http://127.0.0.1:4177/templates/modular-scroll-starter/ \
+            --out artifacts/resolve
+          test -s artifacts/resolve/latest.visual-review-task.json
+          test -s artifacts/resolve/latest.visual-review.template.json
+          test -s artifacts/resolve/latest.visual-review.prompt.md
+          node -e 'const t=require("./artifacts/resolve/latest.visual-review-task.json"); if(t.requiredViewports.length!==4||t.captures.length!==4)process.exit(1)'
+          RUN_ID=$(node -p 'require("./artifacts/resolve/latest.json").runId')
+          test -s artifacts/resolve/runs/$RUN_ID/element-map.json
+          test -s artifacts/resolve/runs/$RUN_ID/desktop.annotated.png
+          test -s artifacts/resolve/runs/$RUN_ID/tablet.annotated.png
+          test -s artifacts/resolve/runs/$RUN_ID/mobile.annotated.png
+          test -s artifacts/resolve/runs/$RUN_ID/reduced-motion.annotated.png
       - run: npm run capture
       - uses: actions/upload-artifact@v4
         with:

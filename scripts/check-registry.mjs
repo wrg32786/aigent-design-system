@@ -21,10 +21,7 @@ function safeInclude(root, parent, declared) {
 function loadRegistry(root, file, findings, stack = []) {
   const relative = path.relative(root, file);
   if (stack.includes(file)) {
-    findings.push({
-      severity: "error",
-      message: `Registry include cycle: ${[...stack, file].map((entry) => path.relative(root, entry)).join(" -> ")}`,
-    });
+    findings.push({ severity: "error", message: `Registry include cycle: ${[...stack, file].map((entry) => path.relative(root, entry)).join(" -> ")}` });
     return { items: [] };
   }
   if (!fs.existsSync(file)) {
@@ -40,16 +37,11 @@ function loadRegistry(root, file, findings, stack = []) {
     return { items: [] };
   }
 
-  if (source.$schema !== "https://ui.shadcn.com/schema/registry.json") {
-    findings.push({ severity: "error", message: `Unexpected registry schema in ${relative}.` });
-  }
+  if (source.$schema !== "https://ui.shadcn.com/schema/registry.json") findings.push({ severity: "error", message: `Unexpected registry schema in ${relative}.` });
   const base = path.relative(root, path.dirname(file)).split(path.sep).join("/");
   const items = (source.items || []).map((item) => ({
     ...item,
-    files: (item.files || []).map((entry) => ({
-      ...entry,
-      path: base ? path.posix.normalize(`${base}/${entry.path}`) : entry.path,
-    })),
+    files: (item.files || []).map((entry) => ({ ...entry, path: base ? path.posix.normalize(`${base}/${entry.path}`) : entry.path })),
   }));
 
   for (const include of source.include || []) {
@@ -65,57 +57,32 @@ function loadRegistry(root, file, findings, stack = []) {
 
 export function readRegistry(root = process.cwd()) {
   const findings = [];
-  const registryPath = path.join(root, "registry.json");
-  const registry = loadRegistry(root, registryPath, findings);
+  const registry = loadRegistry(root, path.join(root, "registry.json"), findings);
   return { registry, findings };
 }
 
 export function checkRegistry(root = process.cwd()) {
   const { registry, findings } = readRegistry(root);
-
-  if (!registry.name || !registry.homepage) {
-    findings.push({ severity: "error", message: "Registry name and homepage are required." });
-  }
+  if (!registry.name || !registry.homepage) findings.push({ severity: "error", message: "Registry name and homepage are required." });
   if (!registry.items.length) findings.push({ severity: "error", message: "Registry requires items." });
 
   const names = new Set();
   for (const item of registry.items) {
-    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.name || "")) {
-      findings.push({ severity: "error", message: `Invalid item name: ${item.name}` });
-    }
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.name || "")) findings.push({ severity: "error", message: `Invalid item name: ${item.name}` });
     if (names.has(item.name)) findings.push({ severity: "error", message: `Duplicate item: ${item.name}` });
     names.add(item.name);
-    if (!allowedTypes.has(item.type)) {
-      findings.push({ severity: "error", message: `Invalid type for ${item.name}: ${item.type}` });
-    }
-    if (!item.title || !item.description || item.description.length < 24) {
-      findings.push({ severity: "error", message: `Item ${item.name} needs a useful title and description.` });
-    }
-    if (!Array.isArray(item.files) || !item.files.length) {
-      findings.push({ severity: "error", message: `Item ${item.name} has no files.` });
-    }
+    if (!allowedTypes.has(item.type)) findings.push({ severity: "error", message: `Invalid type for ${item.name}: ${item.type}` });
+    if (!item.title || !item.description || item.description.length < 24) findings.push({ severity: "error", message: `Item ${item.name} needs a useful title and description.` });
+    if (!Array.isArray(item.files) || !item.files.length) findings.push({ severity: "error", message: `Item ${item.name} has no files.` });
 
     const targets = new Set();
     for (const file of item.files || []) {
-      if (!file.path || file.path.startsWith("/") || file.path.split("/").includes("..")) {
-        findings.push({ severity: "error", message: `${item.name} has unsafe source path: ${file.path}` });
-      }
-      if (file.type !== "registry:file") {
-        findings.push({
-          severity: "error",
-          message: `${item.name}/${file.path} must use registry:file for this framework-neutral registry.`,
-        });
-      }
-      if (!file.target?.startsWith("~/")) {
-        findings.push({ severity: "error", message: `${item.name}/${file.path} needs a project-root target.` });
-      }
-      if (targets.has(file.target)) {
-        findings.push({ severity: "error", message: `${item.name} has duplicate target: ${file.target}` });
-      }
+      if (!file.path || file.path.startsWith("/") || file.path.split("/").includes("..")) findings.push({ severity: "error", message: `${item.name} has unsafe source path: ${file.path}` });
+      if (file.type !== "registry:file") findings.push({ severity: "error", message: `${item.name}/${file.path} must use registry:file for this framework-neutral registry.` });
+      if (!file.target?.startsWith("~/")) findings.push({ severity: "error", message: `${item.name}/${file.path} needs a project-root target.` });
+      if (targets.has(file.target)) findings.push({ severity: "error", message: `${item.name} has duplicate target: ${file.target}` });
       targets.add(file.target);
-      if (!fs.existsSync(path.join(root, file.path))) {
-        findings.push({ severity: "error", message: `${item.name} references missing file: ${file.path}` });
-      }
+      if (!fs.existsSync(path.join(root, file.path))) findings.push({ severity: "error", message: `${item.name} references missing file: ${file.path}` });
     }
   }
 
@@ -124,12 +91,8 @@ export function checkRegistry(root = process.cwd()) {
     for (const dependency of item.registryDependencies || []) {
       const local = dependencyName(dependency);
       if (!local) continue;
-      if (!byName.has(local)) {
-        findings.push({ severity: "error", message: `${item.name} depends on missing item: ${dependency}` });
-      }
-      if (dependency.includes("/") && !dependency.startsWith(repositoryPrefix)) {
-        findings.push({ severity: "error", message: `${item.name} has malformed GitHub dependency: ${dependency}` });
-      }
+      if (!byName.has(local)) findings.push({ severity: "error", message: `${item.name} depends on missing item: ${dependency}` });
+      if (dependency.includes("/") && !dependency.startsWith(repositoryPrefix)) findings.push({ severity: "error", message: `${item.name} has malformed GitHub dependency: ${dependency}` });
     }
   }
 
@@ -148,19 +111,10 @@ export function checkRegistry(root = process.cwd()) {
   for (const name of names) visit(name);
 
   for (const required of [
-    "studio-core",
-    "aigent-design-skill",
-    "design-intelligence",
-    "inspiration-intelligence",
-    "design-resolver",
-    "immersive-sales-deck",
-    "command-center-interface",
-    "threejs-product-stage",
-    "full-studio",
+    "studio-core", "aigent-design-skill", "design-intelligence", "inspiration-intelligence", "design-resolver", "vision-critic",
+    "immersive-sales-deck", "command-center-interface", "threejs-product-stage", "full-studio",
   ]) {
-    if (!names.has(required)) {
-      findings.push({ severity: "error", message: `Missing required registry item: ${required}` });
-    }
+    if (!names.has(required)) findings.push({ severity: "error", message: `Missing required registry item: ${required}` });
   }
   return findings;
 }
