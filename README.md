@@ -33,33 +33,7 @@ They set the craft bar. They are not a universal palette or template.
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/studio-core
 ```
 
-### AIgent Vision
-
-AIgent Vision closes the gap between browser facts and design judgment:
-
-```text
-RENDER → MEASURE → CAPTURE → SEE → CRITIQUE → RANK → REPAIR → RERENDER → COMPARE
-```
-
-Resolve creates the real desktop, tablet, mobile, and reduced-motion captures. Vision adds numbered `E###` overlays and an element map, then requires the operating agent, a human reviewer, or an explicit vision adapter to open every original and annotated image.
-
-```bash
-npx github:wrg32786/aigent-design-system vision prepare --target .
-```
-
-The review covers product clarity, hierarchy, composition, typography, color and material, motion and media, interaction, product specificity, originality, responsive quality, trust and usability, and finish. Each finding includes visible evidence, severity, relevant element IDs, a suspected shared owner, a repair, confidence, and what must be preserved.
-
-Write the review to `.aigent/resolve/latest.visual-review.json`, then validate and merge it with Resolve:
-
-```bash
-npx github:wrg32786/aigent-design-system vision check   --target .   --review .aigent/resolve/latest.visual-review.json
-
-npx github:wrg32786/aigent-design-system vision finalize   --target .   --review .aigent/resolve/latest.visual-review.json
-```
-
-Completion requires the mechanical gate, proof that every required capture was reviewed, no open P0/P1 visual finding, and an explicit final verdict. A host that cannot see images must use a human or a declared vision-model adapter; it cannot mark the review complete from source code alone.
-
-## Inspiration Intelligence
+### Inspiration Intelligence
 
 ```bash
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence
@@ -135,6 +109,36 @@ npx github:wrg32786/aigent-design-system resolve \
 ```
 
 The default gate requires a score of 90, zero errors, no more than five warnings, and an explicit visual review. Generated evidence stays under `.aigent/resolve/`. Mechanical passage does not replace judgment about product clarity, specificity, composition, typography, motion, media, originality, or finish.
+
+## AIgent Vision
+
+AIgent Vision closes the gap between browser facts and design judgment:
+
+```text
+RENDER → MEASURE → CAPTURE → SEE → CRITIQUE → RANK → REPAIR → RERENDER → COMPARE
+```
+
+Resolve creates the real desktop, tablet, mobile, and reduced-motion captures. Vision adds numbered `E###` overlays and an element map, then requires the operating agent, a human reviewer, or an explicit vision adapter to open every original and annotated image.
+
+```bash
+npx github:wrg32786/aigent-design-system vision prepare --target .
+```
+
+The review covers product clarity, hierarchy, composition, typography, color and material, motion and media, interaction, product specificity, originality, responsive quality, trust and usability, and finish. Each finding includes visible evidence, severity, relevant element IDs, a suspected shared owner, a repair, confidence, and what must be preserved.
+
+Write the review to `.aigent/resolve/latest.visual-review.json`, then validate and merge it with Resolve:
+
+```bash
+npx github:wrg32786/aigent-design-system vision check \
+  --target . \
+  --review .aigent/resolve/latest.visual-review.json
+
+npx github:wrg32786/aigent-design-system vision finalize \
+  --target . \
+  --review .aigent/resolve/latest.visual-review.json
+```
+
+Completion requires the mechanical gate, proof that every required capture was reviewed, no open P0/P1 visual finding, and an explicit final verdict. A host that cannot see images must use a human or a declared vision-model adapter; it cannot mark the review complete from source code alone.
 
 ## Inspiration Intelligence
 
