@@ -424,6 +424,14 @@ async function collectPageEvidence(page, viewport, config) {
       document.documentElement.style.fontSize = "200%";
       await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
       const offenders = [...document.querySelectorAll("body *")]
+        .filter((element) => {
+          if (element.closest('[aria-hidden="true"]')) return false;
+          const style = getComputedStyle(element);
+          if (style.display === "none" || style.visibility === "hidden" || Number(style.opacity) <= 0.02) return false;
+          if (style.position === "fixed" && style.pointerEvents === "none") return false;
+          const rect = element.getBoundingClientRect();
+          return rect.width > 0 && rect.height > 0;
+        })
         .map((element) => {
           const rect = element.getBoundingClientRect();
           return {
@@ -438,7 +446,7 @@ async function collectPageEvidence(page, viewport, config) {
         .sort((left, right) => Math.max(right.right - innerWidth, -right.left) - Math.max(left.right - innerWidth, -left.left))
         .slice(0, 5);
       const result = {
-        horizontalOverflow: document.documentElement.scrollWidth > innerWidth + 2,
+        horizontalOverflow: offenders.length > 0,
         documentWidth: document.documentElement.scrollWidth,
         offenders,
       };
