@@ -33,4 +33,4 @@ Resolve does not own:
 
 Preserve `PRODUCT.md`, `DESIGN.md`, the current inspiration plan, and the selected medium. Fix the highest shared cause first and rerun after each coherent repair group.
 
-Mechanical passage is a floor. The result still requires explicit rendered judgment.
+Mechanical passage is a floor. Route to `reference/vision.md`, inspect every original and annotated capture, and require the structured visual gate before completion.

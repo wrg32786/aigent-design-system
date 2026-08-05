@@ -53,6 +53,12 @@ const fallback = [
     description: "Design, inspiration, asset, registry, eval, browser, and screenshot verification.",
     type: "registry:item",
   },
+  {
+    name: "vision-critic",
+    title: "AIgent Vision Critic",
+    description: "Annotated rendered captures, structured aesthetic critique, visual comparison, and the final completion gate.",
+    type: "registry:item",
+  },
 ];
 
 const categories = {

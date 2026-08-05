@@ -91,3 +91,9 @@ The consolidated skill installs to `.claude/skills/aigent-design/` and routes pr
 | `aigent-asset-gallery-system` | The AIgent-branded gallery pattern |
 
 The `aigent-*` specialist skills are brand-specific. Outside brands should enter through `aigent-design`, inspect their own references, and preserve their visual authority.
+
+## Visual review
+
+| Skill | Owns |
+| --- | --- |
+| `visual-design-critic` | Annotated capture inspection, twelve-dimension critique, visual comparison, and the final combined gate |

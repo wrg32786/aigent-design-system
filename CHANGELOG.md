@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.5.0 — AIgent Vision
+
+### Added
+
+- annotated desktop, tablet, mobile, and reduced-motion screenshots
+- stable numbered `E###` element maps with selectors, bounds, labels, and computed visual roles
+- twelve-dimension structured aesthetic critique
+- proof that every required viewport was reviewed by a host agent, human, or explicit vision adapter
+- visual P0-P3 findings with visible evidence, repairs, confidence, and preservation constraints
+- combined mechanical and visual repair ranking
+- before-and-after visual comparison
+- final completion gate requiring no open P0/P1 visual finding
+- `aigent-design vision prepare`, `vision check`, and `vision finalize`
+- installable `vision-critic` registry item and `visual-design-critic` skill
+
+### Changed
+
+- primary workflow is now `Shape → Inspire → Synthesize → Produce → Build → Resolve → See`
+- package version is now `0.5.0`
+- Design Resolver now installs AIgent Vision
+- a screenshot existing on disk no longer counts as visual review
+
 ## 0.4.0 — AIgent Resolve
 
 ### Added

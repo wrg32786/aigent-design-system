@@ -342,6 +342,8 @@ A result is not ready until:
 - the result does not depend on recognizing its references
 - browser smoke and visual capture complete
 - the Resolve gate passes and its top-ranked findings are cleared or explicitly reviewed
+- every required original and annotated capture has a structured Vision review
+- no open P0/P1 visual finding remains
 
 Mechanical checks are a floor. Human review decides product clarity, specificity, composition, typography, motion/media, originality, and final coherence.
 
@@ -359,6 +361,14 @@ Repair one coherent root-cause group at a time. Fix shared primitives before ins
 
 Mechanical passage requires the configured score, error, and warning limits. Completion still requires explicit review of product clarity, specificity, composition, typography, motion/media, originality, and finish.
 
-## 12. Reuse
+## 12. See the rendered result
+
+AIgent Vision must open both original and annotated desktop, tablet, mobile, and reduced-motion captures. The numbered overlay is evidence, not decoration: every visual finding should point to `E###` elements when the issue has an identifiable rendered owner.
+
+Review product clarity, hierarchy, composition, typography, color/material, motion/media, interaction, product specificity, originality, responsive quality, trust/usability, and finish. Do not replace this with a hidden taste score or infer it from DOM metrics.
+
+A valid finding states the visible relationship, evidence, priority, repair, confidence, and preservation contract. Merge mechanical and visual findings, then repair the highest shared cause. Completion requires no open P0/P1 visual finding and a final verdict of `pass` or `pass-with-notes`.
+
+## 13. Reuse
 
 Extract only after the same intent appears in multiple real surfaces. Reuse existing tokens, modules, patterns, registry items, recipes, and skills before adding another layer. Keep inspiration evidence local unless the source and redistribution rights are explicitly clear.

@@ -83,6 +83,11 @@
           "path": "skills/aigent-design/reference/resolve.md",
           "type": "registry:file",
           "target": "~/.claude/skills/aigent-design/reference/resolve.md"
+        },
+        {
+          "path": "skills/aigent-design/reference/vision.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/aigent-design/reference/vision.md"
         }
       ]
     },
@@ -841,13 +846,80 @@
       "docs": "Run `npx playwright install chromium` before capturing live URLs. FFmpeg and ffprobe are optional and only needed to extract filmstrips from local video references."
     },
     {
-      "name": "design-resolver",
+      "name": "vision-critic",
       "type": "registry:item",
-      "title": "AIgent Design Resolver",
-      "description": "Install the render, rank, repair, rerender, and verification loop with desktop, tablet, mobile, zoom, reduced-motion, runtime, accessibility, and comparison evidence.",
+      "title": "AIgent Vision Critic",
+      "description": "Install annotated rendered captures, numbered element maps, structured aesthetic critique, visual comparison, and the final combined completion gate.",
       "registryDependencies": [
         "wrg32786/aigent-design-system/studio-core",
         "wrg32786/aigent-design-system/quality-suite"
+      ],
+      "files": [
+        {
+          "path": "vision/README.md",
+          "type": "registry:file",
+          "target": "~/vision/README.md"
+        },
+        {
+          "path": "vision/visual-review-task.schema.json",
+          "type": "registry:file",
+          "target": "~/vision/visual-review-task.schema.json"
+        },
+        {
+          "path": "vision/visual-review.schema.json",
+          "type": "registry:file",
+          "target": "~/vision/visual-review.schema.json"
+        },
+        {
+          "path": "vision/example.visual-review.json",
+          "type": "registry:file",
+          "target": "~/vision/example.visual-review.json"
+        },
+        {
+          "path": "vision/lib/common.mjs",
+          "type": "registry:file",
+          "target": "~/vision/lib/common.mjs"
+        },
+        {
+          "path": "vision/lib/capture.mjs",
+          "type": "registry:file",
+          "target": "~/vision/lib/capture.mjs"
+        },
+        {
+          "path": "vision/lib/review.mjs",
+          "type": "registry:file",
+          "target": "~/vision/lib/review.mjs"
+        },
+        {
+          "path": "scripts/vision-review.mjs",
+          "type": "registry:file",
+          "target": "~/scripts/vision-review.mjs"
+        },
+        {
+          "path": "scripts/check-vision.mjs",
+          "type": "registry:file",
+          "target": "~/scripts/check-vision.mjs"
+        },
+        {
+          "path": "skills/visual-design-critic/SKILL.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/visual-design-critic/SKILL.md"
+        }
+      ],
+      "devDependencies": [
+        "playwright@^1.61.1"
+      ],
+      "docs": "Run Resolve first, then `aigent-design vision prepare`. A host agent, human, or explicit vision adapter must open every required capture and write the structured review before `vision finalize` can pass."
+    },
+    {
+      "name": "design-resolver",
+      "type": "registry:item",
+      "title": "AIgent Design Resolver",
+      "description": "Install the mechanical render-and-repair loop plus AIgent Vision annotated captures, structured critique, and the combined completion gate.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/studio-core",
+        "wrg32786/aigent-design-system/quality-suite",
+        "wrg32786/aigent-design-system/vision-critic"
       ],
       "files": [
         {
@@ -884,13 +956,13 @@
       "devDependencies": [
         "playwright@^1.61.1"
       ],
-      "docs": "Run `npx playwright install chromium` before rendered Resolve checks. Mechanical passage still requires an explicit visual review."
+      "docs": "Run `npx playwright install chromium`, then Resolve, Vision prepare, a real image-capable review, and Vision finalize. Neither a green mechanical score nor an uninspected screenshot is completion."
     },
     {
       "name": "full-studio",
       "type": "registry:item",
       "title": "Complete AIgent Design Studio",
-      "description": "Install the complete flagship system: inspiration intelligence, design planning, immersive production, ranked design resolution, QA, Design Vault, and case studies.",
+      "description": "Install the complete flagship system: inspiration intelligence, design planning, immersive production, ranked Resolve, structured visual critique, QA, Design Vault, and case studies.",
       "registryDependencies": [
         "wrg32786/aigent-design-system/studio-core",
         "wrg32786/aigent-design-system/inspiration-intelligence",
