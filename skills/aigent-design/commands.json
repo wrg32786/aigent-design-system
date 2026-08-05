@@ -14,6 +14,7 @@
     { "name": "animate", "owns": "Define and implement one focal motion system plus supporting state transitions.", "reference": "reference/motion.md" },
     { "name": "critique", "owns": "Assess product clarity, composition, world coherence, interaction, media, and implementation.", "reference": "reference/craft-floor.md" },
     { "name": "polish", "owns": "Finish a working surface without changing its product truth or visual authority.", "reference": "reference/craft-floor.md" },
+    { "name": "resolve", "owns": "Render, detect, rank, repair, rerender, and verify a complete surface until the mechanical gate and explicit visual review pass.", "reference": "reference/resolve.md" },
     { "name": "audit", "owns": "Run deterministic, inspiration, browser, asset, registry, and provenance checks.", "reference": "reference/craft-floor.md" },
     { "name": "extract", "owns": "Promote proven patterns into tokens, recipes, registry items, or skills.", "reference": "reference/craft-floor.md" },
     { "name": "install", "owns": "Find and install the smallest registry item or external component source that solves the need.", "reference": "reference/interface.md" },
