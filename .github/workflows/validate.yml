@@ -4,33 +4,16 @@ on:
   push:
     branches: [master]
 permissions:
-  contents: write
+  contents: read
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
-          fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.13"
-      - name: Integrate Vision release contracts
-        if: github.head_ref == 'agent/vision-critique'
-        run: |
-          python scripts/prepare-vision-release.py
-          if ! git diff --quiet; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add registry.json README.md PRODUCT.md DESIGN.md CHANGELOG.md resolve/README.md skills vault/app.js
-            git commit -m "Integrate AIgent Vision"
-            git push origin HEAD:${{ github.head_ref }}
-          fi
       - run: npm ci
       - run: npm run check
       - run: npm run registry
