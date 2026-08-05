@@ -1,0 +1,26 @@
+{
+  "$schema": "./resolve.schema.json",
+  "schemaVersion": 1,
+  "entry": "/index.html",
+  "surfaceMode": "persuade",
+  "gate": {
+    "minimumScore": 90,
+    "maxErrors": 0,
+    "maxWarnings": 5,
+    "requireHumanReview": true
+  },
+  "checks": {
+    "static": true,
+    "browser": true,
+    "reducedMotion": true,
+    "zoom200": true,
+    "contrast": true,
+    "touchTargets": true
+  },
+  "viewports": [
+    { "id": "desktop", "width": 1440, "height": 1000 },
+    { "id": "tablet", "width": 1024, "height": 768 },
+    { "id": "mobile", "width": 390, "height": 844 }
+  ],
+  "ignore": [".git", ".aigent", "node_modules", "dist", "build", "coverage", ".next"]
+}
