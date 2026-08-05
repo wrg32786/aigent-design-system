@@ -34,6 +34,7 @@ The system turns design and production judgment into installable, inspectable as
 - ranked render, repair, rerender, and visual-review gates
 - ranked render, repair, rerender, and visual-review gates
 - ranked render, repair, rerender, and visual-review gates
+- ranked render, repair, rerender, and visual-review gates
 
 A user should be able to preserve the engineering contract while replacing the brand, media, composition, tone, and source references.
 
@@ -72,6 +73,7 @@ A successful adopter can:
 - `https://tools.theaigent.xyz` is the primary Operate + Read showcase.
 - Canonical templates prove cinematic pages, guided decks, product UI, progressive 3D, Spline, video scrubbing, and resource galleries.
 - The Inspiration Lab and forensics fixture prove evidence capture, synthesis, influence limits, and browser verification.
+- AIgent Resolve proves ranked root-cause repair, multi-viewport evidence, run comparison, and a bounded completion gate.
 - AIgent Resolve proves ranked root-cause repair, multi-viewport evidence, run comparison, and a bounded completion gate.
 - AIgent Resolve proves ranked root-cause repair, multi-viewport evidence, run comparison, and a bounded completion gate.
 - AIgent Resolve proves ranked root-cause repair, multi-viewport evidence, run comparison, and a bounded completion gate.
@@ -119,6 +121,7 @@ Do not drift into:
 - Inspiration captures, source masters, and private records stay out of the public repository.
 - Third-party material is not vendored without license review and required attribution.
 - Inspiration similarity is a review heuristic, not legal advice.
+- Mechanical Resolve passage never substitutes for explicit human or operating-agent visual judgment.
 - Mechanical Resolve passage never substitutes for explicit human or operating-agent visual judgment.
 - Mechanical Resolve passage never substitutes for explicit human or operating-agent visual judgment.
 - Mechanical Resolve passage never substitutes for explicit human or operating-agent visual judgment.

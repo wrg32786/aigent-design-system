@@ -33,9 +33,7 @@ They set the craft bar. They are not a universal palette or template.
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/studio-core
 ```
 
-##
-
-## Inspiration Intelligence
+### Inspiration Intelligence
 
 ```bash
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence
