@@ -151,7 +151,7 @@ for (const contract of [
   "SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → RESOLVE → SEE",
   "shadcn@latest add wrg32786/aigent-design-system/studio-core",
   "shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence",
-  "AIgent Vision", "visual-design-critic", "vision prepare", "latest.visual-review.json", "Design DNA", "influence ledger",
+  "AIgent Vision", "vision-critic", "vision prepare", "latest.visual-review.json", "Design DNA", "influence ledger",
   "AIgent Resolve", "design-resolver", "resolve:check", "vision:check", "inspiration:smoke",
   "templates/immersive-sales-deck/", "templates/command-center-interface/", "templates/threejs-product-stage/", "vault/",
 ]) {
