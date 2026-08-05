@@ -12,12 +12,14 @@
 - [ ] `npm run resolve:check` when resolve ranking, evidence, or gate logic changes
 - [ ] `npm run resolve:check` when resolve ranking, evidence, or gate logic changes
 - [ ] `npm run resolve:check` when resolve ranking, evidence, or gate logic changes
+- [ ] `npm run resolve:check` when resolve ranking, evidence, or gate logic changes
 - [ ] browser smoke tests
 - [ ] desktop capture
 - [ ] mobile capture
 - [ ] reduced-motion behavior where motion exists
 - [ ] dependency and license review
 - [ ] influence ledger and required transformations when references were used
+- [ ] Resolve report or explicit reason the change does not affect a rendered surface
 - [ ] Resolve report or explicit reason the change does not affect a rendered surface
 - [ ] Resolve report or explicit reason the change does not affect a rendered surface
 - [ ] Resolve report or explicit reason the change does not affect a rendered surface

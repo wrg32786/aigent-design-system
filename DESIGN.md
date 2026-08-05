@@ -345,6 +345,7 @@ A result is not ready until:
 - the Resolve gate passes and its top-ranked findings are cleared or explicitly reviewed
 - the Resolve gate passes and its top-ranked findings are cleared or explicitly reviewed
 - the Resolve gate passes and its top-ranked findings are cleared or explicitly reviewed
+- the Resolve gate passes and its top-ranked findings are cleared or explicitly reviewed
 
 Mechanical checks are a floor. Human review decides product clarity, specificity, composition, typography, motion/media, originality, and final coherence.
 

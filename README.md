@@ -34,6 +34,7 @@ pnpm dlx shadcn@latest add wrg32786/aigent-design-system/studio-core
 ```
 
 ##
+
 ## Inspiration Intelligence
 
 ```bash
