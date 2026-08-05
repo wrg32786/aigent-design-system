@@ -13,6 +13,7 @@ if not sections:
 resolve_section = sections[0].strip() + "\n\n"
 text = pattern.sub("", text)
 text = text.replace("#### Inspiration Intelligence", "### Inspiration Intelligence", 1)
+text = text.replace("##\n## Inspiration Intelligence", "### Inspiration Intelligence", 1)
 feature_start = text.find(feature_heading)
 if feature_start < 0:
     raise SystemExit("Could not find the Inspiration Intelligence feature section")
