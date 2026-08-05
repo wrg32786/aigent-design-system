@@ -50,7 +50,7 @@
   <g font-family="Arial Narrow, Helvetica Neue, Arial, sans-serif" font-weight="900" letter-spacing="-3">
     <text x="92" y="278" fill="#f5f2ea" font-size="104">TURN CLAUDE</text>
     <text x="92" y="390" fill="#f5f2ea" font-size="104">INTO A</text>
-    <text x="92" y="510" fill="url(#headline)" font-size="112">DESIGN STUDIO.</text>
+    <text x="92" y="510" fill="url(#headline)" font-size="100" textLength="690" lengthAdjust="spacingAndGlyphs">DESIGN STUDIO.</text>
   </g>
   <g fill="#c8cfcb" font-family="Helvetica Neue, Arial, sans-serif" font-size="22">
     <text x="96" y="574">Reference forensics, original synthesis, immersive media,</text>
@@ -67,7 +67,7 @@
   </g>
 
   <!-- Cinematic page card -->
-  <g transform="translate(830 150) rotate(-5 150 245)" filter="url(#panelShadow)">
+  <g transform="translate(890 150) rotate(-5 150 245)" filter="url(#panelShadow)">
     <rect width="316" height="500" rx="30" fill="#080b0a" stroke="#c7613f" stroke-opacity="0.72" stroke-width="1.6"/>
     <circle cx="28" cy="30" r="4" fill="#f07a52"/>
     <text x="30" y="76" fill="#f07a52" font-family="ui-monospace, monospace" font-size="13" font-weight="700" letter-spacing="2">CINEMATIC SYSTEM</text>
@@ -86,7 +86,7 @@
   </g>
 
   <!-- Command-center card -->
-  <g transform="translate(1372 160) rotate(6 152 244)" filter="url(#panelShadow)">
+  <g transform="translate(1412 160) rotate(6 152 244)" filter="url(#panelShadow)">
     <rect width="304" height="494" rx="30" fill="#07100e" stroke="#4ce2da" stroke-opacity="0.72" stroke-width="1.6"/>
     <text x="28" y="52" fill="#65f4df" font-family="ui-monospace, monospace" font-size="13" font-weight="700" letter-spacing="2">COMMAND CENTER</text>
     <g font-family="Helvetica Neue, Arial, sans-serif">
@@ -101,7 +101,7 @@
   </g>
 
   <!-- Progressive 3D card -->
-  <g transform="translate(1034 220) rotate(3 190 245)" filter="url(#panelShadow)">
+  <g transform="translate(1080 220) rotate(3 190 245)" filter="url(#panelShadow)">
     <rect width="390" height="490" rx="32" fill="#041126" stroke="#4ce2da" stroke-opacity="0.78" stroke-width="1.8"/>
     <text x="32" y="54" fill="#65f4df" font-family="ui-monospace, monospace" font-size="13" font-weight="700" letter-spacing="1.6">LIVE 3D / PROGRESSIVE ENHANCEMENT</text>
     <g font-family="Arial Narrow, Helvetica Neue, Arial, sans-serif" font-weight="900" font-size="43" letter-spacing="-1">
