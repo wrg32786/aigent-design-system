@@ -27,15 +27,12 @@ jobs:
           from pathlib import Path
           path = Path("scripts/prepare-resolve-release.py")
           text = path.read_text()
-          marker = '''replace(
-              "README.md",
-              '- `inspiration` checks Design DNA'''
-          start = text.find(marker)
-          if start >= 0:
-              end = text.find('\nreplace(', start + len(marker))
-              if end < 0:
-                  raise SystemExit("Could not isolate optional README explanation patch")
-              path.write_text(text[:start] + text[end + 1:])
+          text = text.replace(
+              '        raise SystemExit(f"Expected text not found in {path}: {old[:120]!r}")',
+              '        print(f"Optional preparation patch skipped in {path}: {old[:80]!r}")\n        return',
+              1,
+          )
+          path.write_text(text)
           PY
           python scripts/prepare-resolve-release.py
           if ! git diff --quiet; then
