@@ -23,6 +23,20 @@ jobs:
       - name: Prepare resolve release metadata
         if: github.head_ref == 'agent/design-resolve-loop'
         run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("scripts/prepare-resolve-release.py")
+          text = path.read_text()
+          marker = '''replace(
+              "README.md",
+              '- `inspiration` checks Design DNA'''
+          start = text.find(marker)
+          if start >= 0:
+              end = text.find('\nreplace(', start + len(marker))
+              if end < 0:
+                  raise SystemExit("Could not isolate optional README explanation patch")
+              path.write_text(text[:start] + text[end + 1:])
+          PY
           python scripts/prepare-resolve-release.py
           if ! git diff --quiet; then
             git config user.name "github-actions[bot]"
