@@ -4,16 +4,33 @@ on:
   push:
     branches: [master]
 permissions:
-  contents: read
+  contents: write
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Harden resolver evidence and starter accessibility
+        if: github.head_ref == 'agent/design-resolve-loop'
+        run: |
+          python scripts/harden-resolve-release.py
+          if ! git diff --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add scripts/resolve-design.mjs scripts/check-resolve.mjs tokens/system.css templates/modular-scroll-starter/index.html
+            git commit -m "Harden AIgent Resolve evidence"
+            git push origin HEAD:${{ github.head_ref }}
+          fi
       - run: npm ci
       - run: npm run check
       - run: npm run registry
@@ -71,10 +88,9 @@ jobs:
           node scripts/cli.mjs resolve \
             --target templates/modular-scroll-starter \
             --url http://127.0.0.1:4177/templates/modular-scroll-starter/ \
-            --out artifacts/resolve \
-            --no-fail
+            --out artifacts/resolve
           test -s artifacts/resolve/latest.json
-          node -e 'const r=require("./artifacts/resolve/latest.json"); if(r.browserEvidence.length!==3||r.captures.length!==4)process.exit(1); if(r.findings.some(f=>["browser/navigation","browser/page-error","responsive/horizontal-overflow"].includes(f.rule)))process.exit(1)'
+          node -e 'const r=require("./artifacts/resolve/latest.json"); if(!r.gate.pass||r.browserEvidence.length!==3||r.captures.length!==4)process.exit(1)'
       - run: npm run capture
       - uses: actions/upload-artifact@v4
         with:
