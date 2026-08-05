@@ -1,0 +1,30 @@
+name: Apply Vision mobile repair
+on:
+  push:
+    branches: [agent/vision-critique]
+permissions:
+  contents: write
+jobs:
+  repair:
+    if: ${{ !contains(github.event.head_commit.message, 'Apply Vision mobile repair') && !contains(github.event.head_commit.message, 'Remove Vision mobile repair') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: agent/vision-critique
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - run: python scripts/apply-vision-mobile-fix.py
+      - name: Commit repair
+        run: |
+          if git diff --quiet; then
+            echo "Vision mobile repair already applied."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add templates/modular-scroll-starter/index.html scripts/smoke.mjs
+          git commit -m "Apply Vision mobile repair"
+          git push origin HEAD:agent/vision-critique
