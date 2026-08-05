@@ -1,8 +1,8 @@
 {
   "name": "aigent-design-system",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": false,
-  "description": "An installable agent-native design studio with inspiration forensics, immersive production, a ranked design resolve loop, skills, provenance, evals, and browser QA.",
+  "description": "An installable agent-native design studio with inspiration forensics, immersive production, ranked Resolve, structured visual critique, skills, provenance, evals, and browser QA.",
   "type": "module",
   "bin": { "aigent-design": "scripts/cli.mjs" },
   "scripts": {
@@ -11,6 +11,8 @@
     "inspire": "node scripts/inspire.mjs",
     "resolve": "node scripts/resolve-design.mjs",
     "resolve:check": "node scripts/check-resolve.mjs",
+    "vision": "node scripts/vision-review.mjs",
+    "vision:check": "node scripts/check-vision.mjs",
     "audit": "node scripts/design-audit.mjs",
     "assets": "node scripts/check-assets.mjs",
     "catalogs": "node scripts/check-catalogs.mjs",
@@ -24,7 +26,7 @@
     "inspiration:smoke": "node scripts/inspiration-smoke.mjs",
     "capture": "node scripts/capture.mjs"
   },
-  "keywords": ["ai","design-system","design-resolver","design-forensics","inspiration-intelligence","creative-production","cinematic-web","immersive-web","design-intelligence","code-registry","design-tokens","design-audit","browser-qa","asset-pipeline","sales-deck","product-interface","scroll-animation","video-scrub","3d-web","spline","gsap","threejs","remotion","claude-code","codex","agent-skills"],
+  "keywords": ["ai","design-system","visual-critique","vision-review","design-resolver","design-forensics","inspiration-intelligence","creative-production","cinematic-web","immersive-web","design-intelligence","code-registry","design-tokens","design-audit","browser-qa","asset-pipeline","sales-deck","product-interface","scroll-animation","video-scrub","3d-web","spline","gsap","threejs","remotion","claude-code","codex","agent-skills"],
   "license": "MIT",
   "engines": { "node": ">=20" },
   "devDependencies": { "playwright": "^1.61.1" }
