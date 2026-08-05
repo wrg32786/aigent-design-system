@@ -1,11 +1,19 @@
-# AIgent Design System
+<p align="center">
+  <img src="docs/assets/aigent-design-system-banner.svg" width="100%" alt="The AIgent Design System — Inspire, Produce, Build, Resolve">
+</p>
 
-An installable, agent-native studio for creating distinctive websites and interfaces: immersive 3D pages, cinematic sales decks, product UI, design forensics, inspiration synthesis, media production, and browser QA.
+<h1 align="center">AIgent Design System</h1>
+
+<p align="center"><strong>The agent-native design and production studio for distinctive interfaces, immersive 3D websites, cinematic decks, and the media behind them.</strong></p>
+
+<p align="center"><code>SHAPE · INSPIRE · SYNTHESIZE · PRODUCE · BUILD · RESOLVE</code></p>
+
+An installable system for turning Claude, Codex, Cursor, and other coding agents into a disciplined design-and-production team—with reference forensics, original synthesis, media pipelines, ranked repair, and browser proof.
 
 The system is built to make Claude, Codex, Cursor, and other coding agents operate more like a senior design-and-production team:
 
 ```text
-SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → VERIFY
+SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → RESOLVE
 ```
 
 The neutral core remains framework- and dependency-light. Playwright is used for development-time browser evidence. GSAP, Three.js, Spline, Remotion, Rive, React Three Fiber, Theatre.js, Blender, FFmpeg, and external component sources are selected only when the work earns them.
@@ -25,7 +33,33 @@ They set the craft bar. They are not a universal palette or template.
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/studio-core
 ```
 
-### Inspiration Intelligence
+### AIgent Resolve
+
+Resolve is the final production loop:
+
+```text
+RENDER → DETECT → RANK → REPAIR → RERENDER → REVIEW
+```
+
+It combines source-level audits with desktop, tablet, mobile, 200% text-size, reduced-motion, runtime, focus, touch-target, contrast, overflow, clipping, and media evidence. It ranks the top repair group, records what must be preserved, and compares every run so Claude fixes the shared cause instead of polishing random symptoms.
+
+Initialize a project once:
+
+```bash
+npx github:wrg32786/aigent-design-system resolve --init --target .
+```
+
+Run it against a live local application:
+
+```bash
+npx github:wrg32786/aigent-design-system resolve \
+  --target . \
+  --url http://127.0.0.1:3000/
+```
+
+The default gate requires a score of 90, zero errors, no more than five warnings, and an explicit visual review. Generated evidence stays under `.aigent/resolve/`. Mechanical passage does not replace judgment about product clarity, specificity, composition, typography, motion, media, originality, or finish.
+
+## Inspiration Intelligence
 
 ```bash
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence
@@ -35,6 +69,12 @@ pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligenc
 
 ```bash
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
+```
+
+### Design Resolver
+
+```bash
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/design-resolver
 ```
 
 ### Complete pages and interfaces
@@ -60,6 +100,7 @@ npx github:wrg32786/aigent-design-system list
 npx github:wrg32786/aigent-design-system add studio-core --target .
 npx github:wrg32786/aigent-design-system plan brief.json --out design-plan.json
 npx github:wrg32786/aigent-design-system inspire doctor
+npx github:wrg32786/aigent-design-system resolve --init --target .
 ```
 
 ## Inspiration Intelligence
@@ -231,6 +272,7 @@ color      establish palette, material, contrast, and semantic roles
 animate    author focal motion and useful state transitions
 critique   identify the highest-value design failures
 polish     finish the rendered result
+resolve    render, rank, repair, rerender, and verify the complete surface
 extract    turn proven patterns into reusable assets
 audit      run mechanical, inspiration, asset, and browser checks
 install    choose and install the smallest useful system
@@ -314,6 +356,7 @@ npm run catalogs
 npm run assets
 npm run intelligence
 npm run inspiration
+npm run resolve:check
 npm run registry
 npm run eval
 npm run audit -- path/to/page path/to/shared.css
@@ -323,7 +366,7 @@ npm run inspiration:smoke
 npm run capture
 ```
 
-GitHub Actions validates the registry, local installer, design planner, inspiration engine, evals, desktop/mobile browser behavior, a real URL-forensics fixture, the Inspiration Lab, and reviewable visual captures.
+GitHub Actions validates the registry, local installer, design planner, inspiration engine, Resolve self-check and rendered proof, evals, desktop/mobile browser behavior, a real URL-forensics fixture, the Inspiration Lab, and reviewable visual captures.
 
 ## Local development
 
@@ -350,6 +393,7 @@ registry.json
 
 design-intelligence/    deterministic design decisions
 inspiration/            forensics, Design DNA, synthesis, originality, lab
+resolve/                ranked render-repair-verification contract
 creative-production/    media sources, briefs, pipelines, standards
 assets/                  manifests and optimized public outputs
 integrations/            optional runtime guidance

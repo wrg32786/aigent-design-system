@@ -6,13 +6,13 @@
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/aigent-design-skill
 ```
 
-The consolidated skill installs to `.claude/skills/aigent-design/` and routes product context, inspiration, pages, decks, interfaces, media, layout, typography, motion, critique, polish, extraction, and QA without loading every specialist reference.
+The consolidated skill installs to `.claude/skills/aigent-design/` and routes product context, inspiration, pages, decks, interfaces, media, layout, typography, motion, critique, polish, ranked resolution, extraction, and QA without loading every specialist reference.
 
 ## Umbrella skills
 
 | Skill | Owns |
 | --- | --- |
-| `aigent-design` | Shape → inspire → synthesize → produce → build → verify |
+| `aigent-design` | Shape → inspire → synthesize → produce → build → resolve |
 | `cinematic-studio` | Specialist cinematic-production routing |
 
 ## Inspiration skills
@@ -22,6 +22,12 @@ The consolidated skill installs to `.claude/skills/aigent-design/` and routes pr
 | `design-forensics` | URL, screenshot, motion, and structured-reference evidence → Design DNA |
 | `reference-synthesis` | Reference matrix, transformations, pattern mapping, and influence ledger |
 | `inspiration-originality-audit` | Source dominance, copy overlap, weak transformation, and publication review |
+
+## Resolve skill
+
+| Skill | Owns |
+| --- | --- |
+| `design-resolver` | Rendered evidence → ranked root-cause repair → mechanical gate → explicit visual review |
 
 ## Specialist production skills
 

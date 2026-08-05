@@ -133,4 +133,8 @@ Whole-surface work should use at least three references so no source controls mo
 - Manifest path:
 - Browser and device matrix:
 - Eval brief, if applicable:
+- Resolve entry URL or route:
+- Resolve minimum score:
+- Resolve maximum errors and warnings:
+- Human visual reviewer or review method:
 - Definition of done:

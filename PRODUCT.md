@@ -2,7 +2,7 @@
 
 ## Register
 
-Open-source, installable, agent-native design and production system for immersive websites, cinematic decks, product interfaces, inspiration forensics, and the media behind them.
+Open-source, installable, agent-native design and production system for immersive websites, cinematic decks, product interfaces, inspiration forensics, the media behind them, and the final render-repair-verification loop.
 
 ## Users
 
@@ -29,16 +29,17 @@ The system turns design and production judgment into installable, inspectable as
 - one consolidated agent skill plus specialist skills
 - provenance manifests and performance budgets
 - fixed eval briefs, deterministic checks, and browser proof
+- ranked render, repair, rerender, and visual-review gates
 
 A user should be able to preserve the engineering contract while replacing the brand, media, composition, tone, and source references.
 
 ## Core loop
 
 ```text
-Shape → Inspire → Synthesize → Produce → Build → Verify
+Shape → Inspire → Synthesize → Produce → Build → Resolve
 ```
 
-The system is incomplete if it studies inspiration without recording evidence and transformation, recommends cinematic media without a production route, or claims completion without an installable result and browser proof.
+The system is incomplete if it studies inspiration without recording evidence and transformation, recommends cinematic media without a production route, or claims completion without a passing Resolve gate, browser proof, and explicit visual review.
 
 ## Success
 
@@ -57,7 +58,9 @@ A successful adopter can:
 11. Build a cinematic page, immersive sales deck, or trustworthy product interface.
 12. Record provenance and influence without exposing private information.
 13. Audit source dominance, copy overlap, accessibility, assets, and rendered behavior.
-14. Ship a result that makes sense without the references and does not look like The AIgent unless that identity was selected deliberately.
+14. Run the ranked Resolve loop until no P0 or P1 issue remains and the mechanical gate passes.
+15. Complete explicit visual review rather than treating a green report as taste.
+16. Ship a result that makes sense without the references and does not look like The AIgent unless that identity was selected deliberately.
 
 ## Proof
 
@@ -65,6 +68,7 @@ A successful adopter can:
 - `https://tools.theaigent.xyz` is the primary Operate + Read showcase.
 - Canonical templates prove cinematic pages, guided decks, product UI, progressive 3D, Spline, video scrubbing, and resource galleries.
 - The Inspiration Lab and forensics fixture prove evidence capture, synthesis, influence limits, and browser verification.
+- AIgent Resolve proves ranked root-cause repair, multi-viewport evidence, run comparison, and a bounded completion gate.
 
 The live sites and templates prove craft. They are not universal skins or clone targets.
 
@@ -107,4 +111,5 @@ Do not drift into:
 - Inspiration captures, source masters, and private records stay out of the public repository.
 - Third-party material is not vendored without license review and required attribution.
 - Inspiration similarity is a review heuristic, not legal advice.
+- Mechanical Resolve passage never substitutes for explicit human or operating-agent visual judgment.
 - Human design judgment remains explicit in evals rather than hidden behind an automated taste score.
