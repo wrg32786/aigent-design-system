@@ -33,7 +33,51 @@ They set the craft bar. They are not a universal palette or template.
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/studio-core
 ```
 
-### AIgent Resolve
+#### Inspiration Intelligence
+
+```bash
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence
+```
+
+### Complete studio
+
+```bash
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
+```
+
+### Design Resolver
+
+```bash
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/design-resolver
+```
+
+### Complete pages and interfaces
+
+```bash
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/cinematic-page
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/immersive-sales-deck
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/command-center-interface
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/threejs-product-stage
+```
+
+Review an item before installing:
+
+```bash
+pnpm dlx shadcn@latest view wrg32786/aigent-design-system/inspiration-intelligence
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence --dry-run
+```
+
+## Repository CLI
+
+```bash
+npx github:wrg32786/aigent-design-system list
+npx github:wrg32786/aigent-design-system add studio-core --target .
+npx github:wrg32786/aigent-design-system plan brief.json --out design-plan.json
+npx github:wrg32786/aigent-design-system inspire doctor
+npx github:wrg32786/aigent-design-system resolve --init --target .
+```
+
+## AIgent Resolve
 
 Resolve is the final production loop:
 
@@ -85,49 +129,31 @@ npx github:wrg32786/aigent-design-system resolve \
 
 The default gate requires a score of 90, zero errors, no more than five warnings, and an explicit visual review. Generated evidence stays under `.aigent/resolve/`. Mechanical passage does not replace judgment about product clarity, specificity, composition, typography, motion, media, originality, or finish.
 
-## Inspiration Intelligence
+## AIgent Resolve
 
-```bash
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence
+Resolve is the final production loop:
+
+```text
+RENDER → DETECT → RANK → REPAIR → RERENDER → REVIEW
 ```
 
-### Complete studio
+It combines source-level audits with desktop, tablet, mobile, 200% text-size, reduced-motion, runtime, focus, touch-target, contrast, overflow, clipping, and media evidence. It ranks the top repair group, records what must be preserved, and compares every run so Claude fixes the shared cause instead of polishing random symptoms.
+
+Initialize a project once:
 
 ```bash
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
-```
-
-### Design Resolver
-
-```bash
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/design-resolver
-```
-
-### Complete pages and interfaces
-
-```bash
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/cinematic-page
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/immersive-sales-deck
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/command-center-interface
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/threejs-product-stage
-```
-
-Review an item before installing:
-
-```bash
-pnpm dlx shadcn@latest view wrg32786/aigent-design-system/inspiration-intelligence
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence --dry-run
-```
-
-## Repository CLI
-
-```bash
-npx github:wrg32786/aigent-design-system list
-npx github:wrg32786/aigent-design-system add studio-core --target .
-npx github:wrg32786/aigent-design-system plan brief.json --out design-plan.json
-npx github:wrg32786/aigent-design-system inspire doctor
 npx github:wrg32786/aigent-design-system resolve --init --target .
 ```
+
+Run it against a live local application:
+
+```bash
+npx github:wrg32786/aigent-design-system resolve \
+  --target . \
+  --url http://127.0.0.1:3000/
+```
+
+The default gate requires a score of 90, zero errors, no more than five warnings, and an explicit visual review. Generated evidence stays under `.aigent/resolve/`. Mechanical passage does not replace judgment about product clarity, specificity, composition, typography, motion, media, originality, or finish.
 
 ## Inspiration Intelligence
 

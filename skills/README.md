@@ -35,6 +35,12 @@ The consolidated skill installs to `.claude/skills/aigent-design/` and routes pr
 | --- | --- |
 | `design-resolver` | Rendered evidence → ranked root-cause repair → mechanical gate → explicit visual review |
 
+## Resolve skill
+
+| Skill | Owns |
+| --- | --- |
+| `design-resolver` | Rendered evidence → ranked root-cause repair → mechanical gate → explicit visual review |
+
 ## Specialist production skills
 
 | Skill | Owns |
