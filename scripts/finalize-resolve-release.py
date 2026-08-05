@@ -1,21 +1,24 @@
+import re
 from pathlib import Path
 
 path = Path("README.md")
 text = path.read_text()
-
-resolve_start = text.find("## AIgent Resolve\n")
-first_inspiration = text.find("## Inspiration Intelligence\n", resolve_start)
 feature_heading = "## Inspiration Intelligence\n\nInspiration Intelligence gives"
-feature_start = text.find(feature_heading, first_inspiration + 1)
+pattern = re.compile(r"## AIgent Resolve\n\nResolve is the final production loop:.*?(?=\n## )", re.S)
+sections = pattern.findall(text)
 
-if resolve_start < 0 or first_inspiration < 0 or feature_start < 0:
-    raise SystemExit("Could not find the generated README section boundaries")
+if not sections:
+    raise SystemExit("Could not find the AIgent Resolve README section")
 
-resolve_section = text[resolve_start:first_inspiration]
-text = text[:resolve_start] + "### Inspiration Intelligence\n" + text[first_inspiration + len("## Inspiration Intelligence\n"):]
-
+resolve_section = sections[0].strip() + "\n\n"
+text = pattern.sub("", text)
+text = text.replace("#### Inspiration Intelligence", "### Inspiration Intelligence", 1)
 feature_start = text.find(feature_heading)
+if feature_start < 0:
+    raise SystemExit("Could not find the Inspiration Intelligence feature section")
+
 text = text[:feature_start] + resolve_section + text[feature_start:]
+text = re.sub(r"\n{3,}", "\n\n", text)
 path.write_text(text)
 
 print("Finalized the branded README hierarchy.")
