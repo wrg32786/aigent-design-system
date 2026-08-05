@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theaigent.xyz/schemas/visual-review.schema.json",
+  "title": "AIgent Structured Visual Review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "runId", "reviewer", "reviewedAt", "status", "viewports", "findings", "overall"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "runId": { "type": "string", "minLength": 1 },
+    "reviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "name", "model", "tool"],
+      "properties": {
+        "kind": { "enum": ["host-agent", "human", "vlm-adapter"] },
+        "name": { "type": "string" },
+        "model": { "type": "string" },
+        "tool": { "type": "string", "minLength": 1 }
+      }
+    },
+    "reviewedAt": { "type": "string", "format": "date-time" },
+    "status": { "const": "reviewed" },
+    "viewports": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "summary", "dimensions"],
+        "properties": {
+          "status": { "const": "reviewed" },
+          "summary": { "type": "string", "minLength": 12 },
+          "dimensions": {
+            "type": "object",
+            "minProperties": 12,
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status", "rationale"],
+              "properties": {
+                "status": { "enum": ["pass", "issue", "not-applicable"] },
+                "rationale": { "type": "string", "minLength": 12 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "viewport", "severity", "dimension", "finding", "evidence", "recommendation", "elementIds", "confidence", "status"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+          "viewport": { "type": "string", "minLength": 1 },
+          "severity": { "enum": ["P0", "P1", "P2", "P3"] },
+          "dimension": { "enum": ["product-clarity", "hierarchy", "composition", "typography", "color-material", "motion-media", "interaction", "product-specificity", "originality", "responsive-quality", "trust-usability", "finish"] },
+          "finding": { "type": "string", "minLength": 12 },
+          "evidence": { "type": "string", "minLength": 12 },
+          "recommendation": { "type": "string", "minLength": 12 },
+          "elementIds": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^E[0-9]{3}$" } },
+          "suspectedOwner": { "type": ["string", "null"] },
+          "preserve": { "type": "array", "items": { "type": "string", "minLength": 2 } },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "status": { "enum": ["open", "resolved", "accepted"] },
+          "acceptanceRationale": { "type": "string" }
+        }
+      }
+    },
+    "overall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strengths", "risks", "verdict", "notes"],
+      "properties": {
+        "strengths": { "type": "array", "items": { "type": "string" } },
+        "risks": { "type": "array", "items": { "type": "string" } },
+        "verdict": { "enum": ["pass", "pass-with-notes", "needs-repair"] },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}
