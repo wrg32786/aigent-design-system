@@ -9,6 +9,7 @@ const temporary = fs.mkdtempSync(path.join(os.tmpdir(), "aigent-resolve-"));
 const target = path.join(temporary, "site");
 const out = path.join(temporary, "proof");
 fs.mkdirSync(target, { recursive: true });
+fs.writeFileSync(path.join(temporary, "package.json"), "{}\n");
 
 fs.writeFileSync(path.join(target, "index.html"), `<!doctype html>
 <html>
@@ -23,15 +24,14 @@ assert.ok(first.totals.errors >= 3);
 assert.ok(first.repairContract.topActions.length > 0);
 assert.ok(fs.existsSync(path.join(out, "latest.md")));
 
+fs.writeFileSync(path.join(temporary, "shared.css"), `body{background:#101714;color:#f3efe4}
+a:focus-visible{outline:3px solid #65f4df;outline-offset:3px}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;transition-duration:1ms!important}}`);
 fs.writeFileSync(path.join(target, "index.html"), `<!doctype html>
 <html lang="en">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body{background:#101714;color:#f3efe4}
-a:focus-visible{outline:3px solid #65f4df;outline-offset:3px}
-@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;transition-duration:1ms!important}}
-</style>
+<link rel="stylesheet" href="../shared.css">
 </head>
 <body><main><h1>Example product</h1><a href="/">Open product</a></main></body>
 </html>`);

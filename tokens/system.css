@@ -240,7 +240,7 @@ html {
 }
 
 .ds-theme-button {
-  min-height: 36px;
+  min-height: 44px;
   padding: 0 0.72rem;
   border: 1px solid transparent;
   border-radius: var(--ds-radius-pill);

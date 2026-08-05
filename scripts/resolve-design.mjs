@@ -120,23 +120,79 @@ export function initResolveConfig(target = process.cwd(), options = {}) {
   return configFile;
 }
 
+function findProjectRoot(start) {
+  let current = fs.statSync(start).isDirectory() ? start : path.dirname(start);
+  while (true) {
+    if (fs.existsSync(path.join(current, "package.json"))) return current;
+    const parent = path.dirname(current);
+    if (parent === current) return fs.statSync(start).isDirectory() ? start : path.dirname(start);
+    current = parent;
+  }
+}
+
 function collectAuditFiles(root, ignoreNames = []) {
   const ignored = new Set([...DEFAULT_IGNORES, ...ignoreNames]);
-  const files = [];
+  const projectRoot = findProjectRoot(root);
+  const files = new Set();
+  const queue = [];
+
+  function allowed(current) {
+    const relative = path.relative(projectRoot, current);
+    if (relative.startsWith("..") || path.isAbsolute(relative)) return false;
+    return !relative.split(path.sep).some((segment) => ignored.has(segment));
+  }
+
+  function add(current) {
+    if (!fs.existsSync(current) || !fs.statSync(current).isFile() || !allowed(current)) return;
+    if (!SOURCE_EXTENSIONS.has(path.extname(current).toLowerCase()) || files.has(current)) return;
+    files.add(current);
+    queue.push(current);
+  }
 
   function visit(current) {
-    const name = path.basename(current);
-    if (ignored.has(name)) return;
+    if (!fs.existsSync(current) || !allowed(current)) return;
     const stat = fs.statSync(current);
     if (stat.isDirectory()) {
       for (const entry of fs.readdirSync(current)) visit(path.join(current, entry));
       return;
     }
-    if (SOURCE_EXTENSIONS.has(path.extname(current).toLowerCase())) files.push(current);
+    add(current);
+  }
+
+  function references(file, source) {
+    const extension = path.extname(file).toLowerCase();
+    const values = [];
+    if (extension === ".html") {
+      for (const match of source.matchAll(/(?:href|src)=["']([^"'#?]+)["']/gi)) values.push(match[1]);
+    } else if (extension === ".css") {
+      for (const match of source.matchAll(/@import\s+(?:url\()?\s*["']?([^"')\s;]+)/gi)) values.push(match[1]);
+    } else {
+      for (const match of source.matchAll(/(?:from\s*|import\s*)["']([^"']+)["']/g)) values.push(match[1]);
+    }
+    return values;
+  }
+
+  function resolveReference(file, declared) {
+    if (!declared || /^(?:[a-z]+:|\/\/|#|data:)/i.test(declared)) return null;
+    const clean = declared.split(/[?#]/)[0];
+    const base = clean.startsWith("/")
+      ? path.join(projectRoot, clean.slice(1))
+      : path.resolve(path.dirname(file), clean);
+    const candidates = [base];
+    if (!path.extname(base)) candidates.push(`${base}.js`, `${base}.mjs`, `${base}.css`, path.join(base, "index.js"));
+    return candidates.find((candidate) => fs.existsSync(candidate) && fs.statSync(candidate).isFile()) || null;
   }
 
   visit(root);
-  return files.sort();
+  while (queue.length) {
+    const file = queue.shift();
+    const source = fs.readFileSync(file, "utf8");
+    for (const declared of references(file, source)) {
+      const resolved = resolveReference(file, declared);
+      if (resolved) add(resolved);
+    }
+  }
+  return [...files].sort();
 }
 
 function staticFindings(target, config) {
@@ -315,9 +371,17 @@ async function collectPageEvidence(page, viewport, config) {
       .map((element) => ({ tag: element.tagName.toLowerCase(), text: element.textContent.trim().slice(0, 70) }))
       .slice(0, 20);
 
+    const interactiveSelector = 'a[href],button,input:not([type="hidden"]),select,textarea,[tabindex]:not([tabindex="-1"]),[role="button"]';
     const fixed = [...document.querySelectorAll("body *")]
       .filter(visible)
-      .filter((element) => getComputedStyle(element).position === "fixed")
+      .filter((element) => {
+        const style = getComputedStyle(element);
+        if (style.position !== "fixed" || style.pointerEvents === "none") return false;
+        if (element.getAttribute("aria-hidden") === "true") return false;
+        return element.matches(interactiveSelector)
+          || Boolean(element.querySelector(interactiveSelector))
+          || Boolean((element.textContent || "").trim());
+      })
       .map((element) => {
         const rect = element.getBoundingClientRect();
         const area = Math.max(0, Math.min(innerWidth, rect.right) - Math.max(0, rect.left))
@@ -347,7 +411,7 @@ async function collectPageEvidence(page, viewport, config) {
       touchTargets,
       lowContrast,
       clippedText,
-      fixedCoverage: fixed.reduce((total, item) => total + item.coverage, 0),
+      fixedCoverage: fixed.reduce((maximum, item) => Math.max(maximum, item.coverage), 0),
       imagesWithoutDimensions,
       animations,
     };
@@ -359,15 +423,47 @@ async function collectPageEvidence(page, viewport, config) {
       const previous = document.documentElement.style.fontSize;
       document.documentElement.style.fontSize = "200%";
       await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      const offenders = [...document.querySelectorAll("body *")]
+        .map((element) => {
+          const rect = element.getBoundingClientRect();
+          return {
+            tag: element.tagName.toLowerCase(),
+            className: typeof element.className === "string" ? element.className.slice(0, 80) : "",
+            left: Math.round(rect.left),
+            right: Math.round(rect.right),
+            width: Math.round(rect.width),
+          };
+        })
+        .filter((item) => item.right > innerWidth + 2 || item.left < -2)
+        .sort((left, right) => Math.max(right.right - innerWidth, -right.left) - Math.max(left.right - innerWidth, -left.left))
+        .slice(0, 5);
       const result = {
         horizontalOverflow: document.documentElement.scrollWidth > innerWidth + 2,
         documentWidth: document.documentElement.scrollWidth,
+        offenders,
       };
       document.documentElement.style.fontSize = previous;
       return result;
     });
   }
   return { ...evidence, zoom };
+}
+
+async function prepareFullPageCapture(page) {
+  await page.evaluate(async () => {
+    const pause = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
+    const step = Math.max(240, Math.floor(innerHeight * 0.72));
+    let position = 0;
+    let maximum = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+    while (position < maximum) {
+      position = Math.min(maximum, position + step);
+      scrollTo({ top: position, behavior: "instant" });
+      await pause(90);
+      maximum = Math.max(maximum, document.documentElement.scrollHeight - innerHeight);
+    }
+    scrollTo({ top: 0, behavior: "instant" });
+    await pause(180);
+  });
 }
 
 async function browserFindings(url, config, runDirectory) {
@@ -420,7 +516,9 @@ async function browserFindings(url, config, runDirectory) {
           findings.push(browserFinding("responsive/horizontal-overflow", "error", `Rendered width is ${pageEvidence.documentWidth}px in a ${viewport.width}px viewport.`, viewport.id));
         }
         if (pageEvidence.zoom?.horizontalOverflow) {
-          findings.push(browserFinding("responsive/zoom-overflow", "error", `The page overflows horizontally after 200% root text sizing (${pageEvidence.zoom.documentWidth}px).`, viewport.id));
+          const offender = pageEvidence.zoom.offenders?.[0];
+          const detail = offender ? ` Widest offender: ${offender.tag}${offender.className ? `.${offender.className.split(/\s+/).join(".")}` : ""} (${offender.left}–${offender.right}px).` : "";
+          findings.push(browserFinding("responsive/zoom-overflow", "error", `The page overflows horizontally after 200% root text sizing (${pageEvidence.zoom.documentWidth}px).${detail}`, viewport.id));
         }
         if (pageEvidence.missingFocus.length) {
           findings.push(browserFinding("a11y/focus-visible", "error", `${pageEvidence.missingFocus.length} sampled interactive elements had no computed outline or focus shadow.`, viewport.id));
@@ -442,6 +540,7 @@ async function browserFindings(url, config, runDirectory) {
           findings.push(browserFinding("performance/image-dimensions", "warning", `Visible image has no intrinsic dimensions or aspect ratio: ${source}`, viewport.id));
         }
 
+        await prepareFullPageCapture(page);
         const screenshot = path.join(runDirectory, `${viewport.id}.png`);
         await page.screenshot({ path: screenshot, fullPage: true, animations: "disabled" });
         captures.push({ viewport, file: path.basename(screenshot), reducedMotion: false });
@@ -466,6 +565,7 @@ async function browserFindings(url, config, runDirectory) {
         if (running > 0) {
           findings.push(browserFinding("a11y/reduced-motion", "error", `${running} substantial animations remain active with reduced motion enabled.`, "reduced-motion"));
         }
+        await prepareFullPageCapture(page);
         const screenshot = path.join(runDirectory, "reduced-motion.png");
         await page.screenshot({ path: screenshot, fullPage: true, animations: "disabled" });
         captures.push({ viewport, file: path.basename(screenshot), reducedMotion: true });
