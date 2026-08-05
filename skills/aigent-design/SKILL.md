@@ -1,11 +1,11 @@
 ---
 name: aigent-design
-description: Turn Claude or another coding agent into a professional design studio for immersive websites, 3D experiences, cinematic decks, product interfaces, inspiration synthesis, creative media, critique, and production verification.
+description: Turn Claude or another coding agent into a professional design studio for immersive websites, 3D experiences, cinematic decks, product interfaces, inspiration synthesis, creative media, ranked repair, and production verification.
 ---
 
 # AIgent Design
 
-Use this as the single entry point for the flagship design system. It routes to specialist inspiration, video, 3D, GSAP, Spline, Three.js, Remotion, provenance, and browser-QA skills only when needed.
+Use this as the single entry point for the flagship design system. It routes to specialist inspiration, video, 3D, GSAP, Spline, Three.js, Remotion, provenance, resolve, and browser-QA skills only when needed.
 
 ## Start once
 
@@ -41,6 +41,7 @@ Do not load every reference into context.
 | `animate` | focal motion, continuity, feedback, and reduced motion |
 | `critique` | design review with evidence and priorities |
 | `polish` | final pass on an already working surface |
+| `resolve` | render, rank, repair, rerender, and verify until the gate and visual review pass |
 | `audit` | deterministic, inspiration, browser, asset, registry, and rights checks |
 | `extract` | convert proven work into a reusable recipe or registry item |
 | `install` | choose and install the smallest useful system or component source |
@@ -61,6 +62,7 @@ Do not load every reference into context.
 - Mobile is recomposed, not shrunk.
 - Reduced motion preserves meaning and hierarchy.
 - Real browser evidence decides whether the work is done.
+- Mechanical checks rank problems; they do not get to erase the selected visual world.
 
 ## Planning contract
 
@@ -108,8 +110,19 @@ node scripts/inspire.mjs audit --target-dna target.json --plan plan.json --refs 
 - `asset-provenance-audit` — rights, attribution, manifests, secret safety
 - `cinematic-site-qa` — final browser and production verification
 
+## Resolve routing
+
+Use `design-resolver` after the surface works end to end:
+
+```bash
+npx github:wrg32786/aigent-design-system resolve --init --target .
+npx github:wrg32786/aigent-design-system resolve --target . --url <local-url>
+```
+
+The resolver combines source and rendered evidence, ranks the highest-value repair group, compares each run, and stops the agent from declaring completion before desktop, tablet, mobile, text zoom, reduced motion, runtime behavior, and explicit visual judgment are complete.
+
 ## Completion
 
-A finished result includes product-specific content, a committed visual world, working desktop and mobile states, reduced motion, complete UI states, optimized and manifest-backed media, an influence ledger when references were used, deterministic and browser checks, and no unresolved rights or private records.
+A finished result includes product-specific content, a committed visual world, working desktop and mobile states, reduced motion, complete UI states, optimized and manifest-backed media, an influence ledger when references were used, a passing Resolve mechanical gate, explicit visual review, and no unresolved rights or private records.
 
-A prompt, mood board, screenshot imitation, partial component list, or technically working effect is not a finished design.
+A prompt, mood board, screenshot imitation, partial component list, technically working effect, or green mechanical report without rendered judgment is not a finished design.
