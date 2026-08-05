@@ -35,23 +35,46 @@ async function verifyScrollReveals(page, label) {
   const total = await reveals.count();
   if (!total) return;
 
-  for (let index = 0; index < total; index += 1) {
-    await reveals.nth(index).scrollIntoViewIfNeeded();
-    await page.waitForTimeout(130);
-  }
-  await page.waitForTimeout(800);
+  await page.evaluate(async () => {
+    const pause = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
+    const step = Math.max(240, Math.floor(innerHeight * 0.7));
+    let position = 0;
+    let maximum = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+    while (position < maximum) {
+      position = Math.min(maximum, position + step);
+      scrollTo({ top: position, behavior: "instant" });
+      await pause(160);
+      maximum = Math.max(maximum, document.documentElement.scrollHeight - innerHeight);
+    }
+    await pause(700);
+  });
 
-  const hidden = await reveals.evaluateAll((nodes) => nodes
-    .filter((node) => {
+  let hiddenIndexes = await reveals.evaluateAll((nodes) => nodes
+    .map((node, index) => ({ node, index }))
+    .filter(({ node }) => {
       const style = getComputedStyle(node);
       return Number(style.opacity) < 0.95 || style.visibility === "hidden";
     })
-    .map((node) => node.textContent?.trim().slice(0, 60) || node.tagName));
+    .map(({ index }) => index));
 
-  if (hidden.length) {
-    throw new Error(
-      `${label}: ${hidden.length} scroll reveals remained hidden: ${hidden.slice(0, 3).join(" | ")}`,
-    );
+  for (const index of hiddenIndexes) {
+    await reveals.nth(index).scrollIntoViewIfNeeded();
+    await page.waitForTimeout(260);
+  }
+  if (hiddenIndexes.length) await page.waitForTimeout(700);
+
+  hiddenIndexes = await reveals.evaluateAll((nodes) => nodes
+    .map((node, index) => ({ node, index }))
+    .filter(({ node }) => {
+      const style = getComputedStyle(node);
+      return Number(style.opacity) < 0.95 || style.visibility === "hidden";
+    })
+    .map(({ index }) => index));
+
+  if (hiddenIndexes.length) {
+    const hidden = await Promise.all(hiddenIndexes.slice(0, 3).map(async (index) =>
+      (await reveals.nth(index).textContent())?.trim().slice(0, 60) || `reveal ${index + 1}`));
+    throw new Error(`${label}: ${hiddenIndexes.length} scroll reveals remained hidden: ${hidden.join(" | ")}`);
   }
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
 }
