@@ -59,6 +59,32 @@ npx github:wrg32786/aigent-design-system resolve \
 
 The default gate requires a score of 90, zero errors, no more than five warnings, and an explicit visual review. Generated evidence stays under `.aigent/resolve/`. Mechanical passage does not replace judgment about product clarity, specificity, composition, typography, motion, media, originality, or finish.
 
+## AIgent Resolve
+
+Resolve is the final production loop:
+
+```text
+RENDER → DETECT → RANK → REPAIR → RERENDER → REVIEW
+```
+
+It combines source-level audits with desktop, tablet, mobile, 200% text-size, reduced-motion, runtime, focus, touch-target, contrast, overflow, clipping, and media evidence. It ranks the top repair group, records what must be preserved, and compares every run so Claude fixes the shared cause instead of polishing random symptoms.
+
+Initialize a project once:
+
+```bash
+npx github:wrg32786/aigent-design-system resolve --init --target .
+```
+
+Run it against a live local application:
+
+```bash
+npx github:wrg32786/aigent-design-system resolve \
+  --target . \
+  --url http://127.0.0.1:3000/
+```
+
+The default gate requires a score of 90, zero errors, no more than five warnings, and an explicit visual review. Generated evidence stays under `.aigent/resolve/`. Mechanical passage does not replace judgment about product clarity, specificity, composition, typography, motion, media, originality, or finish.
+
 ## Inspiration Intelligence
 
 ```bash

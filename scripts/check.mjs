@@ -225,10 +225,15 @@ assert.ok(
   "Inspiration Intelligence is missing from the registry.",
 );
 assert.ok(registry.items.some((item) => item.name === "design-resolver"), "Design Resolver is missing from the registry.");
+assert.ok(registry.items.some((item) => item.name === "design-resolver"), "Design Resolver is missing from the registry.");
 const fullStudio = registry.items.find((item) => item.name === "full-studio");
 assert.ok(
   fullStudio.registryDependencies.some((dependency) => dependency.endsWith("/inspiration-intelligence")),
   "full-studio must install Inspiration Intelligence.",
+);
+assert.ok(
+  fullStudio.registryDependencies.some((dependency) => dependency.endsWith("/design-resolver")),
+  "full-studio must install Design Resolver.",
 );
 assert.ok(
   fullStudio.registryDependencies.some((dependency) => dependency.endsWith("/design-resolver")),
