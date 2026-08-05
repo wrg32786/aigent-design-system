@@ -88,7 +88,12 @@ try {
       }
 
       if (url === "/templates/modular-scroll-starter/") {
-        await page.locator('[data-set-theme="paper"]').click();
+        const mobileTheme = page.locator("#mobile-theme");
+        if (viewport.name === "mobile" && await mobileTheme.isVisible()) {
+          await mobileTheme.selectOption("paper");
+        } else {
+          await page.locator('[data-set-theme="paper"]').click();
+        }
         const theme = await page.locator("html").getAttribute("data-theme");
         const pressed = await page.locator('[data-set-theme="paper"]').getAttribute("aria-pressed");
         if (theme !== "paper" || pressed !== "true") {
