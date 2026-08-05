@@ -4,45 +4,16 @@ on:
   push:
     branches: [master]
 permissions:
-  contents: write
+  contents: read
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
-          fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.13"
-      - name: Prepare resolve release metadata
-        if: github.head_ref == 'agent/design-resolve-loop'
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          path = Path("scripts/prepare-resolve-release.py")
-          text = path.read_text()
-          text = text.replace(
-              '        raise SystemExit(f"Expected text not found in {path}: {old[:120]!r}")',
-              '        print(f"Optional preparation patch skipped in {path}: {old[:80]!r}")\n        return',
-              1,
-          )
-          path.write_text(text)
-          PY
-          python scripts/prepare-resolve-release.py
-          python scripts/finalize-resolve-release.py
-          if ! git diff --quiet; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add README.md CHANGELOG.md PRODUCT.md DESIGN.md registry.json scripts/check.mjs scripts/check-registry.mjs docs/roadmap.md docs/project-context.md skills/README.md vault/app.js .github/ISSUE_TEMPLATE/bug.yml .github/PULL_REQUEST_TEMPLATE.md
-            git commit -m "Build AIgent Resolve release"
-            git push origin HEAD:${{ github.head_ref }}
-          fi
       - run: npm ci
       - run: npm run check
       - run: npm run registry
