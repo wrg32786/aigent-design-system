@@ -152,6 +152,8 @@
 
     .hero-copy,
     .chapter-copy {
+      width: 100%;
+      min-width: 0;
       max-width: 760px;
     }
 
@@ -164,6 +166,7 @@
       letter-spacing: -0.025em;
       line-height: 0.92;
       text-wrap: balance;
+      overflow-wrap: anywhere;
     }
 
     h1 {
@@ -214,6 +217,8 @@
     }
 
     .code-block {
+      width: 100%;
+      min-width: 0;
       max-width: 720px;
       margin-top: 44px;
       padding: clamp(22px, 4vw, 38px);
@@ -250,6 +255,24 @@
       max-width: 9ch;
     }
 
+    @media (max-width: 1100px) {
+      .topbar {
+        align-items: flex-start;
+      }
+
+      .ds-theme-picker {
+        min-width: 0;
+        max-width: min(62vw, 620px);
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .ds-theme-button {
+        min-width: 0;
+        flex: 1 1 auto;
+      }
+    }
+
     @media (max-width: 900px) {
       .scene {
         inset: 0 -34vw 0 34vw;
@@ -271,6 +294,7 @@
       .topbar {
         top: 10px;
         align-items: flex-start;
+        flex-wrap: wrap;
       }
 
       .wordmark {
@@ -335,11 +359,22 @@
 
       .wordmark {
         display: block;
+        max-width: 100%;
         margin-bottom: 10px;
+        white-space: normal;
+        overflow-wrap: anywhere;
       }
 
       .ds-theme-picker {
+        width: 100%;
         max-width: calc(100vw - 32px);
+        flex-wrap: wrap;
+        overflow: visible;
+      }
+
+      .ds-theme-button {
+        flex: 1 1 calc(50% - 0.2rem);
+        min-width: 0;
       }
 
       .actions .ds-button {

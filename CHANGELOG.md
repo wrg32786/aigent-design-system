@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.4.0 — AIgent Resolve
+
+### Added
+
+- `aigent-design resolve` render, rank, repair, rerender, and review workflow
+- desktop, tablet, mobile, 200% text-size, and reduced-motion evidence
+- runtime, request, overflow, focus, hit-area, contrast, clipping, fixed-coverage, and image-dimension checks
+- ranked repair contract with product, design, and inspiration preservation rules
+- run-to-run comparison of resolved, introduced, and persistent findings
+- configurable mechanical score gate with explicit human-review requirement
+- installable `design-resolver` registry item and specialist skill
+- branded AIgent Design System README banner
+- CI proof for the static resolver check and rendered browser resolver
+
+### Changed
+
+- primary workflow is now `Shape → Inspire → Synthesize → Produce → Build → Resolve`
+- package version is now `0.4.0`
+- `full-studio` now includes AIgent Resolve
+- the primary `aigent-design` skill now owns the final repair loop
+
 ## 0.3.0 — Inspiration Intelligence
 
 ### Added

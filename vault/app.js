@@ -89,7 +89,7 @@ function categoryFor(item) {
   if (/pattern/.test(item.name)) return "pattern";
   if (/intelligence|skill|studio-core|full-studio/.test(item.name)) return "intelligence";
   if (/production|case-studies/.test(item.name)) return "production";
-  if (/quality|vault/.test(item.name)) return "quality";
+  if (/quality|vault|resolver|resolve/.test(item.name)) return "quality";
   return "pattern";
 }
 

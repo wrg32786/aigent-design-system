@@ -71,6 +71,9 @@ const required = [
   "inspiration/fixtures/site/index.html",
   "inspiration/evals/README.md",
   "inspiration/evals/rubric.json",
+  "resolve/README.md",
+  "resolve/resolve.schema.json",
+  "resolve/example.resolve.json",
   "creative-production/README.md",
   "creative-production/catalog.json",
   "creative-production/sources/3d-assets.md",
@@ -104,6 +107,8 @@ const required = [
   "skills/aigent-design/reference/interface.md",
   "skills/aigent-design/reference/deck.md",
   "skills/aigent-design/reference/craft-floor.md",
+  "skills/aigent-design/reference/resolve.md",
+  "skills/design-resolver/SKILL.md",
   "skills/design-forensics/SKILL.md",
   "skills/reference-synthesis/SKILL.md",
   "skills/inspiration-originality-audit/SKILL.md",
@@ -119,6 +124,8 @@ const required = [
   "scripts/inspire.mjs",
   "scripts/check-inspiration.mjs",
   "scripts/inspiration-smoke.mjs",
+  "scripts/resolve-design.mjs",
+  "scripts/check-resolve.mjs",
   "scripts/plan-design.mjs",
   "scripts/check-intelligence.mjs",
   "scripts/check-registry.mjs",
@@ -157,7 +164,7 @@ const skillFiles = fs.readdirSync(skillRoot, { withFileTypes: true })
   .filter((skill) => fs.existsSync(skill))
   .sort();
 
-assert.ok(skillFiles.length >= 21, `Expected at least 21 installable skills; found ${skillFiles.length}.`);
+assert.ok(skillFiles.length >= 22, `Expected at least 22 installable skills; found ${skillFiles.length}.`);
 const skillNames = new Set();
 for (const skill of skillFiles) {
   const body = fs.readFileSync(skill, "utf8");
@@ -175,6 +182,7 @@ for (const name of [
   "design-forensics",
   "reference-synthesis",
   "inspiration-originality-audit",
+  "design-resolver",
 ]) {
   assert.ok(skillNames.has(name), `Required skill is missing: ${name}`);
 }
@@ -211,15 +219,45 @@ for (const [label, findings] of [
 }
 
 const { registry } = readRegistry();
-assert.ok(registry.items.length >= 13, "Installable registry is unexpectedly small.");
+assert.ok(registry.items.length >= 14, "Installable registry is unexpectedly small.");
 assert.ok(
   registry.items.some((item) => item.name === "inspiration-intelligence"),
   "Inspiration Intelligence is missing from the registry.",
 );
+assert.ok(registry.items.some((item) => item.name === "design-resolver"), "Design Resolver is missing from the registry.");
+assert.ok(registry.items.some((item) => item.name === "design-resolver"), "Design Resolver is missing from the registry.");
+assert.ok(registry.items.some((item) => item.name === "design-resolver"), "Design Resolver is missing from the registry.");
+assert.ok(registry.items.some((item) => item.name === "design-resolver"), "Design Resolver is missing from the registry.");
+assert.ok(registry.items.some((item) => item.name === "design-resolver"), "Design Resolver is missing from the registry.");
+assert.ok(registry.items.some((item) => item.name === "design-resolver"), "Design Resolver is missing from the registry.");
 const fullStudio = registry.items.find((item) => item.name === "full-studio");
 assert.ok(
   fullStudio.registryDependencies.some((dependency) => dependency.endsWith("/inspiration-intelligence")),
   "full-studio must install Inspiration Intelligence.",
+);
+assert.ok(
+  fullStudio.registryDependencies.some((dependency) => dependency.endsWith("/design-resolver")),
+  "full-studio must install Design Resolver.",
+);
+assert.ok(
+  fullStudio.registryDependencies.some((dependency) => dependency.endsWith("/design-resolver")),
+  "full-studio must install Design Resolver.",
+);
+assert.ok(
+  fullStudio.registryDependencies.some((dependency) => dependency.endsWith("/design-resolver")),
+  "full-studio must install Design Resolver.",
+);
+assert.ok(
+  fullStudio.registryDependencies.some((dependency) => dependency.endsWith("/design-resolver")),
+  "full-studio must install Design Resolver.",
+);
+assert.ok(
+  fullStudio.registryDependencies.some((dependency) => dependency.endsWith("/design-resolver")),
+  "full-studio must install Design Resolver.",
+);
+assert.ok(
+  fullStudio.registryDependencies.some((dependency) => dependency.endsWith("/design-resolver")),
+  "full-studio must install Design Resolver.",
 );
 
 const resourceCatalog = JSON.parse(fs.readFileSync(file("creative-production/catalog.json"), "utf8"));
@@ -232,7 +270,7 @@ assert.ok(
 );
 
 const packageJson = JSON.parse(fs.readFileSync(file("package.json"), "utf8"));
-assert.equal(packageJson.version, "0.3.0", "Expected package version 0.3.0.");
+assert.equal(packageJson.version, "0.4.0", "Expected package version 0.4.0.");
 assert.equal(packageJson.bin?.["aigent-design"], "scripts/cli.mjs", "Missing CLI bin.");
 for (const script of [
   "serve",
@@ -243,6 +281,8 @@ for (const script of [
   "catalogs",
   "intelligence",
   "inspiration",
+  "resolve",
+  "resolve:check",
   "registry",
   "eval",
   "score",
@@ -256,11 +296,14 @@ for (const script of [
 
 const readme = fs.readFileSync(file("README.md"), "utf8");
 for (const contract of [
-  "SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → VERIFY",
+  "SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → RESOLVE",
   "shadcn@latest add wrg32786/aigent-design-system/studio-core",
   "shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence",
   "Design DNA",
   "influence ledger",
+  "AIgent Resolve",
+  "design-resolver",
+  "resolve:check",
   "inspiration:smoke",
   "templates/immersive-sales-deck/",
   "templates/command-center-interface/",
@@ -300,5 +343,5 @@ for (const rule of [
 }
 
 console.log(
-  `Design system check passed with ${registry.items.length} registry items, ${skillFiles.length} skills, ${resourceCatalog.resources.length} resources, ${integrationCatalog.integrations.length} integrations, and Inspiration Intelligence v0.3.0.`,
+  `Design system check passed with ${registry.items.length} registry items, ${skillFiles.length} skills, ${resourceCatalog.resources.length} resources, ${integrationCatalog.integrations.length} integrations, Inspiration Intelligence, and AIgent Resolve v0.4.0.`,
 );

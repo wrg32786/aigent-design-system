@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theaigent.xyz/schemas/aigent-resolve.schema.json",
+  "title": "AIgent Resolve configuration",
+  "type": "object",
+  "required": ["schemaVersion", "entry", "surfaceMode", "gate", "checks", "viewports"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "entry": { "type": "string", "minLength": 1 },
+    "surfaceMode": { "enum": ["persuade", "operate", "read", "experience", "mixed"] },
+    "gate": {
+      "type": "object",
+      "required": ["minimumScore", "maxErrors", "maxWarnings", "requireHumanReview"],
+      "properties": {
+        "minimumScore": { "type": "number", "minimum": 0, "maximum": 100 },
+        "maxErrors": { "type": "integer", "minimum": 0 },
+        "maxWarnings": { "type": "integer", "minimum": 0 },
+        "requireHumanReview": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "checks": {
+      "type": "object",
+      "properties": {
+        "static": { "type": "boolean" },
+        "browser": { "type": "boolean" },
+        "reducedMotion": { "type": "boolean" },
+        "zoom200": { "type": "boolean" },
+        "contrast": { "type": "boolean" },
+        "touchTargets": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "viewports": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "width", "height"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "width": { "type": "integer", "minimum": 240 },
+          "height": { "type": "integer", "minimum": 240 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "ignore": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "additionalProperties": false
+}

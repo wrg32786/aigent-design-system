@@ -19,6 +19,7 @@ jobs:
       - run: npm run registry
       - run: npm run intelligence
       - run: npm run inspiration
+      - run: npm run resolve:check
       - run: npm run eval
       - name: Exercise the local CLI
         run: |
@@ -26,7 +27,9 @@ jobs:
           node scripts/cli.mjs doctor
           node scripts/cli.mjs add full-studio --target /tmp/aigent-design-install
           test -f /tmp/aigent-design-install/.claude/skills/aigent-design/SKILL.md
+          test -f /tmp/aigent-design-install/.claude/skills/design-resolver/SKILL.md
           test -f /tmp/aigent-design-install/inspiration/README.md
+          test -f /tmp/aigent-design-install/resolve/README.md
           node scripts/cli.mjs plan design-intelligence/example-brief.json --out /tmp/aigent-design-plan.json
           node scripts/cli.mjs inspire add inspiration/examples/editorial-reference.json --root /tmp/aigent-inspiration --id editorial --kind structured-reference --analysis inspiration/examples/editorial-reference.json
           node scripts/cli.mjs inspire add inspiration/examples/immersive-reference.json --root /tmp/aigent-inspiration --id immersive --kind structured-reference --analysis inspiration/examples/immersive-reference.json
@@ -62,11 +65,24 @@ jobs:
           exit 1
       - run: npm run smoke
       - run: npm run inspiration:smoke
+      - name: Exercise the rendered resolve loop
+        run: |
+          rm -rf artifacts/resolve
+          node scripts/cli.mjs resolve \
+            --target templates/modular-scroll-starter \
+            --url http://127.0.0.1:4177/templates/modular-scroll-starter/ \
+            --out artifacts/resolve \
+            --no-fail
+          cat artifacts/resolve/latest.md
+          test -s artifacts/resolve/latest.json
+          node -e 'const r=require("./artifacts/resolve/latest.json"); if(!r.gate.pass||r.browserEvidence.length!==3||r.captures.length!==4)process.exit(1)'
       - run: npm run capture
       - uses: actions/upload-artifact@v4
         with:
           name: visual-proof
-          path: artifacts/visual
+          path: |
+            artifacts/visual
+            artifacts/resolve
           if-no-files-found: error
           retention-days: 14
       - name: Stop preview server

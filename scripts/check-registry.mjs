@@ -152,6 +152,7 @@ export function checkRegistry(root = process.cwd()) {
     "aigent-design-skill",
     "design-intelligence",
     "inspiration-intelligence",
+    "design-resolver",
     "immersive-sales-deck",
     "command-center-interface",
     "threejs-product-stage",

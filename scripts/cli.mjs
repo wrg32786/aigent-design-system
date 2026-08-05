@@ -187,8 +187,13 @@ async function inspire(args) {
   await runInspire(args);
 }
 
+async function resolve(args) {
+  const { runResolve } = await import(pathToFileURL(path.join(packageRoot, "scripts/resolve-design.mjs")));
+  await runResolve(args);
+}
+
 function help() {
-  console.log(`AIgent Design\n\nCommands:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  doctor\n`);
+  console.log(`AIgent Design\n\nCommands:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  resolve [--target dir] [--url url] [--init] [--no-fail]\n  doctor\n`);
 }
 
 try {
@@ -207,6 +212,8 @@ try {
     await plan(args);
   } else if (command === "inspire") {
     await inspire(args);
+  } else if (command === "resolve") {
+    await resolve(args);
   } else {
     help();
   }

@@ -341,9 +341,24 @@ A result is not ready until:
 - the page could not be relabeled for an unrelated product
 - the result does not depend on recognizing its references
 - browser smoke and visual capture complete
+- the Resolve gate passes and its top-ranked findings are cleared or explicitly reviewed
 
 Mechanical checks are a floor. Human review decides product clarity, specificity, composition, typography, motion/media, originality, and final coherence.
 
-## 11. Reuse
+## 11. Resolve before completion
+
+The final loop is:
+
+```text
+render → detect → rank → repair → rerender → review
+```
+
+Resolve must read product truth, visual authority, and the current inspiration plan before ranking changes. It checks desktop, tablet, mobile, 200% text sizing, reduced motion, runtime failures, focus, hit areas, contrast, overflow, clipping, fixed chrome, and media stability.
+
+Repair one coherent root-cause group at a time. Fix shared primitives before instances. Do not flatten a distinctive composition, remove meaningful motion, hide overflow, or change the visual world merely to silence a detector.
+
+Mechanical passage requires the configured score, error, and warning limits. Completion still requires explicit review of product clarity, specificity, composition, typography, motion/media, originality, and finish.
+
+## 12. Reuse
 
 Extract only after the same intent appears in multiple real surfaces. Reuse existing tokens, modules, patterns, registry items, recipes, and skills before adding another layer. Keep inspiration evidence local unless the source and redistribution rights are explicitly clear.
