@@ -152,6 +152,8 @@
 
     .hero-copy,
     .chapter-copy {
+      width: 100%;
+      min-width: 0;
       max-width: 760px;
     }
 
@@ -215,6 +217,8 @@
     }
 
     .code-block {
+      width: 100%;
+      min-width: 0;
       max-width: 720px;
       margin-top: 44px;
       padding: clamp(22px, 4vw, 38px);
@@ -251,6 +255,24 @@
       max-width: 9ch;
     }
 
+    @media (max-width: 1100px) {
+      .topbar {
+        align-items: flex-start;
+      }
+
+      .ds-theme-picker {
+        min-width: 0;
+        max-width: min(62vw, 620px);
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .ds-theme-button {
+        min-width: 0;
+        flex: 1 1 auto;
+      }
+    }
+
     @media (max-width: 900px) {
       .scene {
         inset: 0 -34vw 0 34vw;
@@ -272,6 +294,7 @@
       .topbar {
         top: 10px;
         align-items: flex-start;
+        flex-wrap: wrap;
       }
 
       .wordmark {
