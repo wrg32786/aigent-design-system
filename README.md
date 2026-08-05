@@ -1,71 +1,81 @@
 <p align="center">
-  <img src="docs/assets/readme/readme-hero.svg" width="100%" alt="AIgent Design System — turn Claude into a design studio">
+  <img src="docs/assets/readme/readme-hero.svg" width="100%" alt="AIgent Design System">
 </p>
 
-<h1 align="center">AIgent Design System</h1>
-
-<p align="center"><strong>An agent-native design and production studio for distinctive interfaces, immersive 3D websites, cinematic decks, and the media behind them.</strong></p>
+<p align="center"><strong>Turn Claude, Codex, Cursor, and other coding agents into a design-and-production studio for immersive websites, product interfaces, cinematic decks, and the media behind them.</strong></p>
 
 <p align="center">
   <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v0.5.0">v0.5.0</a>
   · <a href="https://theaigent.xyz">The AIgent</a>
   · <a href="https://tools.theaigent.xyz">AIgent Tools</a>
-  · <a href="#see-what-it-builds">Reference systems</a>
+  · <a href="#see-it-working">See it working</a>
   · <a href="#license">MIT</a>
 </p>
-
-AIgent turns Claude, Codex, Cursor, and other coding agents into a disciplined design-and-production team. It does not stop at styling: it studies references, synthesizes an original direction, finds or produces the media, builds the surface, measures the browser, sees the rendered result, and repairs the highest shared cause.
-
-```text
-SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → RESOLVE → SEE
-```
-
-### Install the complete studio
 
 ```bash
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
 ```
 
-The neutral core remains framework- and dependency-light. GSAP, Three.js, Spline, Remotion, Rive, React Three Fiber, Theatre.js, Blender, FFmpeg, and external component sources are opt-in and used only when the work earns them.
+AIgent studies references, synthesizes an original direction, sources or produces the media, builds the surface, measures the browser, sees the rendered result, and repairs the highest shared cause.
+
+```text
+SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → RESOLVE → SEE
+```
+
+The neutral core is framework- and dependency-light. GSAP, Three.js, Spline, Remotion, Rive, React Three Fiber, Theatre.js, Blender, FFmpeg, and external component sources are opt-in and used only when the work earns them.
+
+## See it working
+
+### Cinematic page
 
 <p align="center">
-  <img src="docs/assets/readme/capability-strip.svg" width="100%" alt="Design Intelligence, Inspiration Intelligence, Creative Production, Resolve and Vision">
+  <img src="docs/assets/readme/captures/cinematic-page.webp" width="100%" alt="Real browser capture of the cinematic page reference">
 </p>
 
-## The complete loop
+A brand-neutral scroll system with authored pacing, responsive composition, and reduced-motion behavior. See [`templates/modular-scroll-starter/`](templates/modular-scroll-starter/).
+
+### Immersive sales deck
 
 <p align="center">
-  <img src="docs/assets/readme/system-map.svg" width="100%" alt="The seven-stage AIgent design production loop">
+  <img src="docs/assets/readme/captures/immersive-sales-deck.webp" width="100%" alt="Real browser capture of the immersive sales deck reference">
 </p>
 
-| Stage | What the agent does | Durable output |
+A guided presentation system for sales, sponsorship, launches, and structured product storytelling. See [`templates/immersive-sales-deck/`](templates/immersive-sales-deck/).
+
+### Command center interface
+
+<p align="center">
+  <img src="docs/assets/readme/captures/command-center-interface.webp" width="100%" alt="Real browser capture of the command center interface reference">
+</p>
+
+A dense operator interface with prioritized work, working detail, activity trace, search, and a native command palette. See [`templates/command-center-interface/`](templates/command-center-interface/).
+
+### Progressive Three.js stage
+
+<p align="center">
+  <img src="docs/assets/readme/captures/threejs-product-stage.webp" width="100%" alt="Real browser capture of the progressive Three.js product stage reference">
+</p>
+
+A complete static fallback with live Three.js loaded only when the device, connection, and motion preference justify it. See [`templates/threejs-product-stage/`](templates/threejs-product-stage/).
+
+More working references:
+
+- [`templates/free-design-stack/`](templates/free-design-stack/) — pinned video narrative
+- [`templates/spline-scroll-landing/`](templates/spline-scroll-landing/) — visually authored 3D page
+- [`templates/asset-scroll-gallery/`](templates/asset-scroll-gallery/) — editorial resource gallery
+- [`vault/`](vault/) — browse, preview, and install systems
+
+## Install only what you need
+
+| System | Includes | Install |
 | --- | --- | --- |
-| **Shape** | Defines the job, audience, proof, states, and constraints | `PRODUCT.md` + design brief |
-| **Inspire** | Inspects URLs, screenshots, video, motion, and structured references | Design DNA + evidence |
-| **Synthesize** | Combines at least three references without letting one source control the result | reference matrix + influence ledger |
-| **Produce** | Sources, generates, renders, clears, and optimizes video, 3D, textures, posters, and sequences | assets + manifests + fallbacks |
-| **Build** | Installs and adapts the smallest useful page, deck, interface, pattern, or runtime | working surface |
-| **Resolve** | Measures desktop, tablet, mobile, text zoom, reduced motion, runtime, access, and performance | ranked mechanical repair contract |
-| **See** | Opens original and annotated captures and judges twelve design dimensions | structured Vision review |
+| Studio core | product/design contracts, tokens, native motion, primary skill, planner | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/studio-core` |
+| Inspiration Intelligence | URL/file forensics, Design DNA, synthesis, originality review, influence ledger | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence` |
+| Design Resolver | multi-viewport browser evidence, ranked root-cause repair, run comparison | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/design-resolver` |
+| AIgent Vision | annotated captures, structured critique, visual completion gate | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/vision-critic` |
+| Full studio | all design intelligence, production systems, references, skills, and QA | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio` |
 
-## See what it builds
-
-<p align="center">
-  <img src="docs/assets/readme/showcase-grid.svg" width="100%" alt="Six AIgent reference systems: cinematic page, immersive sales deck, command center, Three.js product stage, Inspiration Lab, and Design Vault">
-</p>
-
-These are working reference systems, not mood-board promises:
-
-| System | Best for | Install |
-| --- | --- | --- |
-| [`templates/modular-scroll-starter/`](templates/modular-scroll-starter/) | Brand-neutral cinematic page | `cinematic-page` |
-| [`templates/immersive-sales-deck/`](templates/immersive-sales-deck/) | Sales, sponsorship, launch, and guided presentations | `immersive-sales-deck` |
-| [`templates/command-center-interface/`](templates/command-center-interface/) | Operator tools, dashboards, and dense product UI | `command-center-interface` |
-| [`templates/threejs-product-stage/`](templates/threejs-product-stage/) | Progressive interactive 3D | `threejs-product-stage` |
-| [`templates/free-design-stack/`](templates/free-design-stack/) | Pinned video narratives | included reference |
-| [`templates/spline-scroll-landing/`](templates/spline-scroll-landing/) | Visually authored 3D pages | included reference |
-| [`templates/asset-scroll-gallery/`](templates/asset-scroll-gallery/) | Editorial resource and media galleries | included reference |
-| [`vault/`](vault/) | Browse, preview, and install systems | `design-vault` |
+Complete surfaces:
 
 ```bash
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/cinematic-page
@@ -74,27 +84,75 @@ pnpm dlx shadcn@latest add wrg32786/aigent-design-system/command-center-interfac
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/threejs-product-stage
 ```
 
-## The agent now has eyes
-
-AIgent Resolve supplies browser facts. **AIgent Vision** supplies structured rendered judgment.
-
-<p align="center">
-  <img src="docs/assets/readme/vision-proof.svg" width="100%" alt="AIgent Vision finds and repairs a mobile hierarchy issue that passed mechanical checks">
-</p>
-
-The first dogfood run found a real issue that Resolve missed: five mobile theme controls dominated the hero even though the page scored `100/100` mechanically. Vision connected the visual failure to the shared theme-control primitive; the repair replaced the row with one compact native selector while preserving keyboard access, theme switching, the 44px target, and the desktop control set.
-
-Vision reviews every required original and annotated capture across:
-
-`product clarity · hierarchy · composition · typography · color/material · motion/media · interaction · product specificity · originality · responsive quality · trust/usability · finish`
-
-Each finding records visible evidence, P0–P3 severity, relevant `E###` elements, suspected shared owner, concrete repair, confidence, and what must be preserved. A screenshot existing on disk is not accepted as proof that the agent looked at it.
+Review an item before installation:
 
 ```bash
+pnpm dlx shadcn@latest view wrg32786/aigent-design-system/inspiration-intelligence
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence --dry-run
+```
+
+## One primary skill
+
+```bash
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/aigent-design-skill
+```
+
+The consolidated [`aigent-design`](skills/aigent-design/SKILL.md) skill routes to specialist skills only when needed:
+
+```text
+shape · inspire · create · page · deck · interface · asset
+layout · typeset · color · animate · critique · polish
+resolve · vision · audit · extract · install · eval
+```
+
+Product truth and explicit constraints outrank generic taste advice. Inspiration is evidence, not a specification. Mobile is recomposed, not shrunk. Mechanical checks are a floor; rendered visual judgment decides completion.
+
+## Inspiration Intelligence
+
+Inspect a public URL or local reference:
+
+```bash
+npx github:wrg32786/aigent-design-system inspire add https://example.com --label example
+npx github:wrg32786/aigent-design-system inspire add reference.png
+npx github:wrg32786/aigent-design-system inspire add reference.mp4
+```
+
+A live URL capture records desktop, tablet, and mobile screenshots; DOM hierarchy and geometry; computed typography and material roles; fixed and sticky regions; media and interaction evidence; animation timing; responsive transformations; and browser errors.
+
+Whole-surface synthesis requires at least three references so no single source controls the result:
+
+```bash
+npx github:wrg32786/aigent-design-system inspire compose \
+  --brief design-intelligence/example-brief.json \
+  --refs structure-source,type-source,motion-source \
+  --out .aigent/inspiration-plan.json
+```
+
+The output includes a reference matrix, required transformations, source exclusions, AIgent pattern mapping, production requirements, Design DNA, an originality threshold, and an influence ledger. Source copy, assets, marks, exact section order, exact type pairing, exact keyframes, camera paths, and source implementation are never reused.
+
+## AIgent Resolve
+
+AIgent Resolve supplies browser facts:
+
+```text
+RENDER → DETECT → RANK → REPAIR → RERENDER → REVIEW
+```
+
+```bash
+npx github:wrg32786/aigent-design-system resolve --init --target .
+
 npx github:wrg32786/aigent-design-system resolve \
   --target . \
   --url http://127.0.0.1:3000/
+```
 
+It checks desktop, tablet, mobile, 200% text sizing, reduced motion, runtime failures, overflow, focus, touch targets, contrast, clipping, media, and request behavior. It ranks one coherent repair group so the agent fixes the shared cause instead of polishing random symptoms.
+
+## AIgent Vision
+
+AIgent Vision requires the operating agent, a human reviewer, or an explicit vision adapter to open every original and annotated capture. A screenshot existing on disk is not proof that the agent saw it.
+
+```bash
 npx github:wrg32786/aigent-design-system vision prepare --target .
 
 npx github:wrg32786/aigent-design-system vision check \
@@ -106,127 +164,11 @@ npx github:wrg32786/aigent-design-system vision finalize \
   --review .aigent/resolve/latest.visual-review.json
 ```
 
-The specialist skill is [`visual-design-critic`](skills/visual-design-critic/SKILL.md). The generated review lives at `.aigent/resolve/latest.visual-review.json` and is merged with the mechanical Resolve report into one repair queue.
+The structured review covers product clarity, hierarchy, composition, typography, color/material, motion/media, interaction, product specificity, originality, responsive quality, trust/usability, and finish. Completion requires a passing mechanical gate, every required viewport reviewed, no open P0/P1 visual finding, and an explicit final verdict.
 
-## Start with the smallest useful install
+## Creative production
 
-### Studio core
-
-Product and design contracts, semantic tokens, native motion, the consolidated agent skill, and deterministic planning.
-
-```bash
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/studio-core
-```
-
-### Inspiration Intelligence
-
-URL and file forensics, Design DNA, multi-source synthesis, originality review, influence ledger, and Inspiration Lab.
-
-```bash
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence
-```
-
-### Design Resolver
-
-Mechanical render, detect, rank, repair, rerender, and comparison loop. It installs Vision Critic as a dependency.
-
-```bash
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/design-resolver
-```
-
-### AIgent Vision Critic
-
-Annotated captures, element maps, structured aesthetic critique, visual comparison, and the combined completion gate.
-
-```bash
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/vision-critic
-```
-
-Review any registry item before installation:
-
-```bash
-pnpm dlx shadcn@latest view wrg32786/aigent-design-system/inspiration-intelligence
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence --dry-run
-```
-
-## One primary skill, specialist depth
-
-```bash
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/aigent-design-skill
-```
-
-The consolidated [`aigent-design`](skills/aigent-design/SKILL.md) skill is the single entry point:
-
-```text
-shape      define product truth and the design brief
-inspire    inspect references and synthesize an original direction
-create     create or replace a complete visual world
-page       build a marketing, editorial, or experience surface
-deck       build an immersive sales or presentation deck
-interface  build product UI with complete states
-asset      source, generate, render, optimize, and manifest media
-layout     repair hierarchy, grouping, density, and responsiveness
-typeset    establish role-based typography
-color      establish palette, material, contrast, and semantic roles
-animate    author focal motion and useful state transitions
-critique   identify the highest-value design failures
-polish     finish an already working surface
-resolve    run the mechanical render-and-repair loop
-vision     inspect rendered captures and write structured critique
-audit      run design, browser, inspiration, asset, registry, and rights checks
-extract    promote proven work into a reusable system
-install    choose the smallest useful internal or external system
-eval       score a result without fabricating visual judgment
-```
-
-Specialist skills own design forensics, reference synthesis, originality review, video, 3D, GSAP, Spline, Three.js, Remotion, provenance, Resolve, Vision, and final browser QA.
-
-<details>
-<summary><strong>How Inspiration Intelligence works</strong></summary>
-
-### Capture a live URL
-
-```bash
-npx github:wrg32786/aigent-design-system inspire add \
-  https://example.com \
-  --label example
-```
-
-The URL pipeline captures desktop, tablet, and mobile screenshots; full-page and scroll-filmstrip states; visible DOM hierarchy and geometry; computed typography and materials; sticky and fixed regions; media and interaction evidence; Web Animations timing; Chrome DOMSnapshot data; responsive transformations; and browser errors.
-
-It stores local evidence under `.aigent/inspiration/`, which is ignored by Git.
-
-### Add files
-
-```bash
-npx github:wrg32786/aigent-design-system inspire add reference.png
-npx github:wrg32786/aigent-design-system inspire add reference.mp4
-npx github:wrg32786/aigent-design-system inspire add reference.json \
-  --kind structured-reference \
-  --analysis reference.json
-```
-
-### Compose an original direction
-
-Whole-surface synthesis requires at least three references. No source may control more than two of the six dimensions: `structure`, `typography`, `material`, `motion`, `interaction`, and `media`.
-
-```bash
-npx github:wrg32786/aigent-design-system inspire compose \
-  --brief design-intelligence/example-brief.json \
-  --refs structure-source,type-source,motion-source \
-  --out .aigent/inspiration-plan.json
-```
-
-The output includes the reference matrix, required transformations, explicit source exclusions, AIgent pattern mapping, production requirements, originality threshold, `DIRECTION.md`, and an influence ledger.
-
-Never reuse source copy, assets, marks, section order, exact type pairing, exact keyframes, camera paths, or source implementation.
-
-</details>
-
-<details>
-<summary><strong>Creative production and media routes</strong></summary>
-
-`creative-production/` covers free and paid sources, production briefs, licensing, provenance, optimization, and mobile/reduced-motion fallbacks.
+`creative-production/` covers free and paid asset sources, AI generation, Blender and Remotion rendering, video and GLB optimization, licensing, provenance, mobile derivatives, and reduced-motion fallbacks.
 
 | Requirement | Preferred route |
 | --- | --- |
@@ -240,58 +182,7 @@ Never reuse source copy, assets, marks, section order, exact type pairing, exact
 | Photoreal fixed-camera scene | Blender render |
 | Interactive vector state | Rive |
 
-The system includes 31 curated creative resources and 8 optional runtime integrations. Raw source assets stay outside the public runtime; public outputs require a provenance manifest.
-
-</details>
-
-<details>
-<summary><strong>Design Intelligence catalogs</strong></summary>
-
-`design-intelligence/` converts a product brief into an inspectable starting plan instead of allowing every agent to fall back to the same hero, card grid, typeface, and entrance animation.
-
-- 15 layout grammars
-- 8 typography systems
-- 14 motion systems
-- 5 interface systems
-- 10 curated external component sources
-- seeded exploration and a conventional fallback
-- media, runtime, mobile, anti-pattern, and verification decisions
-
-```bash
-npm run plan -- design-intelligence/example-brief.json --out design-plan.json
-```
-
-The planner does not replace taste. It makes the starting decisions explicit.
-
-</details>
-
-<details>
-<summary><strong>Ready-to-use patterns and component sources</strong></summary>
-
-| Pattern | Job |
-| --- | --- |
-| `guided-deck` | chapter navigation, focus, keyboard control, and progress |
-| `command-palette` | native dialog search and command events |
-| `focus-reveal` | bounded blur, mask, and focus material reveal |
-| `scene-stage` | global, chapter, and local scroll progress |
-| `object-stage` | progressive `model-viewer`, Spline, or Three.js loading |
-
-The curated external sources include shadcn/ui, Radix Primitives, Base UI, Ark UI, Floating UI, Motion Primitives, Magic UI, React Bits, TanStack Virtual, and others.
-
-Use the existing accessible primitive, install only what the project needs, and restyle it into one visual world. Component libraries accelerate engineering; they do not choose the design.
-
-</details>
-
-## Design laws
-
-- Product truth and explicit constraints outrank generic taste advice.
-- Choose the surface mode: **Persuade, Operate, Read, or Experience**.
-- Inspiration is evidence, not a specification.
-- One dominant composition and one signature motion idea carry the surface.
-- Media is part of the direction, not decoration added after layout.
-- Mobile is recomposed, not shrunk; reduced motion preserves meaning.
-- Fix shared primitives and root causes before patching instances.
-- Mechanical checks are a floor. Rendered visual judgment decides completion.
+External primitives and components are selected from curated sources such as shadcn/ui, Radix Primitives, Base UI, Ark UI, Floating UI, Motion Primitives, Magic UI, React Bits, and TanStack Virtual. Install only what the project needs and restyle it into one visual world.
 
 ## Verification
 
@@ -323,7 +214,7 @@ npm run inspiration:smoke
 npm run capture
 ```
 
-GitHub Actions validates the registry, clean installer, planner, Inspiration Intelligence, Resolve, Vision, evals, browser matrix, URL-forensics fixture, Inspiration Lab, and visual captures.
+GitHub Actions validates the registry, clean installer, planner, Inspiration Intelligence, AIgent Resolve, AIgent Vision, evals, browser matrix, URL-forensics fixture, Inspiration Lab, and visual captures.
 
 ## Local development
 
@@ -372,14 +263,14 @@ modules/                 dependency-free motion core
 
 ## Production proof
 
-- **[theaigent.xyz](https://theaigent.xyz)** — cinematic Persuade + Experience surface.
-- **[tools.theaigent.xyz](https://tools.theaigent.xyz)** — dense Operate + Read surface.
+- **[theaigent.xyz](https://theaigent.xyz)** — cinematic Persuade + Experience surface
+- **[tools.theaigent.xyz](https://tools.theaigent.xyz)** — dense Operate + Read surface
 
-They set the craft bar. They are not universal templates or palettes. The core remains brand-neutral; the AIgent visual language is one included preset.
+They set the craft bar. They are not universal templates or palettes. The reusable core remains brand-neutral; the AIgent visual language is one included preset.
 
 ## Third-party material
 
-The repository links to external code, assets, references, and services but does not vendor them unless redistribution rights are clear. Read [`THIRD_PARTY.md`](THIRD_PARTY.md) and verify the exact license and terms active when using an external source.
+The repository links to external code, assets, references, and services but does not vendor them unless redistribution rights are clear. Read [`THIRD_PARTY.md`](THIRD_PARTY.md) and verify the active license and terms before use.
 
 ## License
 

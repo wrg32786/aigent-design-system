@@ -1,133 +1,50 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1774" height="887" viewBox="0 0 1774 887" role="img" aria-labelledby="title desc">
-  <title id="title">AIgent Design System — turn Claude into a design studio</title>
-  <desc id="desc">A dark command-center hero with a strong product statement and three clean reference-system panels for a cinematic page, a progressive 3D stage, and an operator command center.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="800" viewBox="0 0 1600 800" role="img" aria-labelledby="title desc">
+  <title id="title">AIgent Design System</title>
+  <desc id="desc">A minimal dark typographic hero for the AIgent Design System.</desc>
   <defs>
-    <linearGradient id="ground" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#020706"/>
-      <stop offset="0.58" stop-color="#06110f"/>
-      <stop offset="1" stop-color="#020706"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#030607"/>
+      <stop offset="0.55" stop-color="#071218"/>
+      <stop offset="1" stop-color="#030607"/>
     </linearGradient>
-    <radialGradient id="cyanGlow" cx="76%" cy="48%" r="48%">
-      <stop offset="0" stop-color="#42ddd0" stop-opacity="0.18"/>
-      <stop offset="1" stop-color="#42ddd0" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="orb" cx="38%" cy="30%" r="72%">
-      <stop offset="0" stop-color="#b9ecff"/>
-      <stop offset="0.28" stop-color="#369ed8"/>
-      <stop offset="0.64" stop-color="#195ca9"/>
-      <stop offset="1" stop-color="#071c45"/>
-    </radialGradient>
-    <linearGradient id="headline" x1="0" y1="0" x2="1" y2="0">
-      <stop stop-color="#60efe2"/>
-      <stop offset="1" stop-color="#32c8d2"/>
+    <linearGradient id="cyan" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#66f3ed"/>
+      <stop offset="1" stop-color="#22b9d5"/>
     </linearGradient>
-    <pattern id="grid" width="52" height="52" patternUnits="userSpaceOnUse">
-      <path d="M52 0H0V52" fill="none" stroke="#65f4df" stroke-opacity="0.055"/>
+    <radialGradient id="topGlow" cx="50%" cy="0%" r="70%">
+      <stop stop-color="#55ddeb" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#55ddeb" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="floorGlow" cx="50%" cy="100%" r="60%">
+      <stop stop-color="#38d9e8" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#38d9e8" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="#65f4df" stroke-opacity="0.055"/>
     </pattern>
-    <filter id="panelShadow" x="-30%" y="-30%" width="170%" height="180%">
-      <feDropShadow dx="0" dy="24" stdDeviation="22" flood-color="#000" flood-opacity="0.68"/>
-    </filter>
-    <filter id="orbGlow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="13" result="blur"/>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
 
-  <rect width="1774" height="887" fill="url(#ground)"/>
-  <rect width="1774" height="887" fill="url(#cyanGlow)"/>
-  <rect width="1774" height="887" fill="url(#grid)"/>
-  <rect x="48" y="48" width="1678" height="791" fill="none" stroke="#65f4df" stroke-opacity="0.24"/>
-  <path d="M48 84V48H84M1690 48h36v36M48 803v36h36M1690 839h36v-36" fill="none" stroke="#65f4df" stroke-opacity="0.52"/>
-  <circle cx="48" cy="48" r="4" fill="#65f4df"/><circle cx="1726" cy="48" r="4" fill="#65f4df"/>
-  <circle cx="48" cy="839" r="4" fill="#65f4df"/><circle cx="1726" cy="839" r="4" fill="#65f4df"/>
+  <rect width="1600" height="800" fill="url(#bg)"/>
+  <rect width="1600" height="800" fill="url(#topGlow)"/>
+  <rect width="1600" height="800" fill="url(#floorGlow)"/>
+  <rect width="1600" height="800" fill="url(#grid)"/>
 
-  <g transform="translate(92 102)">
-    <rect width="38" height="38" rx="7" fill="none" stroke="#50e8df" stroke-width="2"/>
-    <path d="M12 12l8 7-8 7M22 28h7" fill="none" stroke="#50e8df" stroke-width="2.4" stroke-linecap="square"/>
-    <text x="62" y="27" fill="#65f4df" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="700" letter-spacing="4">THE AIGENT / DESIGN OPERATING SYSTEM</text>
-  </g>
+  <path d="M105 406A695 695 0 0 1 1495 406" fill="none" stroke="#48dbe8" stroke-opacity="0.24"/>
+  <path d="M105 406A695 695 0 0 0 1495 406" fill="none" stroke="#48dbe8" stroke-opacity="0.10"/>
+  <path d="M80 720H1520" stroke="#65f4df" stroke-opacity="0.15"/>
+  <ellipse cx="800" cy="720" rx="420" ry="34" fill="none" stroke="#48dbe8" stroke-opacity="0.25"/>
+  <ellipse cx="800" cy="720" rx="280" ry="20" fill="none" stroke="#48dbe8" stroke-opacity="0.22"/>
+  <circle cx="800" cy="720" r="5" fill="#67f4ee" filter="url(#softGlow)"/>
+  <circle cx="800" cy="108" r="4" fill="#67f4ee" filter="url(#softGlow)"/>
+  <path d="M500 108H1100" stroke="#48dbe8" stroke-opacity="0.28"/>
 
-  <g font-family="Arial Narrow, Helvetica Neue, Arial, sans-serif" font-weight="900" letter-spacing="-3">
-    <text x="92" y="278" fill="#f5f2ea" font-size="104">TURN CLAUDE</text>
-    <text x="92" y="390" fill="#f5f2ea" font-size="104">INTO A</text>
-    <text x="92" y="510" fill="url(#headline)" font-size="100" textLength="690" lengthAdjust="spacingAndGlyphs">DESIGN STUDIO.</text>
-  </g>
-  <g fill="#c8cfcb" font-family="Helvetica Neue, Arial, sans-serif" font-size="22">
-    <text x="96" y="574">Reference forensics, original synthesis, immersive media,</text>
-    <text x="96" y="610">ranked repair, and real visual judgment — in one installable system.</text>
-  </g>
-
-  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="700" letter-spacing="1">
-    <rect x="94" y="670" width="252" height="52" rx="26" fill="#03100e" stroke="#48e3d8" stroke-width="1.5"/>
-    <text x="220" y="702" fill="#65f4df" text-anchor="middle">15 INSTALLABLE SYSTEMS</text>
-    <rect x="364" y="670" width="200" height="52" rx="26" fill="#0e0907" stroke="#f07a52" stroke-width="1.5"/>
-    <text x="464" y="702" fill="#f07a52" text-anchor="middle">23 AGENT SKILLS</text>
-    <rect x="582" y="670" width="206" height="52" rx="26" fill="#090b0a" stroke="#d6d8d6" stroke-width="1.5"/>
-    <text x="685" y="702" fill="#e8e7e2" text-anchor="middle">MIT / OPEN SOURCE</text>
-  </g>
-
-  <!-- Cinematic page card -->
-  <g transform="translate(890 150) rotate(-5 150 245)" filter="url(#panelShadow)">
-    <rect width="316" height="500" rx="30" fill="#080b0a" stroke="#c7613f" stroke-opacity="0.72" stroke-width="1.6"/>
-    <circle cx="28" cy="30" r="4" fill="#f07a52"/>
-    <text x="30" y="76" fill="#f07a52" font-family="ui-monospace, monospace" font-size="13" font-weight="700" letter-spacing="2">CINEMATIC SYSTEM</text>
-    <g font-family="Arial Narrow, Helvetica Neue, Arial, sans-serif" font-weight="900" font-size="43" letter-spacing="-1">
-      <text x="30" y="142" fill="#f5f2ea">A cinematic</text>
-      <text x="30" y="190" fill="#f5f2ea">page needs</text>
-      <text x="30" y="238" fill="#f07a52">a point of</text>
-      <text x="30" y="286" fill="#f07a52">view.</text>
-    </g>
-    <text x="30" y="334" fill="#bfc6c2" font-family="Helvetica Neue, Arial, sans-serif" font-size="16">Experience surface,</text>
-    <text x="30" y="359" fill="#bfc6c2" font-family="Helvetica Neue, Arial, sans-serif" font-size="16">native CSS + JavaScript.</text>
-    <rect x="30" y="405" width="256" height="46" rx="5" fill="#ee7148"/>
-    <text x="158" y="434" fill="#100806" font-family="Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" text-anchor="middle">Use the system</text>
-    <rect x="30" y="462" width="256" height="36" rx="5" fill="#070908" stroke="#242a28"/>
-    <text x="158" y="485" fill="#e8e7e2" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Read the guide</text>
-  </g>
-
-  <!-- Command-center card -->
-  <g transform="translate(1412 160) rotate(6 152 244)" filter="url(#panelShadow)">
-    <rect width="304" height="494" rx="30" fill="#07100e" stroke="#4ce2da" stroke-opacity="0.72" stroke-width="1.6"/>
-    <text x="28" y="52" fill="#65f4df" font-family="ui-monospace, monospace" font-size="13" font-weight="700" letter-spacing="2">COMMAND CENTER</text>
-    <g font-family="Helvetica Neue, Arial, sans-serif">
-      <g transform="translate(24 78)"><rect width="256" height="58" rx="8" fill="#08100e" stroke="#1b2a26"/><circle cx="26" cy="29" r="9" fill="none" stroke="#d6d8d6"/><text x="48" y="24" fill="#f5f2ea" font-size="13" font-weight="700">Systems</text><text x="48" y="42" fill="#7f8b86" font-size="10">Installed modules</text><text x="236" y="34" fill="#9ba5a0" font-size="20">›</text></g>
-      <g transform="translate(24 146)"><rect width="256" height="58" rx="8" fill="#08100e" stroke="#1b2a26"/><circle cx="26" cy="29" r="9" fill="none" stroke="#d6d8d6"/><text x="48" y="24" fill="#f5f2ea" font-size="13" font-weight="700">Skills</text><text x="48" y="42" fill="#7f8b86" font-size="10">Agent capabilities</text><text x="236" y="34" fill="#9ba5a0" font-size="20">›</text></g>
-      <g transform="translate(24 214)"><rect width="256" height="58" rx="8" fill="#08100e" stroke="#1b2a26"/><circle cx="26" cy="29" r="9" fill="none" stroke="#d6d8d6"/><text x="48" y="24" fill="#f5f2ea" font-size="13" font-weight="700">Forensics</text><text x="48" y="42" fill="#7f8b86" font-size="10">Reference analysis</text><text x="236" y="34" fill="#9ba5a0" font-size="20">›</text></g>
-      <g transform="translate(24 282)"><rect width="256" height="58" rx="8" fill="#08100e" stroke="#1b2a26"/><circle cx="26" cy="29" r="9" fill="none" stroke="#d6d8d6"/><text x="48" y="24" fill="#f5f2ea" font-size="13" font-weight="700">Synthesis</text><text x="48" y="42" fill="#7f8b86" font-size="10">Original creation</text><text x="236" y="34" fill="#9ba5a0" font-size="20">›</text></g>
-      <g transform="translate(24 350)"><rect width="256" height="58" rx="8" fill="#08100e" stroke="#1b2a26"/><circle cx="26" cy="29" r="9" fill="none" stroke="#d6d8d6"/><text x="48" y="24" fill="#f5f2ea" font-size="13" font-weight="700">Repair</text><text x="48" y="42" fill="#7f8b86" font-size="10">Ranked fixes</text><text x="236" y="34" fill="#9ba5a0" font-size="20">›</text></g>
-    </g>
-    <text x="28" y="442" fill="#50615b" font-family="ui-monospace, monospace" font-size="10" letter-spacing="2">SYSTEM STATUS</text>
-    <circle cx="34" cy="466" r="4" fill="#63ce52"/><text x="48" y="470" fill="#aeb8b3" font-family="ui-monospace, monospace" font-size="10">All systems operational</text>
-  </g>
-
-  <!-- Progressive 3D card -->
-  <g transform="translate(1080 220) rotate(3 190 245)" filter="url(#panelShadow)">
-    <rect width="390" height="490" rx="32" fill="#041126" stroke="#4ce2da" stroke-opacity="0.78" stroke-width="1.8"/>
-    <text x="32" y="54" fill="#65f4df" font-family="ui-monospace, monospace" font-size="13" font-weight="700" letter-spacing="1.6">LIVE 3D / PROGRESSIVE ENHANCEMENT</text>
-    <g font-family="Arial Narrow, Helvetica Neue, Arial, sans-serif" font-weight="900" font-size="43" letter-spacing="-1">
-      <text x="34" y="126" fill="#f5f2ea">Interaction</text>
-      <text x="34" y="174" fill="#f5f2ea">must earn</text>
-      <text x="34" y="222" fill="#f5f2ea">the renderer.</text>
-    </g>
-    <text x="34" y="268" fill="#aeb9c2" font-family="Helvetica Neue, Arial, sans-serif" font-size="15">Use live gravity only when the device,</text>
-    <text x="34" y="291" fill="#aeb9c2" font-family="Helvetica Neue, Arial, sans-serif" font-size="15">motion preference, and connection allow it.</text>
-    <circle cx="274" cy="325" r="78" fill="url(#orb)" filter="url(#orbGlow)"/>
-    <ellipse cx="274" cy="325" rx="124" ry="40" fill="none" stroke="#b4dc49" stroke-width="3.5" transform="rotate(24 274 325)"/>
-    <ellipse cx="274" cy="325" rx="124" ry="40" fill="none" stroke="#b4dc49" stroke-width="3" transform="rotate(78 274 325)"/>
-    <circle cx="164" cy="279" r="6" fill="#56e7dc"/><circle cx="354" cy="385" r="5" fill="#d6f35c"/><circle cx="290" cy="205" r="5" fill="#e5f47c"/>
-    <rect x="34" y="421" width="142" height="46" rx="6" fill="#4ddbd9"/>
-    <text x="105" y="450" fill="#061123" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="800" text-anchor="middle">Live 3D enabled</text>
-    <circle cx="158" cy="444" r="4" fill="#082b35"/>
-  </g>
-
-  <!-- Foreground copy: rendered after every panel so GitHub mobile cannot cover it. -->
-  <g font-family="Arial Narrow, Helvetica Neue, Arial, sans-serif" font-weight="900" letter-spacing="-3">
-    <text x="92" y="278" fill="#f5f2ea" font-size="104" stroke="#020706" stroke-width="16" stroke-linejoin="round" paint-order="stroke fill">TURN CLAUDE</text>
-    <text x="92" y="390" fill="#f5f2ea" font-size="104" stroke="#020706" stroke-width="16" stroke-linejoin="round" paint-order="stroke fill">INTO A</text>
-    <text x="92" y="510" fill="url(#headline)" font-size="100" textLength="690" lengthAdjust="spacingAndGlyphs" stroke="#020706" stroke-width="16" stroke-linejoin="round" paint-order="stroke fill">DESIGN STUDIO.</text>
-  </g>
-
-  <g fill="#65736e" font-family="ui-monospace, monospace" font-size="12" letter-spacing="1">
-    <text x="94" y="820">SHAPE / INSPIRE / SYNTHESIZE / PRODUCE / BUILD / RESOLVE / SEE</text>
+  <g font-family="Inter, Helvetica Neue, Arial, sans-serif" font-weight="700" letter-spacing="-7">
+    <text x="210" y="360" fill="url(#cyan)" font-size="190">AI</text>
+    <text x="405" y="360" fill="#f4f5f3" font-size="190">gent</text>
+    <text x="205" y="565" fill="#f4f5f3" font-size="168" textLength="1190" lengthAdjust="spacingAndGlyphs">Design System</text>
   </g>
 </svg>
