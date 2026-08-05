@@ -32,3 +32,5 @@ Resolve does not own:
 - blind source-code mutation
 
 Preserve `PRODUCT.md`, `DESIGN.md`, the current inspiration plan, and the selected medium. Fix the highest shared cause first and rerun after each coherent repair group.
+
+Mechanical passage is a floor. The result still requires explicit rendered judgment.
