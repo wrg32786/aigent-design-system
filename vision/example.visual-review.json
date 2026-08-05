@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "runId": "replace-with-resolve-run-id",
+  "reviewer": {
+    "kind": "host-agent",
+    "name": "Claude",
+    "model": "replace-with-model",
+    "tool": "native image viewer"
+  },
+  "reviewedAt": "2026-08-05T00:00:00.000Z",
+  "status": "reviewed",
+  "viewports": {
+    "desktop": {
+      "status": "reviewed",
+      "summary": "The desktop capture was opened and reviewed in full.",
+      "dimensions": {
+        "product-clarity": { "status": "pass", "rationale": "The product purpose and primary action are immediately legible." },
+        "hierarchy": { "status": "pass", "rationale": "Attention moves from the product statement to proof and action." },
+        "composition": { "status": "pass", "rationale": "Scale, whitespace, and the focal scene feel deliberately balanced." },
+        "typography": { "status": "pass", "rationale": "Type roles, measure, rhythm, and contrast support the story." },
+        "color-material": { "status": "pass", "rationale": "The palette and surface treatment form one coherent visual world." },
+        "motion-media": { "status": "pass", "rationale": "Motion and media reinforce the narrative rather than decorate it." },
+        "interaction": { "status": "pass", "rationale": "Controls and navigation are discoverable and visually subordinate." },
+        "product-specificity": { "status": "pass", "rationale": "The surface could not be relabeled for an unrelated product." },
+        "originality": { "status": "pass", "rationale": "The design reads as an original synthesis rather than a clone." },
+        "responsive-quality": { "status": "pass", "rationale": "The desktop composition uses its available space intentionally." },
+        "trust-usability": { "status": "pass", "rationale": "The interface feels stable, honest, accessible, and understandable." },
+        "finish": { "status": "pass", "rationale": "Crops, spacing, alignment, and states appear production-ready." }
+      }
+    },
+    "tablet": {
+      "status": "reviewed",
+      "summary": "The tablet capture was opened and reviewed in full.",
+      "dimensions": {
+        "product-clarity": { "status": "pass", "rationale": "The product purpose and action remain clear at tablet width." },
+        "hierarchy": { "status": "pass", "rationale": "The hierarchy remains intact as the composition tightens." },
+        "composition": { "status": "pass", "rationale": "The scene and copy remain balanced without awkward compression." },
+        "typography": { "status": "pass", "rationale": "Typography retains readable measure and deliberate scale changes." },
+        "color-material": { "status": "pass", "rationale": "Color and material roles remain coherent and legible." },
+        "motion-media": { "status": "pass", "rationale": "The media framing still supports the product story." },
+        "interaction": { "status": "pass", "rationale": "Controls remain discoverable without dominating the surface." },
+        "product-specificity": { "status": "pass", "rationale": "The composition still reflects this product and no generic category." },
+        "originality": { "status": "pass", "rationale": "The authored visual world survives the responsive change." },
+        "responsive-quality": { "status": "pass", "rationale": "Tablet feels recomposed rather than merely reduced." },
+        "trust-usability": { "status": "pass", "rationale": "Nothing appears unstable, misleading, or difficult to use." },
+        "finish": { "status": "pass", "rationale": "Spacing, wrapping, crops, and states remain resolved." }
+      }
+    },
+    "mobile": {
+      "status": "reviewed",
+      "summary": "The mobile capture was opened and reviewed in full.",
+      "dimensions": {
+        "product-clarity": { "status": "pass", "rationale": "The product statement remains understandable in the first viewport." },
+        "hierarchy": { "status": "issue", "rationale": "Secondary theme controls compete with the primary product statement." },
+        "composition": { "status": "issue", "rationale": "The theme selector occupies too much of the upper mobile viewport." },
+        "typography": { "status": "pass", "rationale": "The type remains readable and preserves the intended hierarchy." },
+        "color-material": { "status": "pass", "rationale": "The palette and material language remain coherent on mobile." },
+        "motion-media": { "status": "pass", "rationale": "The media treatment remains supportive and does not obscure content." },
+        "interaction": { "status": "pass", "rationale": "Controls are understandable and retain accessible interaction states." },
+        "product-specificity": { "status": "pass", "rationale": "The mobile surface remains clearly tied to this product." },
+        "originality": { "status": "pass", "rationale": "The design still reads as an authored visual system." },
+        "responsive-quality": { "status": "issue", "rationale": "The first viewport needs stronger prioritization of content over options." },
+        "trust-usability": { "status": "pass", "rationale": "The interface remains usable and does not misrepresent state." },
+        "finish": { "status": "issue", "rationale": "The mobile control hierarchy is not yet ready to ship." }
+      }
+    },
+    "reduced-motion": {
+      "status": "reviewed",
+      "summary": "The reduced-motion capture was opened and reviewed in full.",
+      "dimensions": {
+        "product-clarity": { "status": "pass", "rationale": "Product meaning remains complete without motion." },
+        "hierarchy": { "status": "pass", "rationale": "Static hierarchy remains clear and deliberate." },
+        "composition": { "status": "pass", "rationale": "The static composition retains balance and focal priority." },
+        "typography": { "status": "pass", "rationale": "Typography remains complete and readable without animated reveals." },
+        "color-material": { "status": "pass", "rationale": "Color and material roles remain coherent in the static state." },
+        "motion-media": { "status": "pass", "rationale": "The reduced-motion equivalent preserves meaning and visual interest." },
+        "interaction": { "status": "pass", "rationale": "Interaction remains discoverable without motion-dependent cues." },
+        "product-specificity": { "status": "pass", "rationale": "The static surface still feels specific to the product." },
+        "originality": { "status": "pass", "rationale": "The authored identity survives removal of substantial motion." },
+        "responsive-quality": { "status": "pass", "rationale": "The reduced-motion state is a complete composition, not a fallback shell." },
+        "trust-usability": { "status": "pass", "rationale": "No information or control depends on animation to be understood." },
+        "finish": { "status": "pass", "rationale": "The static state appears intentional and production-ready." }
+      }
+    }
+  },
+  "findings": [
+    {
+      "id": "mobile-theme-control-dominance",
+      "viewport": "mobile",
+      "severity": "P1",
+      "dimension": "composition",
+      "finding": "The theme controls compete with the product statement in the first viewport.",
+      "evidence": "E003 occupies most of the upper third before E011 establishes the primary hierarchy.",
+      "recommendation": "Collapse the mobile theme choices behind one compact accessible control.",
+      "elementIds": ["E003", "E011"],
+      "suspectedOwner": ".ds-theme-picker",
+      "preserve": ["theme switching", "keyboard access", "selected visual identity"],
+      "confidence": 0.94,
+      "status": "open"
+    }
+  ],
+  "overall": {
+    "strengths": ["The visual world is distinctive and product-specific."],
+    "risks": ["The mobile first viewport gives secondary controls too much emphasis."],
+    "verdict": "needs-repair",
+    "notes": "Repair the mobile control hierarchy and rerun the complete visual review."
+  }
+}
