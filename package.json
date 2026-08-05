@@ -1,14 +1,16 @@
 {
   "name": "aigent-design-system",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": false,
-  "description": "An installable agent-native design studio with inspiration forensics, design intelligence, immersive page systems, creative-production pipelines, skills, provenance, evals, and browser QA.",
+  "description": "An installable agent-native design studio with inspiration forensics, immersive production, a ranked design resolve loop, skills, provenance, evals, and browser QA.",
   "type": "module",
   "bin": { "aigent-design": "scripts/cli.mjs" },
   "scripts": {
     "serve": "node scripts/serve.mjs",
     "plan": "node scripts/plan-design.mjs",
     "inspire": "node scripts/inspire.mjs",
+    "resolve": "node scripts/resolve-design.mjs",
+    "resolve:check": "node scripts/check-resolve.mjs",
     "audit": "node scripts/design-audit.mjs",
     "assets": "node scripts/check-assets.mjs",
     "catalogs": "node scripts/check-catalogs.mjs",
@@ -22,7 +24,7 @@
     "inspiration:smoke": "node scripts/inspiration-smoke.mjs",
     "capture": "node scripts/capture.mjs"
   },
-  "keywords": ["ai","design-system","design-forensics","inspiration-intelligence","creative-production","cinematic-web","immersive-web","design-intelligence","code-registry","design-tokens","design-audit","asset-pipeline","sales-deck","product-interface","scroll-animation","video-scrub","3d-web","spline","gsap","threejs","remotion","claude-code","codex","agent-skills"],
+  "keywords": ["ai","design-system","design-resolver","design-forensics","inspiration-intelligence","creative-production","cinematic-web","immersive-web","design-intelligence","code-registry","design-tokens","design-audit","browser-qa","asset-pipeline","sales-deck","product-interface","scroll-animation","video-scrub","3d-web","spline","gsap","threejs","remotion","claude-code","codex","agent-skills"],
   "license": "MIT",
   "engines": { "node": ">=20" },
   "devDependencies": { "playwright": "^1.61.1" }
