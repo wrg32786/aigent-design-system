@@ -288,12 +288,14 @@
       }
 
       .scene {
-        inset: 10vh -70vw 8vh 25vw;
+        inset: 0;
+        padding-left: 90vw;
+        overflow: clip;
         opacity: 0.56;
       }
 
       .scene-core {
-        width: 130vw;
+        width: min(130vw, 650px);
       }
 
       .veil {
