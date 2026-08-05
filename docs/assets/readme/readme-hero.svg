@@ -120,6 +120,13 @@
     <circle cx="158" cy="444" r="4" fill="#082b35"/>
   </g>
 
+  <!-- Foreground copy: rendered after every panel so GitHub mobile cannot cover it. -->
+  <g font-family="Arial Narrow, Helvetica Neue, Arial, sans-serif" font-weight="900" letter-spacing="-3">
+    <text x="92" y="278" fill="#f5f2ea" font-size="104" stroke="#020706" stroke-width="16" stroke-linejoin="round" paint-order="stroke fill">TURN CLAUDE</text>
+    <text x="92" y="390" fill="#f5f2ea" font-size="104" stroke="#020706" stroke-width="16" stroke-linejoin="round" paint-order="stroke fill">INTO A</text>
+    <text x="92" y="510" fill="url(#headline)" font-size="100" textLength="690" lengthAdjust="spacingAndGlyphs" stroke="#020706" stroke-width="16" stroke-linejoin="round" paint-order="stroke fill">DESIGN STUDIO.</text>
+  </g>
+
   <g fill="#65736e" font-family="ui-monospace, monospace" font-size="12" letter-spacing="1">
     <text x="94" y="820">SHAPE / INSPIRE / SYNTHESIZE / PRODUCE / BUILD / RESOLVE / SEE</text>
   </g>
