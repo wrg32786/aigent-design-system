@@ -54,9 +54,10 @@ const required = [
   "skills/design-forensics/SKILL.md", "skills/reference-synthesis/SKILL.md", "skills/inspiration-originality-audit/SKILL.md",
   "evals/README.md", "evals/rubric.json", "evals/review.schema.json",
   "case-studies/README.md", "case-studies/theaigent-home/README.md", "case-studies/tools-vault/README.md",
-  "vault/index.html", "vault/app.js",
+  "vault/index.html", "vault/app.js", "studio/index.html", "studio/studio.css", "studio/app.js", "studio/README.md",
   "scripts/cli.mjs", "scripts/inspire.mjs", "scripts/check-inspiration.mjs", "scripts/inspiration-smoke.mjs",
   "scripts/resolve-design.mjs", "scripts/check-resolve.mjs", "scripts/vision-review.mjs", "scripts/check-vision.mjs",
+  "scripts/studio-server.mjs", "scripts/check-studio.mjs", "skills/aigent-studio/SKILL.md",
   "scripts/plan-design.mjs", "scripts/check-intelligence.mjs", "scripts/check-registry.mjs", "scripts/check-evals.mjs",
   "scripts/score-design.mjs", "scripts/capture.mjs", "scripts/check-assets.mjs", "scripts/check-catalogs.mjs",
   "docs/project-context.md", "docs/product-brief.md", "docs/roadmap.md", "docs/publish-checklist.md",
@@ -79,7 +80,7 @@ const skillFiles = fs.readdirSync(skillRoot, { withFileTypes: true })
   .map((entry) => path.join(skillRoot, entry.name, "SKILL.md"))
   .filter((skill) => fs.existsSync(skill))
   .sort();
-assert.ok(skillFiles.length >= 23, `Expected at least 23 installable skills; found ${skillFiles.length}.`);
+assert.ok(skillFiles.length >= 24, `Expected at least 23 installable skills; found ${skillFiles.length}.`);
 const skillNames = new Set();
 for (const skill of skillFiles) {
   const body = fs.readFileSync(skill, "utf8");
@@ -92,7 +93,7 @@ for (const skill of skillFiles) {
   skillNames.add(name);
   assert.equal(name, path.basename(path.dirname(skill)), `Skill name and directory differ: ${name}`);
 }
-for (const name of ["aigent-design", "design-forensics", "reference-synthesis", "inspiration-originality-audit", "design-resolver", "visual-design-critic"]) {
+for (const name of ["aigent-design", "aigent-studio", "design-forensics", "reference-synthesis", "inspiration-originality-audit", "design-resolver", "visual-design-critic"]) {
   assert.ok(skillNames.has(name), `Required skill is missing: ${name}`);
 }
 
@@ -122,16 +123,19 @@ for (const [label, findings] of [
 }
 
 const { registry } = readRegistry();
-assert.ok(registry.items.length >= 15, "Installable registry is unexpectedly small.");
-for (const name of ["inspiration-intelligence", "design-resolver", "vision-critic"]) {
+assert.ok(registry.items.length >= 16, "Installable registry is unexpectedly small.");
+for (const name of ["inspiration-intelligence", "design-resolver", "vision-critic", "aigent-studio"]) {
   assert.ok(registry.items.some((item) => item.name === name), `${name} is missing from the registry.`);
 }
 const fullStudio = registry.items.find((item) => item.name === "full-studio");
-for (const name of ["inspiration-intelligence", "design-resolver"]) {
+for (const name of ["inspiration-intelligence", "design-resolver", "aigent-studio"]) {
   assert.ok(fullStudio.registryDependencies.some((dependency) => dependency.endsWith(`/${name}`)), `full-studio must install ${name}.`);
 }
 const resolver = registry.items.find((item) => item.name === "design-resolver");
 assert.ok(resolver.registryDependencies.some((dependency) => dependency.endsWith("/vision-critic")), "Design Resolver must install Vision Critic.");
+const studio = registry.items.find((item) => item.name === "aigent-studio");
+assert.ok(studio.files.some((entry) => entry.path === "scripts/studio-server.mjs"), "AIgent Studio must install its local server.");
+assert.ok(studio.files.some((entry) => entry.path === "skills/aigent-studio/SKILL.md"), "AIgent Studio must install its operating skill.");
 
 const resourceCatalog = JSON.parse(fs.readFileSync(file("creative-production/catalog.json"), "utf8"));
 assert.ok(resourceCatalog.resources.length >= 25, "Creative resource catalog is unexpectedly small.");
@@ -140,9 +144,9 @@ assert.ok(integrationCatalog.integrations.length >= 8, "Integration catalog is u
 assert.ok(integrationCatalog.integrations.every((item) => item.required === false), "Neutral core must not require optional integrations.");
 
 const packageJson = JSON.parse(fs.readFileSync(file("package.json"), "utf8"));
-assert.equal(packageJson.version, "0.5.0", "Expected package version 0.5.0.");
+assert.equal(packageJson.version, "0.6.0", "Expected package version 0.5.0.");
 assert.equal(packageJson.bin?.["aigent-design"], "scripts/cli.mjs", "Missing CLI bin.");
-for (const script of ["serve", "plan", "inspire", "resolve", "resolve:check", "vision", "vision:check", "audit", "assets", "catalogs", "intelligence", "inspiration", "registry", "eval", "score", "check", "smoke", "inspiration:smoke", "capture"]) {
+for (const script of ["serve", "plan", "inspire", "resolve", "resolve:check", "vision", "vision:check", "audit", "assets", "catalogs", "intelligence", "inspiration", "registry", "eval", "score", "check", "smoke", "inspiration:smoke", "capture", "studio", "studio:check"]) {
   assert.equal(typeof packageJson.scripts?.[script], "string", `Missing package script: ${script}`);
 }
 
@@ -151,6 +155,7 @@ for (const contract of [
   "SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → RESOLVE → SEE",
   "shadcn@latest add wrg32786/aigent-design-system/studio-core",
   "shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence",
+  "AIgent Studio", "npm run studio", "aigent-studio",
   "AIgent Vision", "vision-critic", "vision prepare", "latest.visual-review.json", "Design DNA", "influence ledger",
   "AIgent Resolve", "design-resolver", "resolve:check", "vision:check", "inspiration:smoke",
   "templates/immersive-sales-deck/", "templates/command-center-interface/", "templates/threejs-product-stage/", "vault/",
@@ -158,7 +163,7 @@ for (const contract of [
   assert.ok(readme.includes(contract), `README is missing product contract: ${contract}`);
 }
 
-const pages = ["index.html", "templates/modular-scroll-starter/index.html", "templates/immersive-sales-deck/index.html", "templates/command-center-interface/index.html", "templates/threejs-product-stage/index.html", "vault/index.html", "inspiration/lab/index.html", "inspiration/fixtures/site/index.html"];
+const pages = ["index.html", "studio/index.html", "templates/modular-scroll-starter/index.html", "templates/immersive-sales-deck/index.html", "templates/command-center-interface/index.html", "templates/threejs-product-stage/index.html", "vault/index.html", "inspiration/lab/index.html", "inspiration/fixtures/site/index.html"];
 const audit = auditPaths([...pages.map(file), file("tokens/system.css")]);
 const auditErrors = audit.findings.filter((item) => item.severity === "error");
 assert.deepEqual(auditErrors, [], `Flagship design audit failed:\n${JSON.stringify(auditErrors, null, 2)}`);
@@ -171,4 +176,4 @@ for (const rule of ["a11y/html-lang", "responsive/viewport", "hierarchy/h1-count
   assert.ok(detectorProof.some((item) => item.rule === rule), `Design audit self-check missed ${rule}`);
 }
 
-console.log(`Design system check passed with ${registry.items.length} registry items, ${skillFiles.length} skills, ${resourceCatalog.resources.length} resources, ${integrationCatalog.integrations.length} integrations, Inspiration Intelligence, AIgent Resolve, and AIgent Vision v0.5.0.`);
+console.log(`Design system check passed with ${registry.items.length} registry items, ${skillFiles.length} skills, ${resourceCatalog.resources.length} resources, ${integrationCatalog.integrations.length} integrations, Inspiration Intelligence, AIgent Resolve, and AIgent Vision and interactive Studio v0.6.0.`);

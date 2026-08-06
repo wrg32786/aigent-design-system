@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en" data-theme="aigent">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Build and revise immersive websites live with Claude Code or Codex, armed with the AIgent Design System.">
+  <title>AIgent Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Martian+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../tokens/system.css">
+  <link rel="stylesheet" href="./studio.css">
+</head>
+<body class="ds-shell">
+  <a class="ds-skip-link" href="#preview-frame">Skip to live preview</a>
+  <div class="studio-shell">
+    <header class="studio-bar">
+      <div class="studio-brand">
+        <a href="../" aria-label="AIgent Design System home">AIgent</a>
+        <span>Studio</span>
+      </div>
+      <div class="project-switcher">
+        <label class="sr-only" for="project-select">Current project</label>
+        <select id="project-select" aria-label="Current project"></select>
+        <button class="quiet-button" id="new-project" type="button">New project</button>
+      </div>
+      <div class="runtime-status" id="runtime-status" aria-live="polite">
+        <span class="status-dot"></span>
+        <span>Connecting to local studio…</span>
+      </div>
+    </header>
+
+    <aside class="brief-panel" aria-label="Project brief">
+      <div class="panel-heading">
+        <div>
+          <span class="kicker">01 / Shape</span>
+          <h1>Direct the build.</h1>
+        </div>
+        <button class="icon-button" id="collapse-brief" type="button" aria-label="Collapse project brief" aria-expanded="true">←</button>
+      </div>
+
+      <form id="brief-form" class="brief-form">
+        <label>
+          <span>Project name</span>
+          <input id="project-name" name="name" autocomplete="off" required>
+        </label>
+        <label>
+          <span>Audience</span>
+          <input id="audience" name="audience" autocomplete="off" placeholder="Who must believe or accomplish what?">
+        </label>
+        <label>
+          <span>Primary outcome</span>
+          <textarea id="goal" name="goal" rows="3" placeholder="Understand the mechanism, see proof, and request access"></textarea>
+        </label>
+        <label>
+          <span>Product mechanism</span>
+          <textarea id="mechanism" name="mechanism" rows="3" placeholder="What actually creates the outcome?"></textarea>
+        </label>
+        <label>
+          <span>References</span>
+          <textarea id="references" name="references" rows="4" placeholder="One public URL per line"></textarea>
+          <small>Stored locally. Use Analyze to create Design DNA.</small>
+        </label>
+        <label>
+          <span>Current direction</span>
+          <textarea id="request" name="request" rows="5" placeholder="Make the opening feel architectural, not like a SaaS template…"></textarea>
+        </label>
+        <div class="brief-actions">
+          <button class="primary-button" type="submit">Save brief</button>
+          <button class="quiet-button" id="delete-project" type="button">Delete</button>
+        </div>
+      </form>
+
+      <div class="pipeline-actions" aria-label="Design workflow">
+        <button type="button" data-action="plan"><span>Plan</span><small>Layout · type · motion</small></button>
+        <button type="button" data-action="inspire"><span>Analyze</span><small>Reference forensics</small></button>
+        <button type="button" data-action="resolve"><span>Resolve</span><small>Browser facts</small></button>
+        <button type="button" data-action="vision"><span>See</span><small>Prepare visual review</small></button>
+      </div>
+    </aside>
+
+    <main class="preview-panel">
+      <div class="preview-toolbar">
+        <div class="preview-title">
+          <span class="kicker">Live surface</span>
+          <strong id="preview-name">No project selected</strong>
+        </div>
+        <div class="viewport-switcher" role="group" aria-label="Preview viewport">
+          <button type="button" data-viewport="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-viewport="tablet" aria-pressed="false">Tablet</button>
+          <button type="button" data-viewport="mobile" aria-pressed="false">Mobile</button>
+        </div>
+        <div class="preview-actions">
+          <button class="icon-button" id="refresh-preview" type="button" aria-label="Refresh preview">↻</button>
+          <a class="icon-button" id="open-preview" href="#" target="_blank" rel="noopener" aria-label="Open preview in a new tab">↗</a>
+        </div>
+      </div>
+      <div class="preview-stage" data-viewport="desktop">
+        <div class="browser-frame">
+          <div class="browser-chrome" aria-hidden="true">
+            <span></span><span></span><span></span>
+            <div id="preview-address">AIgent Studio preview</div>
+          </div>
+          <iframe id="preview-frame" title="Live project preview" sandbox="allow-scripts allow-same-origin allow-forms allow-modals"></iframe>
+          <div class="empty-preview" id="empty-preview">
+            <span class="kicker">No project yet</span>
+            <strong>Create a project to start building live.</strong>
+            <button class="primary-button" id="empty-new-project" type="button">Create project</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="agent-panel" aria-label="AI design agent">
+      <div class="panel-heading agent-heading">
+        <div>
+          <span class="kicker">02 / Build</span>
+          <h2>Agent room.</h2>
+        </div>
+        <button class="icon-button" id="collapse-agent" type="button" aria-label="Collapse agent room" aria-expanded="true">→</button>
+      </div>
+
+      <div class="agent-controls">
+        <label>
+          <span>Agent</span>
+          <select id="provider-select">
+            <option value="claude">Claude Code</option>
+            <option value="codex">Codex CLI</option>
+            <option value="manual">Manual prompt</option>
+          </select>
+        </label>
+        <label>
+          <span>Model override <em>optional</em></span>
+          <input id="model-input" autocomplete="off" placeholder="Use CLI default">
+        </label>
+      </div>
+
+      <div class="agent-log" id="agent-log" role="log" aria-live="polite" aria-label="Agent activity">
+        <div class="log-entry system">Create a project, then tell the agent what to build or change.</div>
+      </div>
+
+      <form class="agent-composer" id="agent-form">
+        <label class="sr-only" for="agent-prompt">Agent instruction</label>
+        <textarea id="agent-prompt" rows="5" placeholder="Build the complete first version. Use the brief, installed AIgent skill, and current starter. Inspect the preview before stopping."></textarea>
+        <div class="composer-actions">
+          <button class="quiet-button" id="stop-agent" type="button" disabled>Stop</button>
+          <button class="primary-button" id="run-agent" type="submit">Build / revise</button>
+        </div>
+      </form>
+      <p class="agent-note">Studio uses your authenticated local CLI. API keys never enter the browser.</p>
+    </aside>
+  </div>
+
+  <dialog id="project-dialog">
+    <form method="dialog" id="project-form" class="project-dialog-form">
+      <header>
+        <span class="kicker">New project</span>
+        <h2>Choose a proven starting point.</h2>
+        <button class="icon-button" value="cancel" aria-label="Close dialog">×</button>
+      </header>
+      <label>
+        <span>Project name</span>
+        <input id="new-name" name="name" required autocomplete="off" placeholder="Northstar Robotics">
+      </label>
+      <label>
+        <span>Starter</span>
+        <select id="new-starter" name="starter"></select>
+      </label>
+      <label>
+        <span>What are we building?</span>
+        <textarea id="new-description" name="description" rows="3" required placeholder="A cinematic launch site for an industrial robotics platform."></textarea>
+      </label>
+      <label>
+        <span>First instruction</span>
+        <textarea id="new-request" name="request" rows="4" placeholder="Preserve the product mechanism, take a restrained industrial editorial direction, and make mobile feel authored."></textarea>
+      </label>
+      <footer>
+        <button class="quiet-button" value="cancel">Cancel</button>
+        <button class="primary-button" id="create-project" value="default">Create project</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

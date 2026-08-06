@@ -29,3 +29,4 @@ assets/**/*.zip
 assets/**/*.7z
 assets/**/*.tar
 assets/**/*.tar.gz
+.aigent/studio/projects/

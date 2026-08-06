@@ -1,10 +1,12 @@
 {
   "name": "aigent-design-system",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": false,
-  "description": "An installable agent-native design studio with inspiration forensics, immersive production, ranked Resolve, structured visual critique, skills, provenance, evals, and browser QA.",
+  "description": "An installable agent-native design studio with an interactive local builder, inspiration forensics, immersive production, ranked Resolve, structured visual critique, skills, provenance, evals, and browser QA.",
   "type": "module",
-  "bin": { "aigent-design": "scripts/cli.mjs" },
+  "bin": {
+    "aigent-design": "scripts/cli.mjs"
+  },
   "scripts": {
     "serve": "node scripts/serve.mjs",
     "plan": "node scripts/plan-design.mjs",
@@ -24,10 +26,48 @@
     "check": "node scripts/check.mjs",
     "smoke": "node scripts/smoke.mjs",
     "inspiration:smoke": "node scripts/inspiration-smoke.mjs",
-    "capture": "node scripts/capture.mjs"
+    "capture": "node scripts/capture.mjs",
+    "studio": "node scripts/studio-server.mjs",
+    "studio:check": "node scripts/check-studio.mjs"
   },
-  "keywords": ["ai","design-system","visual-critique","vision-review","design-resolver","design-forensics","inspiration-intelligence","creative-production","cinematic-web","immersive-web","design-intelligence","code-registry","design-tokens","design-audit","browser-qa","asset-pipeline","sales-deck","product-interface","scroll-animation","video-scrub","3d-web","spline","gsap","threejs","remotion","claude-code","codex","agent-skills"],
+  "keywords": [
+    "ai",
+    "design-system",
+    "visual-critique",
+    "vision-review",
+    "design-resolver",
+    "design-forensics",
+    "inspiration-intelligence",
+    "creative-production",
+    "cinematic-web",
+    "immersive-web",
+    "design-intelligence",
+    "code-registry",
+    "design-tokens",
+    "design-audit",
+    "browser-qa",
+    "asset-pipeline",
+    "sales-deck",
+    "product-interface",
+    "scroll-animation",
+    "video-scrub",
+    "3d-web",
+    "spline",
+    "gsap",
+    "threejs",
+    "remotion",
+    "claude-code",
+    "codex",
+    "agent-skills",
+    "website-builder",
+    "agent-ui",
+    "interactive-studio"
+  ],
   "license": "MIT",
-  "engines": { "node": ">=20" },
-  "devDependencies": { "playwright": "^1.61.1" }
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "playwright": "^1.61.1"
+  }
 }

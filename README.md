@@ -5,7 +5,7 @@
 <p align="center"><strong>Turn Claude, Codex, Cursor, and other coding agents into a design-and-production studio for immersive websites, product interfaces, cinematic decks, and the media behind them.</strong></p>
 
 <p align="center">
-  <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v0.5.0">v0.5.0</a>
+  <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v0.6.0">v0.6.0</a>
   · <a href="https://theaigent.xyz">The AIgent</a>
   · <a href="https://tools.theaigent.xyz">AIgent Tools</a>
   · <a href="#see-it-working">See it working</a>
@@ -14,6 +14,24 @@
 
 ```bash
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
+```
+
+## AIgent Studio
+
+AIgent Studio is the interactive local UI for building and revising a real site with the repository's design intelligence, references, production systems, Resolve, Vision, and a locally authenticated Claude Code or Codex CLI agent.
+
+```bash
+npm install
+npm run studio -- --open
+```
+
+Studio creates isolated projects, installs a proven starter, writes the durable brief and design contracts, streams agent activity, and previews the actual project at desktop, tablet, and mobile sizes. Credentials stay in the local CLI; the browser never asks for an API key.
+
+Install Studio into another project:
+
+```bash
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/aigent-studio
+node scripts/studio-server.mjs --open
 ```
 
 AIgent studies references, synthesizes an original direction, sources or produces the media, builds the surface, measures the browser, sees the rendered result, and repairs the highest shared cause.
@@ -186,7 +204,7 @@ External primitives and components are selected from curated sources such as sha
 
 ## Verification
 
-Validated release contract for `v0.5.0`:
+Validated release contract for `v0.6.0`:
 
 | Contract | Current proof |
 | --- | ---: |
