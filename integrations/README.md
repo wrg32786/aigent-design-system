@@ -1,22 +1,27 @@
 # Optional Integrations
 
-The neutral design system has no required animation or 3D runtime. This directory documents opt-in tools.
+The neutral design system has no required animation, video, or 3D runtime. This directory documents opt-in tools.
 
-Read `catalog.json` or use this sequence:
+Use the first rung that carries the requirement:
 
 ```text
 native CSS / IntersectionObserver
-    ↓ when coordinated timeline is required
+    ↓ coordinated browser timeline
 GSAP
-    ↓ when a simple model must be inspected
+    ↓ simple inspectable 3D object
 model-viewer
-    ↓ when a visually-authored 3D scene is justified
+    ↓ visually authored 3D scene
 Spline
-    ↓ when custom live WebGL behavior is required
+    ↓ custom live WebGL behavior
 Three.js
+
+build-time media
+    ├── HTML-native website-to-video → HyperFrames
+    ├── React/data-driven video → Remotion
+    └── offline scene, lighting, or photoreal output → Blender
 ```
 
-Build-time tools such as Remotion and Blender produce media consumed by the site. They should not become browser dependencies by accident.
+Build-time tools produce media consumed by the site. They should not become browser dependencies by accident.
 
 ## Integrations
 
@@ -26,10 +31,13 @@ Build-time tools such as Remotion and Blender produce media consumed by the site
 | Three.js | Live interactive 3D | Runtime |
 | model-viewer | Simple GLB, hotspots, AR | Runtime |
 | Spline | Visual 3D authoring and embedding | Authoring + runtime |
-| Remotion | Programmatic rendered media | Build time |
+| HyperFrames | HTML-native website-to-video and deterministic motion graphics | Build time |
+| Remotion | React-driven programmatic rendered media | Build time |
 | Theatre.js | Visual keyframe authoring | Authoring + runtime core |
 | Rive | Interactive vector state animation | Authoring + runtime |
 | React Three Fiber | Three.js in an existing React product | Runtime |
+
+HyperFrames and Remotion overlap, but their durable source differs. Prefer HyperFrames when the input is already HTML, a website, or an agent-authored interface. Prefer Remotion when typed React compositions already own the production system.
 
 Each subdirectory explains when the tool earns its cost, how to install it, and which repository skill owns the workflow.
 
