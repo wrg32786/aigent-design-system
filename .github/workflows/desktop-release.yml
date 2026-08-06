@@ -77,6 +77,8 @@ jobs:
             export CSC_IDENTITY_AUTO_DISCOVERY=false
           fi
           ${{ matrix.command }}
+      - name: Verify packaged application boot
+        run: npm run desktop:smoke:packaged
       - name: Collect release files
         shell: bash
         run: |
