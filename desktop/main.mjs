@@ -279,6 +279,10 @@ function setupUpdater() {
   if (!app.isPackaged || isSmokeTest) return;
   autoUpdater.autoDownload = true;
   autoUpdater.autoInstallOnAppQuit = true;
+  if (process.platform === "darwin") {
+    autoUpdater.channel = process.arch === "arm64" ? "latest-arm64" : "latest-x64";
+    autoUpdater.allowDowngrade = false;
+  }
   const update = (patch) => {
     updateState = { ...updateState, ...patch };
     safeSend("desktop:update", updateState);

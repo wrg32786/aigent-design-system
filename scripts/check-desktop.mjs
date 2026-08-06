@@ -66,7 +66,7 @@ const preload = fs.readFileSync(file("desktop/preload.cjs"), "utf8");
 assert.ok(preload.includes("contextBridge.exposeInMainWorld"));
 assert.ok(!preload.includes("ipcRenderer.send,"), "Preload must not expose raw IPC.");
 const main = fs.readFileSync(file("desktop/main.mjs"), "utf8");
-for (const contract of ["contextIsolation: true", "sandbox: true", "nodeIntegration: false", "setPermissionRequestHandler", "requestSingleInstanceLock", "autoUpdater", "createStudioServer"]) assert.ok(main.includes(contract), `Desktop main missing: ${contract}`);
+for (const contract of ["contextIsolation: true", "sandbox: true", "nodeIntegration: false", "setPermissionRequestHandler", "requestSingleInstanceLock", "autoUpdater", "latest-arm64", "latest-x64", "createStudioServer"]) assert.ok(main.includes(contract), `Desktop main missing: ${contract}`);
 
 for (const target of ["desktop/main.mjs", "desktop/lib.mjs", "desktop/renderer/app.js", "desktop/preload.cjs", "scripts/generate-desktop-assets.mjs", "scripts/prepare-desktop-build.mjs"]) {
   const result = spawnSync(process.execPath, ["--check", file(target)], { encoding: "utf8" });

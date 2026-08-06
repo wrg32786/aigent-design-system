@@ -61,7 +61,7 @@ npm run desktop:dist:mac
 
 ## Updates
 
-Packaged Windows NSIS and macOS builds use `electron-updater` against this repository's GitHub Releases. AIgent Desktop checks after startup when automatic updates are enabled, downloads the newer published build, and asks the operator before restarting to install it. Operating-system trust requires the signing credentials documented below. Project workspaces live outside the application bundle and are not removed by updates.
+Packaged Windows NSIS and macOS builds use `electron-updater` against this repository's GitHub Releases. AIgent Desktop checks after startup when automatic updates are enabled, downloads the newer published build, and asks the operator before restarting to install it. Operating-system trust requires the signing credentials documented below. Apple Silicon and Intel builds use separate update channels so each Mac receives the matching architecture. Project workspaces live outside the application bundle and are not removed by updates.
 
 ## Signing and notarization
 
