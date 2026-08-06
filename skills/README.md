@@ -42,15 +42,22 @@ The consolidated `aigent-design` skill routes product context, inspiration, dire
 | `web-3d-asset-pipeline` | 3D sourcing, Blender cleanup, and GLB optimization |
 | `asset-provenance-audit` | Rights, attribution, manifests, and secret safety |
 
-## Runtime and motion skills
+## Runtime, motion, and rendered-media skills
 
 | Skill | Owns |
 | --- | --- |
 | `gsap-scroll-choreography` | Coordinated scroll and scene timelines |
 | `threejs-web-scene` | Live Three.js and React Three Fiber scenes |
 | `spline-web-scene` | Spline authoring, embedding, and optimization |
-| `remotion-web-assets` | Programmatic rendered web media |
+| `hyperframes-video` | HTML-native website-to-video, product tours, launch films, README loops, and deterministic variants |
+| `remotion-web-assets` | React-driven programmatic rendered web media |
 | `video-scrub-deck` | Guided and free-scroll video decks |
+
+`hyperframes-video` deliberately reuses the official upstream HyperFrames skills instead of reimplementing its CLI and composition rules:
+
+```bash
+npx skills add heygen-com/hyperframes
+```
 
 ## Existing page-system skills
 
