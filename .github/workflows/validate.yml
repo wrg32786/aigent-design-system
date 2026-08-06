@@ -14,10 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.head_ref || github.sha }}
+          ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
       - name: Apply pending one-time integration
-        if: github.event_name == 'pull_request'
         run: |
           if [ -f scripts/apply-beginner-onboarding.mjs ]; then
             node --check scripts/apply-beginner-onboarding.mjs
@@ -65,17 +64,17 @@ jobs:
           test -s /tmp/aigent-inspiration-plan.json
       - name: Validate the GitHub registry with shadcn
         run: |
-          REF="${GITHUB_HEAD_REF:-$GITHUB_SHA}"
+          REF="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
           npx --yes shadcn@latest registry validate "${GITHUB_REPOSITORY}#${REF}"
       - name: Commit validated integration
-        if: github.event_name == 'pull_request'
         run: |
           if ! git diff --quiet || ! git diff --cached --quiet || [ -n "$(git ls-files --others --exclude-standard)" ]; then
+            TARGET_BRANCH="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add -A
             git commit -m "Finish one-click Windows onboarding"
-            git push origin HEAD:${GITHUB_HEAD_REF}
+            git push origin HEAD:${TARGET_BRANCH}
           fi
   browser:
     needs: check
@@ -84,7 +83,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.head_ref || github.sha }}
+          ref: ${{ github.head_ref || github.ref_name }}
       - uses: actions/setup-node@v6
         with:
           node-version: 22
@@ -153,6 +152,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          ref: master
           fetch-depth: 0
       - name: Publish validated package version
         env:
@@ -160,7 +160,7 @@ jobs:
         run: |
           VERSION=$(node -p 'require("./package.json").version')
           TAG="v${VERSION}"
-          TARGET="$GITHUB_SHA"
+          TARGET=$(git rev-parse HEAD)
           if [ "$TAG" = "v0.6.0" ]; then TARGET="6bc610939b1c8595bf695bbdcca9ef824e56f03b"; fi
 
           git config user.name "github-actions[bot]"
