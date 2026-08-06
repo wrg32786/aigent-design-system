@@ -60,7 +60,7 @@ jobs:
           body = body.replace('for (const script of ["desktop:assets", "desktop:start",', 'for (const script of ["desktop:assets", "desktop:prepare", "desktop:start",')
           body = body.replace('for (const name of ["electron-updater"])', 'for (const name of ["electron-updater", "playwright"])')
           body = body.replace('for (const name of ["electron", "electron-builder", "playwright"])', 'for (const name of ["electron", "electron-builder"])') if 'for (const name of ["electron", "electron-builder", "playwright"])' in body else body
-          body = body.replace('for (const name of ["electron", "electron-builder"]) assert.equal', 'for (const name of ["electron", "electron-builder"]) assert.equal')
+          body = body.replace('"target: dmg",', '"  - dmg",')
           body = body.replace('"asarUnpack:",', '"asarUnpack:", "extraResources:", "to: playwright",')
           body = body.replace('"scripts/generate-desktop-assets.mjs"]', '"scripts/generate-desktop-assets.mjs", "scripts/prepare-desktop-build.mjs"]')
           marker = '  assert.equal(installCommand("manual", environment), null);\n'
