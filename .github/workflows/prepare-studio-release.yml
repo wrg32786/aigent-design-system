@@ -35,11 +35,11 @@ jobs:
       - name: Integrate Studio with the design system
         if: steps.integrated.outputs.skip != 'true'
         run: node scripts/prepare-studio-release.mjs
-      - name: Remove preparation files
+      - name: Keep workflow changes out of the generated commit
         if: steps.integrated.outputs.skip != 'true'
         run: |
+          git checkout -- .github/workflows/validate.yml
           rm -f scripts/prepare-studio-release.mjs
-          rm -f .github/workflows/prepare-studio-release.yml
       - name: Commit integrated release
         if: steps.integrated.outputs.skip != 'true'
         run: |
