@@ -1,15 +1,15 @@
 # Getting started on Windows
 
-This guide assumes you have never opened a terminal or built a website before.
+This guide is for people who have never opened a terminal or built a website before.
 
-## Recommended: install the desktop app
+## Recommended: install AIgent Desktop
 
 1. Open the [latest AIgent Design System release](https://github.com/wrg32786/aigent-design-system/releases/latest).
 2. Download `AIgent-Desktop-Setup-Windows-x64.exe`.
-3. Open your Downloads folder.
+3. Open the Downloads folder.
 4. Double-click the installer.
 5. Complete the normal Windows installation screens.
-6. AIgent Desktop opens the setup wizard.
+6. AIgent Desktop opens its guided setup wizard.
 
 Direct download:
 
@@ -23,41 +23,41 @@ Until the installer is signed by a configured public code-signing certificate, W
 2. Click **More info**.
 3. Click **Run anyway**.
 
-End users never need the signing keys described in the maintainer documentation.
+People installing AIgent Desktop never need the signing keys described in the maintainer documentation.
 
 ## Setup wizard
 
-### Step 1: Workspace
+### Step 1: choose a workspace
 
-Keep the suggested folder or choose another normal folder under Documents. This is where AIgent saves your sites and decks.
+Keep the suggested folder or choose another normal folder under Documents. This is where AIgent saves sites, decks, project history, and local exports.
 
-Do not choose `C:\Windows`, `C:\Windows\System32`, Program Files, or another protected operating-system folder.
+Avoid Windows, System32, Program Files, or other protected operating-system folders.
 
-### Step 2: Computer check
+### Step 2: check the computer
 
-AIgent Desktop contains the runtime needed to run Studio. Git is recommended for safe checkpoints and is required by Claude Code on native Windows. When it is missing, click **Install Git for me**.
+AIgent Desktop includes the runtime needed to launch Studio. Git is recommended for safe checkpoints and may be required by the selected coding agent. When a supported requirement is missing, the wizard explains it and provides the installation action.
 
-### Step 3: Connect your AI
+### Step 3: connect an AI account
 
 Choose one option:
 
-- **Claude Code** if you use Claude.
-- **Codex** if you use ChatGPT or OpenAI Codex.
+- **Claude Code** for a Claude account.
+- **Codex** for a ChatGPT or OpenAI account.
 - **Manual prompt** to use Studio without connecting a local agent yet.
 
-Click **Install for me**. When installation completes, click **Connect account**. A sign-in window opens. Follow the prompts and browser login; you do not need to type installation commands.
+Use **Install for me**, then **Connect account**. Complete the provider's official browser or terminal sign-in. AIgent Desktop does not ask for an API key.
 
-### Step 4: Local first, hosting later
+### Step 4: work locally first
 
-You can create and preview a complete site on your own computer without paying for hosting.
+A complete site can be created and previewed on the computer without hosting.
 
-When you want a public link, create a free account with Vercel, Netlify, or Cloudflare. Studio's **Ship** tab opens the official provider login and publishes the finished site.
+When a public link is needed, connect a free Vercel, Netlify, or Cloudflare account through Studio's **Ship** tab.
 
-### Step 5: Launch
+### Step 5: launch Studio
 
-Click **Launch AIgent Studio and create my first project**.
+Choose **Launch AIgent Studio** to open the visual builder.
 
-## Build your first project
+## Build a first project
 
 1. Click **New** in the top bar.
 2. Enter a project name.
@@ -67,44 +67,34 @@ Click **Launch AIgent Studio and create my first project**.
    - Immersive sales deck
    - Command center interface
    - Progressive Three.js stage
-4. Explain what you want in plain English.
+4. Explain the project in plain English.
 5. Click **Create project**.
 6. Open the **Agent** tab.
-7. Click **Build / revise**.
-8. Watch the live preview update.
+7. Choose **Build / revise**.
+8. Review the live preview.
 9. Switch to **Design** mode and click any visible element to edit it.
-10. Use Desktop, Tablet, and Mobile buttons to check every layout.
-11. Click **Distill canvas edits into source** after approving visual edits.
-12. Open **Ship** when you are ready to export or publish.
+10. Use Desktop, Tablet, and Mobile to check every layout.
+11. Choose **Distill canvas edits into source** after approving visual changes.
+12. Open **Ship** to export or publish.
 
 ## Publish for free
 
-You can begin with **Local export**, which creates the finished public files without uploading anything.
+Start with **Local export** to create the finished public files without uploading anything.
 
 For a public URL:
 
 1. Open **Ship**.
 2. Choose Vercel, Netlify, or Cloudflare Pages.
 3. Choose **Preview** while testing or **Production** when the site is final.
-4. Click the provider sign-in button and follow the browser login.
-5. Click **Publish site**.
-6. Open the public URL shown in deployment history.
+4. Use the provider sign-in button and complete the official login.
+5. Choose **Publish site**.
+6. Open the public URL recorded in deployment history.
 
-## The PowerShell error in the screenshot
+## Optional terminal installation
 
-The command was run from:
+The desktop installer is the recommended route. The command-line route is available for developers and advanced users.
 
-```text
-PS C:\Windows\System32>
-```
-
-That folder contains protected Windows files. The shadcn program tried to inspect `C:\Windows\System32\config`, and Windows returned:
-
-```text
-EPERM: operation not permitted
-```
-
-Use the desktop installer instead. For the optional terminal route, first move to a normal folder:
+Always run development commands inside a normal user-owned project folder. Tools commonly inspect the current directory, so protected locations such as `C:\Windows\System32` can produce `EPERM` or access-denied errors.
 
 ```powershell
 New-Item -ItemType Directory -Force "$HOME\Documents\AIgent-Studio" | Out-Null
@@ -113,7 +103,7 @@ pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
 node scripts/studio-server.mjs --open
 ```
 
-After the final command, Studio opens at:
+Studio opens at:
 
 ```text
 http://127.0.0.1:4180/studio/
@@ -130,4 +120,4 @@ Use **Setup & Diagnostics** inside AIgent Desktop to:
 - export a redacted diagnostics report;
 - open the application logs.
 
-Report reproducible problems through the repository's GitHub Issues page and attach the diagnostics report when useful. It does not contain AI credentials.
+Report reproducible problems through the repository's GitHub Issues page and attach the diagnostics report when useful. The report does not contain AI credentials.
