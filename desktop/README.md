@@ -39,7 +39,7 @@ npm run desktop:check
 npm run desktop:smoke
 ```
 
-Generate custom installer artwork and build an unpacked application:
+Generate custom installer artwork, download the architecture-matched Playwright browser, and build an unpacked application:
 
 ```bash
 npm run desktop:prepare
@@ -101,6 +101,8 @@ Electron main process
 ```
 
 Electron carries the runtime required by AIgent itself. Packaged AIgent scripts run through Electron's Node mode. Claude Code and Codex remain separately installed and authenticated local tools discovered through the user's configured environment.
+
+Each native installer also bundles the architecture-matched Playwright headless Chromium used by reference forensics, Resolve, and Vision. Those workflows therefore do not require the user to install a separate QA browser after setup.
 
 ## Repair and diagnostics
 
