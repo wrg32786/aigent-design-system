@@ -131,7 +131,7 @@ try {
         if (viewport.width > 760) await page.locator('[data-mode="select"]').click();
         await frame.locator("h1").click({ force: true });
         await page.waitForFunction(() => document.querySelector("#selection-label")?.textContent?.includes("Canvas self check"));
-        assert.equal(await page.locator("#inspector-fields").getAttribute("hidden"), null);
+        await page.waitForFunction(() => document.querySelector("#inspector-fields")?.hidden === false);
         assert.ok((await page.locator("#layers-tree .layer-row").count()) >= 3);
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2);
         assert.equal(overflow, false);

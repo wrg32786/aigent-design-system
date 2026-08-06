@@ -340,7 +340,6 @@ addEventListener("message", (event) => {
     if (Array.isArray(message.selectedIds)) state.selectedIds = message.selectedIds;
     announceTree();
     announceSelection();
-    post("ready", { title: document.title, url: location.pathname });
   }
   if (message.type === "set-mode") setMode(message.mode || "preview");
   if (message.type === "sync") syncOperations(message.operations || []);
