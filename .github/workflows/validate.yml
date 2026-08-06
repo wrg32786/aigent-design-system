@@ -133,6 +133,8 @@ jobs:
           TARGET="$GITHUB_SHA"
           if [ "$TAG" = "v0.6.0" ]; then TARGET="6bc610939b1c8595bf695bbdcca9ef824e56f03b"; fi
 
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git fetch --tags --force
           if ! git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
             git tag -a "$TAG" "$TARGET" -m "$TAG"
