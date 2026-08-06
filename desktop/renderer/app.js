@@ -1,0 +1,230 @@
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+const desktop = window.aigentDesktop;
+const params = new URLSearchParams(location.search);
+const state = { step: params.get("mode") === "settings" ? 5 : 1, payload: null, installing: false };
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
+}
+
+function setStatus(message) { $("#footer-status").textContent = message; }
+function showError(message = "") {
+  const banner = $("#error-banner");
+  banner.textContent = message;
+  banner.hidden = !message;
+}
+
+function currentConfig() { return state.payload?.config || {}; }
+function currentEnvironment() { return state.payload?.environment || {}; }
+
+function renderStep() {
+  $$("[data-step]").forEach((screen) => { screen.hidden = Number(screen.dataset.step) !== state.step; });
+  $$("[data-step-marker]").forEach((marker) => {
+    const markerStep = Number(marker.dataset.stepMarker);
+    marker.dataset.state = markerStep < state.step ? "complete" : markerStep === state.step ? "current" : "pending";
+  });
+  $("#back-step").disabled = state.step === 1;
+  $("#next-step").hidden = state.step === 5;
+  $("#next-step").textContent = state.step === 4 ? "Finish setup" : "Continue";
+  if (state.step === 5) renderReady();
+}
+
+function statusCard(label, value, hint) {
+  const ready = Boolean(value?.available);
+  return `<article class="check-card" data-ready="${ready}"><span class="check-dot"></span><div><strong>${escapeHtml(label)}</strong><small title="${escapeHtml(value?.command || value?.error || "")}">${escapeHtml(value?.version || value?.error || hint)}</small></div><b>${ready ? "Ready" : "Missing"}</b></article>`;
+}
+
+function renderEnvironment() {
+  const environment = currentEnvironment();
+  $("#environment-grid").innerHTML = [
+    statusCard("AIgent runtime", environment.runtime, "Bundled with the desktop app"),
+    statusCard("Workspace", environment.workspace, "Choose a writable project folder"),
+    statusCard("Git", environment.git, "Optional, enables local checkpoints"),
+    statusCard("Node.js", environment.node, "Needed to install agent CLIs"),
+    statusCard("npm", environment.npm, "Needed to install agent CLIs"),
+    statusCard("Git Bash", { available: environment.platform?.platform !== "win32" || Boolean(environment.gitBash), version: environment.gitBash || "Not required on this platform" }, "Required by Claude Code on native Windows"),
+  ].join("");
+}
+
+function providerLabel(provider) {
+  return provider === "claude" ? "Claude Code" : provider === "codex" ? "Codex CLI" : "Manual prompt";
+}
+
+function renderAgents() {
+  const environment = currentEnvironment();
+  const selected = currentConfig().preferredAgent || "manual";
+  $$('[name="preferred-agent"]').forEach((radio) => { radio.checked = radio.value === selected; });
+  $$('[data-agent-card]').forEach((card) => { card.dataset.selected = String(card.dataset.agentCard === selected); });
+  for (const provider of ["claude", "codex"]) {
+    const info = environment[provider];
+    const status = $(`[data-agent-status="${provider}"]`);
+    status.textContent = info?.available ? info.version || "Installed" : "Not installed";
+    status.classList.toggle("ready", Boolean(info?.available));
+    const install = $(`[data-install-agent="${provider}"]`);
+    const auth = $(`[data-auth-agent="${provider}"]`);
+    install.disabled = state.installing || !environment.npm?.available;
+    install.textContent = info?.available ? "Reinstall" : "Install";
+    auth.disabled = !info?.available || state.installing;
+  }
+}
+
+function renderPreferences() {
+  $("#launch-at-login").checked = Boolean(currentConfig().launchAtLogin);
+  $("#automatic-updates").checked = currentConfig().automaticUpdates !== false;
+}
+
+function renderReady() {
+  const config = currentConfig();
+  $("#ready-workspace").textContent = config.workspace || "Not selected";
+  $("#ready-agent").textContent = providerLabel(config.preferredAgent);
+  renderUpdate(state.payload?.update);
+}
+
+function renderUpdate(update = {}) {
+  const node = $("#update-status");
+  const suffix = update.percent ? ` · ${update.percent}%` : "";
+  node.textContent = `${update.message || "Updates not checked"}${suffix}`;
+  node.dataset.state = update.state || "idle";
+}
+
+function render() {
+  if (!state.payload) return;
+  $("#app-version").textContent = `v${state.payload.app.version}`;
+  $("#workspace-path").textContent = currentConfig().workspace;
+  renderEnvironment();
+  renderAgents();
+  renderPreferences();
+  renderStep();
+  const available = ["claude", "codex"].filter((provider) => currentEnvironment()[provider]?.available).map(providerLabel);
+  setStatus(available.length ? `${available.join(" + ")} ready` : "Manual prompt mode is available");
+}
+
+async function refresh() {
+  state.payload = await desktop.getState();
+  render();
+}
+
+async function nextStep() {
+  try {
+    showError("");
+    if (state.step === 1 && !currentEnvironment().workspace?.available) throw new Error("Choose a writable workspace before continuing.");
+    if (state.step === 3) {
+      const selected = $('[name="preferred-agent"]:checked')?.value || "manual";
+      if (selected !== "manual" && !currentEnvironment()[selected]?.available) throw new Error(`Install ${providerLabel(selected)} or select manual prompt mode.`);
+      state.payload = await desktop.saveConfig({ preferredAgent: selected });
+    }
+    if (state.step === 4) {
+      state.payload = await desktop.saveConfig({
+        onboardingComplete: true,
+        launchAtLogin: $("#launch-at-login").checked,
+        automaticUpdates: $("#automatic-updates").checked,
+      });
+    }
+    state.step = Math.min(5, state.step + 1);
+    render();
+  } catch (error) { showError(error.message); }
+}
+
+async function chooseWorkspace() {
+  try {
+    showError("");
+    const result = await desktop.chooseWorkspace();
+    if (result) state.payload = result;
+    render();
+  } catch (error) { showError(error.message); }
+}
+
+async function refreshEnvironment() {
+  setStatus("Checking the local environment…");
+  try { state.payload = await desktop.refreshEnvironment(); render(); }
+  catch (error) { showError(error.message); }
+}
+
+async function installAgent(provider) {
+  state.installing = true;
+  $("#install-console").hidden = false;
+  $("#install-log").textContent = "";
+  renderAgents();
+  try {
+    await desktop.installAgent(provider);
+    await refreshEnvironment();
+  } catch (error) {
+    showError(error.message);
+  } finally {
+    state.installing = false;
+    renderAgents();
+  }
+}
+
+async function authenticateAgent(provider) {
+  try {
+    await desktop.authenticateAgent(provider);
+    setStatus(`${providerLabel(provider)} sign-in opened in your terminal.`);
+  } catch (error) { showError(error.message); }
+}
+
+async function savePreference(key, value) {
+  try { state.payload = await desktop.saveConfig({ [key]: value }); render(); }
+  catch (error) { showError(error.message); }
+}
+
+async function action(button, task, workingLabel) {
+  const previous = button.textContent;
+  button.disabled = true;
+  if (workingLabel) button.textContent = workingLabel;
+  try { return await task(); }
+  catch (error) { showError(error.message); return null; }
+  finally { button.disabled = false; button.textContent = previous; }
+}
+
+function bind() {
+  $("#next-step").addEventListener("click", nextStep);
+  $("#back-step").addEventListener("click", () => { state.step = Math.max(1, state.step - 1); showError(""); render(); });
+  $("#choose-workspace").addEventListener("click", chooseWorkspace);
+  $("#refresh-environment").addEventListener("click", refreshEnvironment);
+  $("#get-node").addEventListener("click", () => desktop.openLink("node"));
+  $("#get-git").addEventListener("click", () => desktop.openLink("git"));
+  $("#open-docs").addEventListener("click", () => desktop.openLink("repository"));
+  $("#open-logs").addEventListener("click", () => desktop.openLogs());
+  $("#clear-console").addEventListener("click", () => { $("#install-log").textContent = ""; });
+  $$('[name="preferred-agent"]').forEach((radio) => radio.addEventListener("change", () => {
+    $$('[data-agent-card]').forEach((card) => { card.dataset.selected = String(card.dataset.agentCard === radio.value); });
+  }));
+  $$('[data-install-agent]').forEach((button) => button.addEventListener("click", () => installAgent(button.dataset.installAgent)));
+  $$('[data-auth-agent]').forEach((button) => button.addEventListener("click", () => authenticateAgent(button.dataset.authAgent)));
+  $("#launch-at-login").addEventListener("change", (event) => savePreference("launchAtLogin", event.target.checked));
+  $("#automatic-updates").addEventListener("change", (event) => savePreference("automaticUpdates", event.target.checked));
+  $("#launch-studio").addEventListener("click", () => action($("#launch-studio"), () => desktop.launchStudio(), "Launching Studio…"));
+  $("#open-workspace").addEventListener("click", () => desktop.openWorkspace());
+  $("#run-repair").addEventListener("click", () => action($("#run-repair"), async () => { const result = await desktop.repair(); state.payload = result.state; setStatus("Repair completed successfully."); render(); }, "Repairing…"));
+  $("#export-diagnostics").addEventListener("click", () => action($("#export-diagnostics"), async () => { const file = await desktop.exportDiagnostics(); if (file) setStatus(`Diagnostics saved to ${file}`); }, "Exporting…"));
+  $("#check-updates").addEventListener("click", () => action($("#check-updates"), async () => { const update = await desktop.checkUpdates(); state.payload.update = update; renderUpdate(update); }, "Checking…"));
+  $("#remove-app-data").addEventListener("click", () => action($("#remove-app-data"), async () => { if (await desktop.removeAppData()) { state.step = 1; await refresh(); } }, "Removing…"));
+  desktop.onInstall((event) => {
+    $("#install-console").hidden = false;
+    const log = $("#install-log");
+    if (event.state === "log") log.textContent += event.message;
+    else log.textContent += `\n${event.message}\n`;
+    log.scrollTop = log.scrollHeight;
+  });
+  desktop.onUpdate((update) => {
+    if (state.payload) state.payload.update = update;
+    renderUpdate(update);
+  });
+}
+
+async function initialize() {
+  if (!desktop) {
+    showError("AIgent Desktop must be opened through the installed application.");
+    return;
+  }
+  bind();
+  try {
+    await refresh();
+    const queryError = params.get("error");
+    if (queryError) showError(queryError);
+  } catch (error) { showError(error.message); setStatus("Desktop service unavailable"); }
+}
+
+initialize();
