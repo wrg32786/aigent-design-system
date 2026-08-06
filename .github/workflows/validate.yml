@@ -1,27 +1,22 @@
 name: Validate design system
+
 on:
   pull_request:
-  push:
-    branches: [master]
+  workflow_dispatch:
+
 permissions:
-  contents: write
+  contents: read
+
 concurrency:
   group: validate-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
+
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v6
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
-          fetch-depth: 0
-      - name: Apply pending one-time integration
-        run: |
-          if [ -f scripts/apply-beginner-onboarding.mjs ]; then
-            node --check scripts/apply-beginner-onboarding.mjs
-            node scripts/apply-beginner-onboarding.mjs
-          fi
       - uses: actions/setup-node@v6
         with:
           node-version: 22
@@ -64,26 +59,15 @@ jobs:
           test -s /tmp/aigent-inspiration-plan.json
       - name: Validate the GitHub registry with shadcn
         run: |
-          REF="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          REF="${GITHUB_HEAD_REF:-$GITHUB_SHA}"
           npx --yes shadcn@latest registry validate "${GITHUB_REPOSITORY}#${REF}"
-      - name: Commit validated integration
-        run: |
-          if ! git diff --quiet || ! git diff --cached --quiet || [ -n "$(git ls-files --others --exclude-standard)" ]; then
-            TARGET_BRANCH="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add -A
-            git commit -m "Finish one-click Windows onboarding"
-            git push origin HEAD:${TARGET_BRANCH}
-          fi
+
   browser:
     needs: check
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v6
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
       - uses: actions/setup-node@v6
         with:
           node-version: 22
@@ -112,7 +96,6 @@ jobs:
             --url http://127.0.0.1:4177/templates/modular-scroll-starter/ \
             --out artifacts/resolve \
             --no-fail
-          cat artifacts/resolve/latest.md
           test -s artifacts/resolve/latest.json
           node -e 'const r=require("./artifacts/resolve/latest.json"); if(!r.gate.pass||r.browserEvidence.length!==3||r.captures.length!==4)process.exit(1)'
           node scripts/cli.mjs vision prepare \
@@ -122,13 +105,6 @@ jobs:
           test -s artifacts/resolve/latest.visual-review-task.json
           test -s artifacts/resolve/latest.visual-review.template.json
           test -s artifacts/resolve/latest.visual-review.prompt.md
-          node -e 'const t=require("./artifacts/resolve/latest.visual-review-task.json"); if(t.requiredViewports.length!==4||t.captures.length!==4)process.exit(1)'
-          RUN_ID=$(node -p 'require("./artifacts/resolve/latest.json").runId')
-          test -s artifacts/resolve/runs/$RUN_ID/element-map.json
-          test -s artifacts/resolve/runs/$RUN_ID/desktop.annotated.png
-          test -s artifacts/resolve/runs/$RUN_ID/tablet.annotated.png
-          test -s artifacts/resolve/runs/$RUN_ID/mobile.annotated.png
-          test -s artifacts/resolve/runs/$RUN_ID/reduced-motion.annotated.png
       - run: npm run capture
       - uses: actions/upload-artifact@v4
         with:
@@ -143,60 +119,3 @@ jobs:
       - name: Stop preview server
         if: always()
         run: kill "$(cat /tmp/aigent-design-system-server.pid)" 2>/dev/null || true
-  release:
-    needs: [check, browser]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: master
-          fetch-depth: 0
-      - name: Publish validated package version
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          VERSION=$(node -p 'require("./package.json").version')
-          TAG="v${VERSION}"
-          TARGET=$(git rev-parse HEAD)
-          if [ "$TAG" = "v0.6.0" ]; then TARGET="6bc610939b1c8595bf695bbdcca9ef824e56f03b"; fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch --tags --force
-          if ! git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
-            git tag -a "$TAG" "$TARGET" -m "$TAG"
-            git push origin "$TAG"
-          fi
-
-          awk -v version="$VERSION" '
-            $0 ~ "^## " version " " { found=1 }
-            found && $0 ~ "^## " && $0 !~ "^## " version " " { exit }
-            found { print }
-          ' CHANGELOG.md > /tmp/release-notes.md
-          test -s /tmp/release-notes.md
-
-          TITLE=$(head -1 /tmp/release-notes.md | sed -E 's/^## [^ ]+ — //')
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release edit "$TAG" --title "$TAG — $TITLE" --notes-file /tmp/release-notes.md --latest
-          else
-            gh release create "$TAG" --title "$TAG — $TITLE" --notes-file /tmp/release-notes.md --latest --verify-tag
-          fi
-
-          if [ "$TAG" = "v0.6.0" ]; then
-            for branch in \
-              docs/fix-readme-hero-headline \
-              docs/hero-text-overlay \
-              docs/readme-real-proof \
-              docs/readme-visual-overhaul \
-              docs/replace-readme-images \
-              feature/aigent-studio \
-              release/v0.6.0 \
-              ci/validated-releases
-            do
-              encoded="${branch//\//%2F}"
-              gh api --method DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/${encoded}" || true
-            done
-          fi
