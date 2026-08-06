@@ -18,9 +18,9 @@ pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
 
 ## AIgent Desktop
 
-AIgent now ships as a native desktop application with a custom installation wizard. Download the **Windows installer** (`.exe`) or universal **macOS** disk image (`.dmg`) from the [latest release](https://github.com/wrg32786/aigent-design-system/releases/latest).
+AIgent now ships as a native desktop application with a custom installation wizard. Download the **Windows installer** (`.exe`) or **macOS Apple Silicon or Intel** disk image (`.dmg`) from the [latest release](https://github.com/wrg32786/aigent-design-system/releases/latest).
 
-The first-run wizard chooses a separate project workspace, verifies the bundled runtime and local tools, installs Claude Code or Codex through their official packages, opens the official authentication flow, configures startup and signed updates, and launches the real DOM-backed Studio Canvas.
+The first-run wizard chooses a separate project workspace, verifies the bundled runtime and local tools, installs Claude Code or Codex through their official packages, opens the official authentication flow, configures startup and published updates, and launches the real DOM-backed Studio Canvas.
 
 For source development:
 

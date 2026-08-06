@@ -13,6 +13,7 @@ import {
   defaultConfig,
   diagnosticsReport,
   ensureWorkspace,
+  authCommand,
   installCommand,
   normalizeConfig,
   writeConfig,
@@ -32,6 +33,7 @@ const required = [
   "desktop/README.md",
   "electron-builder.yml",
   "scripts/generate-desktop-assets.mjs",
+  "scripts/prepare-desktop-build.mjs",
   "scripts/check-desktop.mjs",
   ".github/workflows/desktop-release.yml",
 ];
@@ -41,14 +43,14 @@ const packageJson = JSON.parse(fs.readFileSync(file("package.json"), "utf8"));
 assert.equal(packageJson.version, DESKTOP_VERSION);
 assert.equal(packageJson.main, "desktop/main.mjs");
 assert.equal(packageJson.scripts["desktop:start"], "electron .");
-for (const script of ["desktop:assets", "desktop:start", "desktop:check", "desktop:smoke", "desktop:pack", "desktop:dist", "desktop:dist:win", "desktop:dist:mac"]) {
+for (const script of ["desktop:assets", "desktop:prepare", "desktop:start", "desktop:check", "desktop:smoke", "desktop:pack", "desktop:dist", "desktop:dist:win", "desktop:dist:mac"]) {
   assert.equal(typeof packageJson.scripts?.[script], "string", `Missing desktop package script: ${script}`);
 }
-for (const name of ["electron-updater"]) assert.equal(typeof packageJson.dependencies?.[name], "string", `Missing runtime dependency: ${name}`);
+for (const name of ["electron-updater", "playwright"]) assert.equal(typeof packageJson.dependencies?.[name], "string", `Missing runtime dependency: ${name}`);
 for (const name of ["electron", "electron-builder"]) assert.equal(typeof packageJson.devDependencies?.[name], "string", `Missing desktop build dependency: ${name}`);
 
 const builder = fs.readFileSync(file("electron-builder.yml"), "utf8");
-for (const contract of [APP_ID, "oneClick: false", "allowToChangeInstallationDirectory: true", "createDesktopShortcut: true", "target: dmg", "provider: github", "asarUnpack:", "deleteAppDataOnUninstall: false"]) {
+for (const contract of [APP_ID, "oneClick: false", "allowToChangeInstallationDirectory: true", "createDesktopShortcut: true", "  - dmg", "provider: github", "asarUnpack:", "extraResources:", "to: playwright", "deleteAppDataOnUninstall: false"]) {
   assert.ok(builder.includes(contract), `Desktop builder config missing: ${contract}`);
 }
 assert.ok(!builder.includes("verifyUpdateCodeSignature: false"), "Desktop updates must not disable signature verification.");
@@ -66,7 +68,7 @@ assert.ok(!preload.includes("ipcRenderer.send,"), "Preload must not expose raw I
 const main = fs.readFileSync(file("desktop/main.mjs"), "utf8");
 for (const contract of ["contextIsolation: true", "sandbox: true", "nodeIntegration: false", "setPermissionRequestHandler", "requestSingleInstanceLock", "autoUpdater", "createStudioServer"]) assert.ok(main.includes(contract), `Desktop main missing: ${contract}`);
 
-for (const target of ["desktop/main.mjs", "desktop/lib.mjs", "desktop/renderer/app.js", "desktop/preload.cjs", "scripts/generate-desktop-assets.mjs"]) {
+for (const target of ["desktop/main.mjs", "desktop/lib.mjs", "desktop/renderer/app.js", "desktop/preload.cjs", "scripts/generate-desktop-assets.mjs", "scripts/prepare-desktop-build.mjs"]) {
   const result = spawnSync(process.execPath, ["--check", file(target)], { encoding: "utf8" });
   assert.equal(result.status, 0, `${target} failed syntax check:\n${result.stderr}`);
 }
@@ -90,6 +92,7 @@ try {
   assert.equal(environment.runtime.available, true);
   assert.equal(environment.workspace.available, true);
   assert.equal(installCommand("manual", environment), null);
+  assert.deepEqual(authCommand("codex", { codex: { available: true, command: "codex" } }).args, ["login"]);
   const report = diagnosticsReport({ appVersion: DESKTOP_VERSION, config: saved, environment, log: "desktop proof" });
   assert.match(report, new RegExp(APP_NAME));
   assert.match(report, /desktop proof/);

@@ -33,3 +33,4 @@ assets/**/*.tar.gz
 .aigent/studio/runtime/
 desktop-dist/
 desktop/resources/generated/
+desktop/resources/playwright/

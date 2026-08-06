@@ -375,9 +375,12 @@ function registerIpc() {
       if (result.response !== 1) return false;
       await stopStudio();
       const workspace = config.workspace;
-      fs.rmSync(app.getPath("userData"), { recursive: true, force: true });
+      fs.rmSync(configFile(), { force: true });
+      fs.rmSync(runtimeDirectory(), { recursive: true, force: true });
+      fs.rmSync(logFile(), { force: true });
       config = normalizeConfig({ ...defaultConfig({ documents: documentsPath() }), workspace }, { documents: documentsPath() });
       writeConfig(configFile(), config, { documents: documentsPath() });
+      environment = refreshEnvironment();
       return true;
     },
   };

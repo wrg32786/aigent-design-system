@@ -12,7 +12,7 @@
 - one-click Studio launch and clean local-server process management
 - launch-at-login, automatic update, diagnostics export, repair, logs, and app-data reset controls
 - assisted Windows NSIS installer with selectable install directory, desktop and Start-menu shortcuts, and normal uninstall support
-- universal macOS DMG and ZIP packaging with custom artwork
+- architecture-matched macOS Apple Silicon and Intel DMG/ZIP packaging with custom artwork
 - Windows signing and macOS signing/notarization hooks in the release workflow
 - generated installer artwork and cross-platform desktop contract checks
 

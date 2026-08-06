@@ -7,8 +7,8 @@ AIgent Desktop wraps the existing localhost AIgent Studio in a thin Electron she
 The desktop release workflow produces:
 
 - Windows x64 assisted NSIS installer (`.exe`)
-- macOS universal disk image (`.dmg`)
-- macOS universal update archive (`.zip`)
+- macOS Apple Silicon and Intel disk images (`.dmg`)
+- macOS Apple Silicon and Intel update archives (`.zip`)
 - updater metadata and differential blockmaps
 
 The Windows wizard lets the user choose an installation directory, creates Start-menu and desktop shortcuts, registers the normal Windows uninstaller, and preserves project data on uninstall. The macOS image installs by dragging AIgent Desktop into Applications.
@@ -42,7 +42,7 @@ npm run desktop:smoke
 Generate custom installer artwork and build an unpacked application:
 
 ```bash
-npm run desktop:assets
+npm run desktop:prepare
 npm run desktop:pack
 ```
 
@@ -61,7 +61,7 @@ npm run desktop:dist:mac
 
 ## Updates
 
-Packaged Windows NSIS and macOS builds use `electron-updater` against this repository's GitHub Releases. AIgent Desktop checks after startup when automatic updates are enabled, downloads a newer signed build, and asks the operator before restarting to install it. Project workspaces live outside the application bundle and are not removed by updates.
+Packaged Windows NSIS and macOS builds use `electron-updater` against this repository's GitHub Releases. AIgent Desktop checks after startup when automatic updates are enabled, downloads the newer published build, and asks the operator before restarting to install it. Operating-system trust requires the signing credentials documented below. Project workspaces live outside the application bundle and are not removed by updates.
 
 ## Signing and notarization
 
