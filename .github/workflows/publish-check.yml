@@ -39,7 +39,7 @@ concurrency:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v6
         with:
@@ -65,10 +65,10 @@ jobs:
       - run: npm run studio:check
       - name: Exercise local export through the CLI
         run: |
-          rm -rf /tmp/aigent-publish-project
-          node scripts/cli.mjs add cinematic-page --target /tmp/aigent-publish-project
+          rm -rf "$RUNNER_TEMP/aigent-publish-project"
+          node scripts/cli.mjs add cinematic-page --target "$RUNNER_TEMP/aigent-publish-project"
           node scripts/publish-site.mjs export \
-            --project-dir /tmp/aigent-publish-project \
+            --project-dir "$RUNNER_TEMP/aigent-publish-project" \
             --entry /templates/modular-scroll-starter/
-          test -s /tmp/aigent-publish-project/.aigent/publish/export-manifest.json
-          find /tmp/aigent-publish-project/.aigent/publish/exports -name index.html -type f -print -quit | grep .
+          test -s "$RUNNER_TEMP/aigent-publish-project/.aigent/publish/export-manifest.json"
+          find "$RUNNER_TEMP/aigent-publish-project/.aigent/publish/exports" -name index.html -type f -print -quit | grep .
