@@ -1,0 +1,53 @@
+name: Validate AIgent Ship
+
+on:
+  pull_request:
+    paths:
+      - publish/**
+      - skills/publish-site/**
+      - scripts/publish-site.mjs
+      - scripts/studio-publish.mjs
+      - scripts/check-publish.mjs
+      - studio/**
+      - registry.json
+      - package.json
+      - package-lock.json
+      - .github/workflows/publish-check.yml
+  push:
+    branches: [master]
+    paths:
+      - publish/**
+      - skills/publish-site/**
+      - scripts/publish-site.mjs
+      - scripts/studio-publish.mjs
+      - scripts/check-publish.mjs
+      - studio/**
+      - registry.json
+      - package.json
+      - package-lock.json
+      - .github/workflows/publish-check.yml
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run publish:check
+      - run: npm run studio:check
+      - name: Exercise local export through the CLI
+        run: |
+          rm -rf /tmp/aigent-publish-project
+          node scripts/cli.mjs add cinematic-page --target /tmp/aigent-publish-project
+          node scripts/publish-site.mjs export \
+            --project-dir /tmp/aigent-publish-project \
+            --entry /templates/modular-scroll-starter/
+          test -s /tmp/aigent-publish-project/.aigent/publish/exports/*/index.html
+          test -s /tmp/aigent-publish-project/.aigent/publish/export-manifest.json
