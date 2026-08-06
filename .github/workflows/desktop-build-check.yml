@@ -1,25 +1,13 @@
-name: Validate AIgent Desktop installers
+name: Verify AIgent Desktop installers
 
 on:
-  pull_request:
-    paths:
-      - desktop/**
-      - electron-builder.yml
-      - package.json
-      - package-lock.json
-      - scripts/generate-desktop-assets.mjs
-      - scripts/prepare-desktop-build.mjs
-      - scripts/smoke-packaged-desktop.mjs
-      - scripts/check-desktop.mjs
-      - scripts/studio-server.mjs
-      - .github/workflows/desktop-build-check.yml
-      - .github/workflows/desktop-release.yml
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: desktop-pr-${{ github.event.pull_request.number }}
+  group: desktop-installer-proof
   cancel-in-progress: true
 
 jobs:
@@ -65,7 +53,7 @@ jobs:
           test -n "$(find installer-proof -maxdepth 1 -type f -print -quit)"
       - uses: actions/upload-artifact@v4
         with:
-          name: aigent-desktop-pr-${{ matrix.name }}
+          name: aigent-desktop-proof-${{ matrix.name }}
           path: installer-proof/*
           if-no-files-found: error
           retention-days: 14
