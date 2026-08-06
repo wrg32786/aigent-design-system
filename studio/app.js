@@ -698,7 +698,7 @@ $("#checkpoint-form").addEventListener("submit", async (event) => {
   toast("Checkpoint saved");
 });
 $("#checkpoint-project").addEventListener("click", () => { setRightTab("history"); $("#checkpoint-label").focus(); });
-t(error.messdiff").addEventListener("click", () => refreshDiff().catch((error) => toast(error.message)));
+$("#refresh-diff").addEventListener("click", () => refreshDiff().catch((error) => toast(error.message)));
 $("#clear-patches").addEventListener("click", async () => {
   if (!state.project || !confirm("Clear the Canvas patch journal? Only do this after changes are distilled into source or no longer needed.")) return;
   const result = await api(`/api/projects/${state.project.id}/canvas/clear`, { method: "POST", body: { author: state.client } });

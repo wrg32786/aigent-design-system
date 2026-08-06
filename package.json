@@ -28,7 +28,7 @@
     "inspiration:smoke": "node scripts/inspiration-smoke.mjs",
     "capture": "node scripts/capture.mjs",
     "studio": "node scripts/studio-server.mjs",
-    "studio:check": "node scripts/check-studio.mjs"
+    "studio:check": "node --check studio/app.js && node --check studio/bridge.js && node scripts/check-studio.mjs"
   },
   "keywords": [
     "ai",
