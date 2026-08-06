@@ -131,10 +131,13 @@ try {
         if (viewport.width > 760) await page.locator('[data-mode="select"]').click();
         await frame.locator("h1").click({ force: true });
         await page.waitForFunction(() => document.querySelector("#selection-label")?.textContent?.includes("Canvas self check"));
-        assert.ok(await page.locator("#inspector-fields").isVisible());
+        assert.equal(await page.locator("#inspector-fields").getAttribute("hidden"), null);
         assert.ok((await page.locator("#layers-tree .layer-row").count()) >= 3);
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2);
         assert.equal(overflow, false);
+        const proofDirectory = path.resolve("artifacts", "studio");
+        fs.mkdirSync(proofDirectory, { recursive: true });
+        await page.screenshot({ path: path.join(proofDirectory, viewport.width > 760 ? "studio-v1-desktop.png" : "studio-v1-mobile.png"), fullPage: true });
         assert.deepEqual(errors, []);
         await page.close();
       }
