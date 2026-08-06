@@ -3,6 +3,11 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
+if (process.versions.electron && process.resourcesPath && !process.env.PLAYWRIGHT_BROWSERS_PATH) {
+  process.env.PLAYWRIGHT_BROWSERS_PATH = path.join(process.resourcesPath, "playwright");
+  process.env.PLAYWRIGHT_SKIP_BROWSER_GC = "1";
+}
+
 export const DESKTOP_VERSION = "1.1.0";
 export const APP_NAME = "AIgent Desktop";
 export const APP_ID = "xyz.theaigent.desktop";
