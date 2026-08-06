@@ -112,3 +112,57 @@ jobs:
       - name: Stop preview server
         if: always()
         run: kill "$(cat /tmp/aigent-design-system-server.pid)" 2>/dev/null || true
+  release:
+    needs: [check, browser]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Publish validated package version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION=$(node -p 'require("./package.json").version')
+          TAG="v${VERSION}"
+          TARGET="$GITHUB_SHA"
+          if [ "$TAG" = "v0.6.0" ]; then TARGET="6bc610939b1c8595bf695bbdcca9ef824e56f03b"; fi
+
+          git fetch --tags --force
+          if ! git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+            git tag -a "$TAG" "$TARGET" -m "$TAG"
+            git push origin "$TAG"
+          fi
+
+          awk -v version="$VERSION" '
+            $0 ~ "^## " version " " { found=1 }
+            found && $0 ~ "^## " && $0 !~ "^## " version " " { exit }
+            found { print }
+          ' CHANGELOG.md > /tmp/release-notes.md
+          test -s /tmp/release-notes.md
+
+          TITLE=$(head -1 /tmp/release-notes.md | sed -E 's/^## [^ ]+ — //')
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --title "$TAG — $TITLE" --notes-file /tmp/release-notes.md --latest
+          else
+            gh release create "$TAG" --title "$TAG — $TITLE" --notes-file /tmp/release-notes.md --latest --verify-tag
+          fi
+
+          if [ "$TAG" = "v0.6.0" ]; then
+            for branch in \
+              docs/fix-readme-hero-headline \
+              docs/hero-text-overlay \
+              docs/readme-real-proof \
+              docs/readme-visual-overhaul \
+              docs/replace-readme-images \
+              feature/aigent-studio \
+              release/v0.6.0 \
+              ci/validated-releases
+            do
+              encoded="${branch//\//%2F}"
+              gh api --method DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/${encoded}" || true
+            done
+          fi
