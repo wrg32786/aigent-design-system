@@ -9,6 +9,8 @@ npm run studio -- --open
 
 Open `http://127.0.0.1:4180/studio/`.
 
+Native desktop users can instead download AIgent Desktop and launch this same Studio without running terminal commands. The desktop app chooses the workspace, manages the local server, detects or installs the coding-agent CLI, and keeps the project model unchanged. See [`../desktop/README.md`](../desktop/README.md).
+
 ## Core model
 
 The actual project remains the source of truth:

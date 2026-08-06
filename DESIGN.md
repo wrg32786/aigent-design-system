@@ -388,3 +388,8 @@ Studio is an Operate surface. The live preview is the dominant region; the brief
 - Multi-user presence provides context; it does not overwrite product or design authority.
 - Distillation fixes the shared source owner instead of copying runtime overrides into production.
 - Resolve establishes the mechanical floor; Vision judges the rendered result.
+
+## Desktop setup design contract
+
+The installer and first-run wizard are calm Operate surfaces, not marketing pages. One decision owns each step: workspace, system check, agent, preferences, launch. The interface exposes the actual local state, never fabricates successful installation, keeps credentials out of browser forms, and makes repair and diagnostics first-class. Windows and macOS installer artwork uses the AIgent visual language without reducing setup clarity or native platform expectations.
+

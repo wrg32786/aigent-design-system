@@ -5,7 +5,7 @@
 <p align="center"><strong>Turn Claude, Codex, Cursor, and other coding agents into a design-and-production studio for immersive websites, product interfaces, cinematic decks, and the media behind them.</strong></p>
 
 <p align="center">
-  <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v1.0.0">v1.0.0</a>
+  <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v1.1.0">v1.0.0</a>
   · <a href="https://theaigent.xyz">The AIgent</a>
   · <a href="https://tools.theaigent.xyz">AIgent Tools</a>
   · <a href="#see-it-working">See it working</a>
@@ -15,6 +15,21 @@
 ```bash
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
 ```
+
+## AIgent Desktop
+
+AIgent now ships as a native desktop application with a custom installation wizard. Download the **Windows installer** (`.exe`) or universal **macOS** disk image (`.dmg`) from the [latest release](https://github.com/wrg32786/aigent-design-system/releases/latest).
+
+The first-run wizard chooses a separate project workspace, verifies the bundled runtime and local tools, installs Claude Code or Codex through their official packages, opens the official authentication flow, configures startup and signed updates, and launches the real DOM-backed Studio Canvas.
+
+For source development:
+
+```bash
+npm install
+npm run desktop:start
+```
+
+Native build and installer documentation lives in [`desktop/README.md`](desktop/README.md). Unsigned community builds remain possible, while trusted public installers use the repository signing and notarization secrets described there.
 
 ## AIgent Studio 1.0
 

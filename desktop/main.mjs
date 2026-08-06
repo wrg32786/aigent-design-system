@@ -41,6 +41,12 @@ let updateState = { state: "idle", version: null, percent: 0, message: "Updates 
 function configFile() { return path.join(app.getPath("userData"), "desktop.json"); }
 function logFile() { return path.join(app.getPath("logs"), "desktop.log"); }
 function runtimeDirectory() { return path.join(app.getPath("userData"), "runtime"); }
+function packagedFile(relativePath) {
+  const packed = path.join(app.getAppPath(), relativePath);
+  const marker = `${path.sep}app.asar${path.sep}`;
+  const unpacked = packed.includes(marker) ? packed.replace(marker, `${path.sep}app.asar.unpacked${path.sep}`) : packed;
+  return fs.existsSync(unpacked) ? unpacked : packed;
+}
 function documentsPath() { return app.getPath("documents"); }
 
 function log(message, data = null) {
@@ -243,7 +249,7 @@ function streamInstall(provider) {
   safeSend("desktop:install", { provider, state: "start", message: spec.label });
   log("Agent installation started", { provider, command: spec.command });
   return new Promise((resolve, reject) => {
-    const child = spawn(spec.command, spec.args, { env: desktopEnvironment(), windowsHide: true, shell: false, stdio: ["ignore", "pipe", "pipe"] });
+    const child = spawn(spec.command, spec.args, { env: desktopEnvironment(), windowsHide: true, shell: process.platform === "win32", stdio: ["ignore", "pipe", "pipe"] });
     activeInstaller = child;
     const forward = (stream, channel) => {
       stream.setEncoding("utf8");
@@ -351,7 +357,7 @@ function registerIpc() {
       log("Repair started");
       ensureWorkspace(config.workspace);
       fs.rmSync(runtimeDirectory(), { recursive: true, force: true });
-      const result = internalNodeRun([path.join(root, "scripts", "cli.mjs"), "doctor"], { timeout: 180000 });
+      const result = internalNodeRun([packagedFile(path.join("scripts", "cli.mjs")), "doctor"], { timeout: 180000 });
       if (result.status !== 0) throw new Error((result.stderr || result.stdout || "AIgent doctor failed").trim());
       environment = refreshEnvironment();
       if (studio) { await stopStudio(); await startStudio(); }
