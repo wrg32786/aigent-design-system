@@ -141,6 +141,34 @@ function writeBmp(file, image) {
   fs.writeFileSync(file, Buffer.concat([header, body]));
 }
 
+function applicationIcon() {
+  const image = canvas(1024, 1024);
+  fill(image, [2, 7, 6], [8, 24, 20]);
+  grid(image, 64, [101, 244, 223, 8]);
+  const corner = 222;
+  for (let y = 0; y < image.height; y += 1) {
+    for (let x = 0; x < image.width; x += 1) {
+      const dx = Math.max(corner - x, 0, x - (image.width - corner));
+      const dy = Math.max(corner - y, 0, y - (image.height - corner));
+      if (dx && dy && Math.hypot(dx, dy) > corner) {
+        const offset = (y * image.width + x) * 4;
+        image.pixels[offset + 3] = 0;
+      }
+    }
+  }
+  orbit(image, 700, 340, 132);
+  line(image, 120, 780, 904, 780, [101, 244, 223, 120], 4);
+  circle(image, 120, 780, 9, [101, 244, 223, 255], true);
+  circle(image, 904, 780, 9, [240, 122, 82, 255], true);
+  const cyan = [101, 244, 223, 255];
+  for (const [x0, y0, x1, y1] of [
+    [128, 270, 176, 690], [350, 270, 398, 690], [128, 270, 398, 318], [128, 462, 398, 510],
+    [466, 270, 514, 690], [466, 270, 650, 318], [466, 642, 650, 690],
+  ]) {
+    for (let y = y0; y <= y1; y += 1) for (let x = x0; x <= x1; x += 1) pixel(image, x, y, cyan);
+  }
+  writePng(path.join(output, "icon.png"), image);
+}
 function sidebar() {
   const image = canvas(164, 314); fill(image); grid(image, 24, [101, 244, 223, 10]); frame(image, 7);
   orbit(image, 82, 104, 38);
@@ -169,5 +197,5 @@ function dmg(scale = 1) {
   writePng(path.join(output, scale === 1 ? "dmg-background.png" : "dmg-background@2x.png"), image);
 }
 
-sidebar(); header(); dmg(1); dmg(2);
+applicationIcon(); sidebar(); header(); dmg(1); dmg(2);
 console.log(`Generated desktop installer assets in ${path.relative(root, output)}.`);
