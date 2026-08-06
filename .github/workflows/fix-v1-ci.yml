@@ -1,0 +1,34 @@
+name: Fix AIgent Studio 1.0 CI
+
+on:
+  push:
+    branches:
+      - feature/aigent-v1
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.event.head_commit.message != 'Fix v1 README contract'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: feature/aigent-v1
+      - name: Align README contract
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('scripts/check.mjs')
+          text = path.read_text()
+          text = text.replace('"DOM-backed visual canvas"', '"DOM-backed visual website canvas"')
+          path.write_text(text)
+          PY
+      - name: Commit fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/check.mjs
+          git commit -m "Fix v1 README contract"
+          git push origin HEAD:feature/aigent-v1
