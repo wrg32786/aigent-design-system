@@ -114,7 +114,9 @@ jobs:
         run: kill "$(cat /tmp/aigent-design-system-server.pid)" 2>/dev/null || true
   release:
     needs: [check, browser]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/master') ||
+      (github.event_name == 'pull_request' && github.head_ref == 'release/publish-v0.6.0')
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -160,7 +162,8 @@ jobs:
               docs/replace-readme-images \
               feature/aigent-studio \
               release/v0.6.0 \
-              ci/validated-releases
+              ci/validated-releases \
+              release/publish-v0.6.0
             do
               encoded="${branch//\//%2F}"
               gh api --method DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/${encoded}" || true
