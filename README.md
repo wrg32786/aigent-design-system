@@ -2,361 +2,277 @@
   <img src="docs/assets/readme/readme-hero.svg" width="100%" alt="AIgent Design System">
 </p>
 
-<p align="center"><strong>Turn Claude, Codex, Cursor, and other coding agents into a design-and-production studio for immersive websites, product interfaces, cinematic decks, and the media behind them.</strong></p>
+# AIgent Design System
+
+**Create polished websites, immersive sales decks, product interfaces, and 3D experiences with an AI design agent—without needing to know how to code.**
+
+AIgent Desktop gives you a visual website builder, a live preview, Claude Code or Codex working beside you, the full AIgent design library, and a final **Ship** step that can publish the finished site.
+
+## Start here — no terminal required
+
+### Windows 10 or 11
 
 <p align="center">
-  <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v1.2.0">v1.2.0</a>
-  · <a href="https://theaigent.xyz">The AIgent</a>
-  · <a href="https://tools.theaigent.xyz">AIgent Tools</a>
-  · <a href="#studio-in-action">Studio in action</a>
-  · <a href="#license">MIT</a>
+  <a href="https://github.com/wrg32786/aigent-design-system/releases/latest/download/AIgent-Desktop-Setup-Windows-x64.exe"><strong>Download AIgent Desktop for Windows</strong></a>
 </p>
 
-```bash
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
-```
+1. Download the Windows installer.
+2. Double-click `AIgent-Desktop-Setup-Windows-x64.exe`.
+3. Follow the setup wizard.
+4. Choose Claude Code or Codex and connect your existing AI account.
+5. Click **Launch AIgent Studio** and create your first project.
 
-AIgent studies references, synthesizes an original direction, produces the media, builds the real surface, lets the operator edit the rendered DOM directly, and closes the work through browser measurement and explicit visual judgment.
+You do **not** need to open PowerShell, install this repository manually, or understand GitHub before using the desktop app.
 
-```text
-SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → RESOLVE → SEE
-```
+### macOS
 
-## AIgent Desktop
+Download the matching installer from the [latest release](https://github.com/wrg32786/aigent-design-system/releases/latest):
 
-Download the **Windows installer** (`.exe`) or the matching **macOS** Apple Silicon / Intel disk image (`.dmg`) from the [latest release](https://github.com/wrg32786/aigent-design-system/releases/latest).
+- `AIgent-Desktop-macOS-Apple-Silicon.dmg` for most newer Macs
+- `AIgent-Desktop-macOS-Intel.dmg` for Intel Macs
 
-The custom first-run wizard:
+Open the `.dmg`, drag AIgent Desktop into Applications, and launch it.
 
-1. chooses a separate project workspace;
-2. verifies the bundled runtime and local tools;
-3. detects or installs Claude Code / Codex and opens the official authentication flow;
-4. configures startup and updates;
-5. launches the real AIgent Studio Canvas.
+> **Windows security notice:** Until the public installer is code-signed, Windows may show **Windows protected your PC**. Confirm that the download came from this repository, choose **More info**, then **Run anyway**. Once signing credentials are configured, normal trusted-publisher installation replaces this warning.
 
-For source development:
+## What the setup wizard does
 
-```bash
-npm install
-npm run desktop:start
-```
+The wizard handles the technical setup for you:
 
-See [`desktop/README.md`](desktop/README.md) for builds and [`desktop/SIGNING.md`](desktop/SIGNING.md) for Windows signing, Apple Developer ID, notarization, base64 conversion, and GitHub Actions secrets.
+1. **Choose a workspace** — this is the normal folder where your sites will be saved.
+2. **Check your computer** — AIgent itself is bundled; the wizard can install Git when Claude Code needs it.
+3. **Connect an AI agent** — click **Install for me**, then **Connect account**. Follow the sign-in window; no install commands are required.
+4. **Learn the workflow** — build locally first, then connect free hosting when you are ready.
+5. **Launch Studio** — open the visual builder and start from a blank site or a proven starter.
+
+Your AI credentials stay inside the official Claude Code or Codex sign-in flow. AIgent Desktop does not ask you to paste an API key into the app.
+
+## Create your first site
+
+After Studio opens:
+
+1. Click **New**.
+2. Choose a starting point: blank site, cinematic page, sales deck, command center, or 3D product stage.
+3. Describe what you are building in ordinary language.
+4. Open **Agent** and click **Build / revise**.
+5. Watch the site change in the live preview.
+6. Use **Design** mode to click real elements and change text, spacing, type, color, layout, and mobile behavior.
+7. When it looks right, use **Distill canvas edits into source**.
+8. Open **Ship** to create a local export or publish through Vercel, Netlify, or Cloudflare Pages.
+
+You can create and preview everything locally without a hosting account. A free Vercel, Netlify, or Cloudflare account is only needed when you want a public URL.
 
 ## Studio in action
 
 <p align="center">
-  <img src="docs/assets/readme/studio-demo.svg" width="100%" alt="Animated walkthrough of AIgent Desktop and the DOM-backed Studio Canvas">
+  <img src="docs/assets/readme/studio-demo.svg" width="100%" alt="Animated walkthrough of AIgent Desktop and the AIgent Studio visual website builder">
 </p>
 
-The ten-second loop uses a real Studio capture to walk through semantic layers, DOM selection, responsive property editing, the Canvas patch journal, agent distillation, Resolve, and Vision. It replaces the old gallery of decorative README screenshots.
+The walkthrough uses the real Studio interface: semantic layers, direct selection, responsive editing, the Canvas patch journal, agent distillation, Resolve, Vision, and publishing.
 
 ## Ship the site
 
-AIgent Studio now closes the final gap from approved Canvas to a live URL. Open the **Ship** tab to:
+The last step is built into Studio:
 
 ```text
 DISTILL → CHECKPOINT → EXPORT → PREFLIGHT → DEPLOY → VERIFY → RECORD
 ```
 
-The built-in publisher creates a constrained public bundle, blocks unresolved Canvas patches, checkpoints the source, and deploys through **Netlify, Vercel, Cloudflare Pages, or a local export**. Production mode can run Resolve before and after deployment, prepare live Vision captures, record custom-domain follow-up, and redeploy an earlier exact artifact.
+The **Ship** tab can:
 
-```bash
-node scripts/publish-site.mjs deploy --provider netlify --mode preview --project-dir . --entry /index.html --site my-site
+- create a clean local production export;
+- publish a preview or production site through Vercel, Netlify, or Cloudflare Pages;
+- create a Git checkpoint before deployment;
+- block unresolved Canvas edits from being published accidentally;
+- run AIgent Resolve before and after deployment;
+- prepare AIgent Vision captures from the live URL;
+- record deployment history and redeploy an earlier exact artifact.
+
+Provider authentication happens through each provider's official sign-in flow. Hosting tokens and secret environment values are not entered into Studio.
+
+## Why the PowerShell install failed
+
+The screenshot above shows the command being run from:
+
+```text
+C:\Windows\System32
 ```
 
-Install the standalone production contract with:
+`System32` is a protected Windows operating-system folder. The shadcn installer tried to inspect `C:\Windows\System32\config`, and Windows correctly denied access with `EPERM`.
 
-```bash
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/publish-site
+That error does **not** mean the AIgent package is broken. Use the desktop installer above, or run the terminal option from a normal project folder.
+
+## Terminal installation — optional
+
+This route is for developers or anyone who prefers the command line. Do not run it from `C:\Windows\System32`.
+
+### Windows PowerShell
+
+```powershell
+New-Item -ItemType Directory -Force "$HOME\Documents\AIgent-Studio" | Out-Null
+Set-Location "$HOME\Documents\AIgent-Studio"
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
+node scripts/studio-server.mjs --open
 ```
 
-Provider authentication stays in the official CLI/browser flow; Studio never asks for hosting tokens or secret environment-variable values. See [`publish/README.md`](publish/README.md).
-
-## AIgent Studio 1.0
-
-AIgent Studio is a **DOM-backed visual website canvas**. The layers, selection boxes, inspector, comments, and coding agent operate against the actual project running in the browser—there is no disconnected design mockup to translate later.
+### macOS or Linux
 
 ```bash
+mkdir -p ~/Documents/AIgent-Studio
+cd ~/Documents/AIgent-Studio
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
+node scripts/studio-server.mjs --open
+```
+
+Then open:
+
+```text
+http://127.0.0.1:4180/studio/
+```
+
+Source-development alternative:
+
+```bash
+git clone https://github.com/wrg32786/aigent-design-system.git
+cd aigent-design-system
 npm install
 npm run studio -- --open
 ```
 
-Inside Studio you can:
+## What AIgent can create
 
-- select and multi-select real rendered elements;
-- navigate a synchronized semantic layers tree;
-- edit text, layout, typography, appearance, motion, and responsive overrides;
-- resize, reorder, duplicate, remove, and save sections as project components;
-- browse project design tokens;
-- undo and redo through a structured **Canvas patch journal**;
-- attach element-bound comments and see active collaborators;
-- create and restore Git checkpoints;
-- hand selected elements, comments, and approved operations to Claude Code or Codex;
-- run Design Intelligence, Inspiration Intelligence, AIgent Resolve, and AIgent Vision in the same project.
+| Starting system | Use it for |
+| --- | --- |
+| [`templates/modular-scroll-starter/`](templates/modular-scroll-starter/) | Cinematic landing pages and product stories |
+| [`templates/immersive-sales-deck/`](templates/immersive-sales-deck/) | Sales decks, sponsorship decks, launches, and presentations |
+| [`templates/command-center-interface/`](templates/command-center-interface/) | Dashboards, editors, resource systems, and operator tools |
+| [`templates/threejs-product-stage/`](templates/threejs-product-stage/) | Interactive 3D product experiences with fallbacks |
+| [`templates/free-design-stack/`](templates/free-design-stack/) | Pinned video narratives |
+| [`templates/spline-scroll-landing/`](templates/spline-scroll-landing/) | Spline and GSAP 3D landing pages |
+| [`templates/asset-scroll-gallery/`](templates/asset-scroll-gallery/) | Editorial media and resource galleries |
+| [`vault/`](vault/) | Browse and install reusable systems |
+| [`inspiration/lab/`](inspiration/lab/) | Turn multiple references into an original direction |
 
-Canvas operations stay reversible in `.aigent/studio/canvas.json`. **Distill canvas edits into source** asks the authenticated local agent to repair the smallest correct shared source owner, after which the operator compares the real rendered result.
+## How the design agent works
 
-Install Studio into another project:
+```text
+SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → RESOLVE → SEE
+```
+
+- **Shape:** understand the product, audience, proof, and goal.
+- **Inspire:** inspect references and create Design DNA.
+- **Synthesize:** combine multiple references without copying one source.
+- **Produce:** create or source video, 3D, images, textures, and other media.
+- **Build:** construct the real website, deck, or interface.
+- **Resolve:** measure the real browser and repair mechanical failures.
+- **See:** inspect rendered captures and perform structured visual judgment.
+- **Publish:** checkpoint, export, deploy, verify, and record the finished result.
+
+The result is a **DOM-backed visual website canvas**: Studio edits the real rendered site rather than a disconnected mockup. Direct visual changes remain reversible in the **Canvas patch journal** until the operator deliberately distills them into source.
+
+## Included systems
+
+### AIgent Studio
+
+Install only the interactive builder:
 
 ```bash
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/aigent-studio
 node scripts/studio-server.mjs --open
 ```
 
-Credentials remain in the local Claude Code or Codex CLI. Studio is localhost-only by default and exposes no generic shell endpoint.
-
-## Reference systems
-
-The repository proof is the working code, not miniature promotional cards.
-
-| System | Job |
-| --- | --- |
-| [`templates/modular-scroll-starter/`](templates/modular-scroll-starter/) | Brand-neutral cinematic scroll page |
-| [`templates/immersive-sales-deck/`](templates/immersive-sales-deck/) | Guided sales, sponsorship, and launch presentation |
-| [`templates/command-center-interface/`](templates/command-center-interface/) | Dense operator product interface |
-| [`templates/threejs-product-stage/`](templates/threejs-product-stage/) | Progressive Three.js product stage with complete fallback |
-| [`templates/free-design-stack/`](templates/free-design-stack/) | Pinned video narrative |
-| [`templates/spline-scroll-landing/`](templates/spline-scroll-landing/) | Visually authored 3D page |
-| [`templates/asset-scroll-gallery/`](templates/asset-scroll-gallery/) | Editorial resource gallery |
-| [`vault/`](vault/) | Browse, preview, and install systems |
-| [`inspiration/lab/`](inspiration/lab/) | Compose references into an original direction |
-
-Complete surfaces:
+### Studio core
 
 ```bash
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/cinematic-page
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/immersive-sales-deck
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/command-center-interface
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/threejs-product-stage
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/studio-core
 ```
 
-## Install only what you need
-
-| System | Includes | Install |
-| --- | --- | --- |
-| Studio core | product/design contracts, tokens, native motion, primary skill, planner | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/studio-core` |
-| Inspiration Intelligence | URL/file forensics, Design DNA, synthesis, originality review, influence ledger | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence` |
-| Design Resolver | multi-viewport evidence, ranked root-cause repair, run comparison | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/design-resolver` |
-| AIgent Vision | annotated captures, structured critique, visual completion gate | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/vision-critic` |
-| Full studio | all design intelligence, production systems, references, skills, and QA | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio` |
-
-Review an item before installing it:
+### Inspiration Intelligence
 
 ```bash
-pnpm dlx shadcn@latest view wrg32786/aigent-design-system/inspiration-intelligence
-pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence --dry-run
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence
 ```
 
-## One primary skill
+It captures references, creates **Design DNA**, produces a multi-source reference matrix, and stores an **influence ledger** so inspiration remains evidence rather than copied implementation.
+
+### AIgent Resolve
+
+```bash
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/design-resolver
+npm run resolve:check
+```
+
+AIgent Resolve measures desktop, tablet, mobile, text zoom, reduced motion, runtime errors, overflow, focus, touch targets, media, and request behavior.
+
+### AIgent Vision
+
+```bash
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/vision-critic
+npx github:wrg32786/aigent-design-system vision prepare --target .
+```
+
+Vision produces annotated captures and a structured review at `.aigent/resolve/latest.visual-review.json`. A real image-capable reviewer must inspect the captures before completion can pass.
+
+### Ship and Publish
+
+```bash
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/publish-site
+```
+
+The `publish-site` system owns constrained public export, Vercel/Netlify/Cloudflare deployment, domains, live verification, deployment records, and exact-artifact redeploy.
+
+### HyperFrames
+
+HyperFrames support is included as an optional production route for turning websites and HTML interfaces into deterministic videos. It sits beside Remotion, Blender, Three.js, Spline, Rive, GSAP, and native browser capture rather than becoming a required website dependency.
+
+## Agent skills
+
+The primary `aigent-design` skill routes work to the specialist that owns it:
+
+```text
+shape · inspire · create · page · deck · interface · canvas · asset
+layout · typeset · color · animate · critique · polish
+resolve · vision · publish · audit · extract · install · eval
+```
+
+Install it alone:
 
 ```bash
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/aigent-design-skill
 ```
 
-The consolidated [`aigent-design`](skills/aigent-design/SKILL.md) skill routes to specialists only when required:
-
-```text
-shape · inspire · create · page · deck · interface · asset
-layout · typeset · color · animate · critique · polish
-resolve · vision · audit · extract · install · eval
-```
-
-Product truth outranks generic taste advice. Inspiration is evidence, not a specification. Mobile is recomposed, not shrunk. Mechanical checks are a floor; rendered visual judgment decides completion.
-
-## HyperFrames website-to-video
-
-HyperFrames is now an optional first-class production route for turning websites, interfaces, design-system outputs, documents, and data stories into deterministic video. It is the preferred route when HTML is already the durable source and the deliverable is a product tour, launch film, README walkthrough, social variant, or reusable motion-graphics package.
-
-Install the maintained upstream framework skills:
-
-```bash
-npx skills add heygen-com/hyperframes
-npx hyperframes init my-video
-cd my-video
-npx hyperframes lint
-npx hyperframes preview
-npx hyperframes render
-```
-
-AIgent adds the surrounding product and delivery contract through:
-
-- [`skills/hyperframes-video/SKILL.md`](skills/hyperframes-video/SKILL.md)
-- [`integrations/hyperframes/README.md`](integrations/hyperframes/README.md)
-- [`creative-production/pipelines/hyperframes.md`](creative-production/pipelines/hyperframes.md)
-
-Use HyperFrames for HTML-native and website-to-video work. Keep Remotion for React-first programmatic media. Use a direct screen recording when literal interaction documentation is the whole job and authored motion adds no value.
-
-## Inspiration Intelligence
-
-Inspect public URLs or local references:
-
-```bash
-npx github:wrg32786/aigent-design-system inspire add https://example.com --label example
-npx github:wrg32786/aigent-design-system inspire add reference.png
-npx github:wrg32786/aigent-design-system inspire add reference.mp4
-```
-
-A public URL capture records desktop, tablet, and mobile screenshots; DOM hierarchy and geometry; computed typography and material roles; sticky regions; media; animation timing; responsive transformations; and browser errors.
-
-Whole-surface synthesis requires at least three references so no single source controls the result:
-
-```bash
-npx github:wrg32786/aigent-design-system inspire compose \
-  --brief design-intelligence/example-brief.json \
-  --refs structure-source,type-source,motion-source \
-  --out .aigent/inspiration-plan.json
-```
-
-The output includes Design DNA, a reference matrix, required transformations, source exclusions, production requirements, originality thresholds, and an influence ledger. Source copy, assets, marks, exact section order, type pairing, keyframes, camera paths, and implementation are never reused.
-
-## AIgent Resolve
-
-AIgent Resolve supplies browser facts:
-
-```text
-RENDER → DETECT → RANK → REPAIR → RERENDER → REVIEW
-```
-
-```bash
-npx github:wrg32786/aigent-design-system resolve --init --target .
-
-npx github:wrg32786/aigent-design-system resolve \
-  --target . \
-  --url http://127.0.0.1:3000/
-```
-
-It checks desktop, tablet, mobile, 200% text sizing, reduced motion, runtime failures, overflow, focus, touch targets, contrast, clipping, media, and request behavior. It ranks one coherent repair group so the agent fixes the shared cause rather than polishing random symptoms.
-
-## AIgent Vision
-
-AIgent Vision requires the operating agent, a human reviewer, or an explicit vision adapter to open every original and annotated capture. A screenshot existing on disk is not proof that it was inspected.
-
-```bash
-npx github:wrg32786/aigent-design-system vision prepare --target .
-
-npx github:wrg32786/aigent-design-system vision check \
-  --target . \
-  --review .aigent/resolve/latest.visual-review.json
-
-npx github:wrg32786/aigent-design-system vision finalize \
-  --target . \
-  --review .aigent/resolve/latest.visual-review.json
-```
-
-The `vision-critic` system reviews product clarity, hierarchy, composition, typography, color/material, motion/media, interaction, specificity, originality, responsive quality, trust/usability, and finish. Completion requires a passing mechanical gate, every required viewport reviewed, no open P0/P1 finding, and an explicit verdict.
-
-## Creative production
-
-`creative-production/` covers free and paid sources, AI generation, Blender, HyperFrames and Remotion rendering, video and GLB optimization, licensing, provenance, mobile derivatives, and reduced-motion fallbacks.
-
-| Requirement | Preferred route |
-| --- | --- |
-| Controlled visual state | image + CSS |
-| Atmospheric movement | short encoded video |
-| Existing website / HTML → video | HyperFrames render |
-| React/data-driven multi-format media | Remotion render |
-| Exact scroll progression | frame sequence or scrub-ready video |
-| Rotatable product | `model-viewer` |
-| Visually authored 3D | Spline |
-| Live shaders, geometry, or manipulation | Three.js |
-| Photoreal fixed-camera scene | Blender render |
-| Interactive vector state | Rive |
-
-External primitives come from curated sources such as shadcn/ui, Radix Primitives, Base UI, Ark UI, Floating UI, Motion Primitives, Magic UI, React Bits, and TanStack Virtual. Install only what the project needs and restyle it into one visual world.
-
 ## Verification
 
-Current repository contract:
-
-| Contract | Current proof |
-| --- | ---: |
-| Installable registry items | **17** |
-| Agent skills | **26** |
-| Layout / type / motion systems | **15 / 8 / 14** |
-| Curated component sources | **10** |
-| Creative resources / integrations | **31 / 9** |
-| Resolve on canonical starter | **100/100 · 0 errors · 0 warnings** |
-| Vision review | **4 viewports · 12 dimensions · no open P0/P1** |
-| Native packages | **Windows x64 · macOS arm64 · macOS x64** |
-
 ```bash
-npm run catalogs
-npm run assets
+npm run check
+npm run registry
 npm run intelligence
 npm run inspiration
+npm run inspiration:smoke
 npm run resolve:check
 npm run vision:check
-npm run registry
-npm run eval
-npm run audit -- path/to/page path/to/shared.css
-npm run check
-npm run smoke
-npm run inspiration:smoke
-npm run capture
-npm run desktop:check
+npm run studio:check
 npm run publish:check
+npm run desktop:check
+npm run eval
 ```
 
-GitHub Actions validates the registry, clean installer, planner, Inspiration Intelligence, AIgent Resolve, AIgent Vision, AIgent Studio, AIgent Desktop, evals, browser matrix, native packages, packaged application boot, and visual captures.
+The release contract covers the registry, clean installation, browser matrix, direct Studio editing, Desktop setup, Inspiration Intelligence, AIgent Resolve, AIgent Vision, publishing, and native Windows/macOS packaging.
 
-## Local development
+## Maintainers
 
-```bash
-npm install
-npx playwright install chromium
-npm run serve
-```
+End users do not need signing keys. Maintainers who publish trusted Windows and macOS installers should read [`desktop/SIGNING.md`](desktop/SIGNING.md). Desktop architecture and packaging details are in [`desktop/README.md`](desktop/README.md).
 
-Open:
+## Security and local data
 
-```text
-http://127.0.0.1:4177/
-http://127.0.0.1:4177/vault/
-http://127.0.0.1:4177/inspiration/lab/
-```
+- Studio binds to `127.0.0.1` by default.
+- Projects are stored outside the application bundle.
+- Claude Code and Codex credentials remain in their official local credential stores.
+- Publish export blocks agent state, QA state, environment files, private keys, certificates, and credential-shaped content.
+- AIgent Desktop exposes a constrained IPC API rather than a generic shell endpoint.
 
-<details>
-<summary><strong>Repository architecture</strong></summary>
-
-```text
-PRODUCT.md
-DESIGN.md
-registry.json
-
-desktop/                native installer, setup, updates, diagnostics
-design-intelligence/    deterministic design decisions
-inspiration/            forensics, Design DNA, synthesis, originality, lab
-creative-production/    media sources, briefs, pipelines, standards
-patterns/                ready-to-use interactions
-templates/               complete reference surfaces
-resolve/                 ranked mechanical render-repair contract
-vision/                  annotated captures and structured visual critique
-assets/                  provenance manifests and optimized outputs
-integrations/            optional runtime and build-time guidance
-recipes/                 production recipes
-skills/                  primary and specialist agent skills
-evals/                   fixed briefs and scoring contracts
-case-studies/            production decision maps
-vault/                   visual install catalog
-scripts/                 CLI, planner, audits, checks, browser proof
-tokens/                  semantic visual system
-modules/                 dependency-free motion core
-```
-
-</details>
-
-## Production proof
-
-- **[theaigent.xyz](https://theaigent.xyz)** — cinematic Persuade + Experience surface
-- **[tools.theaigent.xyz](https://tools.theaigent.xyz)** — dense Operate + Read surface
-
-They set the craft bar. They are not universal templates or palettes. The reusable core remains brand-neutral; the AIgent visual language is one included preset.
-
-## Third-party material
-
-The repository links to external code, assets, references, and services but does not vendor them unless redistribution rights are clear. Read [`THIRD_PARTY.md`](THIRD_PARTY.md) and verify the active license and terms before use.
+Read [`SECURITY.md`](SECURITY.md) for the complete boundary.
 
 ## License
 
-MIT for AIgent-authored code and documentation.
+MIT for AIgent-authored code and documentation. Third-party tools and assets retain their own licenses; see [`THIRD_PARTY.md`](THIRD_PARTY.md).
