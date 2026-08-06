@@ -6,61 +6,61 @@
 
 **Create polished websites, immersive sales decks, product interfaces, and 3D experiences with an AI design agent—without needing to know how to code.**
 
-AIgent Desktop gives you a visual website builder, a live preview, Claude Code or Codex working beside you, the full AIgent design library, and a final **Ship** step that can publish the finished site.
+AIgent Desktop combines a visual website builder, live browser preview, Claude Code or Codex, the AIgent design library, direct DOM editing, browser QA, and one-click publishing in a single local application.
 
-## Start here — no terminal required
+## Install AIgent Desktop
 
 ### Windows 10 or 11
 
 <p align="center">
-  <a href="https://github.com/wrg32786/aigent-design-system/releases/latest/download/AIgent-Desktop-Setup-Windows-x64.exe"><strong>Download AIgent Desktop for Windows</strong></a>
+  <a href="https://github.com/wrg32786/aigent-design-system/releases/latest/download/AIgent-Desktop-Setup-Windows-x64.exe"><strong>Download the Windows installer</strong></a>
 </p>
 
-1. Download the Windows installer.
-2. Double-click `AIgent-Desktop-Setup-Windows-x64.exe`.
+1. Download `AIgent-Desktop-Setup-Windows-x64.exe`.
+2. Double-click the downloaded file.
 3. Follow the setup wizard.
-4. Choose Claude Code or Codex and connect your existing AI account.
-5. Click **Launch AIgent Studio** and create your first project.
+4. Connect Claude Code or Codex using the provider's official sign-in flow.
+5. Launch AIgent Studio and create a project.
 
-You do **not** need to open PowerShell, install this repository manually, or understand GitHub before using the desktop app.
+No terminal, GitHub knowledge, or manual repository installation is required for the desktop path.
 
 ### macOS
 
 Download the matching installer from the [latest release](https://github.com/wrg32786/aigent-design-system/releases/latest):
 
-- `AIgent-Desktop-macOS-Apple-Silicon.dmg` for most newer Macs
+- `AIgent-Desktop-macOS-Apple-Silicon.dmg` for Apple Silicon Macs
 - `AIgent-Desktop-macOS-Intel.dmg` for Intel Macs
 
 Open the `.dmg`, drag AIgent Desktop into Applications, and launch it.
 
-> **Windows security notice:** Until the public installer is code-signed, Windows may show **Windows protected your PC**. Confirm that the download came from this repository, choose **More info**, then **Run anyway**. Once signing credentials are configured, normal trusted-publisher installation replaces this warning.
+> **Windows security notice:** Until the public installer is code-signed, Windows may show **Windows protected your PC**. Verify that the file came from this repository, choose **More info**, and then **Run anyway**. Once signing credentials are configured, Windows shows the normal trusted-publisher installation flow.
 
-## What the setup wizard does
+## First-run setup
 
-The wizard handles the technical setup for you:
+The guided setup wizard handles the technical steps:
 
-1. **Choose a workspace** — this is the normal folder where your sites will be saved.
-2. **Check your computer** — AIgent itself is bundled; the wizard can install Git when Claude Code needs it.
-3. **Connect an AI agent** — click **Install for me**, then **Connect account**. Follow the sign-in window; no install commands are required.
-4. **Learn the workflow** — build locally first, then connect free hosting when you are ready.
-5. **Launch Studio** — open the visual builder and start from a blank site or a proven starter.
+1. **Workspace** — choose the folder where sites, decks, and project history are stored.
+2. **System check** — verify the bundled runtime and install Git when the selected agent requires it.
+3. **AI agent** — install Claude Code or Codex and complete the official account sign-in.
+4. **Preferences** — choose update and startup behavior and review the local-first workflow.
+5. **Launch** — open the real AIgent Studio visual canvas.
 
-Your AI credentials stay inside the official Claude Code or Codex sign-in flow. AIgent Desktop does not ask you to paste an API key into the app.
+AI credentials remain in the official Claude Code or Codex credential store. AIgent Desktop does not ask users to paste an API key into the application.
 
-## Create your first site
+For a step-by-step Windows walkthrough, see [`docs/GETTING_STARTED_WINDOWS.md`](docs/GETTING_STARTED_WINDOWS.md).
 
-After Studio opens:
+## Create a first project
 
 1. Click **New**.
-2. Choose a starting point: blank site, cinematic page, sales deck, command center, or 3D product stage.
-3. Describe what you are building in ordinary language.
-4. Open **Agent** and click **Build / revise**.
-5. Watch the site change in the live preview.
-6. Use **Design** mode to click real elements and change text, spacing, type, color, layout, and mobile behavior.
-7. When it looks right, use **Distill canvas edits into source**.
-8. Open **Ship** to create a local export or publish through Vercel, Netlify, or Cloudflare Pages.
+2. Start from a blank site, cinematic page, immersive sales deck, command center, or 3D product stage.
+3. Describe the product, audience, and desired result in ordinary language.
+4. Open **Agent** and choose **Build / revise**.
+5. Review the result in the live preview.
+6. Use **Design** mode to select real rendered elements and edit text, spacing, typography, color, layout, and responsive behavior.
+7. Use **Distill canvas edits into source** after approving visual changes.
+8. Open **Ship** to export locally or publish through Vercel, Netlify, or Cloudflare Pages.
 
-You can create and preview everything locally without a hosting account. A free Vercel, Netlify, or Cloudflare account is only needed when you want a public URL.
+Projects can be created and previewed entirely on the local computer. A hosting account is only needed for a public URL.
 
 ## Studio in action
 
@@ -72,8 +72,6 @@ The walkthrough uses the real Studio interface: semantic layers, direct selectio
 
 ## Ship the site
 
-The last step is built into Studio:
-
 ```text
 DISTILL → CHECKPOINT → EXPORT → PREFLIGHT → DEPLOY → VERIFY → RECORD
 ```
@@ -81,30 +79,20 @@ DISTILL → CHECKPOINT → EXPORT → PREFLIGHT → DEPLOY → VERIFY → RECORD
 The **Ship** tab can:
 
 - create a clean local production export;
-- publish a preview or production site through Vercel, Netlify, or Cloudflare Pages;
+- publish preview and production sites through Vercel, Netlify, or Cloudflare Pages;
 - create a Git checkpoint before deployment;
 - block unresolved Canvas edits from being published accidentally;
 - run AIgent Resolve before and after deployment;
 - prepare AIgent Vision captures from the live URL;
 - record deployment history and redeploy an earlier exact artifact.
 
-Provider authentication happens through each provider's official sign-in flow. Hosting tokens and secret environment values are not entered into Studio.
+Provider authentication uses each provider's official sign-in flow. Hosting tokens and secret environment values are not entered into Studio.
 
-## Why the PowerShell install failed
+## Developer installation — optional
 
-The screenshot above shows the command being run from:
+The command-line route is for contributors and developers who prefer to install the repository into a project folder.
 
-```text
-C:\Windows\System32
-```
-
-`System32` is a protected Windows operating-system folder. The shadcn installer tried to inspect `C:\Windows\System32\config`, and Windows correctly denied access with `EPERM`.
-
-That error does **not** mean the AIgent package is broken. Use the desktop installer above, or run the terminal option from a normal project folder.
-
-## Terminal installation — optional
-
-This route is for developers or anyone who prefers the command line. Do not run it from `C:\Windows\System32`.
+Run these commands from a normal user-owned directory. Protected operating-system folders can cause permission errors because development tools inspect the current directory.
 
 ### Windows PowerShell
 
@@ -124,7 +112,7 @@ pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
 node scripts/studio-server.mjs --open
 ```
 
-Then open:
+Studio opens at:
 
 ```text
 http://127.0.0.1:4180/studio/
@@ -146,7 +134,7 @@ npm run studio -- --open
 | [`templates/modular-scroll-starter/`](templates/modular-scroll-starter/) | Cinematic landing pages and product stories |
 | [`templates/immersive-sales-deck/`](templates/immersive-sales-deck/) | Sales decks, sponsorship decks, launches, and presentations |
 | [`templates/command-center-interface/`](templates/command-center-interface/) | Dashboards, editors, resource systems, and operator tools |
-| [`templates/threejs-product-stage/`](templates/threejs-product-stage/) | Interactive 3D product experiences with fallbacks |
+| [`templates/threejs-product-stage/`](templates/threejs-product-stage/) | Interactive 3D product experiences with complete fallbacks |
 | [`templates/free-design-stack/`](templates/free-design-stack/) | Pinned video narratives |
 | [`templates/spline-scroll-landing/`](templates/spline-scroll-landing/) | Spline and GSAP 3D landing pages |
 | [`templates/asset-scroll-gallery/`](templates/asset-scroll-gallery/) | Editorial media and resource galleries |
