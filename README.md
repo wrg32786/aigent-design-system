@@ -8,7 +8,7 @@
   <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v1.1.0">v1.1.0</a>
   · <a href="https://theaigent.xyz">The AIgent</a>
   · <a href="https://tools.theaigent.xyz">AIgent Tools</a>
-  · <a href="#see-it-working">See it working</a>
+  · <a href="#studio-in-action">Studio in action</a>
   · <a href="#license">MIT</a>
 </p>
 
@@ -16,11 +16,23 @@
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
 ```
 
+AIgent studies references, synthesizes an original direction, produces the media, builds the real surface, lets the operator edit the rendered DOM directly, and closes the work through browser measurement and explicit visual judgment.
+
+```text
+SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → RESOLVE → SEE
+```
+
 ## AIgent Desktop
 
-AIgent now ships as a native desktop application with a custom installation wizard. Download the **Windows installer** (`.exe`) or **macOS Apple Silicon or Intel** disk image (`.dmg`) from the [latest release](https://github.com/wrg32786/aigent-design-system/releases/latest).
+Download the **Windows installer** (`.exe`) or the matching **macOS** Apple Silicon / Intel disk image (`.dmg`) from the [latest release](https://github.com/wrg32786/aigent-design-system/releases/latest).
 
-The first-run wizard chooses a separate project workspace, verifies the bundled runtime and local tools, installs Claude Code or Codex through their official packages, opens the official authentication flow, configures startup and published updates, and launches the real DOM-backed Studio Canvas.
+The custom first-run wizard:
+
+1. chooses a separate project workspace;
+2. verifies the bundled runtime and local tools;
+3. detects or installs Claude Code / Codex and opens the official authentication flow;
+4. configures startup and updates;
+5. launches the real AIgent Studio Canvas.
 
 For source development:
 
@@ -29,11 +41,19 @@ npm install
 npm run desktop:start
 ```
 
-Native build and installer documentation lives in [`desktop/README.md`](desktop/README.md). Unsigned community builds remain possible, while trusted public installers use the repository signing and notarization secrets described there.
+See [`desktop/README.md`](desktop/README.md) for builds and [`desktop/SIGNING.md`](desktop/SIGNING.md) for Windows signing, Apple Developer ID, notarization, base64 conversion, and GitHub Actions secrets.
+
+## Studio in action
+
+<p align="center">
+  <img src="docs/assets/readme/studio-demo.svg" width="100%" alt="Animated walkthrough of AIgent Desktop and the DOM-backed Studio Canvas">
+</p>
+
+The ten-second loop is a compact walkthrough of the real product topology: setup, semantic layers, DOM selection, responsive property editing, the Canvas patch journal, agent distillation, Resolve, and Vision. It replaces the old gallery of decorative README screenshots.
 
 ## AIgent Studio 1.0
 
-AIgent Studio is a **DOM-backed visual website canvas**: the layers, selection boxes, inspector, comments, and agent all operate against the real project running in the browser. There is no disconnected design mockup to translate later.
+AIgent Studio is a **DOM-backed visual website canvas**. The layers, selection boxes, inspector, comments, and coding agent operate against the actual project running in the browser—there is no disconnected design mockup to translate later.
 
 ```bash
 npm install
@@ -42,18 +62,18 @@ npm run studio -- --open
 
 Inside Studio you can:
 
-- click, hover, and multi-select real rendered elements;
+- select and multi-select real rendered elements;
 - navigate a synchronized semantic layers tree;
-- edit text inline and change layout, typography, appearance, position, and responsive overrides;
-- resize, reorder, duplicate, remove, and reuse sections as project components;
-- browse the project's design tokens;
-- undo and redo through a structured Canvas patch journal;
-- attach comments directly to elements and see other active Studio participants;
-- save and restore local Git checkpoints;
-- hand selected elements, open comments, and approved Canvas operations to Claude Code or Codex;
-- run Design Intelligence, Inspiration forensics, Resolve, and Vision from the same project.
+- edit text, layout, typography, appearance, motion, and responsive overrides;
+- resize, reorder, duplicate, remove, and save sections as project components;
+- browse project design tokens;
+- undo and redo through a structured **Canvas patch journal**;
+- attach element-bound comments and see active collaborators;
+- create and restore Git checkpoints;
+- hand selected elements, comments, and approved operations to Claude Code or Codex;
+- run Design Intelligence, Inspiration Intelligence, AIgent Resolve, and AIgent Vision in the same project.
 
-Direct edits are stored reversibly in `.aigent/studio/canvas.json`. When a direction is approved, **Distill canvas edits into source** asks the authenticated local agent to fold the patch journal into the smallest correct source files. The operator clears the journal only after comparing the real rendered result.
+Canvas operations stay reversible in `.aigent/studio/canvas.json`. **Distill canvas edits into source** asks the authenticated local agent to repair the smallest correct shared source owner, after which the operator compares the real rendered result.
 
 Install Studio into another project:
 
@@ -62,65 +82,23 @@ pnpm dlx shadcn@latest add wrg32786/aigent-design-system/aigent-studio
 node scripts/studio-server.mjs --open
 ```
 
-Credentials remain in the local Claude Code or Codex CLI. The browser never asks for an API key. Studio is localhost-only by default and does not expose a generic shell endpoint.
-AIgent studies references, synthesizes an original direction, sources or produces the media, builds the surface, measures the browser, sees the rendered result, and repairs the highest shared cause.
+Credentials remain in the local Claude Code or Codex CLI. Studio is localhost-only by default and exposes no generic shell endpoint.
 
-```text
-SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → RESOLVE → SEE
-```
+## Reference systems
 
-The neutral core is framework- and dependency-light. GSAP, Three.js, Spline, Remotion, Rive, React Three Fiber, Theatre.js, Blender, FFmpeg, and external component sources are opt-in and used only when the work earns them.
+The repository proof is the working code, not miniature promotional cards.
 
-## See it working
-
-### Cinematic page
-
-<p align="center">
-  <img src="docs/assets/readme/captures/cinematic-page.webp" width="100%" alt="Real browser capture of the cinematic page reference">
-</p>
-
-A brand-neutral scroll system with authored pacing, responsive composition, and reduced-motion behavior. See [`templates/modular-scroll-starter/`](templates/modular-scroll-starter/).
-
-### Immersive sales deck
-
-<p align="center">
-  <img src="docs/assets/readme/captures/immersive-sales-deck.webp" width="100%" alt="Real browser capture of the immersive sales deck reference">
-</p>
-
-A guided presentation system for sales, sponsorship, launches, and structured product storytelling. See [`templates/immersive-sales-deck/`](templates/immersive-sales-deck/).
-
-### Command center interface
-
-<p align="center">
-  <img src="docs/assets/readme/captures/command-center-interface.webp" width="100%" alt="Real browser capture of the command center interface reference">
-</p>
-
-A dense operator interface with prioritized work, working detail, activity trace, search, and a native command palette. See [`templates/command-center-interface/`](templates/command-center-interface/).
-
-### Progressive Three.js stage
-
-<p align="center">
-  <img src="docs/assets/readme/captures/threejs-product-stage.webp" width="100%" alt="Real browser capture of the progressive Three.js product stage reference">
-</p>
-
-A complete static fallback with live Three.js loaded only when the device, connection, and motion preference justify it. See [`templates/threejs-product-stage/`](templates/threejs-product-stage/).
-
-More working references:
-
-- [`templates/free-design-stack/`](templates/free-design-stack/) — pinned video narrative
-- [`templates/spline-scroll-landing/`](templates/spline-scroll-landing/) — visually authored 3D page
-- [`templates/asset-scroll-gallery/`](templates/asset-scroll-gallery/) — editorial resource gallery
-- [`vault/`](vault/) — browse, preview, and install systems
-
-## Install only what you need
-
-| System | Includes | Install |
-| --- | --- | --- |
-| Studio core | product/design contracts, tokens, native motion, primary skill, planner | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/studio-core` |
-| Inspiration Intelligence | URL/file forensics, Design DNA, synthesis, originality review, influence ledger | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence` |
-| Design Resolver | multi-viewport browser evidence, ranked root-cause repair, run comparison | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/design-resolver` |
-| AIgent Vision | annotated captures, structured critique, visual completion gate | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/vision-critic` |
-| Full studio | all design intelligence, production systems, references, skills, and QA | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio` |
+| System | Job |
+| --- | --- |
+| [`templates/modular-scroll-starter/`](templates/modular-scroll-starter/) | Brand-neutral cinematic scroll page |
+| [`templates/immersive-sales-deck/`](templates/immersive-sales-deck/) | Guided sales, sponsorship, and launch presentation |
+| [`templates/command-center-interface/`](templates/command-center-interface/) | Dense operator product interface |
+| [`templates/threejs-product-stage/`](templates/threejs-product-stage/) | Progressive Three.js product stage with complete fallback |
+| [`templates/free-design-stack/`](templates/free-design-stack/) | Pinned video narrative |
+| [`templates/spline-scroll-landing/`](templates/spline-scroll-landing/) | Visually authored 3D page |
+| [`templates/asset-scroll-gallery/`](templates/asset-scroll-gallery/) | Editorial resource gallery |
+| [`vault/`](vault/) | Browse, preview, and install systems |
+| [`inspiration/lab/`](inspiration/lab/) | Compose references into an original direction |
 
 Complete surfaces:
 
@@ -131,7 +109,17 @@ pnpm dlx shadcn@latest add wrg32786/aigent-design-system/command-center-interfac
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/threejs-product-stage
 ```
 
-Review an item before installation:
+## Install only what you need
+
+| System | Includes | Install |
+| --- | --- | --- |
+| Studio core | product/design contracts, tokens, native motion, primary skill, planner | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/studio-core` |
+| Inspiration Intelligence | URL/file forensics, Design DNA, synthesis, originality review, influence ledger | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence` |
+| Design Resolver | multi-viewport evidence, ranked root-cause repair, run comparison | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/design-resolver` |
+| AIgent Vision | annotated captures, structured critique, visual completion gate | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/vision-critic` |
+| Full studio | all design intelligence, production systems, references, skills, and QA | `pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio` |
+
+Review an item before installing it:
 
 ```bash
 pnpm dlx shadcn@latest view wrg32786/aigent-design-system/inspiration-intelligence
@@ -144,7 +132,7 @@ pnpm dlx shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligenc
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/aigent-design-skill
 ```
 
-The consolidated [`aigent-design`](skills/aigent-design/SKILL.md) skill routes to specialist skills only when needed:
+The consolidated [`aigent-design`](skills/aigent-design/SKILL.md) skill routes to specialists only when required:
 
 ```text
 shape · inspire · create · page · deck · interface · asset
@@ -152,11 +140,34 @@ layout · typeset · color · animate · critique · polish
 resolve · vision · audit · extract · install · eval
 ```
 
-Product truth and explicit constraints outrank generic taste advice. Inspiration is evidence, not a specification. Mobile is recomposed, not shrunk. Mechanical checks are a floor; rendered visual judgment decides completion.
+Product truth outranks generic taste advice. Inspiration is evidence, not a specification. Mobile is recomposed, not shrunk. Mechanical checks are a floor; rendered visual judgment decides completion.
+
+## HyperFrames website-to-video
+
+HyperFrames is now an optional first-class production route for turning websites, interfaces, design-system outputs, documents, and data stories into deterministic video. It is the preferred route when HTML is already the durable source and the deliverable is a product tour, launch film, README walkthrough, social variant, or reusable motion-graphics package.
+
+Install the maintained upstream framework skills:
+
+```bash
+npx skills add heygen-com/hyperframes
+npx hyperframes init my-video
+cd my-video
+npx hyperframes lint
+npx hyperframes preview
+npx hyperframes render
+```
+
+AIgent adds the surrounding product and delivery contract through:
+
+- [`skills/hyperframes-video/SKILL.md`](skills/hyperframes-video/SKILL.md)
+- [`integrations/hyperframes/README.md`](integrations/hyperframes/README.md)
+- [`creative-production/pipelines/hyperframes.md`](creative-production/pipelines/hyperframes.md)
+
+Use HyperFrames for HTML-native and website-to-video work. Keep Remotion for React-first programmatic media. Use a direct screen recording when literal interaction documentation is the whole job and authored motion adds no value.
 
 ## Inspiration Intelligence
 
-Inspect a public URL or local reference:
+Inspect public URLs or local references:
 
 ```bash
 npx github:wrg32786/aigent-design-system inspire add https://example.com --label example
@@ -164,7 +175,7 @@ npx github:wrg32786/aigent-design-system inspire add reference.png
 npx github:wrg32786/aigent-design-system inspire add reference.mp4
 ```
 
-A live URL capture records desktop, tablet, and mobile screenshots; DOM hierarchy and geometry; computed typography and material roles; fixed and sticky regions; media and interaction evidence; animation timing; responsive transformations; and browser errors.
+A public URL capture records desktop, tablet, and mobile screenshots; DOM hierarchy and geometry; computed typography and material roles; sticky regions; media; animation timing; responsive transformations; and browser errors.
 
 Whole-surface synthesis requires at least three references so no single source controls the result:
 
@@ -175,7 +186,7 @@ npx github:wrg32786/aigent-design-system inspire compose \
   --out .aigent/inspiration-plan.json
 ```
 
-The output includes a reference matrix, required transformations, source exclusions, AIgent pattern mapping, production requirements, Design DNA, an originality threshold, and an influence ledger. Source copy, assets, marks, exact section order, exact type pairing, exact keyframes, camera paths, and source implementation are never reused.
+The output includes Design DNA, a reference matrix, required transformations, source exclusions, production requirements, originality thresholds, and an influence ledger. Source copy, assets, marks, exact section order, type pairing, keyframes, camera paths, and implementation are never reused.
 
 ## AIgent Resolve
 
@@ -193,11 +204,11 @@ npx github:wrg32786/aigent-design-system resolve \
   --url http://127.0.0.1:3000/
 ```
 
-It checks desktop, tablet, mobile, 200% text sizing, reduced motion, runtime failures, overflow, focus, touch targets, contrast, clipping, media, and request behavior. It ranks one coherent repair group so the agent fixes the shared cause instead of polishing random symptoms.
+It checks desktop, tablet, mobile, 200% text sizing, reduced motion, runtime failures, overflow, focus, touch targets, contrast, clipping, media, and request behavior. It ranks one coherent repair group so the agent fixes the shared cause rather than polishing random symptoms.
 
 ## AIgent Vision
 
-AIgent Vision requires the operating agent, a human reviewer, or an explicit vision adapter to open every original and annotated capture. A screenshot existing on disk is not proof that the agent saw it.
+AIgent Vision requires the operating agent, a human reviewer, or an explicit vision adapter to open every original and annotated capture. A screenshot existing on disk is not proof that it was inspected.
 
 ```bash
 npx github:wrg32786/aigent-design-system vision prepare --target .
@@ -211,39 +222,41 @@ npx github:wrg32786/aigent-design-system vision finalize \
   --review .aigent/resolve/latest.visual-review.json
 ```
 
-The structured review covers product clarity, hierarchy, composition, typography, color/material, motion/media, interaction, product specificity, originality, responsive quality, trust/usability, and finish. Completion requires a passing mechanical gate, every required viewport reviewed, no open P0/P1 visual finding, and an explicit final verdict.
+The `vision-critic` system reviews product clarity, hierarchy, composition, typography, color/material, motion/media, interaction, specificity, originality, responsive quality, trust/usability, and finish. Completion requires a passing mechanical gate, every required viewport reviewed, no open P0/P1 finding, and an explicit verdict.
 
 ## Creative production
 
-`creative-production/` covers free and paid asset sources, AI generation, Blender and Remotion rendering, video and GLB optimization, licensing, provenance, mobile derivatives, and reduced-motion fallbacks.
+`creative-production/` covers free and paid sources, AI generation, Blender, HyperFrames and Remotion rendering, video and GLB optimization, licensing, provenance, mobile derivatives, and reduced-motion fallbacks.
 
 | Requirement | Preferred route |
 | --- | --- |
 | Controlled visual state | image + CSS |
 | Atmospheric movement | short encoded video |
+| Existing website / HTML → video | HyperFrames render |
+| React/data-driven multi-format media | Remotion render |
 | Exact scroll progression | frame sequence or scrub-ready video |
 | Rotatable product | `model-viewer` |
 | Visually authored 3D | Spline |
 | Live shaders, geometry, or manipulation | Three.js |
-| Programmatic multi-format media | Remotion render |
 | Photoreal fixed-camera scene | Blender render |
 | Interactive vector state | Rive |
 
-External primitives and components are selected from curated sources such as shadcn/ui, Radix Primitives, Base UI, Ark UI, Floating UI, Motion Primitives, Magic UI, React Bits, and TanStack Virtual. Install only what the project needs and restyle it into one visual world.
+External primitives come from curated sources such as shadcn/ui, Radix Primitives, Base UI, Ark UI, Floating UI, Motion Primitives, Magic UI, React Bits, and TanStack Virtual. Install only what the project needs and restyle it into one visual world.
 
 ## Verification
 
-Validated release contract for `v1.1.0`:
+Current repository contract:
 
 | Contract | Current proof |
 | --- | ---: |
 | Installable registry items | **16** |
-| Agent skills | **24** |
+| Agent skills | **25** |
 | Layout / type / motion systems | **15 / 8 / 14** |
 | Curated component sources | **10** |
-| Creative resources / integrations | **31 / 8** |
+| Creative resources / integrations | **31 / 9** |
 | Resolve on canonical starter | **100/100 · 0 errors · 0 warnings** |
 | Vision review | **4 viewports · 12 dimensions · no open P0/P1** |
+| Native packages | **Windows x64 · macOS arm64 · macOS x64** |
 
 ```bash
 npm run catalogs
@@ -262,7 +275,7 @@ npm run capture
 npm run desktop:check
 ```
 
-GitHub Actions validates the registry, clean installer, planner, Inspiration Intelligence, AIgent Resolve, AIgent Vision, AIgent Studio, AIgent Desktop, evals, browser matrix, URL-forensics fixture, Inspiration Lab, and visual captures.
+GitHub Actions validates the registry, clean installer, planner, Inspiration Intelligence, AIgent Resolve, AIgent Vision, AIgent Studio, AIgent Desktop, evals, browser matrix, native packages, packaged application boot, and visual captures.
 
 ## Local development
 
@@ -297,7 +310,7 @@ templates/               complete reference surfaces
 resolve/                 ranked mechanical render-repair contract
 vision/                  annotated captures and structured visual critique
 assets/                  provenance manifests and optimized outputs
-integrations/            optional runtime guidance
+integrations/            optional runtime and build-time guidance
 recipes/                 production recipes
 skills/                  primary and specialist agent skills
 evals/                   fixed briefs and scoring contracts
