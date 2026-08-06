@@ -40,7 +40,10 @@ concurrency:
 
 jobs:
   publish:
-    runs-on: macos-14
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v6
         with:
