@@ -19,6 +19,9 @@ replaceOnce(
 );
 replaceOnce("studio/README.md", `# AIgent Studio 1.0`, `# AIgent Studio 1.2`);
 replaceOnce("studio/README.md", `Studio 1.0 includes:`, `Studio 1.2 includes:`);
+replaceOnce("templates/modular-scroll-starter/index.html", `href="../../README.md">Read the guide`, `href="#define">Read the guide`);
+replaceOnce("templates/modular-scroll-starter/index.html", `href="../../docs/project-context.md">Write the project context`, `href="#define">Write the project context`);
+replaceOnce("templates/spline-scroll-landing/index.html", `href="../../README.md">Use the kit`, `href="#system">Use the kit`);
 
 fs.rmSync("scripts/apply-publish-ux.mjs");
-console.log("Applied recorded local export UX.");
+console.log("Applied recorded local export UX and deploy-safe starter links.");
