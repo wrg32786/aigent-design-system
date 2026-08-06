@@ -36,6 +36,7 @@ const required = [
   "scripts/prepare-desktop-build.mjs",
   "scripts/smoke-packaged-desktop.mjs",
   "scripts/check-desktop.mjs",
+  ".github/workflows/desktop-build-check.yml",
   ".github/workflows/desktop-release.yml",
 ];
 for (const relative of required) assert.ok(fs.existsSync(file(relative)), `Missing desktop file: ${relative}`);
@@ -51,12 +52,29 @@ for (const name of ["electron-updater", "playwright"]) assert.equal(typeof packa
 for (const name of ["electron", "electron-builder"]) assert.equal(typeof packageJson.devDependencies?.[name], "string", `Missing desktop build dependency: ${name}`);
 
 const builder = fs.readFileSync(file("electron-builder.yml"), "utf8");
-for (const contract of [APP_ID, "oneClick: false", "allowToChangeInstallationDirectory: true", "createDesktopShortcut: true", "  - dmg", "provider: github", "asarUnpack:", "extraResources:", "to: playwright", "deleteAppDataOnUninstall: false"]) {
+for (const contract of [
+  APP_ID,
+  "oneClick: false",
+  "allowToChangeInstallationDirectory: true",
+  "createDesktopShortcut: true",
+  "  - dmg",
+  "provider: github",
+  "asarUnpack:",
+  "node_modules/playwright/**",
+  "node_modules/playwright-core/**",
+  "docs/**",
+  "resolve/**",
+  "vision/**",
+  "CONTRIBUTING.md",
+  "extraResources:",
+  "to: playwright",
+  "deleteAppDataOnUninstall: false",
+]) {
   assert.ok(builder.includes(contract), `Desktop builder config missing: ${contract}`);
 }
 assert.ok(!builder.includes("verifyUpdateCodeSignature: false"), "Desktop updates must not disable signature verification.");
 const workflow = fs.readFileSync(file(".github/workflows/desktop-release.yml"), "utf8");
-for (const contract of ["windows-latest", "macos-14", "WIN_CSC_LINK", "MAC_CSC_LINK", "APPLE_API_KEY", "gh release upload"]) {
+for (const contract of ["windows-latest", "macos-14", "macos-15-intel", "latest-arm64", "latest-x64", "desktop:smoke:packaged", "WIN_CSC_LINK", "MAC_CSC_LINK", "APPLE_API_KEY", "gh release upload"]) {
   assert.ok(workflow.includes(contract), `Desktop release workflow missing: ${contract}`);
 }
 const html = fs.readFileSync(file("desktop/renderer/index.html"), "utf8");
@@ -76,7 +94,7 @@ for (const target of ["desktop/main.mjs", "desktop/lib.mjs", "desktop/renderer/a
 
 const assetResult = spawnSync(process.execPath, [file("scripts/generate-desktop-assets.mjs")], { cwd: root, encoding: "utf8" });
 assert.equal(assetResult.status, 0, assetResult.stderr || assetResult.stdout);
-for (const asset of ["installer-sidebar.bmp", "installer-header.bmp", "dmg-background.png", "dmg-background@2x.png"]) {
+for (const asset of ["icon.png", "installer-sidebar.bmp", "installer-header.bmp", "dmg-background.png", "dmg-background@2x.png"]) {
   const assetPath = file(`desktop/resources/generated/${asset}`);
   assert.ok(fs.statSync(assetPath).size > 1000, `Generated asset is empty: ${asset}`);
 }
@@ -101,4 +119,4 @@ try {
   fs.rmSync(temp, { recursive: true, force: true });
 }
 
-console.log(`AIgent Desktop ${DESKTOP_VERSION} check passed: wizard, secure IPC, environment detection, repair/diagnostics contract, installer assets, signing hooks, and cross-platform packaging configuration.`);
+console.log(`AIgent Desktop ${DESKTOP_VERSION} check passed: wizard, secure IPC, environment detection, repair/diagnostics contract, complete packaged registry, bundled browser, installer assets, signing hooks, architecture-specific updates, and cross-platform packaging configuration.`);
