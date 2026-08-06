@@ -1,3 +1,4 @@
+# One-time cleanup: merge this workflow to remove stale branches and then delete itself.
 name: Final repository cleanup
 
 on:
@@ -5,8 +6,7 @@ on:
     branches: [master]
     paths:
       - .github/workflows/cleanup-repository.yml
-  pull_request:
-    types: [closed]
+  workflow_dispatch:
 
 permissions:
   contents: write
