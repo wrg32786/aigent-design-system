@@ -1,0 +1,148 @@
+name: Prepare AIgent Desktop content
+
+on:
+  push:
+    branches: [feature/aigent-desktop]
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: feature/aigent-desktop
+          fetch-depth: 0
+      - id: state
+        run: |
+          VERSION=$(node -p 'require("./package.json").version')
+          if [ "$VERSION" = "1.1.0" ]; then echo "needed=false" >> "$GITHUB_OUTPUT"; else echo "needed=true" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-node@v6
+        if: steps.state.outputs.needed == 'true'
+        with:
+          node-version: 22
+          cache: npm
+      - name: Update desktop release contracts
+        if: steps.state.outputs.needed == 'true'
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          def replace_once(path, old, new):
+              file = Path(path)
+              body = file.read_text()
+              count = body.count(old)
+              if count != 1:
+                  raise SystemExit(f"Expected one match in {path}, found {count}: {old[:100]!r}")
+              file.write_text(body.replace(old, new, 1))
+
+          package_file = Path("package.json")
+          package = json.loads(package_file.read_text())
+          package["version"] = "1.1.0"
+          package["main"] = "desktop/main.mjs"
+          package["description"] = "An installable agent-native design studio with a native desktop installer, guided setup, DOM-backed visual canvas, live code, components, collaboration, Resolve, Vision, and browser QA."
+          package.setdefault("scripts", {}).update({
+              "desktop:assets": "node scripts/generate-desktop-assets.mjs",
+              "desktop:start": "electron .",
+              "desktop:check": "node scripts/check-desktop.mjs",
+              "desktop:smoke": "electron . --smoke-test --no-sandbox",
+              "desktop:pack": "npm run desktop:assets && electron-builder --dir",
+              "desktop:dist": "npm run desktop:assets && electron-builder",
+              "desktop:dist:win": "npm run desktop:assets && electron-builder --win nsis --x64",
+              "desktop:dist:mac": "npm run desktop:assets && electron-builder --mac dmg zip --universal",
+          })
+          package.setdefault("dependencies", {})["electron-updater"] = "6.8.9"
+          package.setdefault("devDependencies", {}).update({"electron": "43.2.0", "electron-builder": "26.15.3"})
+          for keyword in ["desktop-app", "install-wizard", "nsis", "dmg", "auto-update"]:
+              if keyword not in package.setdefault("keywords", []): package["keywords"].append(keyword)
+          package_file.write_text(json.dumps(package, indent=2) + "\n")
+
+          gitignore = Path(".gitignore")
+          ignore_body = gitignore.read_text()
+          for line in ["desktop-dist/", "desktop/resources/generated/"]:
+              if line not in ignore_body.splitlines(): ignore_body += ("" if ignore_body.endswith("\n") else "\n") + line + "\n"
+          gitignore.write_text(ignore_body)
+
+          replace_once("README.md", "/releases/tag/v1.0.0", "/releases/tag/v1.1.0")
+          desktop_section = """## AIgent Desktop\n\nAIgent now ships as a native desktop application with a custom installation wizard. Download the **Windows installer** (`.exe`) or universal **macOS** disk image (`.dmg`) from the [latest release](https://github.com/wrg32786/aigent-design-system/releases/latest).\n\nThe first-run wizard chooses a separate project workspace, verifies the bundled runtime and local tools, installs Claude Code or Codex through their official packages, opens the official authentication flow, configures startup and signed updates, and launches the real DOM-backed Studio Canvas.\n\nFor source development:\n\n```bash\nnpm install\nnpm run desktop:start\n```\n\nNative build and installer documentation lives in [`desktop/README.md`](desktop/README.md). Unsigned community builds remain possible, while trusted public installers use the repository signing and notarization secrets described there.\n\n"""
+          replace_once("README.md", "## AIgent Studio 1.0\n", desktop_section + "## AIgent Studio 1.0\n")
+
+          changelog = Path("CHANGELOG.md")
+          entry = """## 1.1.0 — AIgent Desktop\n\n### Added\n\n- native Electron desktop shell around the real localhost AIgent Studio\n- custom five-step installation and first-run setup wizard\n- separate workspace selection so application updates never remove projects\n- Git, Node, npm, Git Bash, Claude Code, and Codex environment detection\n- one-click official Claude Code and Codex installation plus visible terminal authentication\n- one-click Studio launch and clean local-server process management\n- launch-at-login, automatic update, diagnostics export, repair, logs, and app-data reset controls\n- assisted Windows NSIS installer with selectable install directory, desktop and Start-menu shortcuts, and normal uninstall support\n- universal macOS DMG and ZIP packaging with custom artwork\n- Windows signing and macOS signing/notarization hooks in the release workflow\n- generated installer artwork and cross-platform desktop contract checks\n\n### Changed\n\n- package version is now `1.1.0`\n- packaged child tooling uses the Electron runtime while preserving external Claude Code and Codex authentication\n- validated releases now trigger native installer builds and attach them to GitHub Releases\n\n\n"""
+          changelog.write_text(changelog.read_text().replace("# Changelog\n\n", "# Changelog\n\n" + entry, 1))
+
+          additions = {
+            "PRODUCT.md": """\n\n## AIgent Desktop product contract\n\nAIgent Desktop is the consumer-ready installation and operating shell for Studio. A non-technical user can download a native installer, choose a workspace, verify prerequisites, install and authenticate a supported coding agent, launch Studio, receive updates, repair the installation, and export diagnostics without manually starting a localhost server.\n\nThe desktop shell stays thin. It reuses the existing Studio server, project format, Canvas, skills, agents, Resolve, and Vision rather than creating a second editor or project model. User projects remain outside the application bundle and survive updates and uninstall.\n""",
+            "SECURITY.md": """\n\n## AIgent Desktop boundary\n\nThe Electron renderer runs with context isolation and sandboxing enabled, Node integration disabled, permission requests denied by default, and a narrow allowlisted preload API. Navigation outside the setup page and active localhost Studio origin is blocked; fixed documentation links open through the operating system.\n\nAgent installation commands are fixed to the official `@anthropic-ai/claude-code` and `@openai/codex` packages. The renderer cannot submit arbitrary commands. Signing certificates, Apple notarization keys, passwords, and tokens belong only in GitHub Actions secrets and must never be committed. Diagnostic exports do not read API keys or agent credential stores. Uninstall and app-data reset deliberately preserve the selected Studio workspace unless the user deletes it separately.\n""",
+            "DESIGN.md": """\n\n## Desktop setup design contract\n\nThe installer and first-run wizard are calm Operate surfaces, not marketing pages. One decision owns each step: workspace, system check, agent, preferences, launch. The interface exposes the actual local state, never fabricates successful installation, keeps credentials out of browser forms, and makes repair and diagnostics first-class. Windows and macOS installer artwork uses the AIgent visual language without reducing setup clarity or native platform expectations.\n""",
+          }
+          for name, addition in additions.items():
+              file = Path(name); file.write_text(file.read_text().rstrip() + addition + "\n")
+
+          replace_once("studio/README.md", "Open `http://127.0.0.1:4180/studio/`.\n", "Open `http://127.0.0.1:4180/studio/`.\n\nNative desktop users can instead download AIgent Desktop and launch this same Studio without running terminal commands. The desktop app chooses the workspace, manages the local server, detects or installs the coding-agent CLI, and keeps the project model unchanged. See [`../desktop/README.md`](../desktop/README.md).\n")
+          replace_once("scripts/check-studio.mjs", 'assert.equal(status.version, "1.0.0");', 'assert.equal(status.version, "1.1.0");')
+
+          check = Path("scripts/check.mjs")
+          body = check.read_text()
+          body = body.replace('"vault/index.html", "vault/app.js", "studio/index.html", "studio/studio.css", "studio/app.js", "studio/README.md",', '"vault/index.html", "vault/app.js", "studio/index.html", "studio/studio.css", "studio/app.js", "studio/README.md",\n  "desktop/main.mjs", "desktop/preload.cjs", "desktop/lib.mjs", "desktop/renderer/index.html", "desktop/renderer/app.js", "desktop/renderer/styles.css", "desktop/README.md", "electron-builder.yml",')
+          body = body.replace('assert.equal(packageJson.version, "1.0.0", "Expected package version 1.0.0.");', 'assert.equal(packageJson.version, "1.1.0", "Expected package version 1.1.0.");')
+          body = body.replace('"capture", "studio", "studio:check"]', '"capture", "studio", "studio:check", "desktop:start", "desktop:check"]')
+          body = body.replace('"AIgent Studio", "npm run studio", "aigent-studio", "DOM-backed visual website canvas", "Canvas patch journal",', '"AIgent Studio", "AIgent Desktop", "Windows installer", "macOS", "npm run studio", "aigent-studio", "DOM-backed visual website canvas", "Canvas patch journal",')
+          body = body.replace('DOM-backed collaborative Studio v1.0.0.', 'DOM-backed collaborative Studio v1.1.0 and AIgent Desktop.')
+          check.write_text(body)
+
+          server = Path("scripts/studio-server.mjs")
+          body = server.read_text()
+          helper = '''function executableScript(relativePath) {\n  const packed = path.join(packageRoot, relativePath);\n  const marker = `${path.sep}app.asar${path.sep}`;\n  const unpacked = packed.includes(marker) ? packed.replace(marker, `${path.sep}app.asar.unpacked${path.sep}`) : packed;\n  return fs.existsSync(unpacked) ? unpacked : packed;\n}\nfunction studioNodeSpec(relativePath, args = []) {\n  const command = process.env.AIGENT_STUDIO_NODE_BIN || process.execPath;\n  const env = { ...process.env };\n  if (process.env.AIGENT_STUDIO_ELECTRON_NODE === "1" || process.versions.electron) env.ELECTRON_RUN_AS_NODE = "1";\n  return { command, args: [executableScript(relativePath), ...args], env };\n}\n'''
+          body = body.replace('function runLocalCli(args, options = {}) {', helper + 'function runLocalCli(args, options = {}) {', 1)
+          old = '''function runLocalCli(args, options = {}) {\n  const studioRegistry = path.join(packageRoot, ".aigent", "studio", "registry.json");\n  const result = spawnSync(process.execPath, [path.join(packageRoot, "scripts", "cli.mjs"), ...args], {\n    cwd: packageRoot,\n    encoding: "utf8",\n    windowsHide: true,\n    maxBuffer: 20 * 1024 * 1024,\n    env: { ...process.env, ...(fs.existsSync(studioRegistry) ? { AIGENT_REGISTRY_PATH: studioRegistry } : {}) },\n    ...options,\n  });'''
+          new = '''function runLocalCli(args, options = {}) {\n  const studioRegistry = path.join(packageRoot, ".aigent", "studio", "registry.json");\n  const spec = studioNodeSpec(path.join("scripts", "cli.mjs"), args);\n  const result = spawnSync(spec.command, spec.args, {\n    cwd: packageRoot,\n    encoding: "utf8",\n    windowsHide: true,\n    maxBuffer: 20 * 1024 * 1024,\n    env: { ...spec.env, ...(fs.existsSync(studioRegistry) ? { AIGENT_REGISTRY_PATH: studioRegistry } : {}) },\n    ...options,\n  });'''
+          if old not in body: raise SystemExit("Studio CLI spawn contract changed")
+          body = body.replace(old, new, 1)
+          body = body.replace('env: { ...process.env, FORCE_COLOR: "0", AIGENT_STUDIO: "1" }', 'env: { ...process.env, ...(spec.env || {}), FORCE_COLOR: "0", AIGENT_STUDIO: "1" }', 1)
+          body = body.replace('if (action === "resolve") return startProcess(project, { kind: action, command: process.execPath, args: [path.join(packageRoot, "scripts", "resolve-design.mjs"), "--target", directory, "--url", previewUrl, "--out", path.join(directory, ".aigent", "resolve"), "--no-fail"] });', 'if (action === "resolve") { const spec = studioNodeSpec(path.join("scripts", "resolve-design.mjs"), ["--target", directory, "--url", previewUrl, "--out", path.join(directory, ".aigent", "resolve"), "--no-fail"]); return startProcess(project, { kind: action, ...spec }); }', 1)
+          body = body.replace('if (action === "vision") return startProcess(project, { kind: action, command: process.execPath, args: [path.join(packageRoot, "scripts", "vision-review.mjs"), "prepare", "--target", directory, "--url", previewUrl, "--out", path.join(directory, ".aigent", "resolve")] });', 'if (action === "vision") { const spec = studioNodeSpec(path.join("scripts", "vision-review.mjs"), ["prepare", "--target", directory, "--url", previewUrl, "--out", path.join(directory, ".aigent", "resolve")]); return startProcess(project, { kind: action, ...spec }); }', 1)
+          body = body.replace('const args = [path.join(packageRoot, "scripts", "inspire.mjs"), "add", references[0], "--root", path.join(directory, ".aigent", "inspiration"), "--label", new URL(references[0]).hostname.replace(/[^a-z0-9]+/gi, "-").toLowerCase()];\n      return startProcess(project, { kind: action, command: process.execPath, args });', 'const args = ["add", references[0], "--root", path.join(directory, ".aigent", "inspiration"), "--label", new URL(references[0]).hostname.replace(/[^a-z0-9]+/gi, "-").toLowerCase()];\n      const spec = studioNodeSpec(path.join("scripts", "inspire.mjs"), args);\n      return startProcess(project, { kind: action, ...spec });', 1)
+          body = body.replace('sendJson(response, 200, { version: "1.0.0",', 'sendJson(response, 200, { version: "1.1.0",', 1).replace('AIgent Studio v1.0 running at', 'AIgent Studio v1.1 running at', 1)
+          server.write_text(body)
+
+          main = Path("desktop/main.mjs")
+          body = main.read_text()
+          body = body.replace('function runtimeDirectory() { return path.join(app.getPath("userData"), "runtime"); }\n', 'function runtimeDirectory() { return path.join(app.getPath("userData"), "runtime"); }\nfunction packagedFile(relativePath) {\n  const packed = path.join(app.getAppPath(), relativePath);\n  const marker = `${path.sep}app.asar${path.sep}`;\n  const unpacked = packed.includes(marker) ? packed.replace(marker, `${path.sep}app.asar.unpacked${path.sep}`) : packed;\n  return fs.existsSync(unpacked) ? unpacked : packed;\n}\n', 1)
+          body = body.replace('const child = spawn(spec.command, spec.args, { env: desktopEnvironment(), windowsHide: true, shell: false, stdio: ["ignore", "pipe", "pipe"] });', 'const child = spawn(spec.command, spec.args, { env: desktopEnvironment(), windowsHide: true, shell: process.platform === "win32", stdio: ["ignore", "pipe", "pipe"] });', 1)
+          body = body.replace('const result = internalNodeRun([path.join(root, "scripts", "cli.mjs"), "doctor"], { timeout: 180000 });', 'const result = internalNodeRun([packagedFile(path.join("scripts", "cli.mjs")), "doctor"], { timeout: 180000 });', 1)
+          main.write_text(body)
+
+          builder = Path("electron-builder.yml")
+          body = builder.read_text().replace('asarUnpack:\n  - scripts/**', '''asarUnpack:\n  - scripts/**\n  - studio/**\n  - tokens/**\n  - modules/**\n  - templates/**\n  - patterns/**\n  - design-intelligence/**\n  - inspiration/**\n  - creative-production/**\n  - assets/**\n  - integrations/**\n  - recipes/**\n  - skills/**\n  - evals/**\n  - case-studies/**\n  - vault/**\n  - registry.json\n  - PRODUCT.md\n  - DESIGN.md\n  - SECURITY.md\n  - THIRD_PARTY.md\n  - LICENSE\n  - README.md\n  - CHANGELOG.md\n  - package.json''', 1)
+          builder.write_text(body)
+          PY
+      - uses: actions/setup-node@v6
+        if: steps.state.outputs.needed == 'true'
+        with:
+          node-version: 22
+          cache: npm
+      - name: Refresh package lock
+        if: steps.state.outputs.needed == 'true'
+        run: npm install --package-lock-only --ignore-scripts
+      - if: steps.state.outputs.needed == 'true'
+        run: npm ci
+      - if: steps.state.outputs.needed == 'true'
+        run: npm run desktop:check
+      - if: steps.state.outputs.needed == 'true'
+        run: npm run check
+      - if: steps.state.outputs.needed == 'true'
+        run: xvfb-run -a npm run desktop:smoke
+      - name: Commit prepared desktop release
+        if: steps.state.outputs.needed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Prepare AIgent Desktop 1.1.0"
+          git push origin HEAD:feature/aigent-desktop
