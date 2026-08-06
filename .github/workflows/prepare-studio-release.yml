@@ -1,0 +1,35 @@
+name: Prepare AIgent Studio release
+
+on:
+  push:
+    branches:
+      - feature/aigent-studio
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    if: github.event.head_commit.message != 'Integrate AIgent Studio'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/aigent-studio
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Integrate Studio with the design system
+        run: node scripts/prepare-studio-release.mjs
+      - name: Remove preparation files
+        run: |
+          rm -f scripts/prepare-studio-release.mjs
+          rm -f .github/workflows/prepare-studio-release.yml
+      - name: Commit integrated release
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Integrate AIgent Studio"
+          git push origin HEAD:feature/aigent-studio
