@@ -11,6 +11,7 @@ on:
       - scripts/check-publish.mjs
       - scripts/apply-publish-routing.mjs
       - scripts/apply-publish-ux.mjs
+      - scripts/apply-publish-security.mjs
       - studio/**
       - registry.json
       - package.json
@@ -56,7 +57,7 @@ jobs:
       - name: Apply final integration once
         run: |
           changed=0
-          for script in scripts/apply-publish-routing.mjs scripts/apply-publish-ux.mjs; do
+          for script in scripts/apply-publish-routing.mjs scripts/apply-publish-ux.mjs scripts/apply-publish-security.mjs; do
             if [ -f "$script" ]; then
               node --check "$script"
               node "$script"
@@ -67,7 +68,7 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add -A
-            git commit -m "Complete publish routing and Studio UX"
+            git commit -m "Complete publish routing, UX, and isolation"
             git push origin HEAD:${{ github.head_ref || github.ref_name }}
           fi
       - run: npm ci
