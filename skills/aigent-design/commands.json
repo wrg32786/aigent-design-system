@@ -77,6 +77,11 @@
       "reference": "reference/vision.md"
     },
     {
+      "name": "publish",
+      "owns": "Checkpoint, export, deploy, verify, connect domains, record, and safely redeploy a finished website.",
+      "reference": "reference/publish.md"
+    },
+    {
       "name": "audit",
       "owns": "Run deterministic, inspiration, browser, asset, registry, and provenance checks.",
       "reference": "reference/craft-floor.md"
