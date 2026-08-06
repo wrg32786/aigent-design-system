@@ -9,6 +9,7 @@ on:
       - scripts/studio-publish.mjs
       - scripts/check-publish.mjs
       - scripts/apply-ship-publish-patch.mjs
+      - scripts/fix-ship-patch.mjs
       - studio/**
       - registry.json
       - package.json
@@ -49,6 +50,8 @@ jobs:
       - name: Apply integration patch once
         if: ${{ hashFiles('scripts/apply-ship-publish-patch.mjs') != '' }}
         run: |
+          node scripts/fix-ship-patch.mjs
+          node --check scripts/apply-ship-publish-patch.mjs
           node scripts/apply-ship-publish-patch.mjs
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
