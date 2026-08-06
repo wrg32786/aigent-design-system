@@ -1,0 +1,35 @@
+name: Apply Ship follow-up fixes
+
+on:
+  push:
+    branches: [feature/ship-publish]
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: ${{ hashFiles('scripts/apply-ship-followups.mjs') != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: feature/ship-publish
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - name: Apply and validate
+        run: |
+          node --check scripts/apply-ship-followups.mjs
+          node scripts/apply-ship-followups.mjs
+          npm ci
+          npm run publish:check
+      - name: Commit fixes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Harden publish provider and export behavior"
+          git push origin HEAD:feature/ship-publish
