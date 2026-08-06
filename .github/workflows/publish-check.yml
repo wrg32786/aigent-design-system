@@ -34,10 +34,7 @@ permissions:
 
 jobs:
   publish:
-    runs-on: windows-latest
-    defaults:
-      run:
-        shell: bash
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v6
         with:
