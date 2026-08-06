@@ -8,8 +8,6 @@ on:
       - scripts/publish-site.mjs
       - scripts/studio-publish.mjs
       - scripts/check-publish.mjs
-      - scripts/apply-ship-publish-patch.mjs
-      - scripts/fix-ship-patch.mjs
       - studio/**
       - registry.json
       - package.json
@@ -30,40 +28,26 @@ on:
       - .github/workflows/publish-check.yml
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   publish:
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
-          fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
-      - name: Apply integration patch once
-        if: ${{ hashFiles('scripts/apply-ship-publish-patch.mjs') != '' }}
-        run: |
-          node scripts/fix-ship-patch.mjs
-          node --check scripts/apply-ship-publish-patch.mjs
-          node scripts/apply-ship-publish-patch.mjs
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -m "Add one-click site publishing"
-          git push origin HEAD:${{ github.head_ref || github.ref_name }}
       - run: npm ci
       - run: npm run publish:check
       - run: npm run studio:check
       - name: Exercise local export through the CLI
         run: |
-          rm -rf "$RUNNER_TEMP/aigent-publish-project"
-          node scripts/cli.mjs add cinematic-page --target "$RUNNER_TEMP/aigent-publish-project"
+          rm -rf /tmp/aigent-publish-project
+          node scripts/cli.mjs add cinematic-page --target /tmp/aigent-publish-project
           node scripts/publish-site.mjs export \
-            --project-dir "$RUNNER_TEMP/aigent-publish-project" \
+            --project-dir /tmp/aigent-publish-project \
             --entry /templates/modular-scroll-starter/
-          test -s "$RUNNER_TEMP/aigent-publish-project/.aigent/publish/export-manifest.json"
-          find "$RUNNER_TEMP/aigent-publish-project/.aigent/publish/exports" -name index.html -type f -print -quit | grep .
+          test -s /tmp/aigent-publish-project/.aigent/publish/export-manifest.json
+          find /tmp/aigent-publish-project/.aigent/publish/exports -name index.html -type f -print -quit | grep .
