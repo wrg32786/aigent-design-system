@@ -28,13 +28,22 @@ Use the first rung that carries the idea:
 7. Three.js
 8. custom renderer
 
-Fixed camera plus art direction usually favors Blender, AI video, or Remotion output over live 3D. Live 3D earns its cost when inspection, configuration, procedural state, geometry, or direct manipulation matters.
+For rendered media, choose the source that matches the project:
+
+- **HyperFrames:** existing website, HTML interface, agent-authored product tour, README walkthrough, or open-source deterministic video route;
+- **Remotion:** React-first typed composition or an existing Remotion production system;
+- **Blender / AI video:** fixed camera, photoreal lighting, or offline cinematic scene;
+- **direct capture:** literal interaction documentation where authored motion and reusable variants add no value.
+
+Fixed camera plus art direction usually favors Blender, AI video, HyperFrames, or Remotion output over live 3D. Live 3D earns its cost when inspection, configuration, procedural state, geometry, or direct manipulation matters.
 
 ## Production
 
 Route missing media through `creative-asset-director`.
 
 - video: desktop, mobile, poster, reduced-motion, scrub export when needed
+- website-to-video: `hyperframes-video` plus the official upstream HyperFrames skills
+- React programmatic media: `remotion-web-assets`
 - 3D: source rights, Blender cleanup, GLB optimization, poster, bounded pixel ratio
 - frame sequence: frame budget, compression, memory plan
 - external component or asset: exact license and plan verification
