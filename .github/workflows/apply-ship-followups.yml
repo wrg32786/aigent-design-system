@@ -3,6 +3,8 @@ name: Apply Ship follow-up fixes
 on:
   push:
     branches: [feature/ship-publish]
+  pull_request:
+    branches: [master]
 
 permissions:
   contents: write
