@@ -20,6 +20,9 @@ asarUnpack:
   - evals/**
   - case-studies/**
   - vault/**
+  - docs/**
+  - resolve/**
+  - vision/**
   - node_modules/playwright/**
   - node_modules/playwright-core/**
   - registry.json
@@ -27,6 +30,7 @@ asarUnpack:
   - DESIGN.md
   - SECURITY.md
   - THIRD_PARTY.md
+  - CONTRIBUTING.md
   - LICENSE
   - README.md
   - CHANGELOG.md
@@ -52,10 +56,14 @@ files:
   - evals/**
   - case-studies/**
   - vault/**
+  - docs/**
+  - resolve/**
+  - vision/**
   - PRODUCT.md
   - DESIGN.md
   - SECURITY.md
   - THIRD_PARTY.md
+  - CONTRIBUTING.md
   - LICENSE
   - README.md
   - CHANGELOG.md
