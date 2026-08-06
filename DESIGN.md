@@ -372,3 +372,7 @@ A valid finding states the visible relationship, evidence, priority, repair, con
 ## 13. Reuse
 
 Extract only after the same intent appears in multiple real surfaces. Reuse existing tokens, modules, patterns, registry items, recipes, and skills before adding another layer. Keep inspiration evidence local unless the source and redistribution rights are explicitly clear.
+
+## Studio interface
+
+Studio is an Operate surface. The live preview is the dominant region; the brief and agent room are supporting rails. Controls stay dense, explicit, and keyboard reachable. The UI must not impersonate a canvas editor: it exposes real project state, real agent output, and real browser preview. Mobile stacks the brief, preview, and agent room rather than shrinking three desktop columns.

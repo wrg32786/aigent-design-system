@@ -117,3 +117,7 @@ Do not drift into:
 - Mechanical Resolve passage never substitutes for explicit human or operating-agent visual judgment.
 - A screenshot existing on disk is not proof that the agent opened or understood it.
 - Human design judgment remains explicit in evals rather than hidden behind an automated taste score.
+
+## Interactive Studio
+
+AIgent Studio is the human operating surface for the repository. It joins the brief, references, proven starters, live responsive preview, local design agent, Design Intelligence, Inspiration Intelligence, Resolve, and Vision in one localhost-only UI. It is successful when a user can create a project, direct a real agent, inspect the actual files being edited, and complete the same production and verification contracts available from the terminal.

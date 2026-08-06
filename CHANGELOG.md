@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.6.0 — AIgent Studio
+
+### Added
+
+- local interactive website builder with live desktop, tablet, and mobile preview
+- project brief, reference, starter, and agent controls in one UI
+- authenticated Claude Code and Codex CLI integration with streamed activity and cancellation
+- persistent Claude Code session per Studio project
+- direct Design Intelligence planning, Inspiration forensics, Resolve, and Vision preparation
+- isolated local project workspaces with bounded paths, request sizes, hidden-file protection, and localhost-only serving
+- installable `aigent-studio` registry item and specialist operating skill
+
+### Changed
+
+- package version is now `0.6.0`
+- `full-studio` now includes the interactive Studio UI
+
+
 ## 0.5.0 — AIgent Vision
 
 ### Added

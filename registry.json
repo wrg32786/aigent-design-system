@@ -959,6 +959,73 @@
       "docs": "Run `npx playwright install chromium`, then Resolve, Vision prepare, a real image-capable review, and Vision finalize. Neither a green mechanical score nor an uninspected screenshot is completion."
     },
     {
+      "name": "aigent-studio",
+      "type": "registry:block",
+      "title": "AIgent Studio",
+      "description": "Install the local interactive website builder with a live responsive preview, project brief, Design Intelligence, Inspiration Intelligence, Resolve, Vision, and authenticated Claude Code or Codex CLI agent integration.",
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/studio-core",
+        "wrg32786/aigent-design-system/inspiration-intelligence",
+        "wrg32786/aigent-design-system/cinematic-page",
+        "wrg32786/aigent-design-system/immersive-sales-deck",
+        "wrg32786/aigent-design-system/command-center-interface",
+        "wrg32786/aigent-design-system/threejs-product-stage",
+        "wrg32786/aigent-design-system/creative-production",
+        "wrg32786/aigent-design-system/design-resolver"
+      ],
+      "files": [
+        {
+          "path": "studio/index.html",
+          "type": "registry:file",
+          "target": "~/studio/index.html"
+        },
+        {
+          "path": "studio/studio.css",
+          "type": "registry:file",
+          "target": "~/studio/studio.css"
+        },
+        {
+          "path": "studio/app.js",
+          "type": "registry:file",
+          "target": "~/studio/app.js"
+        },
+        {
+          "path": "studio/README.md",
+          "type": "registry:file",
+          "target": "~/studio/README.md"
+        },
+        {
+          "path": "scripts/studio-server.mjs",
+          "type": "registry:file",
+          "target": "~/scripts/studio-server.mjs"
+        },
+        {
+          "path": "scripts/check-studio.mjs",
+          "type": "registry:file",
+          "target": "~/scripts/check-studio.mjs"
+        },
+        {
+          "path": "scripts/cli.mjs",
+          "type": "registry:file",
+          "target": "~/scripts/cli.mjs"
+        },
+        {
+          "path": "registry.json",
+          "type": "registry:file",
+          "target": "~/.aigent/studio/registry.json"
+        },
+        {
+          "path": "skills/aigent-studio/SKILL.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/aigent-studio/SKILL.md"
+        }
+      ],
+      "devDependencies": [
+        "playwright@^1.61.1"
+      ],
+      "docs": "Run `node scripts/studio-server.mjs --open` after installing. Studio binds to localhost, uses an authenticated local Claude Code or Codex CLI, and never requests an API key in the browser."
+    },
+    {
       "name": "full-studio",
       "type": "registry:item",
       "title": "Complete AIgent Design Studio",
@@ -974,7 +1041,8 @@
         "wrg32786/aigent-design-system/creative-production",
         "wrg32786/aigent-design-system/quality-suite",
         "wrg32786/aigent-design-system/design-resolver",
-        "wrg32786/aigent-design-system/design-vault"
+        "wrg32786/aigent-design-system/design-vault",
+        "wrg32786/aigent-design-system/aigent-studio"
       ],
       "files": [
         {

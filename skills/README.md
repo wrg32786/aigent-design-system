@@ -97,3 +97,7 @@ The `aigent-*` specialist skills are brand-specific. Outside brands should enter
 | Skill | Owns |
 | --- | --- |
 | `visual-design-critic` | Annotated capture inspection, twelve-dimension critique, visual comparison, and the final combined gate |
+
+## AIgent Studio
+
+Use `aigent-studio` when operating the interactive local builder. It routes project creation, brief updates, live preview, Claude Code or Codex execution, Design Intelligence, Inspiration Intelligence, Resolve, and Vision without replacing the specialist skills that own each stage.

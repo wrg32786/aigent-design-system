@@ -10,6 +10,7 @@ const defaultProjectsRoot = path.join(packageRoot, ".aigent", "studio", "project
 const MAX_BODY_BYTES = 1_000_000;
 const PROJECT_ID = /^[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/;
 const PROVIDERS = new Set(["claude", "codex", "manual"]);
+const BLOCKED_PATH_SEGMENTS = new Set([".git", ".aigent", ".claude", ".codex", "node_modules"]);
 const STARTERS = Object.freeze({
   blank: { label: "Blank static site", item: "studio-core", entry: "/index.html", mode: "persuade" },
   cinematic: { label: "Cinematic scroll page", item: "cinematic-page", entry: "/templates/modular-scroll-starter/", mode: "experience" },
@@ -28,6 +29,15 @@ const types = new Map([
 ]);
 
 function now() { return new Date().toISOString(); }
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"\']/g, (character) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "\'": "&#39;",
+  })[character]);
+}
+function text(value, fallback = "", maximum = 5000) {
+  const selected = String(value ?? fallback).trim();
+  return (selected || String(fallback)).slice(0, maximum);
+}
 function option(args, name, fallback = null) {
   const index = args.indexOf(name);
   return index >= 0 ? args[index + 1] ?? fallback : fallback;
@@ -130,15 +140,20 @@ function agentInstructions(project) {
   return `# AIgent Studio project\n\nRead these before editing:\n\n1. \`BRIEF.md\`\n2. \`PRODUCT.md\`\n3. \`DESIGN.md\`\n4. \`.claude/skills/aigent-design/SKILL.md\` when present\n5. \`.aigent/design-plan.json\` when present\n6. \`.aigent/inspiration-plan.json\` when present\n\nWork directly on the preview entry \`${project.entry}\`. Reuse the installed tokens, patterns, skills, and starter before adding code or dependencies. Preserve accessibility, mobile recomposition, reduced motion, asset provenance, and the chosen product-specific visual world. Do not build a second disconnected demo elsewhere.\n`;
 }
 function blankFiles(directory, project) {
-  const html = `<!doctype html>\n<html lang="en" data-theme="graphite">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <meta name="description" content="${project.description.replace(/"/g, "&quot;")}">\n  <title>${project.name}</title>\n  <link rel="stylesheet" href="tokens/system.css">\n  <link rel="stylesheet" href="styles.css">\n</head>\n<body class="ds-shell">\n  <main class="site-shell">\n    <p class="ds-eyebrow">AIgent Studio project</p>\n    <h1>${project.name}</h1>\n    <p>${project.description}</p>\n    <a class="ds-button" data-variant="solid" href="#start">Start</a>\n  </main>\n  <script type="module" src="app.js"></script>\n</body>\n</html>\n`;
+  const name = escapeHtml(project.name);
+  const description = escapeHtml(project.description);
+  const html = `<!doctype html>\n<html lang="en" data-theme="graphite">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <meta name="description" content="${description}">\n  <title>${name}</title>\n  <link rel="stylesheet" href="tokens/system.css">\n  <link rel="stylesheet" href="styles.css">\n</head>\n<body class="ds-shell">\n  <main class="site-shell">\n    <p class="ds-eyebrow">AIgent Studio project</p>\n    <h1>${name}</h1>\n    <p>${description}</p>\n    <a class="ds-button" data-variant="solid" href="#start">Start</a>\n  </main>\n  <script type="module" src="app.js"></script>\n</body>\n</html>\n`;
   const css = `body{margin:0}.site-shell{width:min(1100px,calc(100% - 40px));min-height:100svh;margin:auto;display:grid;align-content:center;gap:24px}.site-shell h1{max-width:10ch;margin:0;font:800 clamp(4rem,12vw,9rem)/.9 var(--ds-font-display);letter-spacing:-.05em}.site-shell p:not(.ds-eyebrow){max-width:62ch;margin:0;color:var(--ds-color-muted);font:520 1.15rem/1.6 var(--ds-font-body)}.site-shell .ds-button{width:max-content}@media(max-width:600px){.site-shell{width:min(100% - 28px,1100px)}}\n`;
   fs.writeFileSync(path.join(directory, "index.html"), html);
   fs.writeFileSync(path.join(directory, "styles.css"), css);
   fs.writeFileSync(path.join(directory, "app.js"), "document.documentElement.dataset.ready = 'true';\n");
 }
 function runLocalCli(args, options = {}) {
+  const studioRegistry = path.join(packageRoot, ".aigent", "studio", "registry.json");
   const result = spawnSync(process.execPath, [path.join(packageRoot, "scripts", "cli.mjs"), ...args], {
-    cwd: packageRoot, encoding: "utf8", windowsHide: true, maxBuffer: 20 * 1024 * 1024, ...options,
+    cwd: packageRoot, encoding: "utf8", windowsHide: true, maxBuffer: 20 * 1024 * 1024,
+    env: { ...process.env, ...(fs.existsSync(studioRegistry) ? { AIGENT_REGISTRY_PATH: studioRegistry } : {}) },
+    ...options,
   });
   if (result.status !== 0) throw new Error((result.stderr || result.stdout || "AIgent CLI failed").trim());
   return result.stdout.trim();
@@ -162,10 +177,10 @@ function createProject(projectsRoot, input = {}) {
   try {
     runLocalCli(["add", starter.item, "--target", directory]);
     const project = {
-      schemaVersion: 1, id, name: String(input.name || "Untitled site").trim(),
-      description: String(input.description || "A distinctive product-specific website built in AIgent Studio.").trim(),
-      audience: String(input.audience || "").trim(), goal: String(input.goal || "").trim(),
-      mechanism: String(input.mechanism || "").trim(), request: String(input.request || "").trim(),
+      schemaVersion: 1, id, name: text(input.name, "Untitled site", 120),
+      description: text(input.description, "A distinctive product-specific website built in AIgent Studio.", 5000),
+      audience: text(input.audience, "", 1000), goal: text(input.goal, "", 2000),
+      mechanism: text(input.mechanism, "", 3000), request: text(input.request, "", 6000),
       starter: starterKey, entry: starter.entry, provider: PROVIDERS.has(input.provider) ? input.provider : "claude",
       references: normaliseReferences(input.references), createdAt: now(), updatedAt: now(), revision: 1,
       lastRun: null, claudeSessionId: null,
@@ -181,7 +196,7 @@ function createProject(projectsRoot, input = {}) {
 function updateProject(projectsRoot, id, input = {}) {
   const project = readProject(projectsRoot, id);
   for (const key of ["name", "description", "audience", "goal", "mechanism", "request"]) {
-    if (input[key] != null) project[key] = String(input[key]).trim();
+    if (input[key] != null) project[key] = text(input[key], "", key === "name" ? 120 : 6000);
   }
   if (input.provider && PROVIDERS.has(input.provider)) project.provider = input.provider;
   if (input.references != null) project.references = normaliseReferences(input.references);
@@ -229,17 +244,18 @@ export function createStudioServer(options = {}) {
   }
   function finishTask(project, code, signal = null) {
     const task = tasks.get(project.id);
-    if (!task) return;
+    if (!task || task.done) return;
+    task.done = true;
     project.lastRun = { id: task.id, kind: task.kind, provider: task.provider, code, signal, finishedAt: now() };
     project.updatedAt = now(); project.revision += 1;
     writeJson(projectFile(projectsRoot, project.id), project);
     emit(project.id, "done", { code, signal, revision: project.revision });
-    task.child = null; task.done = true;
+    task.child = null;
   }
   function startProcess(project, spec) {
     const existing = tasks.get(project.id);
     if (existing?.child) throw Object.assign(new Error("A task is already running for this project."), { statusCode: 409 });
-    const task = { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, kind: spec.kind, provider: spec.provider || null, child: null, events: [], clients: new Set(), done: false };
+    const task = { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, kind: spec.kind, provider: spec.provider || null, child: null, events: existing?.events || [], clients: existing?.clients || new Set(), done: false };
     tasks.set(project.id, task);
     const child = spawn(spec.command, spec.args, { cwd: spec.cwd || projectDirectory(projectsRoot, project.id), env: { ...process.env, FORCE_COLOR: "0", AIGENT_STUDIO: "1" }, shell: false, windowsHide: true, stdio: ["ignore", "pipe", "pipe"] });
     task.child = child;
@@ -312,6 +328,9 @@ export function createStudioServer(options = {}) {
   }
 
   async function body(request) {
+    if (!String(request.headers["content-type"] || "").toLowerCase().startsWith("application/json")) {
+      throw Object.assign(new Error("Request content type must be application/json."), { statusCode: 415 });
+    }
     const chunks = []; let size = 0;
     for await (const chunk of request) {
       size += chunk.length; if (size > MAX_BODY_BYTES) throw Object.assign(new Error("Request body is too large."), { statusCode: 413 });
@@ -333,6 +352,8 @@ export function createStudioServer(options = {}) {
     return true;
   }
   function resolveStatic(root, pathname) {
+    const segments = pathname.split("/").filter(Boolean);
+    if (segments.some((segment) => segment.startsWith(".") || BLOCKED_PATH_SEGMENTS.has(segment))) return null;
     let file = path.resolve(root, `.${pathname}`);
     if (file !== root && !file.startsWith(`${root}${path.sep}`)) return null;
     if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, "index.html");
@@ -343,6 +364,11 @@ export function createStudioServer(options = {}) {
     try {
       const url = new URL(request.url || "/", `http://${host}:${requestedPort}`);
       const method = request.method || "GET";
+      const origin = request.headers.origin;
+      const expectedOrigin = `http://${request.headers.host}`;
+      if (!["GET", "HEAD", "OPTIONS"].includes(method) && origin && origin !== expectedOrigin) {
+        throw Object.assign(new Error("Cross-origin Studio writes are not allowed."), { statusCode: 403 });
+      }
       if (url.pathname === "/") { response.writeHead(302, { location: "/studio/" }); response.end(); return; }
       if (url.pathname === "/api/status" && method === "GET") return respondJson(response, 200, { version: "0.6.0", projectsRoot, providers: statuses, starters: Object.entries(STARTERS).map(([id, value]) => ({ id, label: value.label, entry: value.entry })) });
       if (url.pathname === "/api/projects" && method === "GET") return respondJson(response, 200, { projects: listProjects(projectsRoot) });

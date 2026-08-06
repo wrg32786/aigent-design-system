@@ -4,6 +4,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:4177";
 const pages = [
   "/",
   "/vault/",
+  "/studio/",
   "/inspiration/lab/",
   "/templates/modular-scroll-starter/",
   "/templates/immersive-sales-deck/",

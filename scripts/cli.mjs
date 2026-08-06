@@ -4,7 +4,9 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const registryPath = path.join(packageRoot, "registry.json");
+const registryPath = process.env.AIGENT_REGISTRY_PATH
+  ? path.resolve(process.env.AIGENT_REGISTRY_PATH)
+  : path.join(packageRoot, "registry.json");
 const repositoryPrefix = "wrg32786/aigent-design-system/";
 
 function fail(message) {
@@ -27,7 +29,7 @@ function readRegistryFile(file, seen = new Set()) {
   seen.add(file);
 
   const source = JSON.parse(fs.readFileSync(file, "utf8"));
-  const base = path.relative(packageRoot, path.dirname(file)).split(path.sep).join("/");
+  const base = file === registryPath ? "" : path.relative(packageRoot, path.dirname(file)).split(path.sep).join("/");
   const items = (source.items || []).map((item) => ({
     ...item,
     files: (item.files || []).map((entry) => ({
@@ -191,8 +193,13 @@ async function vision(args) {
   await runVision(args);
 }
 
+async function studio(args) {
+  const { runStudio } = await import(pathToFileURL(path.join(packageRoot, "scripts/studio-server.mjs")));
+  await runStudio(args);
+}
+
 function help() {
-  console.log(`AIgent Design\n\nCommands:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  resolve [--target dir] [--url url] [--init] [--no-fail]\n  vision <prepare|check|finalize> ...\n  doctor\n`);
+  console.log(`AIgent Design\n\nCommands:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  resolve [--target dir] [--url url] [--init] [--no-fail]\n  vision <prepare|check|finalize> ...\n  studio [--port 4180] [--root dir] [--open]\n  doctor\n`);
 }
 
 try {
@@ -213,6 +220,8 @@ try {
     await resolve(args);
   } else if (command === "vision") {
     await vision(args);
+  } else if (command === "studio") {
+    await studio(args);
   } else {
     help();
   }

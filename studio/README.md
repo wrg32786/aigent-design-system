@@ -2,8 +2,16 @@
 
 AIgent Studio is the local interactive UI for building and revising websites with an authenticated Claude Code or Codex CLI agent that works inside an AIgent-equipped project.
 
+From this repository:
+
 ```bash
-npm run studio
+npm run studio -- --open
+```
+
+After installing the `aigent-studio` registry item into another project:
+
+```bash
+node scripts/studio-server.mjs --open
 ```
 
 Open `http://127.0.0.1:4180/studio/`.
