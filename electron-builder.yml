@@ -1,0 +1,139 @@
+appId: xyz.theaigent.desktop
+productName: AIgent Desktop
+copyright: Copyright © 2026 The AIgent
+artifactName: AIgent-Desktop-${version}-${os}-${arch}.${ext}
+asar: true
+asarUnpack:
+  - scripts/**
+  - studio/**
+  - tokens/**
+  - modules/**
+  - templates/**
+  - patterns/**
+  - design-intelligence/**
+  - inspiration/**
+  - creative-production/**
+  - assets/**
+  - integrations/**
+  - recipes/**
+  - skills/**
+  - evals/**
+  - case-studies/**
+  - vault/**
+  - docs/**
+  - resolve/**
+  - vision/**
+  - node_modules/playwright/**
+  - node_modules/playwright-core/**
+  - registry.json
+  - PRODUCT.md
+  - DESIGN.md
+  - SECURITY.md
+  - THIRD_PARTY.md
+  - CONTRIBUTING.md
+  - LICENSE
+  - README.md
+  - CHANGELOG.md
+  - package.json
+directories:
+  output: desktop-dist
+  buildResources: desktop/resources
+files:
+  - desktop/**
+  - scripts/**
+  - studio/**
+  - tokens/**
+  - modules/**
+  - templates/**
+  - patterns/**
+  - design-intelligence/**
+  - inspiration/**
+  - creative-production/**
+  - assets/**
+  - integrations/**
+  - recipes/**
+  - skills/**
+  - evals/**
+  - case-studies/**
+  - vault/**
+  - docs/**
+  - resolve/**
+  - vision/**
+  - PRODUCT.md
+  - DESIGN.md
+  - SECURITY.md
+  - THIRD_PARTY.md
+  - CONTRIBUTING.md
+  - LICENSE
+  - README.md
+  - CHANGELOG.md
+  - registry.json
+  - package.json
+  - '!desktop/resources/generated/**'
+  - '!desktop/resources/playwright/**'
+  - '!**/.aigent/**'
+  - '!**/artifacts/**'
+  - '!desktop-dist/**'
+extraResources:
+  - from: desktop/resources/playwright
+    to: playwright
+    filter:
+      - '**/*'
+extraMetadata:
+  main: desktop/main.mjs
+publish:
+  provider: github
+  owner: wrg32786
+  repo: aigent-design-system
+  releaseType: release
+win:
+  icon: desktop/resources/generated/icon.png
+  target:
+    - target: nsis
+      arch:
+        - x64
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: AIgent Desktop
+  uninstallDisplayName: AIgent Desktop
+  deleteAppDataOnUninstall: false
+  runAfterFinish: true
+  installerSidebar: desktop/resources/generated/installer-sidebar.bmp
+  installerHeader: desktop/resources/generated/installer-header.bmp
+  differentialPackage: true
+mac:
+  icon: desktop/resources/generated/icon.png
+  category: public.app-category.developer-tools
+  target:
+    - dmg
+    - zip
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  darkModeSupport: true
+dmg:
+  background: desktop/resources/generated/dmg-background.png
+  iconSize: 92
+  window:
+    width: 540
+    height: 380
+  contents:
+    - x: 166
+      y: 265
+      type: file
+    - x: 374
+      y: 265
+      type: link
+      path: /Applications
+linux:
+  icon: desktop/resources/generated/icon.png
+  category: Development
+  target:
+    - AppImage
+    - deb
+  synopsis: Agent-native visual website studio
+  description: Build, edit, critique, and ship immersive websites with AIgent Studio and a local coding agent.

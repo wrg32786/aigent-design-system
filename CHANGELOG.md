@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.1.0 — AIgent Desktop
+
+### Added
+
+- native Electron desktop shell around the real localhost AIgent Studio
+- custom five-step installation and first-run setup wizard
+- separate workspace selection so application updates never remove projects
+- Git, Node, npm, Git Bash, Claude Code, and Codex environment detection
+- one-click official Claude Code and Codex installation plus visible terminal authentication
+- one-click Studio launch and clean local-server process management
+- launch-at-login, automatic update, diagnostics export, repair, logs, and app-data reset controls
+- assisted Windows NSIS installer with selectable install directory, desktop and Start-menu shortcuts, and normal uninstall support
+- architecture-matched macOS Apple Silicon and Intel DMG/ZIP packaging with custom artwork
+- Windows signing and macOS signing/notarization hooks in the release workflow
+- generated installer artwork and cross-platform desktop contract checks
+
+### Changed
+
+- package version is now `1.1.0`
+- packaged child tooling uses the Electron runtime while preserving external Claude Code and Codex authentication
+- validated releases now trigger native installer builds and attach them to GitHub Releases
+
+
 ## 1.0.0 — AIgent Canvas
 
 ### Added

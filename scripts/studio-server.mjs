@@ -155,14 +155,27 @@ function blankFiles(directory, project) {
   fs.writeFileSync(path.join(directory, "styles.css"), css);
   fs.writeFileSync(path.join(directory, "app.js"), "document.documentElement.dataset.ready = 'true';\n");
 }
+function executableScript(relativePath) {
+  const packed = path.join(packageRoot, relativePath);
+  const marker = `${path.sep}app.asar${path.sep}`;
+  const unpacked = packed.includes(marker) ? packed.replace(marker, `${path.sep}app.asar.unpacked${path.sep}`) : packed;
+  return fs.existsSync(unpacked) ? unpacked : packed;
+}
+function studioNodeSpec(relativePath, args = []) {
+  const command = process.env.AIGENT_STUDIO_NODE_BIN || process.execPath;
+  const env = { ...process.env };
+  if (process.env.AIGENT_STUDIO_ELECTRON_NODE === "1" || process.versions.electron) env.ELECTRON_RUN_AS_NODE = "1";
+  return { command, args: [executableScript(relativePath), ...args], env };
+}
 function runLocalCli(args, options = {}) {
   const studioRegistry = path.join(packageRoot, ".aigent", "studio", "registry.json");
-  const result = spawnSync(process.execPath, [path.join(packageRoot, "scripts", "cli.mjs"), ...args], {
+  const spec = studioNodeSpec(path.join("scripts", "cli.mjs"), args);
+  const result = spawnSync(spec.command, spec.args, {
     cwd: packageRoot,
     encoding: "utf8",
     windowsHide: true,
     maxBuffer: 20 * 1024 * 1024,
-    env: { ...process.env, ...(fs.existsSync(studioRegistry) ? { AIGENT_REGISTRY_PATH: studioRegistry } : {}) },
+    env: { ...spec.env, ...(fs.existsSync(studioRegistry) ? { AIGENT_REGISTRY_PATH: studioRegistry } : {}) },
     ...options,
   });
   if (result.status !== 0) throw new Error((result.stderr || result.stdout || "AIgent CLI failed").trim());
@@ -539,7 +552,7 @@ export function createStudioServer(options = {}) {
     if (existing?.child) throw Object.assign(new Error("A task is already running for this project."), { statusCode: 409 });
     const task = { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, kind: spec.kind, provider: spec.provider || null, child: null, events: existing?.events || [], done: false };
     tasks.set(project.id, task);
-    const child = spawn(spec.command, spec.args, { cwd: spec.cwd || projectDirectory(projectsRoot, project.id), env: { ...process.env, FORCE_COLOR: "0", AIGENT_STUDIO: "1" }, shell: false, windowsHide: true, stdio: ["ignore", "pipe", "pipe"] });
+    const child = spawn(spec.command, spec.args, { cwd: spec.cwd || projectDirectory(projectsRoot, project.id), env: { ...process.env, ...(spec.env || {}), FORCE_COLOR: "0", AIGENT_STUDIO: "1" }, shell: false, windowsHide: true, stdio: ["ignore", "pipe", "pipe"] });
     task.child = child;
     emitTask(project.id, "start", { runId: task.id, kind: task.kind, provider: task.provider, command: path.basename(spec.command) });
     const consume = (stream, channel) => {
@@ -598,13 +611,14 @@ export function createStudioServer(options = {}) {
     }
     const address = server.address();
     const previewUrl = `http://${host}:${address.port}/preview/${project.id}${previewPath(project)}`;
-    if (action === "resolve") return startProcess(project, { kind: action, command: process.execPath, args: [path.join(packageRoot, "scripts", "resolve-design.mjs"), "--target", directory, "--url", previewUrl, "--out", path.join(directory, ".aigent", "resolve"), "--no-fail"] });
-    if (action === "vision") return startProcess(project, { kind: action, command: process.execPath, args: [path.join(packageRoot, "scripts", "vision-review.mjs"), "prepare", "--target", directory, "--url", previewUrl, "--out", path.join(directory, ".aigent", "resolve")] });
+    if (action === "resolve") { const spec = studioNodeSpec(path.join("scripts", "resolve-design.mjs"), ["--target", directory, "--url", previewUrl, "--out", path.join(directory, ".aigent", "resolve"), "--no-fail"]); return startProcess(project, { kind: action, ...spec }); }
+    if (action === "vision") { const spec = studioNodeSpec(path.join("scripts", "vision-review.mjs"), ["prepare", "--target", directory, "--url", previewUrl, "--out", path.join(directory, ".aigent", "resolve")]); return startProcess(project, { kind: action, ...spec }); }
     if (action === "inspire") {
       const references = project.references.filter((item) => /^https?:\/\//i.test(item));
       if (!references.length) throw Object.assign(new Error("Add at least one public reference URL first."), { statusCode: 400 });
-      const args = [path.join(packageRoot, "scripts", "inspire.mjs"), "add", references[0], "--root", path.join(directory, ".aigent", "inspiration"), "--label", new URL(references[0]).hostname.replace(/[^a-z0-9]+/gi, "-").toLowerCase()];
-      return startProcess(project, { kind: action, command: process.execPath, args });
+      const args = ["add", references[0], "--root", path.join(directory, ".aigent", "inspiration"), "--label", new URL(references[0]).hostname.replace(/[^a-z0-9]+/gi, "-").toLowerCase()];
+      const spec = studioNodeSpec(path.join("scripts", "inspire.mjs"), args);
+      return startProcess(project, { kind: action, ...spec });
     }
     throw Object.assign(new Error("Unsupported action."), { statusCode: 400 });
   }
@@ -616,7 +630,7 @@ export function createStudioServer(options = {}) {
       const method = request.method || "GET";
 
       if (pathname === "/api/status" && method === "GET") {
-        sendJson(response, 200, { version: "1.0.0", providers: statuses, starters: Object.entries(STARTERS).map(([id, value]) => ({ id, ...value })), projectsRoot });
+        sendJson(response, 200, { version: "1.1.0", providers: statuses, starters: Object.entries(STARTERS).map(([id, value]) => ({ id, ...value })), projectsRoot });
         return;
       }
       if (pathname === "/api/projects" && method === "GET") { sendJson(response, 200, { projects: listProjects(projectsRoot) }); return; }
@@ -854,7 +868,7 @@ export async function runStudio(args = process.argv.slice(2)) {
   const app = createStudioServer({ projectsRoot: option(args, "--root", process.env.AIGENT_STUDIO_ROOT || defaultProjectsRoot), port: Number(option(args, "--port", 4180)), host: option(args, "--host", "127.0.0.1") });
   const address = await app.listen(Number(option(args, "--port", 4180)));
   const url = `http://127.0.0.1:${address.port}/studio/`;
-  console.log(`AIgent Studio v1.0 running at ${url}`);
+  console.log(`AIgent Studio v1.1 running at ${url}`);
   console.log(`Projects: ${app.projectsRoot}`);
   if (hasFlag(args, "--open") && !openBrowser(url)) console.log(`Open ${url} in a browser.`);
   const shutdown = async () => { await app.close(); process.exit(0); };

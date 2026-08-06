@@ -146,9 +146,9 @@ assert.ok(integrationCatalog.integrations.length >= 8, "Integration catalog is u
 assert.ok(integrationCatalog.integrations.every((item) => item.required === false), "Neutral core must not require optional integrations.");
 
 const packageJson = JSON.parse(fs.readFileSync(file("package.json"), "utf8"));
-assert.equal(packageJson.version, "1.0.0", "Expected package version 1.0.0.");
+assert.equal(packageJson.version, "1.1.0", "Expected package version 1.1.0.");
 assert.equal(packageJson.bin?.["aigent-design"], "scripts/cli.mjs", "Missing CLI bin.");
-for (const script of ["serve", "plan", "inspire", "resolve", "resolve:check", "vision", "vision:check", "audit", "assets", "catalogs", "intelligence", "inspiration", "registry", "eval", "score", "check", "smoke", "inspiration:smoke", "capture", "studio", "studio:check"]) {
+for (const script of ["serve", "plan", "inspire", "resolve", "resolve:check", "vision", "vision:check", "audit", "assets", "catalogs", "intelligence", "inspiration", "registry", "eval", "score", "check", "smoke", "inspiration:smoke", "capture", "studio", "studio:check", "desktop:start", "desktop:check"]) {
   assert.equal(typeof packageJson.scripts?.[script], "string", `Missing package script: ${script}`);
 }
 
@@ -157,7 +157,7 @@ for (const contract of [
   "SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → RESOLVE → SEE",
   "shadcn@latest add wrg32786/aigent-design-system/studio-core",
   "shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence",
-  "AIgent Studio", "npm run studio", "aigent-studio", "DOM-backed visual website canvas", "Canvas patch journal",
+  "AIgent Studio", "AIgent Desktop", "Windows installer", "macOS", "npm run studio", "aigent-studio", "DOM-backed visual website canvas", "Canvas patch journal",
   "AIgent Vision", "vision-critic", "vision prepare", "latest.visual-review.json", "Design DNA", "influence ledger",
   "AIgent Resolve", "design-resolver", "resolve:check", "vision:check", "inspiration:smoke",
   "templates/immersive-sales-deck/", "templates/command-center-interface/", "templates/threejs-product-stage/", "vault/",
@@ -178,4 +178,4 @@ for (const rule of ["a11y/html-lang", "responsive/viewport", "hierarchy/h1-count
   assert.ok(detectorProof.some((item) => item.rule === rule), `Design audit self-check missed ${rule}`);
 }
 
-console.log(`Design system check passed with ${registry.items.length} registry items, ${skillFiles.length} skills, ${resourceCatalog.resources.length} resources, ${integrationCatalog.integrations.length} integrations, Inspiration Intelligence, AIgent Resolve, and AIgent Vision and DOM-backed collaborative Studio v1.0.0.`);
+console.log(`Design system check passed with ${registry.items.length} registry items, ${skillFiles.length} skills, ${resourceCatalog.resources.length} resources, ${integrationCatalog.integrations.length} integrations, Inspiration Intelligence, AIgent Resolve, and AIgent Vision and DOM-backed collaborative Studio v1.1.0 and AIgent Desktop.`);

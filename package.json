@@ -1,8 +1,8 @@
 {
   "name": "aigent-design-system",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": false,
-  "description": "An installable agent-native design studio with a DOM-backed visual canvas, live code, components, collaboration, inspiration forensics, immersive production, Resolve, Vision, skills, provenance, evals, and browser QA.",
+  "description": "An installable agent-native design studio with a native desktop installer, guided setup, DOM-backed visual canvas, live code, components, collaboration, Resolve, Vision, and browser QA.",
   "type": "module",
   "bin": {
     "aigent-design": "scripts/cli.mjs"
@@ -28,7 +28,17 @@
     "inspiration:smoke": "node scripts/inspiration-smoke.mjs",
     "capture": "node scripts/capture.mjs",
     "studio": "node scripts/studio-server.mjs",
-    "studio:check": "node --check studio/app.js && node --check studio/bridge.js && node scripts/check-studio.mjs"
+    "studio:check": "node --check studio/app.js && node --check studio/bridge.js && node scripts/check-studio.mjs",
+    "desktop:assets": "node scripts/generate-desktop-assets.mjs",
+    "desktop:prepare": "node scripts/prepare-desktop-build.mjs",
+    "desktop:start": "electron .",
+    "desktop:check": "node scripts/check-desktop.mjs",
+    "desktop:smoke": "electron . --smoke-test --no-sandbox",
+    "desktop:pack": "npm run desktop:prepare && electron-builder --dir",
+    "desktop:dist": "npm run desktop:prepare && electron-builder",
+    "desktop:dist:win": "npm run desktop:prepare && electron-builder --win nsis --x64",
+    "desktop:dist:mac": "npm run desktop:prepare && electron-builder --mac dmg zip",
+    "desktop:smoke:packaged": "node scripts/smoke-packaged-desktop.mjs"
   },
   "keywords": [
     "ai",
@@ -66,13 +76,24 @@
     "direct-manipulation",
     "design-to-code",
     "collaborative-design",
-    "dom-editor"
+    "dom-editor",
+    "desktop-app",
+    "install-wizard",
+    "nsis",
+    "dmg",
+    "auto-update"
   ],
   "license": "MIT",
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
+    "electron": "43.2.0",
+    "electron-builder": "26.15.3"
+  },
+  "main": "desktop/main.mjs",
+  "dependencies": {
+    "electron-updater": "6.8.9",
     "playwright": "^1.61.1"
   }
 }

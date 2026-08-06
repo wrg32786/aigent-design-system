@@ -129,3 +129,10 @@ AIgent Studio is the human operating surface for the design system. It combines 
 The actual project files remain the source of truth. Canvas operations are reversible operator intent stored under `.aigent/studio/canvas.json` until an agent distills them into the shared source owner and the operator verifies the result.
 
 The 1.0 boundary is website production, not generic vector illustration. It intentionally prioritizes real HTML/CSS/JavaScript output, optional immersive runtimes, accessibility, mobile recomposition, collaboration, and verified shipping.
+
+## AIgent Desktop product contract
+
+AIgent Desktop is the consumer-ready installation and operating shell for Studio. A non-technical user can download a native installer, choose a workspace, verify prerequisites, install and authenticate a supported coding agent, launch Studio, receive updates, repair the installation, and export diagnostics without manually starting a localhost server.
+
+The desktop shell stays thin. It reuses the existing Studio server, project format, Canvas, skills, agents, Resolve, and Vision rather than creating a second editor or project model. User projects remain outside the application bundle and survive updates and uninstall.
+

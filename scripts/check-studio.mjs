@@ -12,7 +12,7 @@ try {
   const address = await app.listen(0);
   const base = `http://127.0.0.1:${address.port}`;
   const status = await fetch(`${base}/api/status`).then((response) => response.json());
-  assert.equal(status.version, "1.0.0");
+  assert.equal(status.version, "1.1.0");
   assert.ok(status.starters.some((item) => item.id === "blank"));
 
   const createdResponse = await fetch(`${base}/api/projects`, {

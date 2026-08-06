@@ -1,0 +1,71 @@
+name: Validate AIgent Desktop installers
+
+on:
+  pull_request:
+    paths:
+      - desktop/**
+      - electron-builder.yml
+      - package.json
+      - package-lock.json
+      - scripts/generate-desktop-assets.mjs
+      - scripts/prepare-desktop-build.mjs
+      - scripts/smoke-packaged-desktop.mjs
+      - scripts/check-desktop.mjs
+      - scripts/studio-server.mjs
+      - .github/workflows/desktop-build-check.yml
+      - .github/workflows/desktop-release.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desktop-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            name: windows-x64
+            command: npm run desktop:dist -- --win nsis --x64 --publish never
+          - os: macos-14
+            name: macos-arm64
+            command: npm run desktop:dist -- --mac dmg zip --arm64 --config.publish.channel=latest-arm64 --publish never
+          - os: macos-15-intel
+            name: macos-x64
+            command: npm run desktop:dist -- --mac dmg zip --x64 --config.publish.channel=latest-x64 --publish never
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run desktop:check
+      - name: Build unsigned installer proof
+        shell: bash
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: ${{ matrix.command }}
+      - name: Verify packaged application boot
+        run: npm run desktop:smoke:packaged
+      - name: Collect proof files
+        shell: bash
+        run: |
+          mkdir -p installer-proof
+          find desktop-dist -maxdepth 1 -type f \( \
+            -name '*.exe' -o -name '*.dmg' -o -name '*.zip' -o \
+            -name '*.blockmap' -o -name 'latest*.yml' -o -name 'latest*.yaml' \
+          \) -exec cp {} installer-proof/ \;
+          test -n "$(find installer-proof -maxdepth 1 -type f -print -quit)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aigent-desktop-pr-${{ matrix.name }}
+          path: installer-proof/*
+          if-no-files-found: error
+          retention-days: 14

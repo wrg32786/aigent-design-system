@@ -31,3 +31,6 @@ assets/**/*.tar
 assets/**/*.tar.gz
 .aigent/studio/projects/
 .aigent/studio/runtime/
+desktop-dist/
+desktop/resources/generated/
+desktop/resources/playwright/

@@ -1,0 +1,122 @@
+#!/usr/bin/env node
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+import {
+  APP_ID,
+  APP_NAME,
+  DESKTOP_VERSION,
+  collectEnvironment,
+  defaultConfig,
+  diagnosticsReport,
+  ensureWorkspace,
+  authCommand,
+  installCommand,
+  normalizeConfig,
+  writeConfig,
+  readConfig,
+} from "../desktop/lib.mjs";
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const file = (relative) => path.join(root, relative);
+const required = [
+  "desktop/main.mjs",
+  "desktop/preload.cjs",
+  "desktop/lib.mjs",
+  "desktop/renderer/index.html",
+  "desktop/renderer/app.js",
+  "desktop/renderer/styles.css",
+  "desktop/resources/icon.svg",
+  "desktop/README.md",
+  "electron-builder.yml",
+  "scripts/generate-desktop-assets.mjs",
+  "scripts/prepare-desktop-build.mjs",
+  "scripts/smoke-packaged-desktop.mjs",
+  "scripts/check-desktop.mjs",
+  ".github/workflows/desktop-build-check.yml",
+  ".github/workflows/desktop-release.yml",
+];
+for (const relative of required) assert.ok(fs.existsSync(file(relative)), `Missing desktop file: ${relative}`);
+
+const packageJson = JSON.parse(fs.readFileSync(file("package.json"), "utf8"));
+assert.equal(packageJson.version, DESKTOP_VERSION);
+assert.equal(packageJson.main, "desktop/main.mjs");
+assert.equal(packageJson.scripts["desktop:start"], "electron .");
+for (const script of ["desktop:assets", "desktop:prepare", "desktop:start", "desktop:check", "desktop:smoke", "desktop:smoke:packaged", "desktop:pack", "desktop:dist", "desktop:dist:win", "desktop:dist:mac"]) {
+  assert.equal(typeof packageJson.scripts?.[script], "string", `Missing desktop package script: ${script}`);
+}
+for (const name of ["electron-updater", "playwright"]) assert.equal(typeof packageJson.dependencies?.[name], "string", `Missing runtime dependency: ${name}`);
+for (const name of ["electron", "electron-builder"]) assert.equal(typeof packageJson.devDependencies?.[name], "string", `Missing desktop build dependency: ${name}`);
+
+const builder = fs.readFileSync(file("electron-builder.yml"), "utf8");
+for (const contract of [
+  APP_ID,
+  "oneClick: false",
+  "allowToChangeInstallationDirectory: true",
+  "createDesktopShortcut: true",
+  "  - dmg",
+  "provider: github",
+  "asarUnpack:",
+  "node_modules/playwright/**",
+  "node_modules/playwright-core/**",
+  "docs/**",
+  "resolve/**",
+  "vision/**",
+  "CONTRIBUTING.md",
+  "extraResources:",
+  "to: playwright",
+  "deleteAppDataOnUninstall: false",
+]) {
+  assert.ok(builder.includes(contract), `Desktop builder config missing: ${contract}`);
+}
+assert.ok(!builder.includes("verifyUpdateCodeSignature: false"), "Desktop updates must not disable signature verification.");
+const workflow = fs.readFileSync(file(".github/workflows/desktop-release.yml"), "utf8");
+for (const contract of ["windows-latest", "macos-14", "macos-15-intel", "latest-arm64", "latest-x64", "desktop:smoke:packaged", "WIN_CSC_LINK", "MAC_CSC_LINK", "APPLE_API_KEY", "gh release upload"]) {
+  assert.ok(workflow.includes(contract), `Desktop release workflow missing: ${contract}`);
+}
+const html = fs.readFileSync(file("desktop/renderer/index.html"), "utf8");
+for (const contract of ["Choose where your sites live", "Verify the production stack", "Connect the agent", "Launch AIgent Studio", "Export diagnostics", "Repair installation"]) {
+  assert.ok(html.includes(contract), `Setup wizard missing: ${contract}`);
+}
+const preload = fs.readFileSync(file("desktop/preload.cjs"), "utf8");
+assert.ok(preload.includes("contextBridge.exposeInMainWorld"));
+assert.ok(!preload.includes("ipcRenderer.send,"), "Preload must not expose raw IPC.");
+const main = fs.readFileSync(file("desktop/main.mjs"), "utf8");
+for (const contract of ["contextIsolation: true", "sandbox: true", "nodeIntegration: false", "setPermissionRequestHandler", "requestSingleInstanceLock", "autoUpdater", "latest-arm64", "latest-x64", "capturePage", "runtimeRoot", "createStudioServer"]) assert.ok(main.includes(contract), `Desktop main missing: ${contract}`);
+
+for (const target of ["desktop/main.mjs", "desktop/lib.mjs", "desktop/renderer/app.js", "desktop/preload.cjs", "scripts/generate-desktop-assets.mjs", "scripts/prepare-desktop-build.mjs", "scripts/smoke-packaged-desktop.mjs"]) {
+  const result = spawnSync(process.execPath, ["--check", file(target)], { encoding: "utf8" });
+  assert.equal(result.status, 0, `${target} failed syntax check:\n${result.stderr}`);
+}
+
+const assetResult = spawnSync(process.execPath, [file("scripts/generate-desktop-assets.mjs")], { cwd: root, encoding: "utf8" });
+assert.equal(assetResult.status, 0, assetResult.stderr || assetResult.stdout);
+for (const asset of ["icon.png", "installer-sidebar.bmp", "installer-header.bmp", "dmg-background.png", "dmg-background@2x.png"]) {
+  const assetPath = file(`desktop/resources/generated/${asset}`);
+  assert.ok(fs.statSync(assetPath).size > 1000, `Generated asset is empty: ${asset}`);
+}
+
+const temp = fs.mkdtempSync(path.join(os.tmpdir(), "aigent-desktop-check-"));
+try {
+  const workspace = ensureWorkspace(path.join(temp, "workspace"));
+  const configFile = path.join(temp, "desktop.json");
+  const saved = writeConfig(configFile, { ...defaultConfig({ documents: temp }), workspace, preferredAgent: "manual", onboardingComplete: true }, { documents: temp });
+  assert.equal(readConfig(configFile, { documents: temp }).workspace, workspace);
+  assert.equal(saved.onboardingComplete, true);
+  assert.equal(normalizeConfig({ preferredAgent: "invalid" }, { documents: temp }).preferredAgent, "manual");
+  const environment = collectEnvironment(saved);
+  assert.equal(environment.runtime.available, true);
+  assert.equal(environment.workspace.available, true);
+  assert.equal(installCommand("manual", environment), null);
+  assert.deepEqual(authCommand("codex", { codex: { available: true, command: "codex" } }).args, ["login"]);
+  const report = diagnosticsReport({ appVersion: DESKTOP_VERSION, config: saved, environment, log: "desktop proof" });
+  assert.match(report, new RegExp(APP_NAME));
+  assert.match(report, /desktop proof/);
+} finally {
+  fs.rmSync(temp, { recursive: true, force: true });
+}
+
+console.log(`AIgent Desktop ${DESKTOP_VERSION} check passed: wizard, secure IPC, environment detection, repair/diagnostics contract, complete packaged registry, bundled browser, installer assets, signing hooks, architecture-specific updates, and cross-platform packaging configuration.`);

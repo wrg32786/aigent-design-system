@@ -5,7 +5,7 @@
 <p align="center"><strong>Turn Claude, Codex, Cursor, and other coding agents into a design-and-production studio for immersive websites, product interfaces, cinematic decks, and the media behind them.</strong></p>
 
 <p align="center">
-  <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v1.0.0">v1.0.0</a>
+  <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v1.1.0">v1.1.0</a>
   · <a href="https://theaigent.xyz">The AIgent</a>
   · <a href="https://tools.theaigent.xyz">AIgent Tools</a>
   · <a href="#see-it-working">See it working</a>
@@ -15,6 +15,21 @@
 ```bash
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
 ```
+
+## AIgent Desktop
+
+AIgent now ships as a native desktop application with a custom installation wizard. Download the **Windows installer** (`.exe`) or **macOS Apple Silicon or Intel** disk image (`.dmg`) from the [latest release](https://github.com/wrg32786/aigent-design-system/releases/latest).
+
+The first-run wizard chooses a separate project workspace, verifies the bundled runtime and local tools, installs Claude Code or Codex through their official packages, opens the official authentication flow, configures startup and published updates, and launches the real DOM-backed Studio Canvas.
+
+For source development:
+
+```bash
+npm install
+npm run desktop:start
+```
+
+Native build and installer documentation lives in [`desktop/README.md`](desktop/README.md). Unsigned community builds remain possible, while trusted public installers use the repository signing and notarization secrets described there.
 
 ## AIgent Studio 1.0
 
@@ -218,12 +233,12 @@ External primitives and components are selected from curated sources such as sha
 
 ## Verification
 
-Validated release contract for `v0.6.0`:
+Validated release contract for `v1.1.0`:
 
 | Contract | Current proof |
 | --- | ---: |
-| Installable registry items | **15** |
-| Agent skills | **23** |
+| Installable registry items | **16** |
+| Agent skills | **24** |
 | Layout / type / motion systems | **15 / 8 / 14** |
 | Curated component sources | **10** |
 | Creative resources / integrations | **31 / 8** |
@@ -244,9 +259,10 @@ npm run check
 npm run smoke
 npm run inspiration:smoke
 npm run capture
+npm run desktop:check
 ```
 
-GitHub Actions validates the registry, clean installer, planner, Inspiration Intelligence, AIgent Resolve, AIgent Vision, evals, browser matrix, URL-forensics fixture, Inspiration Lab, and visual captures.
+GitHub Actions validates the registry, clean installer, planner, Inspiration Intelligence, AIgent Resolve, AIgent Vision, AIgent Studio, AIgent Desktop, evals, browser matrix, URL-forensics fixture, Inspiration Lab, and visual captures.
 
 ## Local development
 
@@ -272,6 +288,7 @@ PRODUCT.md
 DESIGN.md
 registry.json
 
+desktop/                native installer, setup, updates, diagnostics
 design-intelligence/    deterministic design decisions
 inspiration/            forensics, Design DNA, synthesis, originality, lab
 creative-production/    media sources, briefs, pipelines, standards
