@@ -68,6 +68,8 @@ Packaged Windows NSIS and macOS builds use `electron-updater` against this repos
 
 The GitHub workflow can build unsigned test installers without credentials. Public trusted installers require repository secrets.
 
+The full certificate acquisition, export, base64, GitHub-secret, and verification procedure is in [`SIGNING.md`](SIGNING.md).
+
 ### Windows code signing
 
 ```text
@@ -75,7 +77,7 @@ WIN_CSC_LINK
 WIN_CSC_KEY_PASSWORD
 ```
 
-`WIN_CSC_LINK` may be a base64-encoded certificate or another certificate source supported by electron-builder.
+`WIN_CSC_LINK` may be a base64-encoded `.pfx` or `.p12` certificate accepted by electron-builder. Hardware- or cloud-protected certificates require a provider-specific signing hook instead of exporting the private key.
 
 ### macOS signing and notarization
 
