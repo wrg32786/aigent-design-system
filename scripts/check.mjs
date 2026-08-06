@@ -43,6 +43,7 @@ const required = [
   "creative-production/standards/provenance.md", "creative-production/standards/mobile-fallbacks.md",
   "assets/README.md", "assets/manifests/asset-manifest.schema.json", "assets/manifests/example.asset-manifest.json",
   "integrations/README.md", "integrations/catalog.json", "recipes/README.md",
+  "publish/README.md", "publish/providers.json", "publish/lib.mjs",
   "skills/README.md", "skills/aigent-design/SKILL.md", "skills/aigent-design/commands.json",
   "skills/aigent-design/scripts/context.mjs", "skills/aigent-design/reference/shape.md",
   "skills/aigent-design/reference/inspiration.md", "skills/aigent-design/reference/color.md",
@@ -57,7 +58,8 @@ const required = [
   "vault/index.html", "vault/app.js", "studio/index.html", "studio/studio.css", "studio/app.js", "studio/bridge.js", "studio/canvas.schema.json", "studio/README.md",
   "scripts/cli.mjs", "scripts/inspire.mjs", "scripts/check-inspiration.mjs", "scripts/inspiration-smoke.mjs",
   "scripts/resolve-design.mjs", "scripts/check-resolve.mjs", "scripts/vision-review.mjs", "scripts/check-vision.mjs",
-  "scripts/studio-server.mjs", "scripts/check-studio.mjs", "skills/aigent-studio/SKILL.md",
+  "scripts/studio-server.mjs", "scripts/studio-publish.mjs", "scripts/check-studio.mjs", "skills/aigent-studio/SKILL.md",
+  "scripts/publish-site.mjs", "scripts/check-publish.mjs", "skills/publish-site/SKILL.md",
   "scripts/plan-design.mjs", "scripts/check-intelligence.mjs", "scripts/check-registry.mjs", "scripts/check-evals.mjs",
   "scripts/score-design.mjs", "scripts/capture.mjs", "scripts/check-assets.mjs", "scripts/check-catalogs.mjs",
   "docs/project-context.md", "docs/product-brief.md", "docs/roadmap.md", "docs/publish-checklist.md",
@@ -80,7 +82,7 @@ const skillFiles = fs.readdirSync(skillRoot, { withFileTypes: true })
   .map((entry) => path.join(skillRoot, entry.name, "SKILL.md"))
   .filter((skill) => fs.existsSync(skill))
   .sort();
-assert.ok(skillFiles.length >= 24, `Expected at least 23 installable skills; found ${skillFiles.length}.`);
+assert.ok(skillFiles.length >= 26, `Expected at least 26 installable skills; found ${skillFiles.length}.`);
 const skillNames = new Set();
 for (const skill of skillFiles) {
   const body = fs.readFileSync(skill, "utf8");
@@ -93,7 +95,7 @@ for (const skill of skillFiles) {
   skillNames.add(name);
   assert.equal(name, path.basename(path.dirname(skill)), `Skill name and directory differ: ${name}`);
 }
-for (const name of ["aigent-design", "aigent-studio", "design-forensics", "reference-synthesis", "inspiration-originality-audit", "design-resolver", "visual-design-critic"]) {
+for (const name of ["aigent-design", "aigent-studio", "design-forensics", "reference-synthesis", "inspiration-originality-audit", "design-resolver", "visual-design-critic", "publish-site"]) {
   assert.ok(skillNames.has(name), `Required skill is missing: ${name}`);
 }
 
@@ -123,12 +125,12 @@ for (const [label, findings] of [
 }
 
 const { registry } = readRegistry();
-assert.ok(registry.items.length >= 16, "Installable registry is unexpectedly small.");
-for (const name of ["inspiration-intelligence", "design-resolver", "vision-critic", "aigent-studio"]) {
+assert.ok(registry.items.length >= 17, "Installable registry is unexpectedly small.");
+for (const name of ["inspiration-intelligence", "design-resolver", "vision-critic", "publish-site", "aigent-studio"]) {
   assert.ok(registry.items.some((item) => item.name === name), `${name} is missing from the registry.`);
 }
 const fullStudio = registry.items.find((item) => item.name === "full-studio");
-for (const name of ["inspiration-intelligence", "design-resolver", "aigent-studio"]) {
+for (const name of ["inspiration-intelligence", "design-resolver", "publish-site", "aigent-studio"]) {
   assert.ok(fullStudio.registryDependencies.some((dependency) => dependency.endsWith(`/${name}`)), `full-studio must install ${name}.`);
 }
 const resolver = registry.items.find((item) => item.name === "design-resolver");
@@ -142,13 +144,13 @@ assert.ok(studio.files.some((entry) => entry.path === "studio/canvas.schema.json
 const resourceCatalog = JSON.parse(fs.readFileSync(file("creative-production/catalog.json"), "utf8"));
 assert.ok(resourceCatalog.resources.length >= 25, "Creative resource catalog is unexpectedly small.");
 const integrationCatalog = JSON.parse(fs.readFileSync(file("integrations/catalog.json"), "utf8"));
-assert.ok(integrationCatalog.integrations.length >= 8, "Integration catalog is unexpectedly small.");
+assert.ok(integrationCatalog.integrations.length >= 9, "Integration catalog is unexpectedly small.");
 assert.ok(integrationCatalog.integrations.every((item) => item.required === false), "Neutral core must not require optional integrations.");
 
 const packageJson = JSON.parse(fs.readFileSync(file("package.json"), "utf8"));
-assert.equal(packageJson.version, "1.1.0", "Expected package version 1.1.0.");
+assert.equal(packageJson.version, "1.2.0", "Expected package version 1.2.0.");
 assert.equal(packageJson.bin?.["aigent-design"], "scripts/cli.mjs", "Missing CLI bin.");
-for (const script of ["serve", "plan", "inspire", "resolve", "resolve:check", "vision", "vision:check", "audit", "assets", "catalogs", "intelligence", "inspiration", "registry", "eval", "score", "check", "smoke", "inspiration:smoke", "capture", "studio", "studio:check", "desktop:start", "desktop:check"]) {
+for (const script of ["serve", "plan", "inspire", "resolve", "resolve:check", "vision", "vision:check", "audit", "assets", "catalogs", "intelligence", "inspiration", "registry", "eval", "score", "check", "smoke", "inspiration:smoke", "capture", "studio", "studio:check", "publish", "publish:check", "desktop:start", "desktop:check"]) {
   assert.equal(typeof packageJson.scripts?.[script], "string", `Missing package script: ${script}`);
 }
 
@@ -157,7 +159,7 @@ for (const contract of [
   "SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → RESOLVE → SEE",
   "shadcn@latest add wrg32786/aigent-design-system/studio-core",
   "shadcn@latest add wrg32786/aigent-design-system/inspiration-intelligence",
-  "AIgent Studio", "AIgent Desktop", "Windows installer", "macOS", "npm run studio", "aigent-studio", "DOM-backed visual website canvas", "Canvas patch journal",
+  "AIgent Studio", "AIgent Desktop", "Windows installer", "macOS", "npm run studio", "aigent-studio", "DOM-backed visual website canvas", "Canvas patch journal", "Ship the site", "publish-site",
   "AIgent Vision", "vision-critic", "vision prepare", "latest.visual-review.json", "Design DNA", "influence ledger",
   "AIgent Resolve", "design-resolver", "resolve:check", "vision:check", "inspiration:smoke",
   "templates/immersive-sales-deck/", "templates/command-center-interface/", "templates/threejs-product-stage/", "vault/",
@@ -178,4 +180,4 @@ for (const rule of ["a11y/html-lang", "responsive/viewport", "hierarchy/h1-count
   assert.ok(detectorProof.some((item) => item.rule === rule), `Design audit self-check missed ${rule}`);
 }
 
-console.log(`Design system check passed with ${registry.items.length} registry items, ${skillFiles.length} skills, ${resourceCatalog.resources.length} resources, ${integrationCatalog.integrations.length} integrations, Inspiration Intelligence, AIgent Resolve, and AIgent Vision and DOM-backed collaborative Studio v1.1.0 and AIgent Desktop.`);
+console.log(`Design system check passed with ${registry.items.length} registry items, ${skillFiles.length} skills, ${resourceCatalog.resources.length} resources, ${integrationCatalog.integrations.length} integrations, Inspiration Intelligence, AIgent Resolve, and AIgent Vision and DOM-backed collaborative Studio v1.2.0, AIgent Ship, and AIgent Desktop.`);

@@ -979,10 +979,48 @@
       "docs": "Run `npx playwright install chromium`, then Resolve, Vision prepare, a real image-capable review, and Vision finalize. Neither a green mechanical score nor an uninspected screenshot is completion."
     },
     {
+      "name": "publish-site",
+      "type": "registry:item",
+      "title": "AIgent Ship and Publish",
+      "description": "Install constrained static export, Netlify/Vercel/Cloudflare adapters, deployment history, live Resolve verification, domain guidance, and the publish-site skill.",
+      "files": [
+        {
+          "path": "publish/README.md",
+          "type": "registry:file",
+          "target": "~/publish/README.md"
+        },
+        {
+          "path": "publish/providers.json",
+          "type": "registry:file",
+          "target": "~/publish/providers.json"
+        },
+        {
+          "path": "publish/lib.mjs",
+          "type": "registry:file",
+          "target": "~/publish/lib.mjs"
+        },
+        {
+          "path": "scripts/publish-site.mjs",
+          "type": "registry:file",
+          "target": "~/scripts/publish-site.mjs"
+        },
+        {
+          "path": "scripts/check-publish.mjs",
+          "type": "registry:file",
+          "target": "~/scripts/check-publish.mjs"
+        },
+        {
+          "path": "skills/publish-site/SKILL.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/publish-site/SKILL.md"
+        }
+      ]
+    },
+    {
       "name": "aigent-studio",
       "type": "registry:block",
       "title": "AIgent Studio 1.0",
-      "description": "Install the DOM-backed visual website canvas with real layers, direct responsive editing, components, comments, participant presence, patch history, checkpoints, live code preview, and authenticated Claude Code or Codex integration.",
+      "description": "Install the DOM-backed visual website canvas with direct responsive editing, collaboration, live coding agents, checkpoints, and verified one-click publishing.",
       "registryDependencies": [
         "wrg32786/aigent-design-system/studio-core",
         "wrg32786/aigent-design-system/inspiration-intelligence",
@@ -991,6 +1029,7 @@
         "wrg32786/aigent-design-system/command-center-interface",
         "wrg32786/aigent-design-system/threejs-product-stage",
         "wrg32786/aigent-design-system/creative-production",
+        "wrg32786/aigent-design-system/publish-site",
         "wrg32786/aigent-design-system/design-resolver"
       ],
       "files": [
@@ -1048,6 +1087,21 @@
           "path": "studio/canvas.schema.json",
           "type": "registry:file",
           "target": "~/studio/canvas.schema.json"
+        },
+        {
+          "path": "studio/publish.js",
+          "type": "registry:file",
+          "target": "~/studio/publish.js"
+        },
+        {
+          "path": "studio/publish.css",
+          "type": "registry:file",
+          "target": "~/studio/publish.css"
+        },
+        {
+          "path": "scripts/studio-publish.mjs",
+          "type": "registry:file",
+          "target": "~/scripts/studio-publish.mjs"
         }
       ],
       "devDependencies": [
@@ -1059,7 +1113,7 @@
       "name": "full-studio",
       "type": "registry:item",
       "title": "Complete AIgent Design Studio",
-      "description": "Install the complete flagship system: DOM-backed AIgent Studio, inspiration intelligence, design planning, immersive production, components, collaboration, Resolve, Vision, QA, Design Vault, and case studies.",
+      "description": "Install the complete flagship system: DOM-backed Studio, inspiration intelligence, immersive production, collaboration, Ship and Publish, Resolve, Vision, QA, Design Vault, and case studies.",
       "registryDependencies": [
         "wrg32786/aigent-design-system/studio-core",
         "wrg32786/aigent-design-system/inspiration-intelligence",
@@ -1072,6 +1126,7 @@
         "wrg32786/aigent-design-system/quality-suite",
         "wrg32786/aigent-design-system/design-resolver",
         "wrg32786/aigent-design-system/design-vault",
+        "wrg32786/aigent-design-system/publish-site",
         "wrg32786/aigent-design-system/aigent-studio"
       ],
       "files": [

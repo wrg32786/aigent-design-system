@@ -5,6 +5,7 @@ import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { createStudioPublishController } from "./studio-publish.mjs";
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const defaultProjectsRoot = path.join(packageRoot, ".aigent", "studio", "projects");
@@ -507,6 +508,10 @@ export function createStudioServer(options = {}) {
   const collaborationClients = new Map();
   const presence = new Map();
   let server;
+  const publishController = createStudioPublishController({
+    projectsRoot, projectDirectory, readCanvas, activeOperations, checkpointProject, startProcess, studioNodeSpec,
+    sendJson, readBody, host, getPort: () => server.address().port, previewPath,
+  });
 
   function taskSet(projectId) {
     if (!taskClients.has(projectId)) taskClients.set(projectId, new Set());
@@ -630,7 +635,7 @@ export function createStudioServer(options = {}) {
       const method = request.method || "GET";
 
       if (pathname === "/api/status" && method === "GET") {
-        sendJson(response, 200, { version: "1.1.0", providers: statuses, starters: Object.entries(STARTERS).map(([id, value]) => ({ id, ...value })), projectsRoot });
+        sendJson(response, 200, { version: "1.2.0", providers: statuses, starters: Object.entries(STARTERS).map(([id, value]) => ({ id, ...value })), projectsRoot });
         return;
       }
       if (pathname === "/api/projects" && method === "GET") { sendJson(response, 200, { projects: listProjects(projectsRoot) }); return; }
@@ -642,6 +647,10 @@ export function createStudioServer(options = {}) {
         const suffix = projectMatch[2] || "";
         const project = readProject(projectsRoot, id);
         const task = tasks.get(id);
+        if (suffix === "/publish" || suffix.startsWith("/publish/")) {
+          const handled = await publishController.handle({ request, response, method, suffix, project });
+          if (handled) return;
+        }
         if (!suffix && method === "GET") { sendJson(response, 200, { project, task: task ? { running: Boolean(task.child), kind: task.kind, provider: task.provider } : null }); return; }
         if (!suffix && method === "PATCH") { sendJson(response, 200, { project: updateProject(projectsRoot, id, await readBody(request)) }); return; }
         if (!suffix && method === "DELETE") {

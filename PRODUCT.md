@@ -136,3 +136,8 @@ AIgent Desktop is the consumer-ready installation and operating shell for Studio
 
 The desktop shell stays thin. It reuses the existing Studio server, project format, Canvas, skills, agents, Resolve, and Vision rather than creating a second editor or project model. User projects remain outside the application bundle and survive updates and uninstall.
 
+## Ship and Publish product contract
+
+AIgent Ship is the final operator surface from approved Studio project to a live URL. It publishes the actual checkpointed source, never a screenshot or disconnected mockup. Canvas operations must be distilled or cleared before shipping. The exporter follows referenced public dependencies and excludes project-control, agent, QA, credential, and private working files.
+
+Preview and production deployments use allowlisted official CLIs for Netlify, Vercel, and Cloudflare Pages, with a local-export fallback. Production can require pre-deploy and live Resolve, prepare Vision captures, record domain follow-up, and redeploy an earlier immutable artifact. Provider credentials remain in the official CLI credential store.

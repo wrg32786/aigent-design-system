@@ -1,0 +1,102 @@
+name: Validate AIgent Ship
+
+on:
+  pull_request:
+    paths:
+      - publish/**
+      - skills/publish-site/**
+      - skills/aigent-design/**
+      - desktop/**
+      - docs/GETTING_STARTED.md
+      - scripts/publish-site.mjs
+      - scripts/studio-publish.mjs
+      - scripts/check-publish.mjs
+      - scripts/check-desktop.mjs
+      - scripts/apply-publish-security.mjs
+      - scripts/apply-publish-routing.mjs
+      - scripts/apply-publish-ux.mjs
+      - scripts/apply-desktop-onboarding.mjs
+      - studio/**
+      - electron-builder.yml
+      - registry.json
+      - package.json
+      - package-lock.json
+      - README.md
+      - .github/workflows/publish-check.yml
+  push:
+    branches: [master]
+    paths:
+      - publish/**
+      - skills/publish-site/**
+      - skills/aigent-design/**
+      - desktop/**
+      - docs/GETTING_STARTED.md
+      - scripts/publish-site.mjs
+      - scripts/studio-publish.mjs
+      - scripts/check-publish.mjs
+      - scripts/check-desktop.mjs
+      - studio/**
+      - electron-builder.yml
+      - registry.json
+      - package.json
+      - package-lock.json
+      - README.md
+      - .github/workflows/publish-check.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ship-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - name: Apply final integration once
+        run: |
+          changed=0
+          for script in \
+            scripts/apply-publish-security.mjs \
+            scripts/apply-publish-routing.mjs \
+            scripts/apply-publish-ux.mjs \
+            scripts/apply-desktop-onboarding.mjs
+          do
+            if [ -f "$script" ]; then
+              node --check "$script"
+              node "$script"
+              changed=1
+            fi
+          done
+          if [ "$changed" = "1" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "Finish one-click publishing and desktop onboarding"
+            git push origin HEAD:${{ github.head_ref || github.ref_name }}
+          fi
+      - run: npm ci
+      - run: npm run publish:check
+      - run: npm run desktop:check
+      - run: npm run studio:check
+      - run: npm run check
+      - run: npm run registry
+      - name: Exercise local export through the CLI
+        run: |
+          rm -rf /tmp/aigent-publish-project
+          node scripts/cli.mjs add cinematic-page --target /tmp/aigent-publish-project
+          node scripts/publish-site.mjs export \
+            --project-dir /tmp/aigent-publish-project \
+            --entry /templates/modular-scroll-starter/
+          test -s /tmp/aigent-publish-project/.aigent/publish/export-manifest.json
+          find /tmp/aigent-publish-project/.aigent/publish/exports -name index.html -type f -print -quit | grep .

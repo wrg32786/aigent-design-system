@@ -34,3 +34,5 @@ assets/**/*.tar.gz
 desktop-dist/
 desktop/resources/generated/
 desktop/resources/playwright/
+
+.aigent/publish/

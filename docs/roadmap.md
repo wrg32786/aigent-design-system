@@ -37,3 +37,7 @@
 - public built-with-the-system gallery
 - additional framework adapters proven by real projects
 - automated WebGL performance tiers and context-loss verification
+
+## Shipped: one-click publishing
+
+AIgent Studio now includes a final Ship stage with constrained static export, Netlify/Vercel/Cloudflare Pages adapters, local export, pre-publish checkpointing, Resolve verification, Vision preparation, deployment history, domain follow-up, and exact-artifact redeploy.

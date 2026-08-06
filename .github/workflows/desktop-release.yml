@@ -87,6 +87,21 @@ jobs:
             -name '*.exe' -o -name '*.dmg' -o -name '*.zip' -o \
             -name '*.blockmap' -o -name 'latest*.yml' -o -name 'latest*.yaml' \
           \) -exec cp {} release-files/ \;
+
+          if [ "${{ matrix.name }}" = "windows-x64" ]; then
+            INSTALLER=$(find desktop-dist -maxdepth 1 -type f -name '*.exe' -print -quit)
+            test -n "$INSTALLER"
+            cp "$INSTALLER" release-files/AIgent-Desktop-Setup-Windows-x64.exe
+          elif [ "${{ matrix.name }}" = "macos-arm64" ]; then
+            INSTALLER=$(find desktop-dist -maxdepth 1 -type f -name '*.dmg' -print -quit)
+            test -n "$INSTALLER"
+            cp "$INSTALLER" release-files/AIgent-Desktop-macOS-Apple-Silicon.dmg
+          elif [ "${{ matrix.name }}" = "macos-x64" ]; then
+            INSTALLER=$(find desktop-dist -maxdepth 1 -type f -name '*.dmg' -print -quit)
+            test -n "$INSTALLER"
+            cp "$INSTALLER" release-files/AIgent-Desktop-macOS-Intel.dmg
+          fi
+
           test -n "$(find release-files -maxdepth 1 -type f -print -quit)"
       - uses: actions/upload-artifact@v4
         with:

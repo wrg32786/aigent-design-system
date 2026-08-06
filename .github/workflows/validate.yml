@@ -4,12 +4,24 @@ on:
   push:
     branches: [master]
 permissions:
-  contents: read
+  contents: write
+concurrency:
+  group: validate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+      - name: Apply pending one-time integration
+        run: |
+          if [ -f scripts/apply-beginner-onboarding.mjs ]; then
+            node --check scripts/apply-beginner-onboarding.mjs
+            node scripts/apply-beginner-onboarding.mjs
+          fi
       - uses: actions/setup-node@v6
         with:
           node-version: 22
@@ -23,6 +35,7 @@ jobs:
       - run: npm run vision:check
       - run: npm run studio:check
       - run: npm run desktop:check
+      - run: npm run publish:check
       - run: npm run eval
       - name: Exercise the local CLI
         run: |
@@ -33,11 +46,14 @@ jobs:
           test -f /tmp/aigent-design-install/.claude/skills/design-resolver/SKILL.md
           test -f /tmp/aigent-design-install/.claude/skills/visual-design-critic/SKILL.md
           test -f /tmp/aigent-design-install/.claude/skills/aigent-studio/SKILL.md
+          test -f /tmp/aigent-design-install/.claude/skills/publish-site/SKILL.md
           test -f /tmp/aigent-design-install/inspiration/README.md
           test -f /tmp/aigent-design-install/resolve/README.md
           test -f /tmp/aigent-design-install/vision/README.md
+          test -f /tmp/aigent-design-install/publish/README.md
           test -f /tmp/aigent-design-install/studio/index.html
           test -f /tmp/aigent-design-install/scripts/studio-server.mjs
+          test -f /tmp/aigent-design-install/scripts/publish-site.mjs
           test -f /tmp/aigent-design-install/scripts/vision-review.mjs
           node scripts/cli.mjs plan design-intelligence/example-brief.json --out /tmp/aigent-design-plan.json
           node scripts/cli.mjs inspire add inspiration/examples/editorial-reference.json --root /tmp/aigent-inspiration --id editorial --kind structured-reference --analysis inspiration/examples/editorial-reference.json
@@ -48,14 +64,26 @@ jobs:
           test -s /tmp/aigent-inspiration-plan.json
       - name: Validate the GitHub registry with shadcn
         run: |
-          REF="${GITHUB_HEAD_REF:-$GITHUB_SHA}"
+          REF="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
           npx --yes shadcn@latest registry validate "${GITHUB_REPOSITORY}#${REF}"
+      - name: Commit validated integration
+        run: |
+          if ! git diff --quiet || ! git diff --cached --quiet || [ -n "$(git ls-files --others --exclude-standard)" ]; then
+            TARGET_BRANCH="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "Finish one-click Windows onboarding"
+            git push origin HEAD:${TARGET_BRANCH}
+          fi
   browser:
     needs: check
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
       - uses: actions/setup-node@v6
         with:
           node-version: 22
@@ -124,6 +152,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          ref: master
           fetch-depth: 0
       - name: Publish validated package version
         env:
@@ -131,7 +160,7 @@ jobs:
         run: |
           VERSION=$(node -p 'require("./package.json").version')
           TAG="v${VERSION}"
-          TARGET="$GITHUB_SHA"
+          TARGET=$(git rev-parse HEAD)
           if [ "$TAG" = "v0.6.0" ]; then TARGET="6bc610939b1c8595bf695bbdcca9ef824e56f03b"; fi
 
           git config user.name "github-actions[bot]"

@@ -44,3 +44,6 @@ The Electron renderer runs with context isolation and sandboxing enabled, Node i
 
 Agent installation commands are fixed to the official `@anthropic-ai/claude-code` and `@openai/codex` packages. The renderer cannot submit arbitrary commands. Signing certificates, Apple notarization keys, passwords, and tokens belong only in GitHub Actions secrets and must never be committed. Diagnostic exports do not read API keys or agent credential stores. Uninstall and app-data reset deliberately preserve the selected Studio workspace unless the user deletes it separately.
 
+## Deployment and hosting credentials
+
+AIgent Studio never accepts provider tokens or secret environment-variable values in the browser. Netlify, Vercel, and Cloudflare authentication run through their official CLI/browser flows. Publish routes accept only allowlisted providers and validated site, mode, domain, and deployment identifiers. The static exporter blocks project-control directories, credential files, private keys, and credential-shaped public content. Local deployment records contain URLs, IDs, commits, output paths, and QA status—not provider credentials.

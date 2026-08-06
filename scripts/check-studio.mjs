@@ -12,7 +12,7 @@ try {
   const address = await app.listen(0);
   const base = `http://127.0.0.1:${address.port}`;
   const status = await fetch(`${base}/api/status`).then((response) => response.json());
-  assert.equal(status.version, "1.1.0");
+  assert.equal(status.version, "1.2.0");
   assert.ok(status.starters.some((item) => item.id === "blank"));
 
   const createdResponse = await fetch(`${base}/api/projects`, {
@@ -54,6 +54,11 @@ try {
   }).then((response) => response.json());
   assert.equal(operation.canvas.activeOperations.length, 1);
   assert.equal(operation.canvas.canUndo, true);
+  const publishState = await fetch(`${base}/api/projects/${project.id}/publish`).then((response) => response.json());
+  assert.equal(publishState.blockedByCanvas, true);
+  assert.ok(publishState.providers.some((provider) => provider.id === "local" && provider.available));
+  const blockedExport = await fetch(`${base}/api/projects/${project.id}/publish/export`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({}) });
+  assert.equal(blockedExport.status, 409);
 
   canvas = await fetch(`${base}/api/projects/${project.id}/canvas/undo`, {
     method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ author: { id: "maintainer" } }),
@@ -133,6 +138,9 @@ try {
         await page.waitForFunction(() => document.querySelector("#selection-label")?.textContent?.includes("Canvas self check"));
         await page.waitForFunction(() => document.querySelector("#inspector-fields")?.hidden === false);
         assert.ok((await page.locator("#layers-tree .layer-row").count()) >= 3);
+        await page.locator('[data-right-tab="publish"]').click();
+        await page.waitForFunction(() => document.querySelector('[data-right-panel="publish"]')?.hidden === false);
+        assert.match((await page.locator("#publish-gate").textContent()) || "", /Publish blocked|Ready to ship/);
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2);
         assert.equal(overflow, false);
         const proofDirectory = path.resolve("artifacts", "studio");
@@ -146,7 +154,7 @@ try {
     }
   }
 
-  console.log(`AIgent Studio v1 check passed: project, DOM bridge, Canvas operations, undo/redo, comments, components, presence, checkpoints, agent context, path boundaries${browserMode ? ", and responsive direct selection" : ""}.`);
+  console.log(`AIgent Studio v1.2 check passed: project, DOM bridge, Canvas operations, undo/redo, comments, components, presence, checkpoints, agent context, Ship gate, path boundaries${browserMode ? ", and responsive direct selection" : ""}.`);
 } finally {
   await app.close();
   fs.rmSync(root, { recursive: true, force: true });

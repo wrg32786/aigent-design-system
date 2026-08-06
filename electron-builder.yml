@@ -6,6 +6,7 @@ asar: true
 asarUnpack:
   - scripts/**
   - studio/**
+  - publish/**
   - tokens/**
   - modules/**
   - templates/**
@@ -42,6 +43,7 @@ files:
   - desktop/**
   - scripts/**
   - studio/**
+  - publish/**
   - tokens/**
   - modules/**
   - templates/**

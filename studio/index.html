@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Martian+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../tokens/system.css">
   <link rel="stylesheet" href="./studio.css">
+  <link rel="stylesheet" href="./publish.css">
 </head>
 <body class="ds-shell">
   <a class="ds-skip-link" href="#preview-frame">Skip to live canvas</a>
@@ -18,7 +19,7 @@
       <div class="studio-brand">
         <a href="../" aria-label="AIgent Design System home">AIgent</a>
         <span>Studio</span>
-        <b>1.0</b>
+        <b>1.2</b>
       </div>
 
       <div class="project-switcher">
@@ -153,6 +154,7 @@
         <button type="button" data-right-tab="agent" aria-selected="false">Agent</button>
         <button type="button" data-right-tab="comments" aria-selected="false">Comments</button>
         <button type="button" data-right-tab="history" aria-selected="false">History</button>
+        <button type="button" data-right-tab="publish" aria-selected="false">Ship</button>
       </nav>
 
       <section class="dock-section inspector-panel" data-right-panel="inspector">
@@ -264,6 +266,29 @@
         <div class="history-actions"><button class="quiet-button" id="clear-patches" type="button">Clear canvas patches</button><button class="quiet-button" id="refresh-diff" type="button">Refresh diff</button></div>
         <div class="checkpoint-list" id="checkpoint-list"></div>
         <details open class="diff-panel"><summary>Current source diff</summary><pre id="source-diff">No source changes.</pre></details>
+      </section>
+
+      <section class="dock-section publish-panel" data-right-panel="publish" hidden>
+        <div class="panel-heading compact">
+          <div><span class="kicker">Final stage</span><h2>Ship the site.</h2></div>
+          <button class="icon-button" id="publish-refresh" type="button" aria-label="Refresh deployment status">↻</button>
+        </div>
+        <div class="publish-gate" id="publish-gate" data-state="idle"><strong>No project selected.</strong><span>Create or open a project before shipping.</span></div>
+        <form id="publish-form" class="publish-form">
+          <div class="publish-grid">
+            <label><span>Provider</span><select id="publish-provider"><option value="netlify">Netlify</option><option value="vercel">Vercel</option><option value="cloudflare">Cloudflare Pages</option><option value="local">Local export</option></select></label>
+            <label><span>Channel</span><select id="publish-mode"><option value="preview">Preview</option><option value="production">Production</option></select></label>
+          </div>
+          <small id="publish-provider-help">Choose a deployment target.</small>
+          <label><span>Site / project name</span><input id="publish-site-name" autocomplete="off" placeholder="northstar-robotics" required></label>
+          <label><span>Custom domain <em>optional</em></span><input id="publish-domain" autocomplete="off" placeholder="www.example.com"><small id="publish-domain-help">Provider ownership and DNS rules still apply.</small></label>
+          <fieldset class="publish-options"><legend>Completion gates</legend><label><input id="publish-verify" type="checkbox" checked> Run Resolve before and after deployment</label><label><input id="publish-vision" type="checkbox"> Prepare live Vision review captures</label></fieldset>
+          <div class="publish-actions"><button class="quiet-button" id="publish-auth" type="button">Connect provider</button><button class="quiet-button" id="publish-export" type="button">Export only</button><button class="primary-button" id="publish-submit" type="submit">Publish site</button></div>
+        </form>
+        <section class="publish-result" id="publish-result" hidden><header><strong>Latest result</strong><span id="publish-result-status"></span></header><a id="publish-result-url" target="_blank" rel="noopener"></a><footer><a id="publish-dashboard" target="_blank" rel="noopener">Provider dashboard</a></footer></section>
+        <div class="publish-log" id="publish-log" role="log" aria-live="polite"><div class="publish-log-entry system">Ship publishes the exact checkpointed source—not a screenshot or disconnected export.</div></div>
+        <div class="subsection-heading"><strong>Deployment history</strong><span>Local record</span></div>
+        <div class="publish-history" id="publish-history"><small>No deployments yet.</small></div>
       </section>
     </aside>
   </div>

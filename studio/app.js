@@ -1,3 +1,5 @@
+import { initPublishPanel, publishTaskEvent, refreshPublishPanel, syncPublishGate } from "./publish.js";
+
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const CHANNEL = "aigent-studio";
@@ -90,6 +92,7 @@ function setRightTab(tab) {
   $$("[data-right-tab]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.rightTab === tab)));
   $$("[data-right-panel]").forEach((panel) => { panel.hidden = panel.dataset.rightPanel !== tab; });
   if (tab === "history") refreshDiff().catch(() => {});
+  if (tab === "publish") refreshPublishPanel().catch(() => {});
 }
 function fillStarters() {
   const select = $("#new-starter");
@@ -219,6 +222,7 @@ async function loadCanvas() {
   if (!state.project) { state.canvas = null; return; }
   state.canvas = await api(`/api/projects/${state.project.id}/canvas`);
   renderCanvasState();
+  syncPublishGate();
 }
 async function selectProject(id, refresh = true) {
   if (!id) {
@@ -240,6 +244,7 @@ async function selectProject(id, refresh = true) {
   loadPreview(refresh);
   connectTaskEvents();
   connectCollaboration();
+  await refreshPublishPanel();
   setRunning(Boolean(task?.running), task?.running ? task.kind : providerSummary(state.status));
 }
 function connectTaskEvents() {
@@ -249,6 +254,7 @@ function connectTaskEvents() {
   state.eventSource = source;
   source.onmessage = (event) => {
     const message = JSON.parse(event.data);
+    publishTaskEvent(message);
     if (message.type === "connected") return;
     if (message.type === "start") { setRunning(true, `${message.kind}${message.provider ? ` · ${message.provider}` : ""}`); log(`Started ${message.kind}${message.provider ? ` with ${message.provider}` : ""}.`, "system"); }
     if (message.type === "log") log(message.text, message.channel === "stderr" ? "error" : "");
@@ -326,6 +332,7 @@ function renderCanvasState() {
   renderTokens();
   renderComments();
   renderCheckpoints();
+  syncPublishGate();
 }
 function renderTree() {
   const query = $("#layer-search").value.trim().toLowerCase();
@@ -580,6 +587,12 @@ async function runAction(action) {
   } catch (error) { log(error.message, "error"); toast(error.message); }
 }
 async function initialize() {
+  initPublishPanel({
+    api, toast, setRightTab, setRunning,
+    getProject: () => state.project,
+    getCanvas: () => state.canvas,
+    getAuthor: () => state.client,
+  });
   try {
     state.status = await api("/api/status");
     $("#runtime-status").dataset.state = "ready";

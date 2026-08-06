@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-08-06",
+  "providers": [
+    {
+      "id": "local",
+      "name": "Local export",
+      "cli": null,
+      "preview": true,
+      "production": true,
+      "customDomain": false,
+      "authentication": "none",
+      "useWhen": ["an operator needs a clean deployable bundle", "the hosting target is not yet chosen"],
+      "docs": null
+    },
+    {
+      "id": "netlify",
+      "name": "Netlify",
+      "cli": "netlify-cli",
+      "preview": true,
+      "production": true,
+      "customDomain": "dashboard",
+      "authentication": "optional for anonymous preview; required for durable production ownership",
+      "useWhen": ["the operator wants the fastest claimable preview", "a static production deploy should require minimal configuration"],
+      "docs": "https://docs.netlify.com/api-and-cli-guides/cli-guides/get-started-with-cli/"
+    },
+    {
+      "id": "vercel",
+      "name": "Vercel",
+      "cli": "vercel",
+      "preview": true,
+      "production": true,
+      "customDomain": true,
+      "authentication": "required",
+      "useWhen": ["preview and production URLs should share one linked project", "domain aliasing should happen from the publish flow"],
+      "docs": "https://vercel.com/docs/cli"
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare Pages",
+      "cli": "wrangler",
+      "preview": true,
+      "production": true,
+      "customDomain": "dashboard",
+      "authentication": "required",
+      "useWhen": ["the site belongs on Cloudflare Pages", "the operator wants Cloudflare edge delivery and preview branches"],
+      "docs": "https://developers.cloudflare.com/pages/get-started/direct-upload/"
+    }
+  ]
+}
