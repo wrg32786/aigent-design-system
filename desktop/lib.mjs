@@ -219,7 +219,7 @@ export function installCommand(provider, environment) {
 
 export function authCommand(provider, environment) {
   if (provider === "claude" && environment?.claude?.available) return { command: environment.claude.command, args: [], label: "Claude Code sign-in" };
-  if (provider === "codex" && environment?.codex?.available) return { command: environment.codex.command, args: ["--login"], label: "Codex sign-in" };
+  if (provider === "codex" && environment?.codex?.available) return { command: environment.codex.command, args: ["login"], label: "Codex sign-in" };
   return null;
 }
 
