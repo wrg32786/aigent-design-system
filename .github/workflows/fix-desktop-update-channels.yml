@@ -1,0 +1,73 @@
+name: Fix architecture-specific desktop updates
+
+on:
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: feature/aigent-desktop
+          fetch-depth: 0
+      - name: Use architecture-specific macOS update channels
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          main = Path('desktop/main.mjs')
+          body = main.read_text()
+          old = '''  autoUpdater.autoDownload = true;\n  autoUpdater.autoInstallOnAppQuit = true;'''
+          new = '''  autoUpdater.autoDownload = true;\n  autoUpdater.autoInstallOnAppQuit = true;\n  if (process.platform === "darwin") {\n    autoUpdater.channel = process.arch === "arm64" ? "latest-arm64" : "latest-x64";\n    autoUpdater.allowDowngrade = false;\n  }'''
+          if old not in body:
+              raise SystemExit('Updater setup contract changed')
+          main.write_text(body.replace(old, new, 1))
+
+          replacements = {
+            '.github/workflows/desktop-build-check.yml': {
+              'npm run desktop:dist -- --mac dmg zip --arm64 --publish never': 'npm run desktop:dist -- --mac dmg zip --arm64 --config.publish.channel=latest-arm64 --publish never',
+              'npm run desktop:dist -- --mac dmg zip --x64 --publish never': 'npm run desktop:dist -- --mac dmg zip --x64 --config.publish.channel=latest-x64 --publish never',
+            },
+            '.github/workflows/desktop-release.yml': {
+              'npm run desktop:dist -- --mac dmg zip --arm64 --publish never': 'npm run desktop:dist -- --mac dmg zip --arm64 --config.publish.channel=latest-arm64 --publish never',
+              'npm run desktop:dist -- --mac dmg zip --x64 --publish never': 'npm run desktop:dist -- --mac dmg zip --x64 --config.publish.channel=latest-x64 --publish never',
+            },
+          }
+          for name, mapping in replacements.items():
+              file = Path(name)
+              text = file.read_text()
+              for old, new in mapping.items():
+                  if old not in text:
+                      raise SystemExit(f'Missing update command in {name}: {old}')
+                  text = text.replace(old, new, 1)
+              file.write_text(text)
+
+          readme = Path('desktop/README.md')
+          text = readme.read_text()
+          marker = 'Operating-system trust requires the signing credentials documented below. Project workspaces live outside the application bundle and are not removed by updates.'
+          replacement = 'Operating-system trust requires the signing credentials documented below. Apple Silicon and Intel builds use separate update channels so each Mac receives the matching architecture. Project workspaces live outside the application bundle and are not removed by updates.'
+          if marker not in text:
+              raise SystemExit('Desktop update documentation contract changed')
+          readme.write_text(text.replace(marker, replacement, 1))
+
+          check = Path('scripts/check-desktop.mjs')
+          text = check.read_text()
+          old = 'for (const contract of ["contextIsolation: true", "sandbox: true", "nodeIntegration: false", "setPermissionRequestHandler", "requestSingleInstanceLock", "autoUpdater", "createStudioServer"])'
+          new = 'for (const contract of ["contextIsolation: true", "sandbox: true", "nodeIntegration: false", "setPermissionRequestHandler", "requestSingleInstanceLock", "autoUpdater", "latest-arm64", "latest-x64", "createStudioServer"])'
+          if old not in text:
+              raise SystemExit('Desktop main validation contract changed')
+          check.write_text(text.replace(old, new, 1))
+          PY
+          rm .github/workflows/fix-desktop-update-channels.yml
+      - name: Commit updater fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Use architecture-specific macOS updates"
+          git push origin HEAD:feature/aigent-desktop
