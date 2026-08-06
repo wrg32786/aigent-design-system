@@ -49,7 +49,7 @@ See [`desktop/README.md`](desktop/README.md) for builds and [`desktop/SIGNING.md
   <img src="docs/assets/readme/studio-demo.svg" width="100%" alt="Animated walkthrough of AIgent Desktop and the DOM-backed Studio Canvas">
 </p>
 
-The ten-second loop is a compact walkthrough of the real product topology: setup, semantic layers, DOM selection, responsive property editing, the Canvas patch journal, agent distillation, Resolve, and Vision. It replaces the old gallery of decorative README screenshots.
+The ten-second loop uses a real Studio capture to walk through semantic layers, DOM selection, responsive property editing, the Canvas patch journal, agent distillation, Resolve, and Vision. It replaces the old gallery of decorative README screenshots.
 
 ## AIgent Studio 1.0
 
