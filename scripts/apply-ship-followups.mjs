@@ -9,8 +9,8 @@ function replaceOnce(file, before, after) {
 
 replaceOnce(
   "publish/lib.mjs",
-  `  if (provider === "netlify") {\n    const args = ["--yes", "netlify-cli@latest", "deploy", "--dir", directory, "--no-build", "--json", "--site-name", siteName];\n    if (mode === "production") args.push("--prod");\n    else args.push("--allow-anonymous");\n    return [{ label: \`Deploy \${mode} to Netlify\`, command: npx, args }];\n  }\n  if (provider === "vercel") {\n    return [\n      { label: "Link Vercel project", command: npx, args: ["--yes", "vercel@latest", "link", "--cwd", directory, "--yes", "--project", siteName] },\n      { label: \`Deploy \${mode} to Vercel\`, command: npx, args: ["--yes", "vercel@latest", "deploy", "--cwd", directory, "--yes", ...(mode === "production" ? ["--prod"] : [])] },\n    ];\n  }`,
-  `  if (provider === "netlify") {\n    const args = ["--yes", "netlify-cli@latest", "deploy", "--dir", directory, "--no-build", "--json"];\n    if (mode === "production") args.push("--site-name", siteName, "--prod");\n    else args.push("--allow-anonymous");\n    return [{ label: \`Deploy \${mode} to Netlify\`, command: npx, args }];\n  }\n  if (provider === "vercel") {\n    return [\n      { label: "Link Vercel project", command: npx, args: ["--yes", "vercel@latest", "link", "--cwd", directory, "--yes", "--project", siteName] },\n      { label: \`Deploy \${mode} to Vercel\`, command: npx, args: ["--yes", "vercel@latest", "deploy", "--cwd", directory, "--yes", ...(mode === "production" ? ["--prod"] : ["--target", "preview"])] },\n    ];\n  }`,
+  `  if (provider === "netlify") {\n    const args = ["--yes", "netlify-cli@latest", "deploy", "--dir", directory, "--no-build", "--json", "--site-name", siteName];\n    if (mode === "production") args.push("--prod");\n    else args.push("--allow-anonymous");\n    return [{ label: \`Deploy \${mode} to Netlify\`, command: npx, args }];\n  }`,
+  `  if (provider === "netlify") {\n    const args = ["--yes", "netlify-cli@latest", "deploy", "--dir", directory, "--no-build", "--json"];\n    if (mode === "production") args.push("--site-name", siteName, "--prod");\n    else args.push("--allow-anonymous");\n    return [{ label: \`Deploy \${mode} to Netlify\`, command: npx, args }];\n  }`,
 );
 
 replaceOnce(
@@ -28,7 +28,7 @@ replaceOnce(
 replaceOnce(
   "scripts/check-publish.mjs",
   `  assert.ok(netlify[0].args.includes("--allow-anonymous"));\n  const vercel = deploySteps({ provider: "vercel", mode: "production", directory: out, siteName: "demo", commit: "abc" });`,
-  `  assert.ok(netlify[0].args.includes("--allow-anonymous"));\n  assert.equal(netlify[0].args.includes("--site-name"), false);\n  const netlifyProduction = deploySteps({ provider: "netlify", mode: "production", directory: out, siteName: "demo", commit: "abc" });\n  assert.ok(netlifyProduction[0].args.includes("--site-name"));\n  const vercelPreview = deploySteps({ provider: "vercel", mode: "preview", directory: out, siteName: "demo", commit: "abc" });\n  assert.deepEqual(vercelPreview[1].args.slice(-2), ["--target", "preview"]);\n  const vercel = deploySteps({ provider: "vercel", mode: "production", directory: out, siteName: "demo", commit: "abc" });`,
+  `  assert.ok(netlify[0].args.includes("--allow-anonymous"));\n  assert.equal(netlify[0].args.includes("--site-name"), false);\n  const netlifyProduction = deploySteps({ provider: "netlify", mode: "production", directory: out, siteName: "demo", commit: "abc" });\n  assert.ok(netlifyProduction[0].args.includes("--site-name"));\n  const vercelPreview = deploySteps({ provider: "vercel", mode: "preview", directory: out, siteName: "demo", commit: "abc" });\n  assert.equal(vercelPreview[1].args.includes("--prod"), false);\n  const vercel = deploySteps({ provider: "vercel", mode: "production", directory: out, siteName: "demo", commit: "abc" });`,
 );
 
 replaceOnce("README.md", `releases/tag/v1.2.0">v1.1.0`, `releases/tag/v1.2.0">v1.2.0`);
