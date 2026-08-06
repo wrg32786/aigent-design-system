@@ -21,6 +21,7 @@ jobs:
       - run: npm run inspiration
       - run: npm run resolve:check
       - run: npm run vision:check
+      - run: npm run studio:check
       - run: npm run eval
       - name: Exercise the local CLI
         run: |
@@ -30,9 +31,12 @@ jobs:
           test -f /tmp/aigent-design-install/.claude/skills/aigent-design/SKILL.md
           test -f /tmp/aigent-design-install/.claude/skills/design-resolver/SKILL.md
           test -f /tmp/aigent-design-install/.claude/skills/visual-design-critic/SKILL.md
+          test -f /tmp/aigent-design-install/.claude/skills/aigent-studio/SKILL.md
           test -f /tmp/aigent-design-install/inspiration/README.md
           test -f /tmp/aigent-design-install/resolve/README.md
           test -f /tmp/aigent-design-install/vision/README.md
+          test -f /tmp/aigent-design-install/studio/index.html
+          test -f /tmp/aigent-design-install/scripts/studio-server.mjs
           test -f /tmp/aigent-design-install/scripts/vision-review.mjs
           node scripts/cli.mjs plan design-intelligence/example-brief.json --out /tmp/aigent-design-plan.json
           node scripts/cli.mjs inspire add inspiration/examples/editorial-reference.json --root /tmp/aigent-inspiration --id editorial --kind structured-reference --analysis inspiration/examples/editorial-reference.json
@@ -57,6 +61,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install chromium
+      - run: npm run studio:check -- --browser
       - name: Start preview server
         run: |
           npm run serve > /tmp/aigent-design-system-server.log 2>&1 &
