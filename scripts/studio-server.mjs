@@ -30,8 +30,8 @@ const types = new Map([
 
 function now() { return new Date().toISOString(); }
 function escapeHtml(value) {
-  return String(value).replace(/[&<>"\']/g, (character) => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "\'": "&#39;",
+  return String(value).replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
   })[character]);
 }
 function text(value, fallback = "", maximum = 5000) {
@@ -297,7 +297,7 @@ export function createStudioServer(options = {}) {
         },
       });
     }
-    const args = ["--ask-for-approval", "never", "exec", "--sandbox", "workspace-write", "--ephemeral"];
+    const args = ["--ask-for-approval", "never", "--sandbox", "workspace-write", "exec", "--ephemeral"];
     if (model) args.push("--model", model);
     args.push(fullPrompt);
     return startProcess(project, { kind: "agent", provider, command: statuses.codex.command, args });
