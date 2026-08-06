@@ -37,8 +37,13 @@ It routes to:
 
 - `video-asset-pipeline`
 - `web-3d-asset-pipeline`
+- `hyperframes-video`
 - `remotion-web-assets`
 - Spline or Three.js scene production
+
+Use HyperFrames when an existing website, HTML interface, design system, or agent-authored page should become deterministic video. Install and reuse the official upstream HyperFrames skills rather than recreating its composition and CLI rules.
+
+Use Remotion when a React-first composition is already the correct durable source. Use a literal screen recording when authored motion and reusable variants do not earn their cost.
 
 ### Build
 
@@ -51,6 +56,8 @@ Choose only the runtime the requirement earns:
 - Three.js
 - React Three Fiber
 - Rive
+
+HyperFrames and Remotion are usually build-time media producers, not website runtime dependencies.
 
 ### Verify
 
