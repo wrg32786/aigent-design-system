@@ -4,13 +4,17 @@ on:
   push:
     branches:
       - feature/aigent-studio
+  pull_request:
+    branches:
+      - master
+    types: [opened, reopened, synchronize]
 
 permissions:
   contents: write
 
 jobs:
   prepare:
-    if: github.event.head_commit.message != 'Integrate AIgent Studio'
+    if: github.head_ref == 'feature/aigent-studio' || github.ref_name == 'feature/aigent-studio'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,13 +24,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Skip an already integrated branch
+        id: integrated
+        run: |
+          if git log -1 --pretty=%s | grep -qx 'Integrate AIgent Studio'; then
+            echo 'skip=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'skip=false' >> "$GITHUB_OUTPUT"
+          fi
       - name: Integrate Studio with the design system
+        if: steps.integrated.outputs.skip != 'true'
         run: node scripts/prepare-studio-release.mjs
       - name: Remove preparation files
+        if: steps.integrated.outputs.skip != 'true'
         run: |
           rm -f scripts/prepare-studio-release.mjs
           rm -f .github/workflows/prepare-studio-release.yml
       - name: Commit integrated release
+        if: steps.integrated.outputs.skip != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
