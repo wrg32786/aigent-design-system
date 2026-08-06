@@ -1,0 +1,71 @@
+name: Final repository cleanup
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - .github/workflows/cleanup-repository.yml
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Make validation read-only
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('.github/workflows/validate.yml')
+          source = path.read_text()
+          source = source.replace('permissions:\n  contents: write', 'permissions:\n  contents: read', 1)
+
+          apply_block = '''      - name: Apply pending one-time integration
+        run: |
+          if [ -f scripts/apply-beginner-onboarding.mjs ]; then
+            node --check scripts/apply-beginner-onboarding.mjs
+            node scripts/apply-beginner-onboarding.mjs
+          fi
+'''
+          commit_block = '''      - name: Commit validated integration
+        run: |
+          if ! git diff --quiet || ! git diff --cached --quiet || [ -n "$(git ls-files --others --exclude-standard)" ]; then
+            TARGET_BRANCH="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "Finish one-click Windows onboarding"
+            git push origin HEAD:${TARGET_BRANCH}
+          fi
+'''
+          source = source.replace(apply_block, '')
+          source = source.replace(commit_block, '')
+          path.write_text(source)
+          PY
+
+      - name: Delete every branch except master
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/branches?per_page=100" --jq '.[].name' | while IFS= read -r branch; do
+            [ "$branch" = "master" ] && continue
+            encoded="${branch//\//%2F}"
+            echo "Deleting $branch"
+            gh api --method DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/${encoded}"
+          done
+
+      - name: Remove this workflow and commit cleanup
+        run: |
+          rm .github/workflows/cleanup-repository.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Clean repository maintenance state"
+          git push origin HEAD:master
