@@ -1,0 +1,109 @@
+name: Finalize AIgent v1.2
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: finalize-aigent-v1.2
+  cancel-in-progress: false
+
+jobs:
+  finalize:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Apply the final beginner onboarding
+        run: |
+          if [ -f scripts/apply-beginner-onboarding.mjs ]; then
+            node --check scripts/apply-beginner-onboarding.mjs
+            node scripts/apply-beginner-onboarding.mjs
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate release contracts
+        run: |
+          npm run publish:check
+          npm run desktop:check
+          npm run studio:check
+          npm run check
+          npm run registry
+          npm run intelligence
+          npm run inspiration
+          npm run resolve:check
+          npm run vision:check
+          npm run eval
+
+      - name: Validate Desktop and Studio rendering
+        run: |
+          npx playwright install chromium
+          xvfb-run -a npm run desktop:smoke
+          npm run studio:check -- --browser
+
+      - name: Commit the validated final state
+        run: |
+          rm -f .github/workflows/finalize-v1.2.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "The final state was already applied."
+          else
+            git commit -m "Finalize AIgent Desktop onboarding and Ship v1.2"
+            git push origin HEAD:master
+          fi
+
+      - name: Publish or update v1.2.0
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION=$(node -p 'require("./package.json").version')
+          TAG="v${VERSION}"
+          TARGET=$(git rev-parse HEAD)
+          git fetch --tags --force
+          if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+            CURRENT=$(git rev-list -n 1 "$TAG")
+            if [ "$CURRENT" != "$TARGET" ]; then
+              git tag -fa "$TAG" "$TARGET" -m "$TAG"
+              git push --force origin "$TAG"
+            fi
+          else
+            git tag -a "$TAG" "$TARGET" -m "$TAG"
+            git push origin "$TAG"
+          fi
+
+          awk -v version="$VERSION" '
+            $0 ~ "^## " version " " { found=1 }
+            found && $0 ~ "^## " && $0 !~ "^## " version " " { exit }
+            found { print }
+          ' CHANGELOG.md > /tmp/release-notes.md
+          test -s /tmp/release-notes.md
+          TITLE=$(head -1 /tmp/release-notes.md | sed -E 's/^## [^ ]+ — //')
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --target "$TARGET" --title "$TAG — $TITLE" --notes-file /tmp/release-notes.md --latest
+          else
+            gh release create "$TAG" --target "$TARGET" --title "$TAG — $TITLE" --notes-file /tmp/release-notes.md --latest --verify-tag
+          fi
+
+      - name: Build Windows and macOS installers
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run desktop-release.yml --ref master
