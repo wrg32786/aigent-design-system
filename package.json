@@ -30,13 +30,14 @@
     "studio": "node scripts/studio-server.mjs",
     "studio:check": "node --check studio/app.js && node --check studio/bridge.js && node scripts/check-studio.mjs",
     "desktop:assets": "node scripts/generate-desktop-assets.mjs",
+    "desktop:prepare": "node scripts/prepare-desktop-build.mjs",
     "desktop:start": "electron .",
     "desktop:check": "node scripts/check-desktop.mjs",
     "desktop:smoke": "electron . --smoke-test --no-sandbox",
-    "desktop:pack": "npm run desktop:assets && electron-builder --dir",
-    "desktop:dist": "npm run desktop:assets && electron-builder",
-    "desktop:dist:win": "npm run desktop:assets && electron-builder --win nsis --x64",
-    "desktop:dist:mac": "npm run desktop:assets && electron-builder --mac dmg zip --universal"
+    "desktop:pack": "npm run desktop:prepare && electron-builder --dir",
+    "desktop:dist": "npm run desktop:prepare && electron-builder",
+    "desktop:dist:win": "npm run desktop:prepare && electron-builder --win nsis --x64",
+    "desktop:dist:mac": "npm run desktop:prepare && electron-builder --mac dmg zip"
   },
   "keywords": [
     "ai",
@@ -86,12 +87,12 @@
     "node": ">=20"
   },
   "devDependencies": {
-    "playwright": "^1.61.1",
     "electron": "43.2.0",
     "electron-builder": "26.15.3"
   },
   "main": "desktop/main.mjs",
   "dependencies": {
-    "electron-updater": "6.8.9"
+    "electron-updater": "6.8.9",
+    "playwright": "^1.61.1"
   }
 }
