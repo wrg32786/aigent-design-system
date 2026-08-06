@@ -1,0 +1,103 @@
+appId: xyz.theaigent.desktop
+productName: AIgent Desktop
+copyright: Copyright © 2026 The AIgent
+artifactName: AIgent-Desktop-${version}-${os}-${arch}.${ext}
+asar: true
+asarUnpack:
+  - scripts/**
+directories:
+  output: desktop-dist
+  buildResources: desktop/resources
+files:
+  - desktop/**
+  - scripts/**
+  - studio/**
+  - tokens/**
+  - modules/**
+  - templates/**
+  - patterns/**
+  - design-intelligence/**
+  - inspiration/**
+  - creative-production/**
+  - assets/**
+  - integrations/**
+  - recipes/**
+  - skills/**
+  - evals/**
+  - case-studies/**
+  - vault/**
+  - PRODUCT.md
+  - DESIGN.md
+  - SECURITY.md
+  - THIRD_PARTY.md
+  - LICENSE
+  - README.md
+  - CHANGELOG.md
+  - registry.json
+  - package.json
+  - '!desktop/resources/generated/**'
+  - '!**/.aigent/**'
+  - '!**/artifacts/**'
+  - '!desktop-dist/**'
+extraMetadata:
+  main: desktop/main.mjs
+publish:
+  provider: github
+  owner: wrg32786
+  repo: aigent-design-system
+  releaseType: release
+win:
+  icon: desktop/resources/generated/icon.png
+  target:
+    - target: nsis
+      arch:
+        - x64
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: AIgent Desktop
+  uninstallDisplayName: AIgent Desktop
+  deleteAppDataOnUninstall: false
+  runAfterFinish: true
+  installerSidebar: desktop/resources/generated/installer-sidebar.bmp
+  installerHeader: desktop/resources/generated/installer-header.bmp
+  differentialPackage: true
+mac:
+  icon: desktop/resources/generated/icon.png
+  category: public.app-category.developer-tools
+  target:
+    - target: dmg
+      arch:
+        - universal
+    - target: zip
+      arch:
+        - universal
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  darkModeSupport: true
+dmg:
+  background: desktop/resources/generated/dmg-background.png
+  iconSize: 92
+  window:
+    width: 540
+    height: 380
+  contents:
+    - x: 166
+      y: 265
+      type: file
+    - x: 374
+      y: 265
+      type: link
+      path: /Applications
+linux:
+  icon: desktop/resources/generated/icon.png
+  category: Development
+  target:
+    - AppImage
+    - deb
+  synopsis: Agent-native visual website studio
+  description: Build, edit, critique, and ship immersive websites with AIgent Studio and a local coding agent.
