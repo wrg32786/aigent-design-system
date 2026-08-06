@@ -5,7 +5,7 @@
 <p align="center"><strong>Turn Claude, Codex, Cursor, and other coding agents into a design-and-production studio for immersive websites, product interfaces, cinematic decks, and the media behind them.</strong></p>
 
 <p align="center">
-  <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v0.6.0">v0.6.0</a>
+  <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v1.0.0">v1.0.0</a>
   · <a href="https://theaigent.xyz">The AIgent</a>
   · <a href="https://tools.theaigent.xyz">AIgent Tools</a>
   · <a href="#see-it-working">See it working</a>
@@ -16,16 +16,29 @@
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
 ```
 
-## AIgent Studio
+## AIgent Studio 1.0
 
-AIgent Studio is the interactive local UI for building and revising a real site with the repository's design intelligence, references, production systems, Resolve, Vision, and a locally authenticated Claude Code or Codex CLI agent.
+AIgent Studio is a **DOM-backed visual website canvas**: the layers, selection boxes, inspector, comments, and agent all operate against the real project running in the browser. There is no disconnected design mockup to translate later.
 
 ```bash
 npm install
 npm run studio -- --open
 ```
 
-Studio creates isolated projects, installs a proven starter, writes the durable brief and design contracts, streams agent activity, and previews the actual project at desktop, tablet, and mobile sizes. Credentials stay in the local CLI; the browser never asks for an API key.
+Inside Studio you can:
+
+- click, hover, and multi-select real rendered elements;
+- navigate a synchronized semantic layers tree;
+- edit text inline and change layout, typography, appearance, position, and responsive overrides;
+- resize, reorder, duplicate, remove, and reuse sections as project components;
+- browse the project's design tokens;
+- undo and redo through a structured Canvas patch journal;
+- attach comments directly to elements and see other active Studio participants;
+- save and restore local Git checkpoints;
+- hand selected elements, open comments, and approved Canvas operations to Claude Code or Codex;
+- run Design Intelligence, Inspiration forensics, Resolve, and Vision from the same project.
+
+Direct edits are stored reversibly in `.aigent/studio/canvas.json`. When a direction is approved, **Distill canvas edits into source** asks the authenticated local agent to fold the patch journal into the smallest correct source files. The operator clears the journal only after comparing the real rendered result.
 
 Install Studio into another project:
 
@@ -34,6 +47,7 @@ pnpm dlx shadcn@latest add wrg32786/aigent-design-system/aigent-studio
 node scripts/studio-server.mjs --open
 ```
 
+Credentials remain in the local Claude Code or Codex CLI. The browser never asks for an API key. Studio is localhost-only by default and does not expose a generic shell endpoint.
 AIgent studies references, synthesizes an original direction, sources or produces the media, builds the surface, measures the browser, sees the rendered result, and repairs the highest shared cause.
 
 ```text

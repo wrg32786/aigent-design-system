@@ -1,11 +1,11 @@
 ---
 name: aigent-design
-description: Turn Claude or another coding agent into a professional design studio for immersive websites, 3D experiences, cinematic decks, product interfaces, inspiration synthesis, creative media, ranked repair, and production verification.
+description: Turn Claude or another coding agent into a professional design studio for a DOM-backed visual canvas, immersive websites, 3D experiences, cinematic decks, product interfaces, inspiration synthesis, creative media, collaboration, ranked repair, and production verification.
 ---
 
 # AIgent Design
 
-Use this as the single entry point for the flagship design system. It routes to specialist inspiration, video, 3D, GSAP, Spline, Three.js, Remotion, provenance, resolve, and browser-QA skills only when needed.
+Use this as the single entry point for the flagship design system. It routes to specialist Studio Canvas, inspiration, video, 3D, GSAP, Spline, Three.js, Remotion, provenance, resolve, and browser-QA skills only when needed.
 
 ## Start once
 
@@ -34,6 +34,7 @@ Do not load every reference into context.
 | `page` | cinematic page, story, gallery, or landing surface |
 | `deck` | immersive sales, launch, sponsorship, or presentation deck |
 | `interface` | product UI, dashboard, editor, command center, or resource system |
+| `canvas` | direct DOM-backed visual editing, comments, components, responsive overrides, and source distillation |
 | `asset` | video, 3D, frame sequence, poster, texture, or rendered media |
 | `layout` | hierarchy, grouping, density, structure, responsive adaptation |
 | `typeset` | font roles, hierarchy, reading, and delivery |
@@ -62,6 +63,7 @@ Do not load every reference into context.
 - Use the first medium, runtime, component, or browser feature that carries the requirement.
 - Mobile is recomposed, not shrunk.
 - Reduced motion preserves meaning and hierarchy.
+- Canvas operations are reversible operator intent until they are deliberately distilled into source.
 - Real browser evidence decides whether the work is mechanically complete.
 - Every required screenshot must be opened before visual review can be marked complete.
 - Mechanical checks rank problems; they do not get to erase the selected visual world.
@@ -112,6 +114,10 @@ node scripts/inspire.mjs audit --target-dna target.json --plan plan.json --refs 
 - `asset-provenance-audit` — rights, attribution, manifests, secret safety
 - `cinematic-site-qa` — final browser and production verification
 
+## Canvas routing
+
+Use `aigent-studio` and `reference/canvas.md` when the operator is editing the rendered website directly. Preserve active Canvas operations, selected elements, project components, and open element comments. When asked to distill, apply the approved result to the smallest shared source owner, verify the real page, and leave the journal intact for comparison.
+
 ## Resolve routing
 
 Use `design-resolver` after the surface works end to end:
@@ -137,6 +143,6 @@ Open every original and annotated image. Use `reference/vision.md`. The combined
 
 ## Completion
 
-A finished result includes product-specific content, a committed visual world, working desktop and mobile states, reduced motion, complete UI states, optimized and manifest-backed media, an influence ledger when references were used, a passing Resolve mechanical gate, a passing structured Vision review, and no unresolved rights or private records.
+A finished result includes resolved Canvas comments and either an intentionally active patch journal or verified source distillation, product-specific content, a committed visual world, working desktop and mobile states, reduced motion, complete UI states, optimized and manifest-backed media, an influence ledger when references were used, a passing Resolve mechanical gate, a passing structured Vision review, and no unresolved rights or private records.
 
 A prompt, mood board, screenshot imitation, partial component list, technically working effect, or green mechanical report without rendered judgment is not a finished design.

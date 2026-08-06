@@ -121,3 +121,11 @@ Do not drift into:
 ## Interactive Studio
 
 AIgent Studio is the human operating surface for the repository. It joins the brief, references, proven starters, live responsive preview, local design agent, Design Intelligence, Inspiration Intelligence, Resolve, and Vision in one localhost-only UI. It is successful when a user can create a project, direct a real agent, inspect the actual files being edited, and complete the same production and verification contracts available from the terminal.
+
+## AIgent Studio 1.0 product contract
+
+AIgent Studio is the human operating surface for the design system. It combines the project brief, real browser preview, DOM-backed Canvas, semantic layers, responsive inspector, project components, comments, participant presence, coding agent, source diff, checkpoints, Resolve, and Vision.
+
+The actual project files remain the source of truth. Canvas operations are reversible operator intent stored under `.aigent/studio/canvas.json` until an agent distills them into the shared source owner and the operator verifies the result.
+
+The 1.0 boundary is website production, not generic vector illustration. It intentionally prioritizes real HTML/CSS/JavaScript output, optional immersive runtimes, accessibility, mobile recomposition, collaboration, and verified shipping.

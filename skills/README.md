@@ -6,13 +6,14 @@
 pnpm dlx shadcn@latest add wrg32786/aigent-design-system/aigent-design-skill
 ```
 
-The consolidated skill installs to `.claude/skills/aigent-design/` and routes product context, inspiration, pages, decks, interfaces, media, layout, typography, motion, critique, polish, ranked resolution, extraction, and QA without loading every specialist reference.
+The consolidated `aigent-design` skill routes product context, inspiration, direct Canvas work, pages, decks, interfaces, media, layout, typography, motion, critique, ranked repair, visual review, extraction, and QA without loading every specialist reference.
 
-## Umbrella skills
+## Umbrella and operating skills
 
 | Skill | Owns |
 | --- | --- |
-| `aigent-design` | Shape → inspire → synthesize → produce → build → resolve |
+| `aigent-design` | Shape → inspire → canvas → produce → build → resolve → see |
+| `aigent-studio` | DOM-backed Canvas, comments, components, checkpoints, agent handoff, and live project operation |
 | `cinematic-studio` | Specialist cinematic-production routing |
 
 ## Inspiration skills
@@ -23,41 +24,13 @@ The consolidated skill installs to `.claude/skills/aigent-design/` and routes pr
 | `reference-synthesis` | Reference matrix, transformations, pattern mapping, and influence ledger |
 | `inspiration-originality-audit` | Source dominance, copy overlap, weak transformation, and publication review |
 
-## Resolve skill
+## Quality skills
 
 | Skill | Owns |
 | --- | --- |
-| `design-resolver` | Rendered evidence → ranked root-cause repair → mechanical gate → explicit visual review |
-
-## Resolve skill
-
-| Skill | Owns |
-| --- | --- |
-| `design-resolver` | Rendered evidence → ranked root-cause repair → mechanical gate → explicit visual review |
-
-## Resolve skill
-
-| Skill | Owns |
-| --- | --- |
-| `design-resolver` | Rendered evidence → ranked root-cause repair → mechanical gate → explicit visual review |
-
-## Resolve skill
-
-| Skill | Owns |
-| --- | --- |
-| `design-resolver` | Rendered evidence → ranked root-cause repair → mechanical gate → explicit visual review |
-
-## Resolve skill
-
-| Skill | Owns |
-| --- | --- |
-| `design-resolver` | Rendered evidence → ranked root-cause repair → mechanical gate → explicit visual review |
-
-## Resolve skill
-
-| Skill | Owns |
-| --- | --- |
-| `design-resolver` | Rendered evidence → ranked root-cause repair → mechanical gate → explicit visual review |
+| `design-resolver` | Rendered evidence → ranked root-cause repair → mechanical gate |
+| `visual-design-critic` | Annotated captures → twelve-dimension critique → visual completion gate |
+| `cinematic-site-qa` | Final browser, asset, and production QA |
 
 ## Specialist production skills
 
@@ -68,7 +41,6 @@ The consolidated skill installs to `.claude/skills/aigent-design/` and routes pr
 | `video-asset-pipeline` | Web video, posters, mobile, and scrub exports |
 | `web-3d-asset-pipeline` | 3D sourcing, Blender cleanup, and GLB optimization |
 | `asset-provenance-audit` | Rights, attribution, manifests, and secret safety |
-| `cinematic-site-qa` | Final browser and production QA |
 
 ## Runtime and motion skills
 
@@ -91,13 +63,3 @@ The consolidated skill installs to `.claude/skills/aigent-design/` and routes pr
 | `aigent-asset-gallery-system` | The AIgent-branded gallery pattern |
 
 The `aigent-*` specialist skills are brand-specific. Outside brands should enter through `aigent-design`, inspect their own references, and preserve their visual authority.
-
-## Visual review
-
-| Skill | Owns |
-| --- | --- |
-| `visual-design-critic` | Annotated capture inspection, twelve-dimension critique, visual comparison, and the final combined gate |
-
-## AIgent Studio
-
-Use `aigent-studio` when operating the interactive local builder. It routes project creation, brief updates, live preview, Claude Code or Codex execution, Design Intelligence, Inspiration Intelligence, Resolve, and Vision without replacing the specialist skills that own each stage.

@@ -1,8 +1,8 @@
 {
   "name": "aigent-design-system",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "private": false,
-  "description": "An installable agent-native design studio with an interactive local builder, inspiration forensics, immersive production, ranked Resolve, structured visual critique, skills, provenance, evals, and browser QA.",
+  "description": "An installable agent-native design studio with a DOM-backed visual canvas, live code, components, collaboration, inspiration forensics, immersive production, Resolve, Vision, skills, provenance, evals, and browser QA.",
   "type": "module",
   "bin": {
     "aigent-design": "scripts/cli.mjs"
@@ -28,7 +28,7 @@
     "inspiration:smoke": "node scripts/inspiration-smoke.mjs",
     "capture": "node scripts/capture.mjs",
     "studio": "node scripts/studio-server.mjs",
-    "studio:check": "node scripts/check-studio.mjs"
+    "studio:check": "node --check studio/app.js && node --check studio/bridge.js && node scripts/check-studio.mjs"
   },
   "keywords": [
     "ai",
@@ -61,7 +61,12 @@
     "agent-skills",
     "website-builder",
     "agent-ui",
-    "interactive-studio"
+    "interactive-studio",
+    "visual-canvas",
+    "direct-manipulation",
+    "design-to-code",
+    "collaborative-design",
+    "dom-editor"
   ],
   "license": "MIT",
   "engines": {

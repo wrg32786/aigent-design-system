@@ -1,5 +1,31 @@
 # Changelog
 
+## 1.0.0 — AIgent Canvas
+
+### Added
+
+- DOM-backed visual editing against the real website preview
+- stable rendered element identity, hover bounds, click selection, and shift-click multi-selection
+- synchronized semantic layers tree
+- inline text editing and allowlisted content, layout, typography, appearance, position, and motion controls
+- base, tablet, and mobile responsive overrides
+- resize handles, sibling reordering, duplication, removal, and component insertion
+- project component library and design-token browser
+- structured Canvas patch journal with undo and redo
+- element-bound comments, participant presence, and remote selection state
+- local Git checkpoints, restore, and source diff
+- selected-element and open-comment context for Claude Code and Codex
+- agent-driven distillation of approved Canvas edits into production source
+- Canvas schema, DOM bridge, Studio skill updates, and complete browser verification
+
+### Changed
+
+- package version is now `1.0.0`
+- AIgent Studio is now the primary visual operating surface rather than only a brief, preview, and agent shell
+- the real project remains the source of truth; Canvas edits are reversible operator intent until distilled
+- the consolidated design skill now routes direct visual editing through the Canvas contract
+
+
 ## 0.6.0 — AIgent Studio
 
 ### Added
