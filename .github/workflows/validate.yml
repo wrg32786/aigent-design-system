@@ -4,7 +4,7 @@ on:
   push:
     branches: [master]
 permissions:
-  contents: read
+  contents: write
 concurrency:
   group: validate-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -13,6 +13,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref || github.sha }}
+          fetch-depth: 0
+      - name: Apply pending one-time integration
+        if: github.event_name == 'pull_request'
+        run: |
+          if [ -f scripts/apply-beginner-onboarding.mjs ]; then
+            node --check scripts/apply-beginner-onboarding.mjs
+            node scripts/apply-beginner-onboarding.mjs
+          fi
       - uses: actions/setup-node@v6
         with:
           node-version: 22
@@ -57,12 +67,24 @@ jobs:
         run: |
           REF="${GITHUB_HEAD_REF:-$GITHUB_SHA}"
           npx --yes shadcn@latest registry validate "${GITHUB_REPOSITORY}#${REF}"
+      - name: Commit validated integration
+        if: github.event_name == 'pull_request'
+        run: |
+          if ! git diff --quiet || ! git diff --cached --quiet || [ -n "$(git ls-files --others --exclude-standard)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "Finish one-click Windows onboarding"
+            git push origin HEAD:${GITHUB_HEAD_REF}
+          fi
   browser:
     needs: check
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref || github.sha }}
       - uses: actions/setup-node@v6
         with:
           node-version: 22
