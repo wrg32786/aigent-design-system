@@ -60,9 +60,15 @@ files:
   - registry.json
   - package.json
   - '!desktop/resources/generated/**'
+  - '!desktop/resources/playwright/**'
   - '!**/.aigent/**'
   - '!**/artifacts/**'
   - '!desktop-dist/**'
+extraResources:
+  - from: desktop/resources/playwright
+    to: playwright
+    filter:
+      - '**/*'
 extraMetadata:
   main: desktop/main.mjs
 publish:
@@ -94,12 +100,8 @@ mac:
   icon: desktop/resources/generated/icon.png
   category: public.app-category.developer-tools
   target:
-    - target: dmg
-      arch:
-        - universal
-    - target: zip
-      arch:
-        - universal
+    - dmg
+    - zip
   hardenedRuntime: true
   gatekeeperAssess: false
   darkModeSupport: true
