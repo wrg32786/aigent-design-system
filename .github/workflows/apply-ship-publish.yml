@@ -11,6 +11,7 @@ jobs:
   apply:
     if: ${{ hashFiles('scripts/apply-ship-publish-patch.mjs') != '' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
         with:
