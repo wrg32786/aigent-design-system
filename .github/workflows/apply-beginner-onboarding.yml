@@ -3,12 +3,15 @@ name: Apply beginner Desktop onboarding
 on:
   push:
     branches: [feature/ship-publish]
+  pull_request:
+    branches: [master]
+    types: [ready_for_review]
 
 permissions:
   contents: write
 
 concurrency:
-  group: beginner-onboarding-${{ github.ref }}
+  group: beginner-onboarding-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -19,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: feature/ship-publish
+          ref: ${{ github.head_ref || 'feature/ship-publish' }}
           fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
