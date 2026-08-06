@@ -1,140 +1,176 @@
 # AIgent Desktop
 
-AIgent Desktop wraps the existing localhost AIgent Studio in a thin Electron shell. The DOM-backed Canvas, project model, agent skills, Resolve, Vision, and source files remain the same; Desktop adds native installation, first-run setup, process management, updates, diagnostics, repair, shortcuts, and OS integration.
+AIgent Desktop is the easiest way to use the AIgent Design System. Download the installer, double-click it, connect Claude Code or Codex, and create sites without setting up the repository in a terminal.
 
-## Installers
+## Install on Windows
 
-The desktop release workflow produces:
+1. Download [`AIgent-Desktop-Setup-Windows-x64.exe`](https://github.com/wrg32786/aigent-design-system/releases/latest/download/AIgent-Desktop-Setup-Windows-x64.exe).
+2. Double-click the downloaded file.
+3. Follow the installation prompts.
+4. AIgent Desktop opens its first-run setup wizard automatically.
 
-- Windows x64 assisted NSIS installer (`.exe`)
-- macOS Apple Silicon and Intel disk images (`.dmg`)
-- macOS Apple Silicon and Intel update archives (`.zip`)
-- updater metadata and differential blockmaps
+If the current public build is unsigned, Windows may display **Windows protected your PC**. Confirm the installer came from this GitHub repository, choose **More info**, then **Run anyway**. Maintainer signing instructions are separate in [`SIGNING.md`](SIGNING.md); end users never need signing keys.
 
-The Windows wizard lets the user choose an installation directory, creates Start-menu and desktop shortcuts, registers the normal Windows uninstaller, and preserves project data on uninstall. The macOS image installs by dragging AIgent Desktop into Applications.
+## Install on macOS
 
-## First-run wizard
+Download the matching `.dmg` from the [latest release](https://github.com/wrg32786/aigent-design-system/releases/latest):
 
-The five-step setup flow:
+- Apple Silicon: `AIgent-Desktop-macOS-Apple-Silicon.dmg`
+- Intel: `AIgent-Desktop-macOS-Intel.dmg`
 
-1. chooses a separate, writable project workspace;
-2. verifies the bundled runtime, Git, external Node/npm, and Windows Git Bash when relevant;
-3. installs Claude Code or Codex with the official npm package and opens the official local authentication flow;
-4. configures launch-at-login and automatic updates;
-5. launches the real AIgent Studio Canvas.
+Open the disk image and drag AIgent Desktop into Applications.
 
-Installation and authentication actions are allowlisted. The renderer receives a narrow context-isolated API and cannot submit arbitrary shell commands.
+## First-run setup
+
+The setup wizard is designed for someone who has never used a terminal.
+
+### 1. Choose a workspace
+
+Pick the normal folder where your sites and decks will be saved. Projects live outside the application, so an update or reinstall does not remove them.
+
+### 2. Check the computer
+
+AIgent includes its own runtime and browser QA engine. On Windows, the wizard can install Git automatically when Claude Code needs it. Node and npm are optional for developer workflows rather than a requirement to launch AIgent itself.
+
+### 3. Connect an AI account
+
+Choose:
+
+- **Claude Code** — connect a Claude Pro, Max, Console, or supported enterprise account.
+- **Codex** — connect a supported ChatGPT account or OpenAI configuration.
+- **Manual prompt** — use Studio without installing either local agent.
+
+Click **Install for me**, then **Connect account**. A sign-in window opens through the official tool. You do not need to type installation commands or paste an API key into AIgent Desktop.
+
+### 4. Learn the workflow
+
+You can build and preview locally without hosting anything. When a site is ready, the Studio **Ship** tab can connect Vercel, Netlify, or Cloudflare Pages and publish a public URL.
+
+### 5. Launch Studio
+
+Click **Launch AIgent Studio and create my first project**.
+
+Then:
+
+1. click **New**;
+2. choose a blank site or starter;
+3. describe the site in ordinary language;
+4. open **Agent** and click **Build / revise**;
+5. use **Design** mode to click and edit the real page;
+6. distill approved visual edits into source;
+7. open **Ship** to export locally or publish.
+
+## What Desktop includes
+
+- Windows x64 assisted installer and normal Windows uninstaller
+- macOS Apple Silicon and Intel disk images
+- project workspace picker
+- local Claude Code and Codex detection, installation, and authentication launch
+- DOM-backed AIgent Studio Canvas
+- direct responsive editing
+- agent activity and revisions
+- components, tokens, comments, history, and checkpoints
+- Inspiration Intelligence
+- AIgent Resolve and AIgent Vision
+- local export and one-click publishing
+- automatic updates
+- repair and redacted diagnostics
+- bundled Playwright browser for reference capture and QA
+
+## Troubleshooting the PowerShell error
+
+Do not run shadcn or package-manager commands from:
+
+```text
+C:\Windows\System32
+```
+
+That is a protected Windows folder. The error:
+
+```text
+EPERM: operation not permitted, scandir 'C:\Windows\System32\config'
+```
+
+means Windows blocked the installer from scanning operating-system configuration files. Use the desktop installer, or create a normal folder first:
+
+```powershell
+New-Item -ItemType Directory -Force "$HOME\Documents\AIgent-Studio" | Out-Null
+Set-Location "$HOME\Documents\AIgent-Studio"
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/full-studio
+node scripts/studio-server.mjs --open
+```
 
 ## Development
+
+The sections below are for repository maintainers and contributors, not normal Desktop users.
 
 ```bash
 npm install
 npm run desktop:start
 ```
 
-Checks and smoke test:
+Checks and smoke tests:
 
 ```bash
 npm run desktop:check
 npm run desktop:smoke
-npm run desktop:smoke:packaged  # after a native package build
+npm run desktop:smoke:packaged
 ```
 
-Generate custom installer artwork, download the architecture-matched Playwright browser, and build an unpacked application:
+Prepare build resources and an unpacked application:
 
 ```bash
 npm run desktop:prepare
 npm run desktop:pack
 ```
 
-Build the current platform installer:
+Build installers:
 
 ```bash
 npm run desktop:dist
-```
-
-Platform-specific builds:
-
-```bash
 npm run desktop:dist:win
 npm run desktop:dist:mac
 ```
 
 ## Updates
 
-Packaged Windows NSIS and macOS builds use `electron-updater` against this repository's GitHub Releases. AIgent Desktop checks after startup when automatic updates are enabled, downloads the newer published build, and asks the operator before restarting to install it. Operating-system trust requires the signing credentials documented below. Apple Silicon and Intel builds use separate update channels so each Mac receives the matching architecture. Project workspaces live outside the application bundle and are not removed by updates.
+Packaged Windows NSIS and macOS builds use `electron-updater` with GitHub Releases. When automatic updates are enabled, Desktop downloads a newer validated build and asks before restarting to install it. Projects remain outside the application bundle.
 
 ## Signing and notarization
 
-The GitHub workflow can build unsigned test installers without credentials. Public trusted installers require repository secrets.
-
-The full certificate acquisition, export, base64, GitHub-secret, and verification procedure is in [`SIGNING.md`](SIGNING.md).
-
-### Windows code signing
-
-```text
-WIN_CSC_LINK
-WIN_CSC_KEY_PASSWORD
-```
-
-`WIN_CSC_LINK` may be a base64-encoded `.pfx` or `.p12` certificate accepted by electron-builder. Hardware- or cloud-protected certificates require a provider-specific signing hook instead of exporting the private key.
-
-### macOS signing and notarization
-
-```text
-MAC_CSC_LINK
-MAC_CSC_KEY_PASSWORD
-APPLE_API_KEY
-APPLE_API_KEY_ID
-APPLE_API_ISSUER
-```
-
-The workflow passes these only to the platform build. Never commit certificates, passwords, private keys, or Apple credentials.
+End users do not obtain or enter signing credentials. Repository maintainers configure them once so Windows and macOS can show a trusted publisher. See [`SIGNING.md`](SIGNING.md).
 
 ## Process model
 
 ```text
 Electron main process
   ├── installation and setup wizard
+  ├── system and agent installation
   ├── settings, diagnostics, and repair
-  ├── native workspace and OS dialogs
-  ├── update manager
+  ├── updater and native OS integration
   └── existing createStudioServer()
         └── real AIgent Studio at 127.0.0.1
 ```
 
-Electron carries the runtime required by AIgent itself. Packaged AIgent scripts run through Electron's Node mode. Claude Code and Codex remain separately installed and authenticated local tools discovered through the user's configured environment.
-
-Each native installer also bundles the architecture-matched Playwright headless Chromium used by reference forensics, Resolve, and Vision. Those workflows therefore do not require the user to install a separate QA browser after setup.
-
 ## Repair and diagnostics
 
-**Repair installation** verifies the workspace, clears only safe desktop runtime state, runs the bundled AIgent doctor, refreshes tool detection, and restarts Studio when needed.
+**Repair installation** verifies the workspace, clears only safe runtime state, runs the bundled doctor, refreshes tool detection, and restarts Studio when needed.
 
-**Export diagnostics** writes a redacted text report containing:
-
-- application and platform versions;
-- workspace health;
-- Git, Node, npm, Claude Code, and Codex detection;
-- local Studio status;
-- current desktop settings without credentials;
-- recent desktop log output.
-
-No API keys, auth tokens, or agent credential files are read or exported.
+**Export diagnostics** writes a redacted report with application versions, workspace health, tool detection, Studio status, settings without credentials, and recent logs. It does not read or export agent tokens or API keys.
 
 ## Uninstall
 
-Windows uses the NSIS uninstaller shown in Installed Apps. macOS users remove AIgent Desktop from Applications. The application deliberately does not delete the selected Studio workspace or projects. The Setup & Diagnostics screen includes a separate action to remove only desktop settings and logs.
+Windows uses the normal entry in **Installed Apps**. macOS users remove AIgent Desktop from Applications. Uninstalling the application does not delete the selected project workspace.
 
 ## Security boundary
 
 - context isolation enabled;
 - renderer sandbox enabled;
 - Node integration disabled;
-- constrained preload IPC rather than raw `ipcRenderer` exposure;
+- constrained preload IPC;
 - permission requests denied by default;
 - external links opened by the operating system;
 - Studio bound to `127.0.0.1`;
-- no generic shell or command endpoint;
-- installation commands fixed to the official Claude Code and Codex packages;
+- no generic shell endpoint;
+- installation commands restricted to documented official tools;
 - projects stored outside the application bundle.
