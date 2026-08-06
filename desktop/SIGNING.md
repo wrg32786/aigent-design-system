@@ -113,15 +113,16 @@ MAC_CSC_LINK          = base64 certificate value
 MAC_CSC_KEY_PASSWORD  = .p12 export password
 ```
 
-### 4. Create an App Store Connect API key
+### 4. Create an App Store Connect team API key
 
-The release workflow uses an App Store Connect API key for notarization.
+The release workflow uses an App Store Connect **team API key** for notarization. Individual API keys cannot use `notaryTool`.
 
-1. Sign in to App Store Connect.
-2. Generate an individual or team API key with the required access.
-3. Download the `.p8` private key immediately; Apple allows it to be downloaded only once.
-4. Record the key ID and issuer ID.
-5. Base64-encode the `.p8` file.
+1. Sign in to App Store Connect as an Account Holder or Admin.
+2. Open Users and Access → Integrations → App Store Connect API.
+3. Select Team Keys and generate a key with the required access.
+4. Download the `.p8` private key immediately; Apple allows it to be downloaded only once.
+5. Record the key ID and issuer ID.
+6. Base64-encode the `.p8` file.
 
 ```bash
 base64 -i AuthKey_XXXXXXXXXX.p8 | tr -d '\n' | pbcopy
