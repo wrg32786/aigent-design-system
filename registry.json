@@ -540,6 +540,21 @@
           "path": "skills/asset-provenance-audit/SKILL.md",
           "type": "registry:file",
           "target": "~/skills/asset-provenance-audit/SKILL.md"
+        },
+        {
+          "path": "integrations/hyperframes/README.md",
+          "type": "registry:file",
+          "target": "~/integrations/hyperframes/README.md"
+        },
+        {
+          "path": "creative-production/pipelines/hyperframes.md",
+          "type": "registry:file",
+          "target": "~/creative-production/pipelines/hyperframes.md"
+        },
+        {
+          "path": "skills/hyperframes-video/SKILL.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/hyperframes-video/SKILL.md"
         }
       ]
     },
