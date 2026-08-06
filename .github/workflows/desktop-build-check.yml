@@ -9,6 +9,7 @@ on:
       - package-lock.json
       - scripts/generate-desktop-assets.mjs
       - scripts/prepare-desktop-build.mjs
+      - scripts/smoke-packaged-desktop.mjs
       - scripts/check-desktop.mjs
       - scripts/studio-server.mjs
       - .github/workflows/desktop-build-check.yml
@@ -51,6 +52,8 @@ jobs:
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
         run: ${{ matrix.command }}
+      - name: Verify packaged application boot
+        run: npm run desktop:smoke:packaged
       - name: Collect proof files
         shell: bash
         run: |
