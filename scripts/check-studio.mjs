@@ -75,8 +75,10 @@ try {
   if (browserMode) {
     const { chromium } = await import("playwright");
     const browser = await chromium.launch({ headless: true });
+    const artifacts = path.join(process.cwd(), "artifacts", "studio");
+    fs.mkdirSync(artifacts, { recursive: true });
     try {
-      for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844 }]) {
+      for (const viewport of [{ name: "desktop", width: 1440, height: 1000 }, { name: "mobile", width: 390, height: 844 }]) {
         const page = await browser.newPage({ viewport });
         const errors = [];
         page.on("pageerror", (error) => errors.push(error.message));
@@ -86,9 +88,16 @@ try {
         const frame = page.frameLocator("#preview-frame");
         await frame.locator("h1").waitFor();
         assert.match((await frame.locator("h1").textContent()) || "", /Studio self check/);
-        await page.locator('[data-viewport="mobile"]').click();
-        assert.equal(await page.locator(".preview-stage").getAttribute("data-viewport"), "mobile");
+        if (viewport.width > 820) {
+          await page.locator('[data-viewport="mobile"]').click();
+          assert.equal(await page.locator(".preview-stage").getAttribute("data-viewport"), "mobile");
+        } else {
+          assert.equal(await page.locator(".viewport-switcher").isVisible(), false);
+        }
+        const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 2);
+        assert.equal(overflow, false, `${viewport.name} Studio UI has horizontal overflow.`);
         assert.deepEqual(errors, []);
+        await page.screenshot({ path: path.join(artifacts, `studio-${viewport.name}.png`), fullPage: true });
         await page.close();
       }
     } finally {
