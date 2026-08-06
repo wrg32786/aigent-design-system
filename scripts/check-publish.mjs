@@ -52,6 +52,11 @@ try {
   const netlify = deploySteps({ provider: "netlify", mode: "preview", directory: out, siteName: "demo", commit: "abc" });
   assert.equal(netlify.length, 1);
   assert.ok(netlify[0].args.includes("--allow-anonymous"));
+  assert.equal(netlify[0].args.includes("--site-name"), false);
+  const netlifyProduction = deploySteps({ provider: "netlify", mode: "production", directory: out, siteName: "demo", commit: "abc" });
+  assert.ok(netlifyProduction[0].args.includes("--site-name"));
+  const vercelPreview = deploySteps({ provider: "vercel", mode: "preview", directory: out, siteName: "demo", commit: "abc" });
+  assert.equal(vercelPreview[1].args.includes("--prod"), false);
   const vercel = deploySteps({ provider: "vercel", mode: "production", directory: out, siteName: "demo", commit: "abc" });
   assert.equal(vercel.length, 2);
   assert.ok(vercel[1].args.includes("--prod"));

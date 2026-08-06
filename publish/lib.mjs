@@ -166,8 +166,8 @@ export function deploySteps(options = {}) {
 
   if (provider === "local") return [];
   if (provider === "netlify") {
-    const args = ["--yes", "netlify-cli@latest", "deploy", "--dir", directory, "--no-build", "--json", "--site-name", siteName];
-    if (mode === "production") args.push("--prod");
+    const args = ["--yes", "netlify-cli@latest", "deploy", "--dir", directory, "--no-build", "--json"];
+    if (mode === "production") args.push("--site-name", siteName, "--prod");
     else args.push("--allow-anonymous");
     return [{ label: `Deploy ${mode} to Netlify`, command: npx, args }];
   }
@@ -232,7 +232,7 @@ function cleanReference(value) {
 function referencesFrom(source, extension) {
   const values = [];
   if ([".html", ".htm", ".svg"].includes(extension)) {
-    for (const match of source.matchAll(/\b(?:src|href|poster)\s*=\s*["']([^"']+)["']/gi)) values.push(match[1]);
+    for (const match of source.matchAll(/\b(?:src|href|poster|data-src|data-href|data-poster)\s*=\s*["']([^"']+)["']/gi)) values.push(match[1]);
     for (const match of source.matchAll(/\bsrcset\s*=\s*["']([^"']+)["']/gi)) {
       for (const part of match[1].split(",")) values.push(part.trim().split(/\s+/)[0]);
     }
@@ -314,14 +314,16 @@ export function buildStaticExport(options = {}) {
     bytes += stat.size;
     if (bytes > MAX_BYTES) throw new Error("Publish export exceeded 250 MB. Optimize the site or use a build adapter.");
 
+    const extension = path.extname(file).toLowerCase();
+    const inspectText = TEXT_EXTENSIONS.has(extension) && stat.size <= 5 * 1024 * 1024;
+    const source = inspectText ? fs.readFileSync(file, "utf8") : null;
+    if (source != null) scanTextForSecrets(relative, source);
+
     const destination = path.join(outputDirectory, relative);
     fs.mkdirSync(path.dirname(destination), { recursive: true });
     fs.copyFileSync(file, destination);
 
-    const extension = path.extname(file).toLowerCase();
-    if (!TEXT_EXTENSIONS.has(extension) || stat.size > 5 * 1024 * 1024) continue;
-    const source = fs.readFileSync(file, "utf8");
-    scanTextForSecrets(relative, source);
+    if (source == null) continue;
     for (const reference of referencesFrom(source, extension)) {
       const resolved = resolveCandidate(projectDirectory, file, reference);
       if (resolved) queue.push(resolved);

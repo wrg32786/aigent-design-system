@@ -5,7 +5,7 @@
 <p align="center"><strong>Turn Claude, Codex, Cursor, and other coding agents into a design-and-production studio for immersive websites, product interfaces, cinematic decks, and the media behind them.</strong></p>
 
 <p align="center">
-  <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v1.2.0">v1.1.0</a>
+  <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v1.2.0">v1.2.0</a>
   · <a href="https://theaigent.xyz">The AIgent</a>
   · <a href="https://tools.theaigent.xyz">AIgent Tools</a>
   · <a href="#studio-in-action">Studio in action</a>
@@ -72,6 +72,7 @@ pnpm dlx shadcn@latest add wrg32786/aigent-design-system/publish-site
 ```
 
 Provider authentication stays in the official CLI/browser flow; Studio never asks for hosting tokens or secret environment-variable values. See [`publish/README.md`](publish/README.md).
+
 ## AIgent Studio 1.0
 
 AIgent Studio is a **DOM-backed visual website canvas**. The layers, selection boxes, inspector, comments, and coding agent operate against the actual project running in the browser—there is no disconnected design mockup to translate later.

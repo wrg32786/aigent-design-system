@@ -115,11 +115,11 @@ For a nested starter entry, the exporter preserves the real directory structure 
 | Provider | Preview | Production | Domain handling |
 | --- | --- | --- | --- |
 | Local export | clean bundle | clean bundle | external host owns it |
-| Netlify | anonymous claimable preview or authenticated preview | authenticated deploy | connect in Netlify dashboard |
+| Netlify | anonymous claimable preview | authenticated deploy | connect in Netlify dashboard |
 | Vercel | linked preview | linked production | alias can be applied from AIgent |
 | Cloudflare Pages | preview branch | production branch | connect in Cloudflare dashboard |
 
-The repository uses `npx` to run the current official CLIs instead of adding three hosting SDKs to the application.
+The repository uses `npx` to run the current official CLIs instead of adding three hosting SDKs to the application. Netlify anonymous previews must be claimed within the provider's active claim window or they expire; use authenticated production mode for a durable site.
 
 ## Verification
 
