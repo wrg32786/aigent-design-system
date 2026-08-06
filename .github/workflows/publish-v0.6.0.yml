@@ -1,6 +1,7 @@
 name: Publish v0.6.0
 
 on:
+  workflow_dispatch:
   push:
     branches: [master]
     paths:
@@ -97,7 +98,8 @@ jobs:
             docs/readme-real-proof \
             docs/readme-visual-overhaul \
             docs/replace-readme-images \
-            feature/aigent-studio
+            feature/aigent-studio \
+            release/v0.6.0
           do
             encoded="${branch//\//%2F}"
             gh api --method DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/${encoded}" || true
