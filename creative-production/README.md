@@ -15,7 +15,7 @@ OPTIMIZE
 encode video, compress GLB, create posters and mobile fallbacks
 
 BUILD
-CSS, GSAP, Spline, Three.js, model-viewer, Remotion outputs
+CSS, GSAP, Spline, Three.js, model-viewer, HyperFrames or Remotion outputs
 
 VERIFY
 provenance, budgets, accessibility, browser QA
@@ -31,15 +31,17 @@ Use the lightest medium that carries the idea:
 | --- | --- |
 | Atmospheric depth behind copy | Still image, CSS treatment, or short video loop |
 | Controlled cinematic progression | Encoded video or frame sequence |
+| Existing website or HTML interface → video | HyperFrames render |
+| React/data-driven programmatic video | Remotion render |
 | Simple interactive product rotation | `model-viewer` |
 | Fast visually-authored 3D | Spline |
 | Live geometry, shaders, lighting, or manipulation | Three.js |
-| React product with justified live 3D | React Three Fiber |
-| Programmatic loops, diagrams, titles, or variants | Remotion render |
 | Complex offline scene, lighting, or photoreal output | Blender render |
 | Interactive 2D state animation | Rive |
 
 A video is not automatically better than a still. A live 3D runtime is not automatically better than a render. The correct asset is the smallest reliable system that makes the page's dominant visual idea possible.
+
+HyperFrames and Remotion are build-time alternatives, not required browser dependencies. HyperFrames is the default when the durable source is HTML or an existing website. Remotion remains useful when typed React compositions and its rendering ecosystem already own the production system.
 
 ## What is here
 
@@ -68,6 +70,7 @@ skills/
   creative-asset-director/     chooses and briefs the asset route
   video-asset-pipeline/        produces web video outputs
   web-3d-asset-pipeline/       produces optimized GLB assets
+  hyperframes-video/           turns websites and HTML systems into video
   ...                          runtime, choreography, QA, and provenance skills
 ```
 
@@ -112,7 +115,8 @@ The brief should define the page job, camera, focal point, text-safe area, durat
 - `pipelines/video-assets.md` — acquisition through web encoding
 - `pipelines/web-3d-assets.md` — model through optimized GLB
 - `pipelines/blender.md` — Blender render or export decisions
-- `pipelines/remotion.md` — programmatic media rendering
+- `pipelines/hyperframes.md` — website and HTML-native video production
+- `pipelines/remotion.md` — React-driven programmatic media rendering
 - `pipelines/runtime-selection.md` — browser integration decision
 - `standards/asset-budgets.md` — starting performance ceilings
 - `standards/provenance.md` — source and license record
