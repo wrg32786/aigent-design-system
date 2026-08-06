@@ -1,9 +1,11 @@
 name: Final repository cleanup
 
 on:
+  push:
+    branches: [master]
+    paths:
+      - .github/cleanup-now
   workflow_dispatch:
-  issues:
-    types: [closed]
 
 permissions:
   contents: write
@@ -15,7 +17,6 @@ concurrency:
 
 jobs:
   cleanup:
-    if: github.event_name == 'workflow_dispatch' || github.event.issue.title == 'Run repository branch cleanup'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -48,9 +49,9 @@ jobs:
             gh api --method DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/${encoded}"
           done
 
-      - name: Remove this one-time workflow
+      - name: Remove one-time cleanup files
         run: |
-          rm -f .github/workflows/cleanup-repository.yml
+          rm -f .github/cleanup-now .github/workflows/cleanup-repository.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
