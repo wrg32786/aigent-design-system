@@ -5,10 +5,11 @@ on:
     paths:
       - publish/**
       - skills/publish-site/**
+      - skills/aigent-design/**
       - scripts/publish-site.mjs
       - scripts/studio-publish.mjs
       - scripts/check-publish.mjs
-      - scripts/apply-ship-followups.mjs
+      - scripts/apply-publish-routing.mjs
       - studio/**
       - registry.json
       - package.json
@@ -19,6 +20,7 @@ on:
     paths:
       - publish/**
       - skills/publish-site/**
+      - skills/aigent-design/**
       - scripts/publish-site.mjs
       - scripts/studio-publish.mjs
       - scripts/check-publish.mjs
@@ -47,16 +49,17 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Apply follow-up fixes once
-        if: ${{ hashFiles('scripts/apply-ship-followups.mjs') != '' }}
+      - name: Apply final routing once
         run: |
-          node --check scripts/apply-ship-followups.mjs
-          node scripts/apply-ship-followups.mjs
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -m "Harden publish provider and export behavior"
-          git push origin HEAD:${{ github.head_ref || github.ref_name }}
+          if [ -f scripts/apply-publish-routing.mjs ]; then
+            node --check scripts/apply-publish-routing.mjs
+            node scripts/apply-publish-routing.mjs
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "Complete publish routing and isolation"
+            git push origin HEAD:${{ github.head_ref || github.ref_name }}
+          fi
       - run: npm ci
       - run: npm run publish:check
       - run: npm run studio:check
