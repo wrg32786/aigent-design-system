@@ -393,3 +393,6 @@ Studio is an Operate surface. The live preview is the dominant region; the brief
 
 The installer and first-run wizard are calm Operate surfaces, not marketing pages. One decision owns each step: workspace, system check, agent, preferences, launch. The interface exposes the actual local state, never fabricates successful installation, keeps credentials out of browser forms, and makes repair and diagnostics first-class. Windows and macOS installer artwork uses the AIgent visual language without reducing setup clarity or native platform expectations.
 
+## Ship panel design contract
+
+Ship is a calm final-stage Operate surface. It shows one gate, one provider decision, one channel decision, one optional domain, and explicit completion checks. Deployment history must expose the real URL, provider, commit, QA result, and exact-artifact redeploy without presenting hosting complexity as visual decoration. A blocked Canvas journal is visible before the publish button, not after an avoidable failure.

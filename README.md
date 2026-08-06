@@ -5,7 +5,7 @@
 <p align="center"><strong>Turn Claude, Codex, Cursor, and other coding agents into a design-and-production studio for immersive websites, product interfaces, cinematic decks, and the media behind them.</strong></p>
 
 <p align="center">
-  <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v1.1.0">v1.1.0</a>
+  <a href="https://github.com/wrg32786/aigent-design-system/releases/tag/v1.2.0">v1.1.0</a>
   · <a href="https://theaigent.xyz">The AIgent</a>
   · <a href="https://tools.theaigent.xyz">AIgent Tools</a>
   · <a href="#studio-in-action">Studio in action</a>
@@ -51,6 +51,27 @@ See [`desktop/README.md`](desktop/README.md) for builds and [`desktop/SIGNING.md
 
 The ten-second loop uses a real Studio capture to walk through semantic layers, DOM selection, responsive property editing, the Canvas patch journal, agent distillation, Resolve, and Vision. It replaces the old gallery of decorative README screenshots.
 
+## Ship the site
+
+AIgent Studio now closes the final gap from approved Canvas to a live URL. Open the **Ship** tab to:
+
+```text
+DISTILL → CHECKPOINT → EXPORT → PREFLIGHT → DEPLOY → VERIFY → RECORD
+```
+
+The built-in publisher creates a constrained public bundle, blocks unresolved Canvas patches, checkpoints the source, and deploys through **Netlify, Vercel, Cloudflare Pages, or a local export**. Production mode can run Resolve before and after deployment, prepare live Vision captures, record custom-domain follow-up, and redeploy an earlier exact artifact.
+
+```bash
+node scripts/publish-site.mjs deploy --provider netlify --mode preview --project-dir . --entry /index.html --site my-site
+```
+
+Install the standalone production contract with:
+
+```bash
+pnpm dlx shadcn@latest add wrg32786/aigent-design-system/publish-site
+```
+
+Provider authentication stays in the official CLI/browser flow; Studio never asks for hosting tokens or secret environment-variable values. See [`publish/README.md`](publish/README.md).
 ## AIgent Studio 1.0
 
 AIgent Studio is a **DOM-backed visual website canvas**. The layers, selection boxes, inspector, comments, and coding agent operate against the actual project running in the browser—there is no disconnected design mockup to translate later.
@@ -249,8 +270,8 @@ Current repository contract:
 
 | Contract | Current proof |
 | --- | ---: |
-| Installable registry items | **16** |
-| Agent skills | **25** |
+| Installable registry items | **17** |
+| Agent skills | **26** |
 | Layout / type / motion systems | **15 / 8 / 14** |
 | Curated component sources | **10** |
 | Creative resources / integrations | **31 / 9** |
@@ -273,6 +294,7 @@ npm run smoke
 npm run inspiration:smoke
 npm run capture
 npm run desktop:check
+npm run publish:check
 ```
 
 GitHub Actions validates the registry, clean installer, planner, Inspiration Intelligence, AIgent Resolve, AIgent Vision, AIgent Studio, AIgent Desktop, evals, browser matrix, native packages, packaged application boot, and visual captures.

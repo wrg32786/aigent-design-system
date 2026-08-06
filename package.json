@@ -1,8 +1,8 @@
 {
   "name": "aigent-design-system",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": false,
-  "description": "An installable agent-native design studio with a native desktop installer, guided setup, DOM-backed visual canvas, live code, components, collaboration, Resolve, Vision, and browser QA.",
+  "description": "An installable agent-native design studio with a native desktop installer, DOM-backed visual canvas, live coding agents, verified one-click publishing, HyperFrames, Resolve, and Vision.",
   "type": "module",
   "bin": {
     "aigent-design": "scripts/cli.mjs"
@@ -28,7 +28,7 @@
     "inspiration:smoke": "node scripts/inspiration-smoke.mjs",
     "capture": "node scripts/capture.mjs",
     "studio": "node scripts/studio-server.mjs",
-    "studio:check": "node --check studio/app.js && node --check studio/bridge.js && node scripts/check-studio.mjs",
+    "studio:check": "node --check studio/app.js && node --check studio/publish.js && node --check studio/bridge.js && node scripts/check-studio.mjs",
     "desktop:assets": "node scripts/generate-desktop-assets.mjs",
     "desktop:prepare": "node scripts/prepare-desktop-build.mjs",
     "desktop:start": "electron .",
@@ -38,7 +38,9 @@
     "desktop:dist": "npm run desktop:prepare && electron-builder",
     "desktop:dist:win": "npm run desktop:prepare && electron-builder --win nsis --x64",
     "desktop:dist:mac": "npm run desktop:prepare && electron-builder --mac dmg zip",
-    "desktop:smoke:packaged": "node scripts/smoke-packaged-desktop.mjs"
+    "desktop:smoke:packaged": "node scripts/smoke-packaged-desktop.mjs",
+    "publish": "node scripts/publish-site.mjs",
+    "publish:check": "node scripts/check-publish.mjs"
   },
   "keywords": [
     "ai",
@@ -81,7 +83,13 @@
     "install-wizard",
     "nsis",
     "dmg",
-    "auto-update"
+    "auto-update",
+    "deployment",
+    "static-publishing",
+    "netlify",
+    "vercel",
+    "cloudflare-pages",
+    "custom-domain"
   ],
   "license": "MIT",
   "engines": {

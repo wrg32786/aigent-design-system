@@ -14,6 +14,7 @@ The consolidated `aigent-design` skill routes product context, inspiration, dire
 | --- | --- |
 | `aigent-design` | Shape → inspire → canvas → produce → build → resolve → see |
 | `aigent-studio` | DOM-backed Canvas, comments, components, checkpoints, agent handoff, and live project operation |
+| `publish-site` | constrained export, provider deploys, domains, live QA, and exact-artifact redeploy |
 | `cinematic-studio` | Specialist cinematic-production routing |
 
 ## Inspiration skills

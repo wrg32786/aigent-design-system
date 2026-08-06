@@ -198,8 +198,13 @@ async function studio(args) {
   await runStudio(args);
 }
 
+async function publish(args) {
+  const { runPublish } = await import(pathToFileURL(path.join(packageRoot, "scripts/publish-site.mjs")));
+  await runPublish(args);
+}
+
 function help() {
-  console.log(`AIgent Design\n\nCommands:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  resolve [--target dir] [--url url] [--init] [--no-fail]\n  vision <prepare|check|finalize> ...\n  studio [--port 4180] [--root dir] [--open]\n  doctor\n`);
+  console.log(`AIgent Design\n\nCommands:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  resolve [--target dir] [--url url] [--init] [--no-fail]\n  vision <prepare|check|finalize> ...\n  studio [--port 4180] [--root dir] [--open]\n  publish <export|auth|deploy|rollback|status> ...\n  doctor\n`);
 }
 
 try {
@@ -222,6 +227,8 @@ try {
     await vision(args);
   } else if (command === "studio") {
     await studio(args);
+  } else if (command === "publish") {
+    await publish(args);
   } else {
     help();
   }

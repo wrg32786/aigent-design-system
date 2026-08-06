@@ -120,3 +120,7 @@ The Canvas journal works against rendered DOM regardless of how the page was aut
 - local Git checkpoints; no remote push occurs without an explicit later integration
 
 Use Studio only in a workspace you trust. The selected coding agent can edit project files and run the explicitly permitted local tooling.
+
+## Ship and Publish
+
+The Ship tab turns the selected project into a constrained public export, creates a Git checkpoint, runs optional preflight Resolve, deploys through Netlify, Vercel, Cloudflare Pages, or local export, verifies the live URL, and records deployment history. Active Canvas patches block publish until they are distilled or deliberately cleared. See `publish/README.md`.

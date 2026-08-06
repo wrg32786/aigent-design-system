@@ -8,7 +8,7 @@ if (process.versions.electron && process.resourcesPath && !process.env.PLAYWRIGH
   process.env.PLAYWRIGHT_SKIP_BROWSER_GC = "1";
 }
 
-export const DESKTOP_VERSION = "1.1.0";
+export const DESKTOP_VERSION = "1.2.0";
 export const APP_NAME = "AIgent Desktop";
 export const APP_ID = "xyz.theaigent.desktop";
 

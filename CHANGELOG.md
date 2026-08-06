@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.2.0 — AIgent Ship
+
+### Added
+
+- Studio Ship panel for local export, Netlify, Vercel, and Cloudflare Pages
+- constrained dependency-traversing static exporter with private-file and credential guards
+- pre-publish Git checkpoint and Canvas-journal gate
+- optional preflight and live AIgent Resolve verification
+- optional live AIgent Vision capture preparation
+- local deployment history and exact-artifact redeploy
+- Vercel domain aliasing plus Netlify and Cloudflare domain follow-up
+- publish-site skill, provider catalog, CLI, self-check, and registry item
+
+### Changed
+
+- package and desktop version are now `1.2.0`
+- complete Studio installs now include the Ship and Publish system
+
 ## 1.1.0 — AIgent Desktop
 
 ### Added
