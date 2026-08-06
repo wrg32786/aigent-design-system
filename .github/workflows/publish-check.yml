@@ -10,6 +10,7 @@ on:
       - scripts/studio-publish.mjs
       - scripts/check-publish.mjs
       - scripts/apply-publish-routing.mjs
+      - scripts/apply-publish-ux.mjs
       - studio/**
       - registry.json
       - package.json
@@ -49,15 +50,21 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Apply final routing once
+      - name: Apply final integration once
         run: |
-          if [ -f scripts/apply-publish-routing.mjs ]; then
-            node --check scripts/apply-publish-routing.mjs
-            node scripts/apply-publish-routing.mjs
+          changed=0
+          for script in scripts/apply-publish-routing.mjs scripts/apply-publish-ux.mjs; do
+            if [ -f "$script" ]; then
+              node --check "$script"
+              node "$script"
+              changed=1
+            fi
+          done
+          if [ "$changed" = "1" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add -A
-            git commit -m "Complete publish routing and isolation"
+            git commit -m "Complete publish routing and Studio UX"
             git push origin HEAD:${{ github.head_ref || github.ref_name }}
           fi
       - run: npm ci
