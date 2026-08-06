@@ -14,8 +14,10 @@ function run(command, args, env = {}) {
     env: { ...process.env, ...env },
     encoding: "utf8",
     windowsHide: true,
+    shell: process.platform === "win32" && /\.(?:cmd|bat)$/i.test(command),
     stdio: "inherit",
   });
+  if (result.error) throw result.error;
   if (result.status !== 0) process.exit(result.status || 1);
 }
 
