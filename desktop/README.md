@@ -37,6 +37,7 @@ Checks and smoke test:
 ```bash
 npm run desktop:check
 npm run desktop:smoke
+npm run desktop:smoke:packaged  # after a native package build
 ```
 
 Generate custom installer artwork, download the architecture-matched Playwright browser, and build an unpacked application:

@@ -37,7 +37,8 @@
     "desktop:pack": "npm run desktop:prepare && electron-builder --dir",
     "desktop:dist": "npm run desktop:prepare && electron-builder",
     "desktop:dist:win": "npm run desktop:prepare && electron-builder --win nsis --x64",
-    "desktop:dist:mac": "npm run desktop:prepare && electron-builder --mac dmg zip"
+    "desktop:dist:mac": "npm run desktop:prepare && electron-builder --mac dmg zip",
+    "desktop:smoke:packaged": "node scripts/smoke-packaged-desktop.mjs"
   },
   "keywords": [
     "ai",

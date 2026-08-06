@@ -47,6 +47,9 @@ function packagedFile(relativePath) {
   const unpacked = packed.includes(marker) ? packed.replace(marker, `${path.sep}app.asar.unpacked${path.sep}`) : packed;
   return fs.existsSync(unpacked) ? unpacked : packed;
 }
+function runtimeRoot() {
+  return app.isPackaged ? path.dirname(packagedFile("package.json")) : root;
+}
 function documentsPath() { return app.getPath("documents"); }
 
 function log(message, data = null) {
@@ -201,7 +204,7 @@ function internalNodeRun(args, options = {}) {
   const env = studioEnvironment();
   env.ELECTRON_RUN_AS_NODE = "1";
   return spawnSync(process.execPath, args, {
-    cwd: root,
+    cwd: runtimeRoot(),
     encoding: "utf8",
     env,
     timeout: options.timeout || 120000,
@@ -405,7 +408,21 @@ async function boot() {
     await loadSetup("smoke");
     const state = windowPayload();
     if (!state.environment.runtime.available || !state.config.workspace) throw new Error("Desktop smoke check failed.");
-    setTimeout(() => app.quit(), 400);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    const capture = await mainWindow.webContents.capturePage();
+    const proof = app.isPackaged
+      ? path.join(app.getPath("temp"), "aigent-desktop-setup.png")
+      : path.join(root, "artifacts", "desktop", "desktop-setup.png");
+    fs.mkdirSync(path.dirname(proof), { recursive: true });
+    fs.writeFileSync(proof, capture.toPNG());
+    const doctor = internalNodeRun([packagedFile(path.join("scripts", "cli.mjs")), "doctor"], { timeout: 180000 });
+    if (doctor.status !== 0) throw new Error((doctor.stderr || doctor.stdout || "Packaged doctor failed").trim());
+    const url = await startStudio();
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Packaged Studio returned ${response.status}.`);
+    await stopStudio();
+    log("Desktop smoke proof passed", { proof, url });
+    setTimeout(() => app.quit(), 150);
     return;
   }
   if (config.onboardingComplete) {

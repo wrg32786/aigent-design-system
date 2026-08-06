@@ -34,6 +34,7 @@ const required = [
   "electron-builder.yml",
   "scripts/generate-desktop-assets.mjs",
   "scripts/prepare-desktop-build.mjs",
+  "scripts/smoke-packaged-desktop.mjs",
   "scripts/check-desktop.mjs",
   ".github/workflows/desktop-release.yml",
 ];
@@ -43,7 +44,7 @@ const packageJson = JSON.parse(fs.readFileSync(file("package.json"), "utf8"));
 assert.equal(packageJson.version, DESKTOP_VERSION);
 assert.equal(packageJson.main, "desktop/main.mjs");
 assert.equal(packageJson.scripts["desktop:start"], "electron .");
-for (const script of ["desktop:assets", "desktop:prepare", "desktop:start", "desktop:check", "desktop:smoke", "desktop:pack", "desktop:dist", "desktop:dist:win", "desktop:dist:mac"]) {
+for (const script of ["desktop:assets", "desktop:prepare", "desktop:start", "desktop:check", "desktop:smoke", "desktop:smoke:packaged", "desktop:pack", "desktop:dist", "desktop:dist:win", "desktop:dist:mac"]) {
   assert.equal(typeof packageJson.scripts?.[script], "string", `Missing desktop package script: ${script}`);
 }
 for (const name of ["electron-updater", "playwright"]) assert.equal(typeof packageJson.dependencies?.[name], "string", `Missing runtime dependency: ${name}`);
@@ -66,9 +67,9 @@ const preload = fs.readFileSync(file("desktop/preload.cjs"), "utf8");
 assert.ok(preload.includes("contextBridge.exposeInMainWorld"));
 assert.ok(!preload.includes("ipcRenderer.send,"), "Preload must not expose raw IPC.");
 const main = fs.readFileSync(file("desktop/main.mjs"), "utf8");
-for (const contract of ["contextIsolation: true", "sandbox: true", "nodeIntegration: false", "setPermissionRequestHandler", "requestSingleInstanceLock", "autoUpdater", "latest-arm64", "latest-x64", "createStudioServer"]) assert.ok(main.includes(contract), `Desktop main missing: ${contract}`);
+for (const contract of ["contextIsolation: true", "sandbox: true", "nodeIntegration: false", "setPermissionRequestHandler", "requestSingleInstanceLock", "autoUpdater", "latest-arm64", "latest-x64", "capturePage", "runtimeRoot", "createStudioServer"]) assert.ok(main.includes(contract), `Desktop main missing: ${contract}`);
 
-for (const target of ["desktop/main.mjs", "desktop/lib.mjs", "desktop/renderer/app.js", "desktop/preload.cjs", "scripts/generate-desktop-assets.mjs", "scripts/prepare-desktop-build.mjs"]) {
+for (const target of ["desktop/main.mjs", "desktop/lib.mjs", "desktop/renderer/app.js", "desktop/preload.cjs", "scripts/generate-desktop-assets.mjs", "scripts/prepare-desktop-build.mjs", "scripts/smoke-packaged-desktop.mjs"]) {
   const result = spawnSync(process.execPath, ["--check", file(target)], { encoding: "utf8" });
   assert.equal(result.status, 0, `${target} failed syntax check:\n${result.stderr}`);
 }
