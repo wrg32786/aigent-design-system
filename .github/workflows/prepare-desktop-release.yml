@@ -3,13 +3,15 @@ name: Prepare AIgent Desktop 1.1.0
 on:
   push:
     branches: [feature/aigent-desktop]
+  pull_request:
+    branches: [master]
 
 permissions:
   contents: write
 
 jobs:
   prepare:
-    if: github.event.head_commit.message != 'Prepare AIgent Desktop 1.1.0'
+    if: github.event_name == 'pull_request' || github.event.head_commit.message != 'Prepare AIgent Desktop 1.1.0'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
