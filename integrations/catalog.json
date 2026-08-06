@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "verifiedAt": "2026-08-04",
+  "verifiedAt": "2026-08-06",
   "principle": "The neutral core remains dependency-free. Install a renderer only when the page requirement earns it.",
   "integrations": [
     {
@@ -112,6 +112,28 @@
         "the site would unnecessarily ship React or Remotion in the browser"
       ],
       "relatedSkill": "skills/remotion-web-assets/SKILL.md"
+    },
+    {
+      "id": "hyperframes",
+      "name": "HyperFrames",
+      "role": "agent-authored HTML motion graphics and deterministic video rendering",
+      "phase": "build-time",
+      "required": false,
+      "install": "npx skills add heygen-com/hyperframes && npx hyperframes init",
+      "license": "Apache-2.0",
+      "officialUrl": "https://github.com/heygen-com/hyperframes",
+      "licenseUrl": "https://github.com/heygen-com/hyperframes/blob/main/LICENSE",
+      "docsUrl": "https://hyperframes.heygen.com/introduction",
+      "useWhen": [
+        "an existing website or design system should become a product tour, launch film, README demo, or social variant",
+        "HTML, CSS, GSAP, Three.js, captions, audio, and data should share one deterministic timeline",
+        "the agent needs an open-source website-to-video production route"
+      ],
+      "avoidWhen": [
+        "a short direct screen recording needs no authored motion or reusable composition",
+        "a single hand-edited clip is faster and no deterministic variants are required"
+      ],
+      "relatedSkill": "skills/hyperframes-video/SKILL.md"
     },
     {
       "id": "theatrejs",
