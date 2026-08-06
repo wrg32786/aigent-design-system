@@ -5,6 +5,8 @@ on:
     branches: [master]
     paths:
       - .github/workflows/cleanup-repository.yml
+  pull_request:
+    types: [closed]
 
 permissions:
   contents: write
