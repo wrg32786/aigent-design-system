@@ -20,6 +20,8 @@ asarUnpack:
   - evals/**
   - case-studies/**
   - vault/**
+  - node_modules/playwright/**
+  - node_modules/playwright-core/**
   - registry.json
   - PRODUCT.md
   - DESIGN.md
