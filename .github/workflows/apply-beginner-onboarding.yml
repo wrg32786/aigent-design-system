@@ -1,0 +1,47 @@
+name: Apply beginner Desktop onboarding
+
+on:
+  push:
+    branches: [feature/ship-publish]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: beginner-onboarding-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apply:
+    if: ${{ hashFiles('scripts/apply-beginner-onboarding.mjs') != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: feature/ship-publish
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - name: Apply beginner-first onboarding
+        run: |
+          node --check scripts/apply-beginner-onboarding.mjs
+          node scripts/apply-beginner-onboarding.mjs
+      - name: Install dependencies
+        run: npm ci
+      - name: Validate focused contracts
+        run: |
+          npm run publish:check
+          npm run desktop:check
+          npm run studio:check
+          npm run check
+          npm run registry
+      - name: Commit final integration
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Finish one-click Windows onboarding"
+          git push origin HEAD:feature/ship-publish
