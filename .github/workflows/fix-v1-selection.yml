@@ -1,0 +1,46 @@
+name: Fix AIgent Studio 1.0 selection handshake
+
+on:
+  push:
+    branches:
+      - feature/aigent-v1
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.event.head_commit.message != 'Stabilize v1 canvas selection'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: feature/aigent-v1
+      - name: Stop recursive preview initialization
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          bridge = Path('studio/bridge.js')
+          text = bridge.read_text()
+          old = '''    announceTree();\n    announceSelection();\n    post("ready", { title: document.title, url: location.pathname });\n  }\n  if (message.type === "set-mode")'''
+          new = '''    announceTree();\n    announceSelection();\n  }\n  if (message.type === "set-mode")'''
+          if old not in text:
+              raise SystemExit('Expected recursive ready handshake was not found')
+          bridge.write_text(text.replace(old, new))
+
+          check = Path('scripts/check-studio.mjs')
+          check_text = check.read_text()
+          old_check = '        assert.equal(await page.locator("#inspector-fields").getAttribute("hidden"), null);'
+          new_check = '        await page.waitForFunction(() => document.querySelector("#inspector-fields")?.hidden === false);'
+          if old_check not in check_text:
+              raise SystemExit('Expected inspector hidden assertion was not found')
+          check.write_text(check_text.replace(old_check, new_check))
+          PY
+      - name: Commit fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add studio/bridge.js scripts/check-studio.mjs
+          git commit -m "Stabilize v1 canvas selection"
+          git push origin HEAD:feature/aigent-v1
