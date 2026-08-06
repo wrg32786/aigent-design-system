@@ -106,6 +106,7 @@ jobs:
           path: |
             artifacts/visual
             artifacts/resolve
+            artifacts/studio
           if-no-files-found: error
           retention-days: 14
       - name: Stop preview server
