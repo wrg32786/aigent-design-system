@@ -31,3 +31,9 @@ Do not include live credentials, private screenshots, or personal data in the re
 ## AIgent Studio
 
 Studio binds to `127.0.0.1` and must not be exposed directly to a public network. It uses the operator's authenticated local Claude Code or Codex CLI; credentials are never requested by or returned to the browser. Project IDs, filesystem boundaries, hidden files, request sizes, JSON content types, and cross-origin writes are constrained. The selected agent can edit project files and run the explicitly configured local tools, so use Studio only in a trusted workspace.
+
+## AIgent Studio 1.0 Canvas boundary
+
+AIgent Studio remains bound to localhost by default. Canvas writes accept only allowlisted operation kinds, CSS properties, and attributes. Request bodies, identifiers, HTML component payloads, and values are bounded; reusable component HTML is stripped of scripts, embedded documents, and inline event handlers. Hidden/private project paths remain unavailable through preview routes.
+
+Participant presence and comments use local server-sent events. They do not create an internet-facing collaboration service. Git checkpoints are local and Studio does not push project history to a remote repository without a separate explicit integration.

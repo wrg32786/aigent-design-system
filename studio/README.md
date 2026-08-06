@@ -1,35 +1,78 @@
-# AIgent Studio
+# AIgent Studio 1.0
 
-AIgent Studio is the local interactive UI for building and revising websites with an authenticated Claude Code or Codex CLI agent that works inside an AIgent-equipped project.
-
-From this repository:
+AIgent Studio is a local, DOM-backed visual website editor where the browser preview, source project, design system, coding agent, comments, and QA loop share one workspace.
 
 ```bash
+npm install
 npm run studio -- --open
-```
-
-After installing the `aigent-studio` registry item into another project:
-
-```bash
-node scripts/studio-server.mjs --open
 ```
 
 Open `http://127.0.0.1:4180/studio/`.
 
-## What it does
+## Core model
 
-- creates isolated projects under `.aigent/studio/projects/`
-- installs a proven AIgent starter and its dependencies
-- writes `BRIEF.md`, `PRODUCT.md`, `DESIGN.md`, `AGENTS.md`, and the consolidated AIgent skill into the project
-- previews the real project in desktop, tablet, and mobile frames
-- streams Claude Code or Codex activity into the UI
-- preserves Claude Code session continuity per project
-- runs Design Intelligence planning, reference forensics, Resolve, and Vision preparation
-- keeps credentials in the authenticated local CLI rather than the browser
+The actual project remains the source of truth:
 
-## Agent setup
+```text
+Project source
+  → real browser preview
+  → injected editor bridge
+  → selection, layers, inspector, comments
+  → non-destructive Canvas journal
+  → agent distillation into source
+  → Resolve + Vision
+```
 
-Install and authenticate at least one local agent:
+Studio does not maintain a disconnected design scene graph. Every selectable layer is a real DOM element in the current site.
+
+## Visual editing
+
+Studio 1.0 includes:
+
+- hover and click selection in the live preview
+- shift-click multi-selection
+- synchronized semantic layers tree
+- inline text editing
+- responsive base, tablet, and mobile overrides
+- layout, typography, appearance, position, and motion properties
+- resize handles
+- sibling reordering, duplication, insertion, and deletion
+- project design-token browser
+- reusable project components
+- patch history with undo and redo
+- source diff and Git-backed checkpoints
+- element-bound comments
+- participant presence and remote selection state across Studio clients
+- agent handoff with selected elements, open comments, and the active Canvas journal
+
+## Canvas journal
+
+Direct edits are stored under:
+
+```text
+.aigent/studio/canvas.json
+```
+
+The journal is intentionally non-destructive. It gives the operator instant visual editing, reliable undo, and transparent intent without rewriting production source on every pointer movement.
+
+Use **Distill canvas edits into source** when a direction is approved. Claude Code or Codex reads the active operations, applies them to the smallest correct source files, and preserves responsive and accessibility behavior. Clear the journal only after comparing the distilled result.
+
+## Collaboration
+
+Studio uses server-sent events and the local project state to share:
+
+- active participants
+- selected elements
+- viewport and mode
+- comments and resolution state
+- Canvas operations
+- components and checkpoints
+
+The default server remains bound to `127.0.0.1`. Multiple browser clients on the same machine can collaborate. Network hosting is deliberately not enabled by default.
+
+## Agents
+
+Authenticate at least one supported local agent:
 
 ```bash
 npm install -g @anthropic-ai/claude-code
@@ -43,13 +86,7 @@ npm install -g @openai/codex
 codex login
 ```
 
-Claude runs in non-interactive print mode with streamed JSON, edit permission, bounded turns, and a limited set of read/write and Node/npm/npx tools. Codex runs non-interactively in a workspace-write sandbox with approvals disabled for the local project turn.
-
-## Security boundary
-
-Studio binds to `127.0.0.1` only. It does not expose arbitrary shell commands through HTTP. Projects are constrained to the configured Studio root, request bodies are bounded, project identifiers are validated, and agent processes run with the project directory as their working directory.
-
-Use Studio only on a machine and workspace you trust. The agent can edit project files and run the explicitly allowed local tooling.
+Studio never requests an API key in the browser. Claude Code runs with bounded turns and explicit project tools. Codex runs in a workspace-write sandbox. Manual prompt mode remains available.
 
 ## Commands
 
@@ -58,10 +95,26 @@ npm run studio
 npm run studio -- --port 4300 --open
 npx github:wrg32786/aigent-design-system studio --open
 npm run studio:check
+npm run studio:check -- --browser
 ```
 
-Set `AIGENT_STUDIO_ROOT` to move project storage. Set `AIGENT_STUDIO_CLAUDE_BIN` or `AIGENT_STUDIO_CODEX_BIN` when the executable is not on the default PATH.
+## Current product boundary
 
-## Current scope
+Studio 1.0 is optimized for website production rather than generic vector illustration. Static HTML, CSS, and JavaScript are first-class. The included starters may load Three.js, Spline, GSAP, video, and the other optional runtimes already supported by the design system.
 
-The first release intentionally targets static HTML, CSS, and JavaScript surfaces because the AIgent reference systems and browser QA are already optimized for that path. Existing starters remain free to load Three.js, Spline, GSAP, video, or other browser runtimes. Custom framework dev-server orchestration can be added after a real project proves it is needed.
+The Canvas journal works against rendered DOM regardless of how the page was authored. Automatic framework-specific AST distillation remains an agent task: the agent sees the selected nodes and patch contract, then edits the project using its native component conventions.
+
+## Security
+
+- localhost-only by default
+- constrained project root and identifiers
+- hidden and private paths blocked from preview
+- bounded JSON request bodies
+- same-origin writes only
+- no arbitrary shell endpoint
+- sanitized reusable component HTML
+- allowlisted Canvas properties and attributes
+- agent processes scoped to the project directory
+- local Git checkpoints; no remote push occurs without an explicit later integration
+
+Use Studio only in a workspace you trust. The selected coding agent can edit project files and run the explicitly permitted local tooling.

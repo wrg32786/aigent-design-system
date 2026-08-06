@@ -376,3 +376,15 @@ Extract only after the same intent appears in multiple real surfaces. Reuse exis
 ## Studio interface
 
 Studio is an Operate surface. The live preview is the dominant region; the brief and agent room are supporting rails. Controls stay dense, explicit, and keyboard reachable. The UI must not impersonate a canvas editor: it exposes real project state, real agent output, and real browser preview. Mobile stacks the brief, preview, and agent room rather than shrinking three desktop columns.
+
+## Studio Canvas design contract
+
+- The preview is the real website, not a design-only scene graph.
+- Selection overlays live outside the iframe and never ship with the project.
+- Every direct edit records a structured, reversible operation.
+- Responsive changes explicitly target base, tablet, or mobile.
+- Design tokens and shared components outrank arbitrary values.
+- Element comments remain unresolved authority until addressed or resolved.
+- Multi-user presence provides context; it does not overwrite product or design authority.
+- Distillation fixes the shared source owner instead of copying runtime overrides into production.
+- Resolve establishes the mechanical floor; Vision judges the rendered result.

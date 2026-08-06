@@ -88,6 +88,11 @@
           "path": "skills/aigent-design/reference/vision.md",
           "type": "registry:file",
           "target": "~/.claude/skills/aigent-design/reference/vision.md"
+        },
+        {
+          "path": "skills/aigent-design/reference/canvas.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/aigent-design/reference/canvas.md"
         }
       ]
     },
@@ -961,8 +966,8 @@
     {
       "name": "aigent-studio",
       "type": "registry:block",
-      "title": "AIgent Studio",
-      "description": "Install the local interactive website builder with a live responsive preview, project brief, Design Intelligence, Inspiration Intelligence, Resolve, Vision, and authenticated Claude Code or Codex CLI agent integration.",
+      "title": "AIgent Studio 1.0",
+      "description": "Install the DOM-backed visual website canvas with real layers, direct responsive editing, components, comments, participant presence, patch history, checkpoints, live code preview, and authenticated Claude Code or Codex integration.",
       "registryDependencies": [
         "wrg32786/aigent-design-system/studio-core",
         "wrg32786/aigent-design-system/inspiration-intelligence",
@@ -1018,18 +1023,28 @@
           "path": "skills/aigent-studio/SKILL.md",
           "type": "registry:file",
           "target": "~/.claude/skills/aigent-studio/SKILL.md"
+        },
+        {
+          "path": "studio/bridge.js",
+          "type": "registry:file",
+          "target": "~/studio/bridge.js"
+        },
+        {
+          "path": "studio/canvas.schema.json",
+          "type": "registry:file",
+          "target": "~/studio/canvas.schema.json"
         }
       ],
       "devDependencies": [
         "playwright@^1.61.1"
       ],
-      "docs": "Run `node scripts/studio-server.mjs --open` after installing. Studio binds to localhost, uses an authenticated local Claude Code or Codex CLI, and never requests an API key in the browser."
+      "docs": "Run `node scripts/studio-server.mjs --open`. Select real DOM layers, edit visually across base/tablet/mobile, collaborate through comments and presence, checkpoint locally, then ask the authenticated local agent to distill approved Canvas operations into source before Resolve and Vision."
     },
     {
       "name": "full-studio",
       "type": "registry:item",
       "title": "Complete AIgent Design Studio",
-      "description": "Install the complete flagship system: inspiration intelligence, design planning, immersive production, ranked Resolve, structured visual critique, QA, Design Vault, and case studies.",
+      "description": "Install the complete flagship system: DOM-backed AIgent Studio, inspiration intelligence, design planning, immersive production, components, collaboration, Resolve, Vision, QA, Design Vault, and case studies.",
       "registryDependencies": [
         "wrg32786/aigent-design-system/studio-core",
         "wrg32786/aigent-design-system/inspiration-intelligence",
