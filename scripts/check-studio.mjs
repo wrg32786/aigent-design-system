@@ -67,8 +67,8 @@ try {
   assert.match(manual.prompt, /BRIEF\.md/);
   assert.match(manual.prompt, /Improve the first viewport/);
 
-  const traversal = await fetch(`${base}/preview/${project.id}/../../package.json`);
-  assert.ok([400, 404].includes(traversal.status));
+  const traversal = await fetch(`${base}/preview/${project.id}/%2e%2e%2fpackage.json`);
+  assert.equal(traversal.status, 404);
   const privateFile = await fetch(`${base}/preview/${project.id}/.aigent/design-plan.json`);
   assert.equal(privateFile.status, 404);
 
