@@ -2,7 +2,7 @@
   <img src="docs/assets/readme/readme-hero.svg" width="100%" alt="AIgent Design System">
 </p>
 
-# AIgent Design System
+# AIgent Design System (in Beta active build)
 
 **Create polished websites, immersive sales decks, product interfaces, and 3D experiences with an AI design agent—without needing to know how to code.**
 
