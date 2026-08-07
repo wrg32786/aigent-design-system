@@ -2,10 +2,11 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { createStudioServer } from "./studio-server.mjs";
 
 const browserMode = process.argv.includes("--browser");
-const repositoryRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 for (const relative of ["studio/experience.js", "studio/experience.css"]) {
   assert.ok(fs.existsSync(path.join(repositoryRoot, relative)), `Missing Studio experience file: ${relative}`);
 }
