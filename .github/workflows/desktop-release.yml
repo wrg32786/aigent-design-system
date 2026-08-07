@@ -12,12 +12,24 @@ on:
         required: true
         type: boolean
         default: true
+  push:
+    branches:
+      - master
+    paths:
+      - package.json
+      - package-lock.json
+      - desktop/**
+      - electron-builder.yml
+      - scripts/prepare-desktop-build.mjs
+      - scripts/smoke-packaged-desktop.mjs
+      - scripts/verify-desktop-release.mjs
+      - .github/workflows/desktop-release.yml
 
 permissions:
   contents: read
 
 concurrency:
-  group: desktop-release-${{ inputs.ref }}
+  group: desktop-release-${{ inputs.ref || github.sha }}
   cancel-in-progress: true
 
 jobs:
@@ -48,7 +60,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ inputs.ref }}
+          ref: ${{ inputs.ref || github.sha }}
           fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
@@ -116,14 +128,14 @@ jobs:
 
   publish:
     needs: build
-    if: inputs.publish
+    if: github.event_name == 'push' || inputs.publish
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ inputs.ref }}
+          ref: ${{ inputs.ref || github.sha }}
           fetch-depth: 0
       - uses: actions/download-artifact@v4
         with:
@@ -150,4 +162,4 @@ jobs:
             gh release create "$TAG" --target "$TARGET" --title "$TAG — $TITLE" --notes-file /tmp/release-notes.md --latest
           fi
           gh release upload "$TAG" release-files/* --clobber
-          node scripts/verify-desktop-release.mjs --tag "$TAG"
+          node scripts/verify-desktop-release.mjs --tag "$TAG" --download-check
