@@ -1,5 +1,3 @@
-import "./improve.js";
-
 let dependencies = null;
 let publishState = null;
 let running = false;
@@ -311,6 +309,42 @@ if (experienceProjectSelect) {
 
 setExperience(localStorage.getItem(EXPERIENCE_STORAGE_KEY) || "simple", false);
 syncExperienceProjectState();
+
+const IMPROVE_ACTIONS = {
+  bolder: ["Bolder", "Make the current design more distinctive and visually confident. Strengthen hierarchy, composition, typography, media, and one focal interaction without adding generic gradients, card clutter, gratuitous glow, or effects that do not earn their cost. Preserve product truth, working behavior, accessibility, and the established visual world. Run AIgent Taste on the changed surface, then check desktop and mobile."],
+  quieter: ["Quieter", "Make the current design calmer and more disciplined. Remove decorative competition, redundant containers, repeated motion, excess glow, and unnecessary visual noise while preserving the strongest focal idea, product clarity, accessibility, and useful interaction. Run AIgent Taste on the changed surface, then check desktop and mobile."],
+  delight: ["Delight", "Add one or two purposeful moments of delight that fit this product and visual world. Prefer meaningful feedback, continuity, media behavior, or a memorable interaction over decoration. Do not add generic confetti, bounce, card clutter, or repeated reveal effects. Preserve accessibility and reduced-motion meaning. Run AIgent Taste and verify the result in the browser."],
+  polish: ["Polish", "Give this working surface a final professional design pass without redesigning it. Fix the highest-value hierarchy, spacing, typography, alignment, responsive, interaction-state, media, and motion issues at their shared source. Preserve the chosen visual world and product truth. Run AIgent Taste, then Resolve, inspect desktop and mobile, and leave no obvious unfinished detail."],
+};
+
+function initImproveActions() {
+  const form = document.querySelector("#agent-form");
+  const prompt = document.querySelector("#agent-prompt");
+  if (!form || !prompt || document.querySelector("#aigent-improve")) return;
+  const panel = document.createElement("section");
+  panel.id = "aigent-improve";
+  panel.setAttribute("aria-label", "Creative direction shortcuts");
+  panel.style.cssText = "display:grid;gap:8px;margin:10px 0 12px;padding:10px;border:1px solid rgba(101,244,223,.22);background:rgba(7,16,15,.72)";
+  panel.innerHTML = '<div style="display:flex;justify-content:space-between;gap:10px"><strong>Improve</strong><small style="opacity:.64">Creative director shortcuts</small></div><div data-improve-actions style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px"></div>';
+  const actions = panel.querySelector("[data-improve-actions]");
+  for (const [id, [label, instruction]] of Object.entries(IMPROVE_ACTIONS)) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "quiet-button";
+    button.dataset.improve = id;
+    button.textContent = label;
+    button.addEventListener("click", () => {
+      prompt.value = instruction;
+      prompt.dispatchEvent(new Event("input", { bubbles: true }));
+      prompt.focus();
+      form.requestSubmit();
+    });
+    actions.append(button);
+  }
+  form.before(panel);
+}
+
+initImproveActions();
 
 const AGENT_RUN_PATH = /\/api\/projects\/[^/]+\/run(?:\?|$)/;
 const visualScene = { selection: [], bounds: { selected: [], hovered: null }, tree: [] };
