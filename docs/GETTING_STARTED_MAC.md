@@ -2,9 +2,11 @@
 
 This guide is for people who want to use AIgent Desktop without setting up the repository or running terminal commands.
 
+Start from the [latest AIgent release](https://github.com/wrg32786/aigent-design-system/releases/latest). A normal user should not clone the repository or install the design system through a package manager.
+
 ## 1. Choose the correct download
 
-Open the latest AIgent release and download the installer that matches the Mac:
+Download the installer that matches the Mac:
 
 - **Apple Silicon:** `AIgent-Desktop-macOS-Apple-Silicon.dmg`
 - **Intel:** `AIgent-Desktop-macOS-Intel.dmg`
