@@ -1,3 +1,5 @@
+import "./improve.js";
+
 let dependencies = null;
 let publishState = null;
 let running = false;
