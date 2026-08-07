@@ -309,3 +309,84 @@ if (experienceProjectSelect) {
 
 setExperience(localStorage.getItem(EXPERIENCE_STORAGE_KEY) || "simple", false);
 syncExperienceProjectState();
+
+const AGENT_RUN_PATH = /\/api\/projects\/[^/]+\/run(?:\?|$)/;
+const visualScene = { selection: [], bounds: { selected: [], hovered: null }, tree: [] };
+const nativeFetch = globalThis.fetch.bind(globalThis);
+
+function rounded(value) {
+  return typeof value === "number" && Number.isFinite(value) ? Math.round(value * 100) / 100 : value;
+}
+
+function currentViewportContext() {
+  const stage = document.querySelector(".preview-stage");
+  const frame = document.querySelector("#preview-frame");
+  const frameBounds = frame?.getBoundingClientRect();
+  return {
+    mode: stage?.dataset.viewport || "desktop",
+    frame: frameBounds ? { width: rounded(frameBounds.width), height: rounded(frameBounds.height) } : null,
+    previewUrl: frame?.src || null,
+    documentWidth: innerWidth,
+    documentHeight: innerHeight,
+  };
+}
+
+function relatedLayers(selectedIds) {
+  const ids = new Set(selectedIds);
+  const parentIds = new Set(visualScene.tree.filter((node) => ids.has(node.id)).map((node) => node.parentId).filter(Boolean));
+  return visualScene.tree
+    .filter((node) => ids.has(node.id) || parentIds.has(node.id) || parentIds.has(node.parentId))
+    .slice(0, 32)
+    .map(({ id, parentId, tag, label, role, depth, childCount }) => ({ id, parentId, tag, label, role, depth, childCount }));
+}
+
+function attachRenderedScene(body) {
+  if (!Array.isArray(body.selection) || !body.selection.length) return body;
+  const selectedIds = body.selection.map((node) => node.id).filter(Boolean);
+  const bounds = new Map((visualScene.bounds.selected || []).map((item) => [item.id, item.bounds]));
+  const summaries = new Map((visualScene.selection || []).map((item) => [item.id, item]));
+  const enrichedSelection = body.selection.map((node) => {
+    const summary = summaries.get(node.id) || {};
+    return {
+      ...node,
+      role: summary.role || node.role || null,
+      bounds: summary.bounds || bounds.get(node.id) || node.bounds || null,
+      attributes: summary.attributes || node.attributes || {},
+      classes: summary.classes || node.classes || [],
+      parentId: summary.parentId || node.parentId || null,
+      childCount: summary.childCount ?? node.childCount ?? null,
+    };
+  });
+  const scene = {
+    viewport: currentViewportContext(),
+    selected: enrichedSelection,
+    nearbyLayers: relatedLayers(selectedIds),
+    note: "This is structured rendered context from the live DOM. Use AIgent Vision for screenshot-based aesthetic judgment.",
+  };
+  const sceneText = JSON.stringify(scene, null, 2).slice(0, 7000);
+  return {
+    ...body,
+    selection: enrichedSelection,
+    prompt: `Studio rendered scene for the elements the operator clicked:\n${sceneText}\n\nOperator instruction:\n${body.prompt || ""}`,
+  };
+}
+
+globalThis.addEventListener("message", (event) => {
+  const message = event.data;
+  if (!message || message.source !== "aigent-studio") return;
+  if (message.type === "selection") visualScene.selection = message.selected || [];
+  if (message.type === "bounds") visualScene.bounds = { selected: message.selected || [], hovered: message.hovered || null };
+  if (message.type === "tree") visualScene.tree = message.nodes || [];
+});
+
+globalThis.fetch = async (input, init = {}) => {
+  const url = typeof input === "string" ? input : input?.url || "";
+  const method = String(init.method || (typeof input !== "string" ? input?.method : "GET") || "GET").toUpperCase();
+  if (!AGENT_RUN_PATH.test(url) || method !== "POST" || typeof init.body !== "string") return nativeFetch(input, init);
+  try {
+    const body = attachRenderedScene(JSON.parse(init.body));
+    return nativeFetch(input, { ...init, body: JSON.stringify(body) });
+  } catch {
+    return nativeFetch(input, init);
+  }
+};
