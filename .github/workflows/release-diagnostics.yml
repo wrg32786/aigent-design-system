@@ -1,7 +1,9 @@
 name: Rerun cancelled Desktop release
 
 on:
-  pull_request:
+  push:
+    branches:
+      - ops/release-diagnostics
     paths:
       - .github/workflows/release-diagnostics.yml
 
