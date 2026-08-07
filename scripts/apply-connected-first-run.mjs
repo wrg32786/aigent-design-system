@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// One-time focused migration for the connected beginner onboarding branch.
 import fs from "node:fs";
 
 function replaceOnce(file, before, after, label) {
@@ -39,14 +40,14 @@ replaceOnce(
 replacePattern(
   "desktop/renderer/app.js",
   /function renderAgents\(\) \{[\s\S]*?\n\}\n\nfunction renderPreferences/,
-  `function renderAgents() {\n  const environment = currentEnvironment();\n  const selected = currentConfig().preferredAgent || "manual";\n  $$('[name="preferred-agent"]').forEach((radio) => { radio.checked = radio.value === selected; });\n  $$('[data-agent-card]').forEach((card) => { card.dataset.selected = String(card.dataset.agentCard === selected); });\n  for (const provider of ["claude", "codex"]) {\n    const info = environment[provider];\n    const connected = Boolean(info?.authenticated);\n    const status = \`[data-agent-status="\${provider}"]\`;\n    const statusNode = $(status);\n    statusNode.textContent = connected ? "Account connected" : info?.available ? "Installed · account connection not confirmed" : "Not installed yet";\n    statusNode.classList.toggle("ready", Boolean(info?.available));\n    statusNode.classList.toggle("connected", connected);\n    statusNode.title = info?.authMessage || info?.error || "";\n    const install = \`[data-install-agent="\${provider}"]\`;\n    const auth = \`[data-auth-agent="\${provider}"]\`;\n    const installButton = $(install);\n    const authButton = $(auth);\n    installButton.disabled = state.installing;\n    installButton.textContent = info?.available ? "Repair / reinstall" : "Install for me";\n    authButton.disabled = !info?.available || state.installing;\n    authButton.textContent = connected ? "Reconnect account" : "Connect account";\n  }\n}\n\nfunction renderPreferences`,
+  `function renderAgents() {\n  const environment = currentEnvironment();\n  const selected = currentConfig().preferredAgent || "manual";\n  $$('[name="preferred-agent"]').forEach((radio) => { radio.checked = radio.value === selected; });\n  $$('[data-agent-card]').forEach((card) => { card.dataset.selected = String(card.dataset.agentCard === selected); });\n  for (const provider of ["claude", "codex"]) {\n    const info = environment[provider];\n    const connected = Boolean(info?.authenticated);\n    const statusNode = $(\`[data-agent-status="\${provider}"]\`);\n    statusNode.textContent = connected ? "Account connected" : info?.available ? "Installed · account connection not confirmed" : "Not installed yet";\n    statusNode.classList.toggle("ready", Boolean(info?.available));\n    statusNode.classList.toggle("connected", connected);\n    statusNode.title = info?.authMessage || info?.error || "";\n    const installButton = $(\`[data-install-agent="\${provider}"]\`);\n    const authButton = $(\`[data-auth-agent="\${provider}"]\`);\n    installButton.disabled = state.installing;\n    installButton.textContent = info?.available ? "Repair / reinstall" : "Install for me";\n    authButton.disabled = !info?.available || state.installing;\n    authButton.textContent = connected ? "Reconnect account" : "Connect account";\n  }\n}\n\nfunction renderPreferences`,
   "renderer agent status",
 );
 
 replaceOnce(
   "desktop/renderer/app.js",
-  `  const available = ["claude", "codex"].filter((provider) => currentEnvironment()[provider]?.available).map(providerLabel);\n  setStatus(available.length ? \`${"${available.join(\" + \")} available"}\` : "Choose an AI agent or continue in manual mode");`,
-  `  const connected = ["claude", "codex"].filter((provider) => currentEnvironment()[provider]?.authenticated).map(providerLabel);\n  const available = ["claude", "codex"].filter((provider) => currentEnvironment()[provider]?.available).map(providerLabel);\n  setStatus(connected.length ? \`${"${connected.join(\" + \")} connected"}\` : available.length ? \`${"${available.join(\" + \")} installed · connect an account or continue manually"}\` : "Choose an AI agent or continue in manual mode");`,
+  `  const available = ["claude", "codex"].filter((provider) => currentEnvironment()[provider]?.available).map(providerLabel);\n  setStatus(available.length ? \`\${available.join(" + ")} available\` : "Choose an AI agent or continue in manual mode");`,
+  `  const connected = ["claude", "codex"].filter((provider) => currentEnvironment()[provider]?.authenticated).map(providerLabel);\n  const available = ["claude", "codex"].filter((provider) => currentEnvironment()[provider]?.available).map(providerLabel);\n  setStatus(connected.length ? \`\${connected.join(" + ")} connected\` : available.length ? \`\${available.join(" + ")} installed · connect an account or continue manually\` : "Choose an AI agent or continue in manual mode");`,
   "renderer footer connection state",
 );
 
@@ -60,7 +61,7 @@ replaceOnce(
 replacePattern(
   "desktop/renderer/app.js",
   /async function authenticateAgent\(provider\) \{[\s\S]*?\n\}\n\nasync function savePreference/,
-  `function delay(duration) { return new Promise((resolve) => setTimeout(resolve, duration)); }\n\nasync function waitForAuthentication(provider) {\n  const token = Symbol(provider);\n  state.authPolling = token;\n  for (let attempt = 0; attempt < 40; attempt += 1) {\n    await delay(3000);\n    if (state.authPolling !== token) return;\n    try {\n      state.payload = await desktop.refreshEnvironment();\n      render();\n      if (currentEnvironment()[provider]?.authenticated) {\n        state.authPolling = null;\n        setStatus(\`${"${providerLabel(provider)} connected. Continue when ready."}\`);\n        return;\n      }\n      setStatus(\`Waiting for \${providerLabel(provider)} sign-in…\`);\n    } catch { /* continue polling while the provider owns the sign-in flow */ }\n  }\n  if (state.authPolling === token) {\n    state.authPolling = null;\n    setStatus(\`Finish \${providerLabel(provider)} sign-in, then choose Run checks again.\`);\n  }\n}\n\nasync function authenticateAgent(provider) {\n  try {\n    showError("");\n    await desktop.authenticateAgent(provider);\n    setStatus(\`Complete the \${providerLabel(provider)} sign-in in the window that opened. AIgent will detect the connection automatically.\`);\n    waitForAuthentication(provider).catch(() => {});\n  } catch (error) { showError(error.message); }\n}\n\nasync function savePreference`,
+  `function delay(duration) { return new Promise((resolve) => setTimeout(resolve, duration)); }\n\nasync function waitForAuthentication(provider) {\n  const token = Symbol(provider);\n  state.authPolling = token;\n  for (let attempt = 0; attempt < 40; attempt += 1) {\n    await delay(3000);\n    if (state.authPolling !== token) return;\n    try {\n      state.payload = await desktop.refreshEnvironment();\n      render();\n      if (currentEnvironment()[provider]?.authenticated) {\n        state.authPolling = null;\n        setStatus(\`\${providerLabel(provider)} connected. Continue when ready.\`);\n        return;\n      }\n      setStatus(\`Waiting for \${providerLabel(provider)} sign-in…\`);\n    } catch { /* continue polling while the provider owns the sign-in flow */ }\n  }\n  if (state.authPolling === token) {\n    state.authPolling = null;\n    setStatus(\`Finish \${providerLabel(provider)} sign-in, then choose Run checks again.\`);\n  }\n}\n\nasync function authenticateAgent(provider) {\n  try {\n    showError("");\n    await desktop.authenticateAgent(provider);\n    setStatus(\`Complete the \${providerLabel(provider)} sign-in in the window that opened. AIgent will detect the connection automatically.\`);\n    waitForAuthentication(provider).catch(() => {});\n  } catch (error) { showError(error.message); }\n}\n\nasync function savePreference`,
   "renderer authentication polling",
 );
 
@@ -80,8 +81,8 @@ replaceOnce(
 
 replaceOnce(
   ".github/workflows/desktop-release.yml",
-  `  group: desktop-release-${"${{ inputs.ref || github.sha }}"}`,
-  `  group: desktop-release-${"${{ inputs.ref || github.ref }}"}`,
+  `  group: desktop-release-\${{ inputs.ref || github.sha }}`,
+  `  group: desktop-release-\${{ inputs.ref || github.ref }}`,
   "Desktop release concurrency",
 );
 
