@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 220" role="img" aria-labelledby="title desc">
+  <title id="title">The Aigent</title>
+  <desc id="desc">The Aigent wordmark with a leaning A containing a lowercase i.</desc>
+  <defs>
+    <linearGradient id="aigent-mark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#69fff0"/>
+      <stop offset="0.58" stop-color="#36ddd5"/>
+      <stop offset="1" stop-color="#123c3b"/>
+    </linearGradient>
+  </defs>
+  <g fill="#f4f4f1" font-family="Inter, Arial, Helvetica, sans-serif" font-weight="800">
+    <text x="10" y="158" font-size="128" letter-spacing="-8">The</text>
+    <text x="408" y="158" font-size="128" letter-spacing="-8">gent</text>
+  </g>
+  <g transform="translate(300 24) skewX(-10)">
+    <path d="M10 150 82 0h48l40 150h-43l-9-38H64l-17 38H10Zm70-74h30l-9-40-21 40Z" fill="url(#aigent-mark)"/>
+    <rect x="92" y="79" width="20" height="58" rx="2" fill="#020403"/>
+    <circle cx="102" cy="61" r="11" fill="#020403"/>
+  </g>
+</svg>
