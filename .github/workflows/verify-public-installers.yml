@@ -1,10 +1,6 @@
 name: Verify public Desktop installers
 
 on:
-  pull_request:
-    paths:
-      - scripts/verify-desktop-release.mjs
-      - .github/workflows/verify-public-installers.yml
   workflow_dispatch:
     inputs:
       tag:
@@ -16,7 +12,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: verify-public-installers-${{ github.event.pull_request.number || github.ref }}
+  group: verify-public-installers-${{ inputs.tag || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -35,8 +31,6 @@ jobs:
           TAG="${{ inputs.tag }}"
           if [ -n "$TAG" ]; then
             node scripts/verify-desktop-release.mjs --tag "$TAG" --download-check
-          elif [ "${{ github.event_name }}" = "pull_request" ]; then
-            node scripts/verify-desktop-release.mjs --tag "v$(node -p 'require("./package.json").version')" --download-check
           else
             node scripts/verify-desktop-release.mjs --latest --download-check
           fi
