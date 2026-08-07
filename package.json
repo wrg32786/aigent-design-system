@@ -16,6 +16,8 @@
     "vision": "node scripts/vision-review.mjs",
     "vision:check": "node scripts/check-vision.mjs",
     "audit": "node scripts/design-audit.mjs",
+    "taste": "node scripts/aigent-taste.mjs",
+    "taste:check": "node scripts/check-taste.mjs",
     "assets": "node scripts/check-assets.mjs",
     "catalogs": "node scripts/check-catalogs.mjs",
     "intelligence": "node scripts/check-intelligence.mjs",
