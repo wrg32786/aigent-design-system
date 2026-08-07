@@ -130,7 +130,7 @@ jobs:
           pattern: aigent-desktop-*
           path: release-files
           merge-multiple: true
-      - name: Attach installers to release
+      - name: Attach and verify installers
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -150,3 +150,4 @@ jobs:
             gh release create "$TAG" --target "$TARGET" --title "$TAG — $TITLE" --notes-file /tmp/release-notes.md --latest
           fi
           gh release upload "$TAG" release-files/* --clobber
+          node scripts/verify-desktop-release.mjs --tag "$TAG"
