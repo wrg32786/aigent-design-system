@@ -123,7 +123,7 @@ node scripts/inspire.mjs audit --target-dna target.json --plan plan.json --refs 
 Use AIgent Taste as a cheap smell detector after a coherent UI edit group, after Canvas distillation, and immediately before final polish or publish:
 
 ```bash
-npm run taste -- <target>
+node scripts/design-audit.mjs --taste-only <target>
 ```
 
 It intentionally checks only high-confidence generated-design tells from the craft floor: generic gradient text, purple/indigo-to-blue AI gradients, overused display-font defaults, bounce/elastic motion, repeated fade-up reveals, pill overuse, card-dominant language, glow overuse, and nested card-like containers.
