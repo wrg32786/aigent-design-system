@@ -36,6 +36,7 @@ const required = [
   "scripts/generate-desktop-assets.mjs",
   "scripts/prepare-desktop-build.mjs",
   "scripts/smoke-packaged-desktop.mjs",
+  "scripts/verify-desktop-release.mjs",
   "scripts/check-desktop.mjs",
   ".github/workflows/desktop-build-check.yml",
   ".github/workflows/desktop-release.yml",
@@ -46,7 +47,7 @@ const packageJson = JSON.parse(fs.readFileSync(file("package.json"), "utf8"));
 assert.equal(packageJson.version, DESKTOP_VERSION);
 assert.equal(packageJson.main, "desktop/main.mjs");
 assert.equal(packageJson.scripts["desktop:start"], "electron .");
-for (const script of ["desktop:assets", "desktop:prepare", "desktop:start", "desktop:check", "desktop:smoke", "desktop:smoke:packaged", "desktop:pack", "desktop:dist", "desktop:dist:win", "desktop:dist:mac"]) {
+for (const script of ["desktop:assets", "desktop:prepare", "desktop:start", "desktop:check", "desktop:smoke", "desktop:smoke:packaged", "desktop:pack", "desktop:dist", "desktop:dist:win", "desktop:dist:mac", "desktop:verify-release"]) {
   assert.equal(typeof packageJson.scripts?.[script], "string", `Missing desktop package script: ${script}`);
 }
 for (const name of ["electron-updater", "playwright"]) assert.equal(typeof packageJson.dependencies?.[name], "string", `Missing runtime dependency: ${name}`);
@@ -75,7 +76,7 @@ for (const contract of [
 }
 assert.ok(!builder.includes("verifyUpdateCodeSignature: false"), "Desktop updates must not disable signature verification.");
 const workflow = fs.readFileSync(file(".github/workflows/desktop-release.yml"), "utf8");
-for (const contract of ["windows-latest", "macos-14", "macos-15-intel", "latest-arm64", "latest-x64", "desktop:smoke:packaged", "WIN_CSC_LINK", "MAC_CSC_LINK", "APPLE_API_KEY", "gh release upload"]) {
+for (const contract of ["windows-latest", "macos-14", "macos-15-intel", "latest-arm64", "latest-x64", "desktop:smoke:packaged", "WIN_CSC_LINK", "MAC_CSC_LINK", "APPLE_API_KEY", "gh release upload", "verify-desktop-release.mjs"]) {
   assert.ok(workflow.includes(contract), `Desktop release workflow missing: ${contract}`);
 }
 const html = fs.readFileSync(file("desktop/renderer/index.html"), "utf8");
@@ -87,8 +88,21 @@ assert.ok(preload.includes("contextBridge.exposeInMainWorld"));
 assert.ok(!preload.includes("ipcRenderer.send,"), "Preload must not expose raw IPC.");
 const main = fs.readFileSync(file("desktop/main.mjs"), "utf8");
 for (const contract of ["contextIsolation: true", "sandbox: true", "nodeIntegration: false", "setPermissionRequestHandler", "requestSingleInstanceLock", "autoUpdater", "latest-arm64", "latest-x64", "capturePage", "runtimeRoot", "createStudioServer"]) assert.ok(main.includes(contract), `Desktop main missing: ${contract}`);
+const desktopLibrary = fs.readFileSync(file("desktop/lib.mjs"), "utf8");
+for (const contract of [
+  "https://chatgpt.com/codex/install.ps1",
+  "https://chatgpt.com/codex/install.sh",
+  "https://claude.ai/install.sh",
+  "Git.Git",
+  "OpenJS.NodeJS.LTS",
+  "CLAUDE_CODE_GIT_BASH_PATH",
+]) {
+  assert.ok(desktopLibrary.includes(contract), `Desktop provider installation contract missing: ${contract}`);
+}
+const rendererApp = fs.readFileSync(file("desktop/renderer/app.js"), "utf8");
+assert.ok(!rendererApp.includes("!environment.npm?.available"), "Agent installation must not be disabled only because npm is missing.");
 
-for (const target of ["desktop/main.mjs", "desktop/lib.mjs", "desktop/renderer/app.js", "desktop/preload.cjs", "scripts/generate-desktop-assets.mjs", "scripts/prepare-desktop-build.mjs", "scripts/smoke-packaged-desktop.mjs"]) {
+for (const target of ["desktop/main.mjs", "desktop/lib.mjs", "desktop/renderer/app.js", "desktop/preload.cjs", "scripts/generate-desktop-assets.mjs", "scripts/prepare-desktop-build.mjs", "scripts/smoke-packaged-desktop.mjs", "scripts/verify-desktop-release.mjs"]) {
   const result = spawnSync(process.execPath, ["--check", file(target)], { encoding: "utf8" });
   assert.equal(result.status, 0, `${target} failed syntax check:\n${result.stderr}`);
 }
@@ -135,4 +149,4 @@ try {
   fs.rmSync(temp, { recursive: true, force: true });
 }
 
-console.log(`AIgent Desktop ${DESKTOP_VERSION} check passed: beginner wizard, provider-native installation, secure IPC, environment detection, repair/diagnostics contract, complete packaged registry, bundled browser, installer assets, signing hooks, architecture-specific updates, and cross-platform packaging configuration.`);
+console.log(`AIgent Desktop ${DESKTOP_VERSION} check passed: beginner wizard, provider-native installation, secure IPC, environment detection, repair/diagnostics contract, complete packaged registry, bundled browser, installer assets, public release verification, signing hooks, architecture-specific updates, and cross-platform packaging configuration.`);
