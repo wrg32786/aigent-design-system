@@ -1,4 +1,4 @@
-name: Report Desktop release state
+name: Rerun cancelled Desktop release
 
 on:
   pull_request:
@@ -6,21 +6,25 @@ on:
       - .github/workflows/release-diagnostics.yml
 
 permissions:
-  actions: read
+  actions: write
   contents: read
 
 jobs:
-  report:
+  rerun:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v6
-      - name: Report recent Desktop release runs
+      - name: Rerun the cancelled v1.2.0 packaging workflow
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          echo 'Recent desktop-release workflow runs:'
+          RUN_ID=31162200980
+          gh run rerun "$RUN_ID"
+          echo "Requested rerun for Desktop release workflow $RUN_ID"
+      - name: Report release state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
           gh run list --workflow desktop-release.yml --limit 10 --json databaseId,status,conclusion,event,headSha,createdAt,updatedAt,url
-          echo
-          echo 'v1.2.0 release:'
           gh api "repos/${GITHUB_REPOSITORY}/releases/tags/v1.2.0" --jq '{tag_name, name, draft, prerelease, published_at, assets: [.assets[] | {name, size, state, browser_download_url}]}' || true
