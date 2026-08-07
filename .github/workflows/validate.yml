@@ -22,6 +22,7 @@ jobs:
           node-version: 22
       - run: npm install --no-audit --no-fund
       - run: npm run check
+      - run: npm run taste:check
       - run: npm run registry
       - run: npm run intelligence
       - run: npm run inspiration

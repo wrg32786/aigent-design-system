@@ -42,6 +42,7 @@ Do not load every reference into context.
 | `animate` | focal motion, continuity, feedback, and reduced motion |
 | `critique` | design review with evidence and priorities |
 | `polish` | final pass on an already working surface |
+| `taste` | deterministic generated-design smell check before visual judgment |
 | `resolve` | render, rank, repair, rerender, and verify mechanical quality |
 | `vision` | open annotated captures, write structured critique, and merge visual judgment with Resolve |
 | `publish` | checkpoint, export, deploy, verify, connect domains, and redeploy an exact artifact |
@@ -68,7 +69,7 @@ Do not load every reference into context.
 - Never publish unresolved Canvas operations or a whole workspace when a constrained public artifact will do.
 - Real browser evidence decides whether the work is mechanically complete.
 - Every required screenshot must be opened before visual review can be marked complete.
-- Mechanical checks rank problems; they do not get to erase the selected visual world.
+- Mechanical and taste checks rank problems; neither gets to erase the selected visual world.
 
 ## Planning contract
 
@@ -117,13 +118,25 @@ node scripts/inspire.mjs audit --target-dna target.json --plan plan.json --refs 
 - `asset-provenance-audit` — rights, attribution, manifests, secret safety
 - `cinematic-site-qa` — final browser and production verification
 
+## Taste routing
+
+Use AIgent Taste as a cheap smell detector after a coherent UI edit group, after Canvas distillation, and immediately before final polish or publish:
+
+```bash
+node scripts/design-audit.mjs --taste-only <target>
+```
+
+It intentionally checks only high-confidence generated-design tells from the craft floor: generic gradient text, purple/indigo-to-blue AI gradients, overused display-font defaults, bounce/elastic motion, repeated fade-up reveals, pill overuse, card-dominant language, glow overuse, and nested card-like containers.
+
+Treat a finding as a review prompt, not an automatic rewrite order. If the selected visual world intentionally earns a device, preserve it. Fix repeated defaults and root causes, then rerun Taste. Use Vision for composition, emotional resonance, originality, and finish; those judgments are not reducible to deterministic rules.
+
 ## Canvas routing
 
-Use `aigent-studio` and `reference/canvas.md` when the operator is editing the rendered website directly. Preserve active Canvas operations, selected elements, project components, and open element comments. When asked to distill, apply the approved result to the smallest shared source owner, verify the real page, and leave the journal intact for comparison.
+Use `aigent-studio` and `reference/canvas.md` when the operator is editing the rendered website directly. Preserve active Canvas operations, selected elements, project components, and open element comments. When asked to distill, apply the approved result to the smallest shared source owner, run Taste on the changed surface, verify the real page, and leave the journal intact for comparison.
 
 ## Publish routing
 
-Use `publish-site` and `reference/publish.md` after the approved Canvas state has been distilled. Create a checkpoint, export only referenced public dependencies, run preflight Resolve for production, deploy through the selected official provider CLI, verify the public URL, prepare Vision captures when requested, and record the exact artifact for forward redeploy.
+Use `publish-site` and `reference/publish.md` after the approved Canvas state has been distilled. Create a checkpoint, export only referenced public dependencies, run Taste and preflight Resolve for production, deploy through the selected official provider CLI, verify the public URL, prepare Vision captures when requested, and record the exact artifact for forward redeploy.
 
 Never ask the operator to paste hosting tokens or secret environment-variable values into Studio. Provider authentication belongs to the official CLI and browser flow.
 
@@ -152,7 +165,7 @@ Open every original and annotated image. Use `reference/vision.md`. The combined
 
 ## Completion
 
-A finished result includes resolved Canvas comments and either an intentionally active patch journal or verified source distillation, product-specific content, a committed visual world, working desktop and mobile states, reduced motion, complete UI states, optimized and manifest-backed media, an influence ledger when references were used, a passing Resolve mechanical gate, a passing structured Vision review, and no unresolved rights or private records.
+A finished result includes resolved Canvas comments and either an intentionally active patch journal or verified source distillation, product-specific content, a committed visual world, working desktop and mobile states, reduced motion, complete UI states, optimized and manifest-backed media, an influence ledger when references were used, reviewed Taste findings, a passing Resolve mechanical gate, a passing structured Vision review, and no unresolved rights or private records.
 
 When publishing was requested, completion also includes a recorded live URL or explicit local export artifact, the deployment provider and channel, the source checkpoint, and the public verification result.
 
