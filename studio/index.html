@@ -11,10 +11,11 @@
   <link rel="stylesheet" href="../tokens/system.css">
   <link rel="stylesheet" href="./studio.css">
   <link rel="stylesheet" href="./publish.css">
+  <link rel="stylesheet" href="./experience.css">
 </head>
 <body class="ds-shell">
   <a class="ds-skip-link" href="#preview-frame">Skip to live canvas</a>
-  <div class="studio-shell" data-left-tab="layers" data-right-tab="inspector">
+  <div class="studio-shell" data-left-tab="layers" data-right-tab="inspector" data-experience="simple">
     <header class="studio-bar">
       <div class="studio-brand">
         <a href="../" aria-label="AIgent Design System home">AIgent</a>
@@ -31,16 +32,17 @@
       <div class="mode-switcher" role="group" aria-label="Canvas mode">
         <button type="button" data-mode="preview" aria-pressed="false">Preview</button>
         <button type="button" data-mode="select" aria-pressed="true">Design</button>
-        <button type="button" data-mode="comment" aria-pressed="false">Comment</button>
+        <button type="button" data-mode="comment" aria-pressed="false" class="advanced-only">Comment</button>
       </div>
 
       <div class="history-controls" aria-label="Canvas history">
         <button class="icon-button" id="undo-canvas" type="button" aria-label="Undo" disabled>↶</button>
         <button class="icon-button" id="redo-canvas" type="button" aria-label="Redo" disabled>↷</button>
-        <button class="quiet-button" id="checkpoint-project" type="button">Checkpoint</button>
+        <button class="quiet-button advanced-only" id="checkpoint-project" type="button">Checkpoint</button>
       </div>
 
-      <div class="presence" id="presence" aria-label="Collaborators"></div>
+      <button class="quiet-button experience-toggle" id="experience-toggle" type="button" aria-pressed="false">Advanced</button>
+      <div class="presence advanced-only" id="presence" aria-label="Collaborators"></div>
       <div class="runtime-status" id="runtime-status" aria-live="polite">
         <span class="status-dot"></span>
         <span>Connecting…</span>
@@ -51,20 +53,20 @@
       <nav class="dock-tabs" aria-label="Left panel">
         <button type="button" data-left-tab="layers" aria-selected="true">Layers</button>
         <button type="button" data-left-tab="brief" aria-selected="false">Brief</button>
-        <button type="button" data-left-tab="library" aria-selected="false">Library</button>
+        <button type="button" data-left-tab="library" aria-selected="false" class="advanced-only">Library</button>
       </nav>
 
       <section class="dock-section" data-left-panel="layers">
         <div class="panel-heading compact">
           <div>
-            <span class="kicker">DOM-backed canvas</span>
-            <h1>Real layers.</h1>
+            <span class="kicker">Page structure</span>
+            <h1>Click a layer.</h1>
           </div>
           <button class="icon-button" id="refresh-layers" type="button" aria-label="Refresh layers">↻</button>
         </div>
         <label class="search-field">
           <span class="sr-only">Filter layers</span>
-          <input id="layer-search" type="search" placeholder="Filter layers">
+          <input id="layer-search" type="search" placeholder="Find a section or element">
         </label>
         <div class="layers-tree" id="layers-tree" role="tree" aria-label="Page layers"></div>
       </section>
@@ -72,20 +74,20 @@
       <section class="dock-section" data-left-panel="brief" hidden>
         <div class="panel-heading compact">
           <div>
-            <span class="kicker">01 / Shape</span>
-            <h2>Direct the build.</h2>
+            <span class="kicker">01 / Describe</span>
+            <h2>What are you making?</h2>
           </div>
         </div>
         <form id="brief-form" class="brief-form">
           <label><span>Project name</span><input id="project-name" name="name" autocomplete="off" required></label>
-          <label><span>Audience</span><input id="audience" name="audience" autocomplete="off" placeholder="Who must believe or accomplish what?"></label>
-          <label><span>Primary outcome</span><textarea id="goal" name="goal" rows="3" placeholder="Understand the mechanism, see proof, and request access"></textarea></label>
-          <label><span>Product mechanism</span><textarea id="mechanism" name="mechanism" rows="3" placeholder="What actually creates the outcome?"></textarea></label>
-          <label><span>References</span><textarea id="references" name="references" rows="4" placeholder="One public URL per line"></textarea><small>Stored locally. Analyze public URLs to create Design DNA.</small></label>
-          <label><span>Current direction</span><textarea id="request" name="request" rows="5" placeholder="Make the opening feel architectural, not like a SaaS template…"></textarea></label>
-          <div class="brief-actions"><button class="primary-button" type="submit">Save brief</button><button class="quiet-button" id="delete-project" type="button">Delete</button></div>
+          <label><span>Audience</span><input id="audience" name="audience" autocomplete="off" placeholder="Who is this for?"></label>
+          <label><span>Primary outcome</span><textarea id="goal" name="goal" rows="3" placeholder="What should visitors understand or do?"></textarea></label>
+          <label><span>How the product works</span><textarea id="mechanism" name="mechanism" rows="3" placeholder="What creates the result you promise?"></textarea></label>
+          <label><span>Inspiration links</span><textarea id="references" name="references" rows="4" placeholder="One public URL per line"></textarea><small>Stored locally. Analyze public URLs only when you choose.</small></label>
+          <label><span>Direction for the agent</span><textarea id="request" name="request" rows="5" placeholder="Make it feel architectural, focused, and different from a generic SaaS template…"></textarea></label>
+          <div class="brief-actions"><button class="primary-button" type="submit">Save direction</button><button class="quiet-button advanced-only" id="delete-project" type="button">Delete</button></div>
         </form>
-        <div class="pipeline-actions" aria-label="Design workflow">
+        <div class="pipeline-actions advanced-only" aria-label="Design workflow">
           <button type="button" data-action="plan"><span>Plan</span><small>Layout · type · motion</small></button>
           <button type="button" data-action="inspire"><span>Analyze</span><small>Reference forensics</small></button>
           <button type="button" data-action="resolve"><span>Resolve</span><small>Browser facts</small></button>
@@ -93,7 +95,7 @@
         </div>
       </section>
 
-      <section class="dock-section" data-left-panel="library" hidden>
+      <section class="dock-section advanced-only" data-left-panel="library" hidden>
         <div class="panel-heading compact">
           <div><span class="kicker">Components + variables</span><h2>Project library.</h2></div>
         </div>
@@ -109,8 +111,14 @@
     </aside>
 
     <main class="canvas-panel">
+      <section class="studio-guide" id="studio-guide">
+        <div><span class="kicker">Start here</span><strong>Describe it, let the agent build it, then click the page to refine it.</strong><p>Projects stay local until you choose Ship.</p></div>
+        <ol><li><span>1</span> Create a project</li><li><span>2</span> Prompt the agent</li><li><span>3</span> Edit the real page</li></ol>
+        <button class="primary-button" id="guide-create-project" type="button">Create my first project</button>
+      </section>
+
       <div class="canvas-toolbar">
-        <div class="preview-title"><span class="kicker">Live production code</span><strong id="preview-name">No project selected</strong></div>
+        <div class="preview-title"><span class="kicker">Live website</span><strong id="preview-name">No project selected</strong></div>
         <div class="viewport-switcher" role="group" aria-label="Preview viewport">
           <button type="button" data-viewport="desktop" aria-pressed="true">Desktop</button>
           <button type="button" data-viewport="tablet" aria-pressed="false">Tablet</button>
@@ -118,14 +126,14 @@
         </div>
         <div class="selection-actions" role="group" aria-label="Selected element actions">
           <button class="quiet-button" id="edit-text" type="button" disabled>Edit text</button>
-          <button class="icon-button" id="move-up" type="button" aria-label="Move element up" disabled>↑</button>
-          <button class="icon-button" id="move-down" type="button" aria-label="Move element down" disabled>↓</button>
-          <button class="icon-button" id="duplicate-node" type="button" aria-label="Duplicate selected element" disabled>⧉</button>
-          <button class="icon-button danger" id="delete-node" type="button" aria-label="Delete selected element" disabled>×</button>
+          <button class="icon-button advanced-only" id="move-up" type="button" aria-label="Move element up" disabled>↑</button>
+          <button class="icon-button advanced-only" id="move-down" type="button" aria-label="Move element down" disabled>↓</button>
+          <button class="icon-button advanced-only" id="duplicate-node" type="button" aria-label="Duplicate selected element" disabled>⧉</button>
+          <button class="icon-button danger advanced-only" id="delete-node" type="button" aria-label="Delete selected element" disabled>×</button>
         </div>
         <div class="preview-actions">
           <button class="icon-button" id="refresh-preview" type="button" aria-label="Refresh preview">↻</button>
-          <a class="icon-button" id="open-preview" href="#" target="_blank" rel="noopener" aria-label="Open preview in a new tab">↗</a>
+          <a class="icon-button advanced-only" id="open-preview" href="#" target="_blank" rel="noopener" aria-label="Open preview in a new tab">↗</a>
         </div>
       </div>
 
@@ -142,7 +150,7 @@
         </div>
       </div>
 
-      <footer class="canvas-statusbar">
+      <footer class="canvas-statusbar advanced-only">
         <span id="selection-path">Nothing selected</span>
         <span id="canvas-status">Patch journal clean</span>
       </footer>
@@ -150,24 +158,24 @@
 
     <aside class="right-dock" aria-label="Inspector and agent tools">
       <nav class="dock-tabs" aria-label="Right panel">
-        <button type="button" data-right-tab="inspector" aria-selected="true">Inspect</button>
+        <button type="button" data-right-tab="inspector" aria-selected="true">Design</button>
         <button type="button" data-right-tab="agent" aria-selected="false">Agent</button>
-        <button type="button" data-right-tab="comments" aria-selected="false">Comments</button>
-        <button type="button" data-right-tab="history" aria-selected="false">History</button>
+        <button type="button" data-right-tab="comments" aria-selected="false" class="advanced-only">Comments</button>
+        <button type="button" data-right-tab="history" aria-selected="false" class="advanced-only">History</button>
         <button type="button" data-right-tab="publish" aria-selected="false">Ship</button>
       </nav>
 
       <section class="dock-section inspector-panel" data-right-panel="inspector">
         <div class="selection-summary" id="selection-summary">
-          <span class="kicker">No selection</span>
-          <strong>Select an element in the live canvas.</strong>
-          <small>Double-click text to edit inline. Shift-click to multi-select.</small>
+          <span class="kicker">Design mode</span>
+          <strong>Click something in the live page.</strong>
+          <small>Change text and visual properties here. Double-click text to edit it directly.</small>
         </div>
 
         <div id="inspector-fields" hidden>
           <div class="inspector-head">
             <div><span class="kicker" id="selection-role">Element</span><strong id="selection-label">Selected element</strong><small id="selection-source"></small></div>
-            <label><span>Breakpoint</span><select id="breakpoint-select"><option value="base">Base</option><option value="tablet">Tablet</option><option value="mobile">Mobile</option></select></label>
+            <label><span>Screen</span><select id="breakpoint-select"><option value="base">All screens</option><option value="tablet">Tablet only</option><option value="mobile">Mobile only</option></select></label>
           </div>
 
           <details open>
@@ -219,7 +227,7 @@
             </div>
           </details>
 
-          <details>
+          <details class="advanced-only">
             <summary>Position + motion</summary>
             <div class="property-grid">
               <label><span>Position</span><select data-style-field="position"><option value="">Computed</option><option>static</option><option>relative</option><option>absolute</option><option>sticky</option><option>fixed</option></select></label>
@@ -235,23 +243,23 @@
       </section>
 
       <section class="dock-section agent-panel" data-right-panel="agent" hidden>
-        <div class="panel-heading compact"><div><span class="kicker">Agent collaborator</span><h2>Work in the code.</h2></div></div>
+        <div class="panel-heading compact"><div><span class="kicker">Build with AI</span><h2>Tell the agent what to change.</h2></div></div>
         <div class="agent-controls">
-          <label><span>Agent</span><select id="provider-select"><option value="claude">Claude Code</option><option value="codex">Codex CLI</option><option value="manual">Manual prompt</option></select></label>
-          <label><span>Model override <em>optional</em></span><input id="model-input" autocomplete="off" placeholder="Use CLI default"></label>
+          <label><span>Agent</span><select id="provider-select"><option value="claude">Claude Code</option><option value="codex">ChatGPT / Codex</option><option value="manual">Manual prompt</option></select></label>
+          <label class="advanced-only"><span>Model override <em>optional</em></span><input id="model-input" autocomplete="off" placeholder="Use CLI default"></label>
         </div>
-        <div class="agent-context"><label><input id="include-selection" type="checkbox" checked> Include selected elements</label><label><input id="include-comments" type="checkbox" checked> Include open comments</label></div>
-        <div class="agent-log" id="agent-log" role="log" aria-live="polite" aria-label="Agent activity"><div class="log-entry system">The agent edits the real project and can inspect the current Canvas journal.</div></div>
+        <div class="agent-context"><label><input id="include-selection" type="checkbox" checked> Include what I clicked</label><label><input id="include-comments" type="checkbox" checked> Include open comments</label></div>
+        <div class="agent-log" id="agent-log" role="log" aria-live="polite" aria-label="Agent activity"><div class="log-entry system">The agent edits the real project and receives the selected page elements and current design direction.</div></div>
         <form class="agent-composer" id="agent-form">
           <label class="sr-only" for="agent-prompt">Agent instruction</label>
-          <textarea id="agent-prompt" rows="5" placeholder="Refine the selected hero. Preserve the design lock, resolve the open comments, rerun Resolve, and inspect the mobile result."></textarea>
+          <textarea id="agent-prompt" rows="5" placeholder="Make the selected hero clearer and more cinematic. Keep the current brand, then check the mobile layout."></textarea>
           <div class="composer-actions"><button class="quiet-button" id="stop-agent" type="button" disabled>Stop</button><button class="primary-button" id="run-agent" type="submit">Build / revise</button></div>
         </form>
-        <button class="quiet-button full-button" id="distill-patches" type="button">Distill canvas edits into source</button>
-        <p class="agent-note">Your authenticated local CLI keeps credentials out of the browser.</p>
+        <button class="quiet-button full-button advanced-only" id="distill-patches" type="button">Distill canvas edits into source</button>
+        <p class="agent-note">The connected provider keeps account credentials outside the browser.</p>
       </section>
 
-      <section class="dock-section comments-panel" data-right-panel="comments" hidden>
+      <section class="dock-section comments-panel advanced-only" data-right-panel="comments" hidden>
         <div class="panel-heading compact"><div><span class="kicker">Shared review</span><h2>Comments.</h2></div></div>
         <form id="comment-form" class="comment-form">
           <label><span>Comment on selection</span><textarea id="comment-body" rows="4" placeholder="The proof hierarchy feels flat at mobile width."></textarea></label>
@@ -260,7 +268,7 @@
         <div class="comment-list" id="comment-list"></div>
       </section>
 
-      <section class="dock-section history-panel" data-right-panel="history" hidden>
+      <section class="dock-section history-panel advanced-only" data-right-panel="history" hidden>
         <div class="panel-heading compact"><div><span class="kicker">Versioned work</span><h2>History.</h2></div></div>
         <form id="checkpoint-form" class="checkpoint-form"><label><span>Checkpoint label</span><input id="checkpoint-label" autocomplete="off" placeholder="Approved hero direction"></label><button class="primary-button" type="submit">Save checkpoint</button></form>
         <div class="history-actions"><button class="quiet-button" id="clear-patches" type="button">Clear canvas patches</button><button class="quiet-button" id="refresh-diff" type="button">Refresh diff</button></div>
@@ -270,36 +278,36 @@
 
       <section class="dock-section publish-panel" data-right-panel="publish" hidden>
         <div class="panel-heading compact">
-          <div><span class="kicker">Final stage</span><h2>Ship the site.</h2></div>
+          <div><span class="kicker">Final step</span><h2>Export or publish.</h2></div>
           <button class="icon-button" id="publish-refresh" type="button" aria-label="Refresh deployment status">↻</button>
         </div>
         <div class="publish-gate" id="publish-gate" data-state="idle"><strong>No project selected.</strong><span>Create or open a project before shipping.</span></div>
         <form id="publish-form" class="publish-form">
           <div class="publish-grid">
-            <label><span>Provider</span><select id="publish-provider"><option value="netlify">Netlify</option><option value="vercel">Vercel</option><option value="cloudflare">Cloudflare Pages</option><option value="local">Local export</option></select></label>
-            <label><span>Channel</span><select id="publish-mode"><option value="preview">Preview</option><option value="production">Production</option></select></label>
+            <label><span>Destination</span><select id="publish-provider"><option value="local">Save a local production copy</option><option value="vercel">Vercel</option><option value="netlify">Netlify</option><option value="cloudflare">Cloudflare Pages</option></select></label>
+            <label><span>Version</span><select id="publish-mode"><option value="preview">Private preview</option><option value="production">Public production site</option></select></label>
           </div>
-          <small id="publish-provider-help">Choose a deployment target.</small>
-          <label><span>Site / project name</span><input id="publish-site-name" autocomplete="off" placeholder="northstar-robotics" required></label>
-          <label><span>Custom domain <em>optional</em></span><input id="publish-domain" autocomplete="off" placeholder="www.example.com"><small id="publish-domain-help">Provider ownership and DNS rules still apply.</small></label>
-          <fieldset class="publish-options"><legend>Completion gates</legend><label><input id="publish-verify" type="checkbox" checked> Run Resolve before and after deployment</label><label><input id="publish-vision" type="checkbox"> Prepare live Vision review captures</label></fieldset>
-          <div class="publish-actions"><button class="quiet-button" id="publish-auth" type="button">Connect provider</button><button class="quiet-button" id="publish-export" type="button">Export only</button><button class="primary-button" id="publish-submit" type="submit">Publish site</button></div>
+          <small id="publish-provider-help">Start with a local export or connect a hosting provider for a public URL.</small>
+          <label><span>Site name</span><input id="publish-site-name" autocomplete="off" placeholder="northstar-robotics" required></label>
+          <label><span>Custom domain <em>optional</em></span><input id="publish-domain" autocomplete="off" placeholder="www.example.com"><small id="publish-domain-help">The hosting provider will guide DNS setup when needed.</small></label>
+          <fieldset class="publish-options advanced-only"><legend>Quality checks</legend><label><input id="publish-verify" type="checkbox" checked> Check the site before and after publishing</label><label><input id="publish-vision" type="checkbox"> Prepare visual review captures</label></fieldset>
+          <div class="publish-actions"><button class="quiet-button" id="publish-auth" type="button">Connect provider</button><button class="quiet-button" id="publish-export" type="button">Export locally</button><button class="primary-button" id="publish-submit" type="submit">Publish site</button></div>
         </form>
         <section class="publish-result" id="publish-result" hidden><header><strong>Latest result</strong><span id="publish-result-status"></span></header><a id="publish-result-url" target="_blank" rel="noopener"></a><footer><a id="publish-dashboard" target="_blank" rel="noopener">Provider dashboard</a></footer></section>
-        <div class="publish-log" id="publish-log" role="log" aria-live="polite"><div class="publish-log-entry system">Ship publishes the exact checkpointed source—not a screenshot or disconnected export.</div></div>
-        <div class="subsection-heading"><strong>Deployment history</strong><span>Local record</span></div>
-        <div class="publish-history" id="publish-history"><small>No deployments yet.</small></div>
+        <div class="publish-log advanced-only" id="publish-log" role="log" aria-live="polite"><div class="publish-log-entry system">Ship publishes the exact checkpointed source—not a screenshot or disconnected export.</div></div>
+        <div class="subsection-heading advanced-only"><strong>Deployment history</strong><span>Local record</span></div>
+        <div class="publish-history advanced-only" id="publish-history"><small>No deployments yet.</small></div>
       </section>
     </aside>
   </div>
 
   <dialog id="project-dialog">
     <form method="dialog" id="project-form" class="project-dialog-form">
-      <header><span class="kicker">New project</span><h2>Choose a proven starting point.</h2><button class="icon-button" value="cancel" aria-label="Close dialog">×</button></header>
+      <header><span class="kicker">New project</span><h2>What are you creating?</h2><button class="icon-button" value="cancel" aria-label="Close dialog">×</button></header>
       <label><span>Project name</span><input id="new-name" name="name" required autocomplete="off" placeholder="Northstar Robotics"></label>
-      <label><span>Starter</span><select id="new-starter" name="starter"></select></label>
-      <label><span>What are we building?</span><textarea id="new-description" name="description" rows="3" required placeholder="A cinematic launch site for an industrial robotics platform."></textarea></label>
-      <label><span>First instruction</span><textarea id="new-request" name="request" rows="4" placeholder="Preserve the product mechanism, take a restrained industrial editorial direction, and make mobile feel authored."></textarea></label>
+      <label><span>Starting point</span><select id="new-starter" name="starter"></select></label>
+      <label><span>Describe the result</span><textarea id="new-description" name="description" rows="3" required placeholder="A cinematic launch site for an industrial robotics platform."></textarea></label>
+      <label><span>First instruction for the agent</span><textarea id="new-request" name="request" rows="4" placeholder="Make it feel premium and technical, explain the product clearly, and make mobile feel intentionally designed."></textarea></label>
       <footer><button class="quiet-button" value="cancel">Cancel</button><button class="primary-button" id="create-project" value="default">Create project</button></footer>
     </form>
   </dialog>
@@ -314,5 +322,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script type="module" src="./app.js"></script>
+  <script type="module" src="./experience.js"></script>
 </body>
 </html>
