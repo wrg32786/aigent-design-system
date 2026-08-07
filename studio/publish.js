@@ -20,7 +20,7 @@ function appendLog(message, kind = "") {
   while (container.children.length > 120) container.firstElementChild?.remove();
   container.scrollTop = container.scrollHeight;
 }
-function provider() { return $("#publish-provider")?.value || "netlify"; }
+function provider() { return $("#publish-provider")?.value || "local"; }
 function setBusy(value) {
   running = value;
   for (const selector of ["#publish-submit", "#publish-auth", "#publish-export"]) {
@@ -51,7 +51,7 @@ function renderGate() {
 function fillProviders() {
   const select = $("#publish-provider");
   if (!select || !publishState?.providers) return;
-  const selected = select.value || "netlify";
+  const selected = select.value || "local";
   select.innerHTML = "";
   for (const item of publishState.providers) {
     const option = document.createElement("option");
@@ -255,3 +255,57 @@ export function initPublishPanel(values) {
   $("#publish-refresh")?.addEventListener("click", () => refreshPublishPanel());
   renderGate();
 }
+
+const experienceShell = document.querySelector(".studio-shell");
+const experienceToggle = document.querySelector("#experience-toggle");
+const experienceProjectSelect = document.querySelector("#project-select");
+const experienceGuide = document.querySelector("#studio-guide");
+const experienceGuideCreate = document.querySelector("#guide-create-project");
+const EXPERIENCE_STORAGE_KEY = "aigent-studio-experience";
+
+function activeExperienceProjectId() {
+  return experienceProjectSelect?.value || [...(experienceProjectSelect?.options || [])].find((option) => option.value)?.value || "";
+}
+
+function setExperience(next, persist = true) {
+  if (!experienceShell || !experienceToggle) return;
+  const experience = next === "advanced" ? "advanced" : "simple";
+  experienceShell.dataset.experience = experience;
+  experienceToggle.textContent = experience === "simple" ? "Advanced" : "Simple";
+  experienceToggle.setAttribute("aria-pressed", String(experience === "advanced"));
+  experienceToggle.title = experience === "simple" ? "Show advanced design and developer controls" : "Return to the simplified workflow";
+  if (persist) localStorage.setItem(EXPERIENCE_STORAGE_KEY, experience);
+
+  if (experience === "simple") {
+    const selectedLeft = experienceShell.dataset.leftTab;
+    const selectedRight = experienceShell.dataset.rightTab;
+    if (selectedLeft === "library") document.querySelector('[data-left-tab="layers"]')?.click();
+    if (["comments", "history"].includes(selectedRight)) document.querySelector('[data-right-tab="inspector"]')?.click();
+  }
+}
+
+function syncExperienceProjectState() {
+  if (!experienceShell) return;
+  const hadProject = experienceShell.dataset.hasProject === "true";
+  const hasProject = Boolean(activeExperienceProjectId());
+  experienceShell.dataset.hasProject = String(hasProject);
+  if (experienceGuide) experienceGuide.hidden = hasProject;
+
+  if (!hadProject && hasProject && experienceShell.dataset.experience === "simple") {
+    document.querySelector('[data-right-tab="agent"]')?.click();
+  }
+}
+
+experienceToggle?.addEventListener("click", () => {
+  setExperience(experienceShell?.dataset.experience === "simple" ? "advanced" : "simple");
+});
+
+experienceGuideCreate?.addEventListener("click", () => document.querySelector("#new-project")?.click());
+experienceProjectSelect?.addEventListener("change", syncExperienceProjectState);
+
+if (experienceProjectSelect) {
+  new MutationObserver(syncExperienceProjectState).observe(experienceProjectSelect, { childList: true, subtree: true, attributes: true });
+}
+
+setExperience(localStorage.getItem(EXPERIENCE_STORAGE_KEY) || "simple", false);
+syncExperienceProjectState();
