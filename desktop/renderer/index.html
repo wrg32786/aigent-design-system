@@ -7,100 +7,108 @@
   <meta name="color-scheme" content="dark">
   <title>AIgent Desktop Setup</title>
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./onboarding.css">
 </head>
 <body>
   <div class="ambient" aria-hidden="true"></div>
   <main class="setup-shell">
     <header class="topbar">
       <div class="brand"><span class="brand-mark">AI</span><strong>gent Desktop</strong><em id="app-version">Setup</em></div>
-      <div class="top-actions"><button class="text-button" id="open-docs" type="button">Docs</button><button class="text-button" id="open-logs" type="button">Logs</button></div>
+      <div class="top-actions"><button class="text-button" id="open-docs" type="button">Help</button><button class="text-button" id="open-logs" type="button">Logs</button></div>
     </header>
 
     <aside class="rail" aria-label="Setup progress">
       <div class="rail-copy">
-        <span class="eyebrow">Desktop installation</span>
-        <h1>From download to live canvas.</h1>
-        <p>Configure the workspace, connect a coding agent, and launch the complete AIgent design studio without touching the terminal.</p>
+        <span class="eyebrow">First-time setup</span>
+        <h1>From download to your first site.</h1>
+        <p>Choose where projects live, connect an AI account, and open the complete design studio. No terminal setup is required for the normal desktop path.</p>
       </div>
       <ol class="steps">
-        <li data-step-marker="1"><span>01</span><div><strong>Workspace</strong><small>Choose where projects live</small></div></li>
-        <li data-step-marker="2"><span>02</span><div><strong>System check</strong><small>Verify required tools</small></div></li>
-        <li data-step-marker="3"><span>03</span><div><strong>Design agent</strong><small>Install and authenticate</small></div></li>
+        <li data-step-marker="1"><span>01</span><div><strong>Project folder</strong><small>Choose where work is saved</small></div></li>
+        <li data-step-marker="2"><span>02</span><div><strong>Computer check</strong><small>Confirm AIgent is ready</small></div></li>
+        <li data-step-marker="3"><span>03</span><div><strong>Connect AI</strong><small>Claude or ChatGPT / Codex</small></div></li>
         <li data-step-marker="4"><span>04</span><div><strong>Preferences</strong><small>Updates and startup</small></div></li>
-        <li data-step-marker="5"><span>05</span><div><strong>Launch</strong><small>Open AIgent Studio</small></div></li>
+        <li data-step-marker="5"><span>05</span><div><strong>Create</strong><small>Open Studio and begin</small></div></li>
       </ol>
-      <div class="rail-note"><span></span><p>Credentials stay inside the official Claude Code or Codex CLI. AIgent Desktop never asks for an API key.</p></div>
+      <div class="rail-note"><span></span><p>AI credentials stay in the official Claude Code or Codex credential store. AIgent never asks you to paste an API key.</p></div>
     </aside>
 
     <section class="workspace" aria-live="polite">
       <div class="error-banner" id="error-banner" hidden></div>
 
       <section class="wizard-screen" data-step="1">
-        <span class="eyebrow">01 / Workspace</span>
-        <h2>Choose where your sites live.</h2>
-        <p class="lede">AIgent stores projects outside the application, so updates and reinstalls never remove your work.</p>
-        <div class="workspace-card"><div><small>Current workspace</small><strong id="workspace-path">Loading…</strong></div><button class="secondary-button" id="choose-workspace" type="button">Choose folder</button></div>
+        <span class="eyebrow">01 / Project folder</span>
+        <h2>Choose where your work is saved.</h2>
+        <p class="lede">Sites, decks, assets, and project history stay in a normal folder you control. Updating or reinstalling AIgent does not remove them.</p>
+        <div class="workspace-card"><div><small>Current project folder</small><strong id="workspace-path">Loading…</strong></div><button class="secondary-button" id="choose-workspace" type="button">Choose folder</button></div>
         <div class="assurance-grid">
-          <article><span>01</span><strong>Project-safe</strong><p>Application files and user projects are separate.</p></article>
-          <article><span>02</span><strong>Portable</strong><p>Open the folder in Git, VS Code, or any other tool.</p></article>
-          <article><span>03</span><strong>Local-first</strong><p>Studio binds to localhost and does not upload projects itself.</p></article>
+          <article><span>01</span><strong>Local first</strong><p>Create and preview projects without publishing anything.</p></article>
+          <article><span>02</span><strong>Your files</strong><p>Open the folder in any code editor or version-control tool later.</p></article>
+          <article><span>03</span><strong>Update safe</strong><p>The application and your projects remain separate.</p></article>
         </div>
       </section>
 
       <section class="wizard-screen" data-step="2" hidden>
-        <span class="eyebrow">02 / System check</span>
-        <h2>Verify the production stack.</h2>
-        <p class="lede">The desktop app includes its own runtime. Git enables checkpoints; Node and npm are needed only to install coding-agent CLIs.</p>
+        <span class="eyebrow">02 / Computer check</span>
+        <h2>Make sure AIgent is ready.</h2>
+        <p class="lede">AIgent Desktop includes its own application runtime and browser-quality tools. Optional developer tools are shown for transparency, but they are not required to open Studio.</p>
         <div class="check-grid" id="environment-grid"></div>
-        <div class="inline-actions"><button class="secondary-button" id="refresh-environment" type="button">Run checks again</button><button class="text-button" id="get-node" type="button">Get Node.js</button><button class="text-button" id="get-git" type="button">Get Git</button></div>
+        <div class="plain-note"><strong>Most people can continue immediately.</strong><p>If the selected AI agent needs an additional helper such as Git or Node.js, the next step installs it automatically.</p></div>
+        <div class="inline-actions"><button class="secondary-button" id="refresh-environment" type="button">Run checks again</button><button class="text-button" id="get-node" type="button">Advanced: Node.js</button><button class="text-button" id="get-git" type="button">Advanced: Git</button></div>
       </section>
 
       <section class="wizard-screen" data-step="3" hidden>
-        <span class="eyebrow">03 / Design agent</span>
-        <h2>Connect the agent that builds with you.</h2>
-        <p class="lede">Choose Claude Code, Codex, both, or manual prompt mode. Installation and sign-in happen through the official local tools.</p>
+        <span class="eyebrow">03 / Connect AI</span>
+        <h2>Choose the agent that builds with you.</h2>
+        <p class="lede">Choose an option, click <strong>Install for me</strong>, then <strong>Connect account</strong>. AIgent uses the provider's official installer and sign-in flow.</p>
         <div class="agent-choice" id="agent-choice">
           <article data-agent-card="claude">
-            <header><div><span class="agent-glyph">C</span><div><strong>Claude Code</strong><small>Persistent project session</small></div></div><input type="radio" name="preferred-agent" value="claude" aria-label="Use Claude Code"></header>
-            <p>Strong for long design-and-build sessions with the installed AIgent skills and project memory.</p>
-            <footer><button class="secondary-button" data-install-agent="claude" type="button">Install</button><button class="secondary-button" data-auth-agent="claude" type="button">Sign in</button></footer>
+            <header><div><span class="agent-glyph">C</span><div><strong>Claude Code</strong><small>Use a Claude Pro, Max, Console, or supported work account</small></div></div><input type="radio" name="preferred-agent" value="claude" aria-label="Use Claude Code"></header>
+            <p>Best for longer design-and-build sessions with the installed AIgent skills and persistent project context.</p>
+            <footer><button class="secondary-button" data-install-agent="claude" type="button">Install for me</button><button class="secondary-button" data-auth-agent="claude" type="button">Connect account</button></footer>
             <div class="agent-status" data-agent-status="claude">Checking…</div>
           </article>
           <article data-agent-card="codex">
-            <header><div><span class="agent-glyph">X</span><div><strong>Codex CLI</strong><small>Workspace-write sandbox</small></div></div><input type="radio" name="preferred-agent" value="codex" aria-label="Use Codex CLI"></header>
-            <p>Fast implementation and repair passes with project-scoped code and command execution.</p>
-            <footer><button class="secondary-button" data-install-agent="codex" type="button">Install</button><button class="secondary-button" data-auth-agent="codex" type="button">Sign in</button></footer>
+            <header><div><span class="agent-glyph">X</span><div><strong>ChatGPT / Codex</strong><small>Use an eligible ChatGPT account or OpenAI configuration</small></div></div><input type="radio" name="preferred-agent" value="codex" aria-label="Use ChatGPT or Codex"></header>
+            <p>Strong for focused implementation, repair, and code changes inside the selected project workspace.</p>
+            <footer><button class="secondary-button" data-install-agent="codex" type="button">Install for me</button><button class="secondary-button" data-auth-agent="codex" type="button">Connect account</button></footer>
             <div class="agent-status" data-agent-status="codex">Checking…</div>
           </article>
           <article data-agent-card="manual">
-            <header><div><span class="agent-glyph">M</span><div><strong>Manual prompt</strong><small>No agent installation</small></div></div><input type="radio" name="preferred-agent" value="manual" aria-label="Use manual prompt mode"></header>
-            <p>Studio prepares the complete structured prompt for you to paste into another coding environment.</p>
+            <header><div><span class="agent-glyph">M</span><div><strong>Manual prompt</strong><small>Explore Studio without connecting an agent</small></div></div><input type="radio" name="preferred-agent" value="manual" aria-label="Use manual prompt mode"></header>
+            <p>Studio prepares a complete structured prompt that can be copied into another coding environment.</p>
             <div class="agent-status ready">Always available</div>
           </article>
         </div>
-        <div class="install-console" id="install-console" hidden><header><strong>Installer activity</strong><button class="text-button" id="clear-console" type="button">Clear</button></header><pre id="install-log"></pre></div>
+        <div class="signin-help"><strong>What happens during sign-in?</strong><p>A provider window or terminal opens only for the official authentication flow. Finish signing in there, then return to AIgent Desktop. Passwords and tokens are never entered into AIgent.</p></div>
+        <div class="install-console" id="install-console" hidden><header><strong>Setup activity</strong><button class="text-button" id="clear-console" type="button">Clear</button></header><pre id="install-log"></pre></div>
       </section>
 
       <section class="wizard-screen" data-step="4" hidden>
         <span class="eyebrow">04 / Preferences</span>
-        <h2>Set the desktop behavior.</h2>
-        <p class="lede">These settings can be changed later from Setup & Diagnostics.</p>
+        <h2>Choose how the desktop app behaves.</h2>
+        <p class="lede">These options can be changed later from Setup & Diagnostics.</p>
         <div class="preference-list">
-          <label><div><strong>Start AIgent Desktop when I sign in</strong><small>Launches the application, not an agent task.</small></div><input id="launch-at-login" type="checkbox"></label>
-          <label><div><strong>Automatically download published updates</strong><small>Signed public releases use the configured Windows or Apple credentials.</small></div><input id="automatic-updates" type="checkbox" checked></label>
+          <label><div><strong>Start AIgent Desktop when I sign in</strong><small>Opens the application, not an agent task.</small></div><input id="launch-at-login" type="checkbox"></label>
+          <label><div><strong>Download published updates automatically</strong><small>AIgent asks before restarting to install an update.</small></div><input id="automatic-updates" type="checkbox" checked></label>
         </div>
-        <div class="security-note"><strong>Security boundary</strong><p>The desktop shell uses context isolation, sandboxed rendering, constrained IPC, localhost-only Studio serving, and no generic shell endpoint.</p></div>
+        <div class="security-note"><strong>Local by default</strong><p>Projects stay on this computer until you deliberately use the Ship tab to create a public deployment.</p></div>
       </section>
 
       <section class="wizard-screen" data-step="5" hidden>
         <span class="eyebrow">05 / Ready</span>
-        <h2>Your design studio is ready.</h2>
-        <p class="lede">Create a site from a proven starter, select real rendered elements, edit visually, direct the agent, and finish with Resolve and Vision.</p>
-        <div class="ready-card"><div class="ready-orbit" aria-hidden="true"><span></span></div><div><small>Workspace</small><strong id="ready-workspace"></strong><small>Preferred agent</small><strong id="ready-agent"></strong></div></div>
-        <button class="launch-button" id="launch-studio" type="button"><span>Launch AIgent Studio</span><small>Open the real DOM-backed visual canvas</small></button>
-        <div class="ready-actions"><button class="secondary-button" id="open-workspace" type="button">Open workspace</button><button class="secondary-button" id="run-repair" type="button">Repair installation</button><button class="secondary-button" id="export-diagnostics" type="button">Export diagnostics</button><button class="secondary-button" id="check-updates" type="button">Check for updates</button></div>
+        <h2>Create your first project.</h2>
+        <p class="lede">Studio combines a live website preview, visual editing, your connected agent, project history, browser QA, visual critique, and optional publishing.</p>
+        <div class="ready-card"><div class="ready-orbit" aria-hidden="true"><span></span></div><div><small>Project folder</small><strong id="ready-workspace"></strong><small>Connected agent</small><strong id="ready-agent"></strong></div></div>
+        <div class="first-project-guide">
+          <article><span>1</span><div><strong>Describe it</strong><p>Choose a site, deck, interface, or 3D starter and explain the result in ordinary language.</p></div></article>
+          <article><span>2</span><div><strong>Build and click</strong><p>The agent edits the real project. Click visible elements to change text, spacing, color, layout, and responsive behavior.</p></div></article>
+          <article><span>3</span><div><strong>Check and ship</strong><p>Review desktop, tablet, and mobile, then export locally or publish through a supported host when ready.</p></div></article>
+        </div>
+        <button class="launch-button" id="launch-studio" type="button"><span>Launch AIgent Studio and create my first project</span><small>Open the real DOM-backed visual canvas</small></button>
+        <div class="ready-actions"><button class="secondary-button" id="open-workspace" type="button">Open project folder</button><button class="secondary-button" id="run-repair" type="button">Repair installation</button><button class="secondary-button" id="export-diagnostics" type="button">Export diagnostics</button><button class="secondary-button" id="check-updates" type="button">Check for updates</button></div>
         <div class="update-status" id="update-status">Updates not checked</div>
-        <details class="danger-zone"><summary>Reset desktop application data</summary><p>Removes AIgent Desktop settings and logs. It does not delete the selected workspace or projects.</p><button class="danger-button" id="remove-app-data" type="button">Remove settings and logs</button></details>
+        <details class="danger-zone"><summary>Reset desktop application data</summary><p>Removes AIgent Desktop settings and logs. It does not delete the selected project folder or projects.</p><button class="danger-button" id="remove-app-data" type="button">Remove settings and logs</button></details>
       </section>
 
       <footer class="wizard-footer"><button class="secondary-button" id="back-step" type="button">Back</button><div class="footer-status" id="footer-status">Loading desktop state…</div><button class="primary-button" id="next-step" type="button">Continue</button></footer>
