@@ -422,7 +422,7 @@ async function boot() {
     if (!response.ok) throw new Error(`Packaged Studio returned ${response.status}.`);
     await stopStudio();
     log("Desktop smoke proof passed", { proof, url });
-    setTimeout(() => app.quit(), 150);
+    setTimeout(() => { mainWindow?.destroy(); app.exit(0); }, 150);
     return;
   }
   if (config.onboardingComplete) {
