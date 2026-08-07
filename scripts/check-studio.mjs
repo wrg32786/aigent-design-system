@@ -11,6 +11,9 @@ for (const relative of ["studio/experience.js", "studio/experience.css"]) {
   assert.ok(fs.existsSync(path.join(repositoryRoot, relative)), `Missing Studio experience file: ${relative}`);
 }
 
+const studioClient = fs.readFileSync(path.join(repositoryRoot, "studio", "app.js"), "utf8");
+assert.ok(studioClient.includes("aigent-studio-first-project-prompted"), "A new local workspace should open the first-project flow automatically.");
+
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "aigent-studio-v1-check-"));
 const app = createStudioServer({ projectsRoot: root, port: 0 });
 

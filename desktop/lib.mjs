@@ -175,6 +175,28 @@ export function commandInfo(command, args = ["--version"], options = {}) {
   };
 }
 
+export function authenticationInfo(provider, command, env = desktopEnvironment()) {
+  if (!command) return { authenticated: false, authState: "unavailable", authMessage: "Not installed" };
+  const args = provider === "claude" ? ["auth", "status"] : provider === "codex" ? ["login", "status"] : [];
+  if (!args.length) return { authenticated: false, authState: "unknown", authMessage: "Authentication status unavailable" };
+  const result = spawnSync(command, args, {
+    encoding: "utf8",
+    env,
+    windowsHide: true,
+    timeout: 6000,
+    maxBuffer: 512 * 1024,
+  });
+  const output = String(result.stdout || result.stderr || "").trim().replace(/\s+/g, " ").slice(0, 500);
+  const negative = /not logged|not authenticated|not signed in|login required|missing api key|invalid api key/i.test(output);
+  const unsupported = result.status !== 0 && /unknown command|unrecognized|unexpected argument|usage:/i.test(output);
+  const authenticated = result.status === 0 && !negative;
+  return {
+    authenticated,
+    authState: authenticated ? "connected" : unsupported ? "unknown" : "disconnected",
+    authMessage: output || (authenticated ? "Connected" : unsupported ? "Status check is not supported by this CLI version" : "Account connection not confirmed"),
+  };
+}
+
 export function collectEnvironment(config = {}, options = {}) {
   const env = desktopEnvironment(options.env || {});
   const git = resolveCommand("git", config.gitPath, env);
@@ -198,8 +220,8 @@ export function collectEnvironment(config = {}, options = {}) {
     git: gitInfo,
     node: nodeInfo,
     npm: npmInfo,
-    claude: claudeInfo,
-    codex: codexInfo,
+    claude: { ...claudeInfo, ...authenticationInfo("claude", claude, env) },
+    codex: { ...codexInfo, ...authenticationInfo("codex", codex, env) },
     gitBash,
     workspace: workspaceStatus(config.workspace),
     platform: { platform: process.platform, arch: process.arch, release: os.release(), version: os.version?.() || "" },

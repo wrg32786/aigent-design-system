@@ -2,7 +2,7 @@ const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const desktop = window.aigentDesktop;
 const params = new URLSearchParams(location.search);
-const state = { step: params.get("mode") === "settings" ? 5 : 1, payload: null, installing: false };
+const state = { step: params.get("mode") === "settings" ? 5 : 1, payload: null, installing: false, authPolling: null };
 
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
@@ -57,19 +57,22 @@ function providerLabel(provider) {
 function renderAgents() {
   const environment = currentEnvironment();
   const selected = currentConfig().preferredAgent || "manual";
-  $$('[name="preferred-agent"]').forEach((radio) => { radio.checked = radio.value === selected; });
-  $$('[data-agent-card]').forEach((card) => { card.dataset.selected = String(card.dataset.agentCard === selected); });
+  $('[name="preferred-agent"]').forEach((radio) => { radio.checked = radio.value === selected; });
+  $('[data-agent-card]').forEach((card) => { card.dataset.selected = String(card.dataset.agentCard === selected); });
   for (const provider of ["claude", "codex"]) {
     const info = environment[provider];
-    const status = $(`[data-agent-status="${provider}"]`);
-    status.textContent = info?.available ? info.version || "Installed and ready to connect" : "Not installed yet";
-    status.classList.toggle("ready", Boolean(info?.available));
-    const install = $(`[data-install-agent="${provider}"]`);
-    const auth = $(`[data-auth-agent="${provider}"]`);
-    install.disabled = state.installing;
-    install.textContent = info?.available ? "Repair / reinstall" : "Install for me";
-    auth.disabled = !info?.available || state.installing;
-    auth.textContent = "Connect account";
+    const connected = Boolean(info?.authenticated);
+    const statusNode = $(`[data-agent-status="${provider}"]`);
+    statusNode.textContent = connected ? "Account connected" : info?.available ? "Installed · account connection not confirmed" : "Not installed yet";
+    statusNode.classList.toggle("ready", Boolean(info?.available));
+    statusNode.classList.toggle("connected", connected);
+    statusNode.title = info?.authMessage || info?.error || "";
+    const installButton = $(`[data-install-agent="${provider}"]`);
+    const authButton = $(`[data-auth-agent="${provider}"]`);
+    installButton.disabled = state.installing;
+    installButton.textContent = info?.available ? "Repair / reinstall" : "Install for me";
+    authButton.disabled = !info?.available || state.installing;
+    authButton.textContent = connected ? "Reconnect account" : "Connect account";
   }
 }
 
@@ -100,8 +103,9 @@ function render() {
   renderAgents();
   renderPreferences();
   renderStep();
+  const connected = ["claude", "codex"].filter((provider) => currentEnvironment()[provider]?.authenticated).map(providerLabel);
   const available = ["claude", "codex"].filter((provider) => currentEnvironment()[provider]?.available).map(providerLabel);
-  setStatus(available.length ? `${available.join(" + ")} available` : "Choose an AI agent or continue in manual mode");
+  setStatus(connected.length ? `${connected.join(" + ")} connected` : available.length ? `${available.join(" + ")} installed · connect an account or continue manually` : "Choose an AI agent or continue in manual mode");
 }
 
 async function refresh() {
@@ -146,6 +150,7 @@ async function refreshEnvironment() {
 }
 
 async function installAgent(provider) {
+  state.authPolling = null;
   state.installing = true;
   $("#install-console").hidden = false;
   $("#install-log").textContent = "";
@@ -163,11 +168,37 @@ async function installAgent(provider) {
   }
 }
 
+function delay(duration) { return new Promise((resolve) => setTimeout(resolve, duration)); }
+
+async function waitForAuthentication(provider) {
+  const token = Symbol(provider);
+  state.authPolling = token;
+  for (let attempt = 0; attempt < 40; attempt += 1) {
+    await delay(3000);
+    if (state.authPolling !== token) return;
+    try {
+      state.payload = await desktop.refreshEnvironment();
+      render();
+      if (currentEnvironment()[provider]?.authenticated) {
+        state.authPolling = null;
+        setStatus(`${providerLabel(provider)} connected. Continue when ready.`);
+        return;
+      }
+      setStatus(`Waiting for ${providerLabel(provider)} sign-in…`);
+    } catch { /* continue polling while the provider owns the sign-in flow */ }
+  }
+  if (state.authPolling === token) {
+    state.authPolling = null;
+    setStatus(`Finish ${providerLabel(provider)} sign-in, then choose Run checks again.`);
+  }
+}
+
 async function authenticateAgent(provider) {
   try {
     showError("");
     await desktop.authenticateAgent(provider);
-    setStatus(`Complete the ${providerLabel(provider)} sign-in in the window that opened, then return to AIgent Desktop.`);
+    setStatus(`Complete the ${providerLabel(provider)} sign-in in the window that opened. AIgent will detect the connection automatically.`);
+    waitForAuthentication(provider).catch(() => {});
   } catch (error) { showError(error.message); }
 }
 

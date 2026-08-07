@@ -3,6 +3,7 @@ import { initPublishPanel, publishTaskEvent, refreshPublishPanel, syncPublishGat
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const CHANNEL = "aigent-studio";
+const FIRST_PROJECT_PROMPT_KEY = "aigent-studio-first-project-prompted";
 const COLORS = ["#65f4df", "#f07a52", "#8ea8ff", "#d7ef72", "#ec8fd8", "#f4c064"];
 const state = {
   status: null,
@@ -601,7 +602,17 @@ async function initialize() {
     fillProviders();
     await refreshProjects();
     if (state.projects[0]) await selectProject(state.projects[0].id, false);
-    else { fillProjectSelect(); projectForm(null); loadPreview(); setRunning(false, providerSummary(state.status)); renderCanvasState(); }
+    else {
+      fillProjectSelect();
+      projectForm(null);
+      loadPreview();
+      setRunning(false, providerSummary(state.status));
+      renderCanvasState();
+      if (!localStorage.getItem(FIRST_PROJECT_PROMPT_KEY)) {
+        localStorage.setItem(FIRST_PROJECT_PROMPT_KEY, "true");
+        setTimeout(showProjectDialog, 250);
+      }
+    }
   } catch (error) {
     $("#runtime-status").dataset.state = "warning";
     $("#runtime-status span:last-child").textContent = "Run npm run studio";

@@ -14,6 +14,7 @@ import {
   diagnosticsReport,
   ensureWorkspace,
   authCommand,
+  authenticationInfo,
   installCommand,
   normalizeConfig,
   writeConfig,
@@ -101,6 +102,10 @@ for (const contract of [
 }
 const rendererApp = fs.readFileSync(file("desktop/renderer/app.js"), "utf8");
 assert.ok(!rendererApp.includes("!environment.npm?.available"), "Agent installation must not be disabled only because npm is missing.");
+assert.ok(rendererApp.includes("waitForAuthentication"), "Desktop onboarding must detect account connection after sign-in.");
+assert.ok(rendererApp.includes("Reconnect account"), "Connected accounts must remain manageable from the wizard.");
+assert.ok(workflow.includes("studio/**"), "Desktop packages must rebuild when Studio runtime files change.");
+assert.ok(workflow.includes("github.ref"), "Desktop release concurrency must cancel superseded branch builds.");
 
 for (const target of ["desktop/main.mjs", "desktop/lib.mjs", "desktop/renderer/app.js", "desktop/preload.cjs", "scripts/generate-desktop-assets.mjs", "scripts/prepare-desktop-build.mjs", "scripts/smoke-packaged-desktop.mjs", "scripts/verify-desktop-release.mjs"]) {
   const result = spawnSync(process.execPath, ["--check", file(target)], { encoding: "utf8" });
@@ -125,6 +130,7 @@ try {
   const environment = collectEnvironment(saved);
   assert.equal(environment.runtime.available, true);
   assert.equal(environment.workspace.available, true);
+  assert.equal(authenticationInfo("claude", null).authState, "unavailable");
   assert.equal(installCommand("manual", environment), null);
 
   const noDeveloperTools = {
