@@ -1,0 +1,42 @@
+name: Remove merged product branches
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - .github/workflows/remove-merged-product-branches.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: remove-merged-product-branches
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: master
+      - name: Delete merged branches
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for branch in \
+            product/agent-visual-context \
+            product/simplify-onboarding \
+            product/beginner-first-studio
+          do
+            gh api --method DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/${branch}" || true
+          done
+      - name: Remove this one-time workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/remove-merged-product-branches.yml
+          git commit -m "Remove completed branch cleanup [skip ci]"
+          git push origin HEAD:master
