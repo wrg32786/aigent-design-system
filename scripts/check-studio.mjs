@@ -5,6 +5,11 @@ import path from "node:path";
 import { createStudioServer } from "./studio-server.mjs";
 
 const browserMode = process.argv.includes("--browser");
+const repositoryRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+for (const relative of ["studio/experience.js", "studio/experience.css"]) {
+  assert.ok(fs.existsSync(path.join(repositoryRoot, relative)), `Missing Studio experience file: ${relative}`);
+}
+
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "aigent-studio-v1-check-"));
 const app = createStudioServer({ projectsRoot: root, port: 0 });
 
@@ -130,6 +135,10 @@ try {
         await page.goto(`${base}/studio/`, { waitUntil: "domcontentloaded" });
         await page.waitForFunction(() => document.querySelector("#runtime-status")?.dataset.state === "ready");
         await page.waitForFunction(() => document.querySelector("#project-select")?.value === "canvas-self-check");
+        await page.waitForFunction(() => document.querySelector(".studio-shell")?.dataset.experience === "simple");
+        assert.equal(await page.locator('[data-right-tab="comments"]').isVisible(), false);
+        assert.equal(await page.locator('#experience-toggle').textContent(), "Advanced");
+
         const frame = page.frameLocator("#preview-frame");
         await frame.locator("h1").waitFor();
         assert.match((await frame.locator("h1").textContent()) || "", /Canvas self check/);
@@ -138,6 +147,12 @@ try {
         await page.waitForFunction(() => document.querySelector("#selection-label")?.textContent?.includes("Canvas self check"));
         await page.waitForFunction(() => document.querySelector("#inspector-fields")?.hidden === false);
         assert.ok((await page.locator("#layers-tree .layer-row").count()) >= 3);
+
+        await page.locator("#experience-toggle").click();
+        await page.waitForFunction(() => document.querySelector(".studio-shell")?.dataset.experience === "advanced");
+        assert.equal(await page.locator('[data-right-tab="comments"]').isVisible(), true);
+        assert.equal(await page.locator('#experience-toggle').textContent(), "Simple");
+
         await page.locator('[data-right-tab="publish"]').click();
         await page.waitForFunction(() => document.querySelector('[data-right-panel="publish"]')?.hidden === false);
         assert.match((await page.locator("#publish-gate").textContent()) || "", /Publish blocked|Ready to ship/);
@@ -154,7 +169,7 @@ try {
     }
   }
 
-  console.log(`AIgent Studio v1.2 check passed: project, DOM bridge, Canvas operations, undo/redo, comments, components, presence, checkpoints, agent context, Ship gate, path boundaries${browserMode ? ", and responsive direct selection" : ""}.`);
+  console.log(`AIgent Studio v1.2 check passed: project, progressive simple/advanced experience, DOM bridge, Canvas operations, undo/redo, comments, components, presence, checkpoints, agent context, Ship gate, path boundaries${browserMode ? ", and responsive direct selection" : ""}.`);
 } finally {
   await app.close();
   fs.rmSync(root, { recursive: true, force: true });
