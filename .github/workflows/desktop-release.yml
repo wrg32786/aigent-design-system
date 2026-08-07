@@ -18,6 +18,13 @@ on:
     paths:
       - package.json
       - package-lock.json
+      - studio/**
+      - publish/**
+      - registry.json
+      - scripts/studio-server.mjs
+      - scripts/studio-publish.mjs
+      - scripts/publish-site.mjs
+      - scripts/cli.mjs
       - desktop/**
       - electron-builder.yml
       - scripts/prepare-desktop-build.mjs
@@ -29,7 +36,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: desktop-release-${{ inputs.ref || github.sha }}
+  group: desktop-release-${{ inputs.ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
