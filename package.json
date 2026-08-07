@@ -39,6 +39,7 @@
     "desktop:dist:win": "npm run desktop:prepare && electron-builder --win nsis --x64",
     "desktop:dist:mac": "npm run desktop:prepare && electron-builder --mac dmg zip",
     "desktop:smoke:packaged": "node scripts/smoke-packaged-desktop.mjs",
+    "desktop:verify-release": "node scripts/verify-desktop-release.mjs",
     "publish": "node scripts/publish-site.mjs",
     "publish:check": "node scripts/check-publish.mjs"
   },
