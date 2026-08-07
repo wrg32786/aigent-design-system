@@ -20,8 +20,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
+      - run: npm install --no-audit --no-fund
       - run: npm run check
       - run: npm run registry
       - run: npm run intelligence
@@ -71,8 +70,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
+      - run: npm install --no-audit --no-fund
       - run: npx playwright install chromium
       - run: xvfb-run -a npm run desktop:smoke
       - run: npm run studio:check -- --browser
