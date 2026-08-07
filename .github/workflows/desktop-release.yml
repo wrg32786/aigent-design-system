@@ -83,14 +83,21 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            export CSC_LINK="$WIN_CSC_LINK"
-            export CSC_KEY_PASSWORD="$WIN_CSC_KEY_PASSWORD"
+            if [ -n "$WIN_CSC_LINK" ]; then
+              export CSC_LINK="$WIN_CSC_LINK"
+              export CSC_KEY_PASSWORD="$WIN_CSC_KEY_PASSWORD"
+            else
+              unset CSC_LINK CSC_KEY_PASSWORD
+              export CSC_IDENTITY_AUTO_DISCOVERY=false
+            fi
           else
-            export CSC_LINK="$MAC_CSC_LINK"
-            export CSC_KEY_PASSWORD="$MAC_CSC_KEY_PASSWORD"
-          fi
-          if [ -z "$CSC_LINK" ]; then
-            export CSC_IDENTITY_AUTO_DISCOVERY=false
+            if [ -n "$MAC_CSC_LINK" ]; then
+              export CSC_LINK="$MAC_CSC_LINK"
+              export CSC_KEY_PASSWORD="$MAC_CSC_KEY_PASSWORD"
+            else
+              unset CSC_LINK CSC_KEY_PASSWORD
+              export CSC_IDENTITY_AUTO_DISCOVERY=false
+            fi
           fi
           ${{ matrix.command }}
       - name: Verify packaged application boot
