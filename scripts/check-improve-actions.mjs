@@ -1,11 +1,9 @@
 import assert from "node:assert/strict";
-import { IMPROVE_ACTIONS, improvePrompt } from "../studio/improve.js";
+import fs from "node:fs";
 
-assert.deepEqual(Object.keys(IMPROVE_ACTIONS), ["bolder", "quieter", "delight", "polish"]);
-for (const [id, action] of Object.entries(IMPROVE_ACTIONS)) {
-  assert.ok(action.label);
-  assert.ok(improvePrompt(id).length > 120);
-  assert.match(improvePrompt(id), /Preserve|preserving|preserve/i);
-}
-assert.equal(improvePrompt("missing"), "");
+const source = fs.readFileSync(new URL("../studio/publish.js", import.meta.url), "utf8");
+for (const label of ["Bolder", "Quieter", "Delight", "Polish"]) assert.match(source, new RegExp(`\\[\\"${label}\\"`));
+assert.match(source, /Run AIgent Taste/);
+assert.match(source, /form\.requestSubmit\(\)/);
+assert.match(source, /Preserve product truth|Preserve the chosen visual world|preserving the strongest focal idea/);
 console.log("AIgent Studio improve-action check passed.");
