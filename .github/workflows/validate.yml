@@ -76,6 +76,7 @@ jobs:
       - run: npx playwright install chromium
       - run: xvfb-run -a npm run desktop:smoke
       - run: npm run studio:check -- --browser
+      - run: npm run studio:context-check
       - name: Start preview server
         run: |
           npm run serve > /tmp/aigent-design-system-server.log 2>&1 &
