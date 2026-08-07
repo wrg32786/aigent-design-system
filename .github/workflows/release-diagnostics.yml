@@ -1,0 +1,26 @@
+name: Report Desktop release state
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/release-diagnostics.yml
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - name: Report recent Desktop release runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo 'Recent desktop-release workflow runs:'
+          gh run list --workflow desktop-release.yml --limit 10 --json databaseId,status,conclusion,event,headSha,createdAt,updatedAt,url
+          echo
+          echo 'v1.2.0 release:'
+          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/v1.2.0" --jq '{tag_name, name, draft, prerelease, published_at, assets: [.assets[] | {name, size, state, browser_download_url}]}' || true
