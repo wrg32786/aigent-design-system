@@ -29,6 +29,7 @@ const required = [
   "desktop/renderer/index.html",
   "desktop/renderer/app.js",
   "desktop/renderer/styles.css",
+  "desktop/renderer/onboarding.css",
   "desktop/resources/icon.svg",
   "desktop/README.md",
   "electron-builder.yml",
@@ -78,7 +79,7 @@ for (const contract of ["windows-latest", "macos-14", "macos-15-intel", "latest-
   assert.ok(workflow.includes(contract), `Desktop release workflow missing: ${contract}`);
 }
 const html = fs.readFileSync(file("desktop/renderer/index.html"), "utf8");
-for (const contract of ["Choose where your sites live", "Verify the production stack", "Connect the agent", "Launch AIgent Studio", "Export diagnostics", "Repair installation"]) {
+for (const contract of ["Choose where your work is saved", "Make sure AIgent is ready", "Choose the agent that builds with you", "Install for me", "Connect account", "Launch AIgent Studio and create my first project", "Export diagnostics", "Repair installation"]) {
   assert.ok(html.includes(contract), `Setup wizard missing: ${contract}`);
 }
 const preload = fs.readFileSync(file("desktop/preload.cjs"), "utf8");
@@ -111,6 +112,21 @@ try {
   assert.equal(environment.runtime.available, true);
   assert.equal(environment.workspace.available, true);
   assert.equal(installCommand("manual", environment), null);
+
+  const noDeveloperTools = {
+    ...environment,
+    git: { available: false, command: null },
+    npm: { available: false, command: null },
+    node: { available: false, command: null },
+    gitBash: null,
+  };
+  const codexInstall = installCommand("codex", noDeveloperTools);
+  const claudeInstall = installCommand("claude", noDeveloperTools);
+  assert.equal(typeof codexInstall?.command, "string", "Codex must have a provider-native install route without npm.");
+  assert.equal(typeof claudeInstall?.command, "string", "Claude must have an automated install route without preinstalled npm.");
+  assert.match(codexInstall.label, /Install Codex/);
+  assert.match(claudeInstall.label, /Install Claude Code/);
+
   assert.deepEqual(authCommand("codex", { codex: { available: true, command: "codex" } }).args, ["login"]);
   const report = diagnosticsReport({ appVersion: DESKTOP_VERSION, config: saved, environment, log: "desktop proof" });
   assert.match(report, new RegExp(APP_NAME));
@@ -119,4 +135,4 @@ try {
   fs.rmSync(temp, { recursive: true, force: true });
 }
 
-console.log(`AIgent Desktop ${DESKTOP_VERSION} check passed: wizard, secure IPC, environment detection, repair/diagnostics contract, complete packaged registry, bundled browser, installer assets, signing hooks, architecture-specific updates, and cross-platform packaging configuration.`);
+console.log(`AIgent Desktop ${DESKTOP_VERSION} check passed: beginner wizard, provider-native installation, secure IPC, environment detection, repair/diagnostics contract, complete packaged registry, bundled browser, installer assets, signing hooks, architecture-specific updates, and cross-platform packaging configuration.`);
