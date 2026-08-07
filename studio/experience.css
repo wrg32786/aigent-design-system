@@ -1,0 +1,105 @@
+.experience-toggle {
+  white-space: nowrap;
+}
+
+.studio-shell[data-experience="simple"] .advanced-only {
+  display: none !important;
+}
+
+.studio-shell[data-experience="simple"] .left-dock .dock-tabs,
+.studio-shell[data-experience="simple"] .right-dock .dock-tabs {
+  grid-auto-columns: minmax(0, 1fr);
+}
+
+.studio-guide {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 24px;
+  align-items: center;
+  margin: 14px 18px 0;
+  padding: 18px 20px;
+  border: 1px solid color-mix(in srgb, var(--ds-color-accent) 26%, transparent);
+  border-radius: 16px;
+  background:
+    linear-gradient(120deg, color-mix(in srgb, var(--ds-color-accent) 8%, transparent), transparent 55%),
+    color-mix(in srgb, var(--ds-color-surface) 88%, transparent);
+}
+
+.studio-guide[hidden] {
+  display: none;
+}
+
+.studio-guide > div {
+  display: grid;
+  gap: 5px;
+}
+
+.studio-guide strong {
+  max-width: 44rem;
+  color: var(--ds-color-text);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+}
+
+.studio-guide p {
+  margin: 0;
+  color: var(--ds-color-muted);
+  font-size: 0.86rem;
+}
+
+.studio-guide ol {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.studio-guide li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ds-color-muted);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.studio-guide li span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid color-mix(in srgb, var(--ds-color-accent) 45%, transparent);
+  border-radius: 999px;
+  color: var(--ds-color-accent);
+  font-family: var(--ds-font-mono);
+  font-size: 0.68rem;
+}
+
+.studio-shell[data-experience="simple"] .agent-log {
+  min-height: 12rem;
+}
+
+.studio-shell[data-experience="simple"] .publish-form {
+  gap: 14px;
+}
+
+@media (max-width: 1280px) {
+  .studio-guide {
+    grid-template-columns: 1fr auto;
+  }
+
+  .studio-guide ol {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .studio-guide {
+    grid-template-columns: 1fr;
+    margin: 10px;
+  }
+
+  .studio-guide .primary-button {
+    width: 100%;
+  }
+}
