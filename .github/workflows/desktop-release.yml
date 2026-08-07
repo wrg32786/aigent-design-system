@@ -163,3 +163,37 @@ jobs:
           fi
           gh release upload "$TAG" release-files/* --clobber
           node scripts/verify-desktop-release.mjs --tag "$TAG" --download-check
+
+  report:
+    needs:
+      - build
+      - publish
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      statuses: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          fetch-depth: 0
+      - name: Publish release status
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BUILD_RESULT: ${{ needs.build.result }}
+          PUBLISH_RESULT: ${{ needs.publish.result }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          TARGET=$(git rev-parse HEAD)
+          if [ "$BUILD_RESULT" = "success" ] && { [ "$PUBLISH_RESULT" = "success" ] || [ "$PUBLISH_RESULT" = "skipped" ]; }; then
+            STATE=success
+          else
+            STATE=failure
+          fi
+          DESCRIPTION="build=${BUILD_RESULT}, publish=${PUBLISH_RESULT}"
+          gh api --method POST "repos/${GITHUB_REPOSITORY}/statuses/${TARGET}" \
+            -f state="$STATE" \
+            -f context="desktop-release" \
+            -f description="$DESCRIPTION" \
+            -f target_url="$RUN_URL"
