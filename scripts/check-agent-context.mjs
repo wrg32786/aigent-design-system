@@ -41,7 +41,7 @@ try {
     await frame.locator("h1").click({ force: true });
     await page.waitForFunction(() => document.querySelector("#selection-label")?.textContent?.includes("Agent context proof"));
 
-    await page.locator('[data-right-tab="agent"]').click();
+    await page.locator('button[data-right-tab="agent"]').click();
     await page.locator("#provider-select").selectOption("manual");
     await page.locator("#agent-prompt").fill("Improve the selected heading without changing the rest of the page.");
 
