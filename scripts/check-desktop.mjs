@@ -79,6 +79,7 @@ const workflow = fs.readFileSync(file(".github/workflows/desktop-release.yml"), 
 for (const contract of ["windows-latest", "macos-14", "macos-15-intel", "latest-arm64", "latest-x64", "desktop:smoke:packaged", "WIN_CSC_LINK", "MAC_CSC_LINK", "APPLE_API_KEY", "gh release upload", "verify-desktop-release.mjs"]) {
   assert.ok(workflow.includes(contract), `Desktop release workflow missing: ${contract}`);
 }
+assert.ok(workflow.includes("unset CSC_LINK CSC_KEY_PASSWORD"), "Unsigned release builds must unset empty signing-path variables before electron-builder runs.");
 const html = fs.readFileSync(file("desktop/renderer/index.html"), "utf8");
 for (const contract of ["Choose where your work is saved", "Make sure AIgent is ready", "Choose the agent that builds with you", "Install for me", "Connect account", "Launch AIgent Studio and create my first project", "Export diagnostics", "Repair installation"]) {
   assert.ok(html.includes(contract), `Setup wizard missing: ${contract}`);
