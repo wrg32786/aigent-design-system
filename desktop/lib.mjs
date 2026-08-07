@@ -9,7 +9,7 @@ if (process.versions.electron && process.resourcesPath && !process.env.PLAYWRIGH
 }
 
 export const DESKTOP_VERSION = "1.2.0";
-export const APP_NAME = "AIgent Desktop";
+export const APP_NAME = "Aigent Desktop";
 export const APP_ID = "xyz.theaigent.desktop";
 
 export const LINKS = Object.freeze({
@@ -17,7 +17,7 @@ export const LINKS = Object.freeze({
   releases: "https://github.com/wrg32786/aigent-design-system/releases",
   node: "https://nodejs.org/en/download",
   git: "https://git-scm.com/downloads",
-  claude: "https://docs.anthropic.com/en/docs/claude-code/getting-started",
+  claude: "https://code.claude.com/docs/en/authentication",
   codex: "https://github.com/openai/codex",
   support: "https://github.com/wrg32786/aigent-design-system/issues",
 });
@@ -26,7 +26,7 @@ const PROVIDERS = new Set(["claude", "codex", "manual"]);
 const EXECUTABLE = /^[a-zA-Z0-9._+\-/:\\ ]{1,500}$/;
 
 export function defaultWorkspace(documentsPath = path.join(os.homedir(), "Documents")) {
-  return path.join(documentsPath, "AIgent Studio Projects");
+  return path.join(documentsPath, "Aigent Studio Projects");
 }
 
 export function defaultConfig(paths = {}) {
@@ -241,7 +241,7 @@ function windowsClaudeInstallScript(environment) {
     "if (Test-Path $gitBash) { [Environment]::SetEnvironmentVariable('CLAUDE_CODE_GIT_BASH_PATH', $gitBash, 'User'); $env:CLAUDE_CODE_GIT_BASH_PATH = $gitBash }",
     "$npm = (Get-Command npm.cmd -ErrorAction SilentlyContinue).Source;",
     "if (-not $npm) { $npm = 'C:\\Program Files\\nodejs\\npm.cmd' }",
-    "if (-not (Test-Path $npm)) { throw 'Node.js installation completed but npm was not found. Restart AIgent Desktop and try again.' }",
+    "if (-not (Test-Path $npm)) { throw 'Node.js installation completed but npm was not found. Restart Aigent Desktop and try again.' }",
     "& $npm install -g @anthropic-ai/claude-code",
   ].filter(Boolean).join(" ");
 }
@@ -265,7 +265,7 @@ export function installCommand(provider, environment) {
 }
 
 export function authCommand(provider, environment) {
-  if (provider === "claude" && environment?.claude?.available) return { command: environment.claude.command, args: [], label: "Claude Code sign-in" };
+  if (provider === "claude" && environment?.claude?.available) return { command: environment.claude.command, args: ["auth", "login"], label: "Claude Code sign-in" };
   if (provider === "codex" && environment?.codex?.available) return { command: environment.codex.command, args: ["login"], label: "Codex sign-in" };
   return null;
 }
