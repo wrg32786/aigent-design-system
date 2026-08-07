@@ -35,18 +35,22 @@ try {
     await page.waitForFunction(() => document.querySelector("#runtime-status")?.dataset.state === "ready");
     await page.waitForFunction(() => document.querySelector("#project-select")?.value === "agent-context-proof");
 
+    await page.locator('button[data-right-tab="agent"]').click();
+    await page.locator("#provider-select").selectOption("manual");
+    await page.locator('button[data-right-tab="inspector"]').click();
+
     const frame = page.frameLocator("#preview-frame");
     await frame.locator("h1").waitFor();
     await page.locator('[data-mode="select"]').click();
     await frame.locator("h1").click({ force: true });
     await page.waitForFunction(() => document.querySelector("#selection-label")?.textContent?.includes("Agent context proof"));
 
-    await page.locator('button[data-right-tab="agent"]').click();
-    await page.locator("#provider-select").selectOption("manual");
-    await page.locator("#agent-prompt").fill("Improve the selected heading without changing the rest of the page.");
+    const localPrompt = page.locator("#selection-agent-form");
+    await localPrompt.waitFor({ state: "visible" });
+    await page.locator("#selection-agent-prompt").fill("Improve the selected heading without changing the rest of the page.");
 
     const requestPromise = page.waitForRequest((request) => request.url().endsWith("/api/projects/agent-context-proof/run") && request.method() === "POST");
-    await page.locator("#run-agent").click();
+    await localPrompt.locator('button[type="submit"]').click();
     const request = await requestPromise;
     const body = JSON.parse(request.postData() || "{}");
 
@@ -61,13 +65,14 @@ try {
     assert.ok(body.selection[0].bounds?.width > 0);
     assert.ok(body.selection[0].bounds?.height > 0);
     assert.ok(Array.isArray(body.selection[0].classes));
+    assert.equal(await page.locator("#include-selection").isChecked(), true);
     assert.deepEqual(errors, []);
     await context.close();
   } finally {
     await browser.close();
   }
 
-  console.log("AIgent Studio agent-context check passed: clicked DOM node, viewport, bounds, computed properties, nearby layers, and operator instruction were attached to the agent turn.");
+  console.log("AIgent Studio agent-context check passed: element-local prompt, clicked DOM node, viewport, bounds, computed properties, nearby layers, and operator instruction were attached to the agent turn.");
 } finally {
   await studio.close();
   fs.rmSync(root, { recursive: true, force: true });
