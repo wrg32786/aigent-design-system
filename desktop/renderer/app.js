@@ -30,25 +30,28 @@ function renderStep() {
   if (state.step === 5) renderReady();
 }
 
-function statusCard(label, value, hint) {
-  const ready = Boolean(value?.available);
-  return `<article class="check-card" data-ready="${ready}"><span class="check-dot"></span><div><strong>${escapeHtml(label)}</strong><small title="${escapeHtml(value?.command || value?.error || "")}">${escapeHtml(value?.version || value?.error || hint)}</small></div><b>${ready ? "Ready" : "Missing"}</b></article>`;
+function statusCard(label, value, hint, optional = false) {
+  const available = Boolean(value?.available);
+  const ready = available || optional;
+  const stateLabel = available ? "Ready" : optional ? "Optional" : "Needs attention";
+  return `<article class="check-card" data-ready="${ready}"><span class="check-dot"></span><div><strong>${escapeHtml(label)}</strong><small title="${escapeHtml(value?.command || value?.error || "")}">${escapeHtml(value?.version || (optional ? hint : value?.error || hint))}</small></div><b>${stateLabel}</b></article>`;
 }
 
 function renderEnvironment() {
   const environment = currentEnvironment();
+  const developerTools = environment.node?.available && environment.npm?.available
+    ? { available: true, version: `${environment.node.version || "Node.js"} · npm ${environment.npm.version || "ready"}` }
+    : { available: false, version: "Only needed for advanced developer workflows" };
   $("#environment-grid").innerHTML = [
-    statusCard("AIgent runtime", environment.runtime, "Bundled with the desktop app"),
-    statusCard("Workspace", environment.workspace, "Choose a writable project folder"),
-    statusCard("Git", environment.git, "Optional, enables local checkpoints"),
-    statusCard("Node.js", environment.node, "Needed to install agent CLIs"),
-    statusCard("npm", environment.npm, "Needed to install agent CLIs"),
-    statusCard("Git Bash", { available: environment.platform?.platform !== "win32" || Boolean(environment.gitBash), version: environment.gitBash || "Not required on this platform" }, "Required by Claude Code on native Windows"),
+    statusCard("AIgent Desktop", environment.runtime, "Included with the application"),
+    statusCard("Project folder", environment.workspace, "Choose where projects are saved"),
+    statusCard("Project history", environment.git, "Installed automatically when Claude needs it", true),
+    statusCard("Developer tools", developerTools, "Not required to launch or use AIgent Desktop", true),
   ].join("");
 }
 
 function providerLabel(provider) {
-  return provider === "claude" ? "Claude Code" : provider === "codex" ? "Codex CLI" : "Manual prompt";
+  return provider === "claude" ? "Claude Code" : provider === "codex" ? "Codex" : "Manual prompt";
 }
 
 function renderAgents() {
@@ -59,13 +62,14 @@ function renderAgents() {
   for (const provider of ["claude", "codex"]) {
     const info = environment[provider];
     const status = $(`[data-agent-status="${provider}"]`);
-    status.textContent = info?.available ? info.version || "Installed" : "Not installed";
+    status.textContent = info?.available ? info.version || "Installed and ready to connect" : "Not installed yet";
     status.classList.toggle("ready", Boolean(info?.available));
     const install = $(`[data-install-agent="${provider}"]`);
     const auth = $(`[data-auth-agent="${provider}"]`);
-    install.disabled = state.installing || !environment.npm?.available;
-    install.textContent = info?.available ? "Reinstall" : "Install";
+    install.disabled = state.installing;
+    install.textContent = info?.available ? "Repair / reinstall" : "Install for me";
     auth.disabled = !info?.available || state.installing;
+    auth.textContent = "Connect account";
   }
 }
 
@@ -97,7 +101,7 @@ function render() {
   renderPreferences();
   renderStep();
   const available = ["claude", "codex"].filter((provider) => currentEnvironment()[provider]?.available).map(providerLabel);
-  setStatus(available.length ? `${available.join(" + ")} ready` : "Manual prompt mode is available");
+  setStatus(available.length ? `${available.join(" + ")} available` : "Choose an AI agent or continue in manual mode");
 }
 
 async function refresh() {
@@ -108,10 +112,10 @@ async function refresh() {
 async function nextStep() {
   try {
     showError("");
-    if (state.step === 1 && !currentEnvironment().workspace?.available) throw new Error("Choose a writable workspace before continuing.");
+    if (state.step === 1 && !currentEnvironment().workspace?.available) throw new Error("Choose a writable project folder before continuing.");
     if (state.step === 3) {
       const selected = $('[name="preferred-agent"]:checked')?.value || "manual";
-      if (selected !== "manual" && !currentEnvironment()[selected]?.available) throw new Error(`Install ${providerLabel(selected)} or select manual prompt mode.`);
+      if (selected !== "manual" && !currentEnvironment()[selected]?.available) throw new Error(`Choose Install for me under ${providerLabel(selected)}, or continue with manual prompt mode.`);
       state.payload = await desktop.saveConfig({ preferredAgent: selected });
     }
     if (state.step === 4) {
@@ -136,7 +140,7 @@ async function chooseWorkspace() {
 }
 
 async function refreshEnvironment() {
-  setStatus("Checking the local environment…");
+  setStatus("Checking this computer…");
   try { state.payload = await desktop.refreshEnvironment(); render(); }
   catch (error) { showError(error.message); }
 }
@@ -145,12 +149,14 @@ async function installAgent(provider) {
   state.installing = true;
   $("#install-console").hidden = false;
   $("#install-log").textContent = "";
+  setStatus(`Installing ${providerLabel(provider)} and any required helper tools…`);
   renderAgents();
   try {
     await desktop.installAgent(provider);
     await refreshEnvironment();
+    setStatus(`${providerLabel(provider)} is installed. Choose Connect account to sign in.`);
   } catch (error) {
-    showError(error.message);
+    showError(`${providerLabel(provider)} could not be installed automatically. ${error.message}`);
   } finally {
     state.installing = false;
     renderAgents();
@@ -159,8 +165,9 @@ async function installAgent(provider) {
 
 async function authenticateAgent(provider) {
   try {
+    showError("");
     await desktop.authenticateAgent(provider);
-    setStatus(`${providerLabel(provider)} sign-in opened in your terminal.`);
+    setStatus(`Complete the ${providerLabel(provider)} sign-in in the window that opened, then return to AIgent Desktop.`);
   } catch (error) { showError(error.message); }
 }
 

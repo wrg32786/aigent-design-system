@@ -215,10 +215,52 @@ export function workspaceStatus(workspace) {
   }
 }
 
+function powershellInstall(script, label) {
+  return {
+    command: "powershell.exe",
+    args: ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", `$ErrorActionPreference = 'Stop'; ${script}`],
+    label,
+  };
+}
+
+function shellInstall(script, label) {
+  return { command: "/bin/sh", args: ["-lc", `set -e; ${script}`], label };
+}
+
+function windowsClaudeInstallScript(environment) {
+  const installGit = environment?.gitBash
+    ? ""
+    : "if (-not (Get-Command winget.exe -ErrorAction SilentlyContinue)) { throw 'Windows Package Manager is required to install Git automatically.' }; winget install --id Git.Git --exact --accept-package-agreements --accept-source-agreements --silent;";
+  const installNode = environment?.npm?.available
+    ? ""
+    : "if (-not (Get-Command winget.exe -ErrorAction SilentlyContinue)) { throw 'Windows Package Manager is required to install Node.js automatically.' }; winget install --id OpenJS.NodeJS.LTS --exact --accept-package-agreements --accept-source-agreements --silent;";
+  return [
+    installGit,
+    installNode,
+    "$gitBash = 'C:\\Program Files\\Git\\bin\\bash.exe';",
+    "if (Test-Path $gitBash) { [Environment]::SetEnvironmentVariable('CLAUDE_CODE_GIT_BASH_PATH', $gitBash, 'User'); $env:CLAUDE_CODE_GIT_BASH_PATH = $gitBash }",
+    "$npm = (Get-Command npm.cmd -ErrorAction SilentlyContinue).Source;",
+    "if (-not $npm) { $npm = 'C:\\Program Files\\nodejs\\npm.cmd' }",
+    "if (-not (Test-Path $npm)) { throw 'Node.js installation completed but npm was not found. Restart AIgent Desktop and try again.' }",
+    "& $npm install -g @anthropic-ai/claude-code",
+  ].filter(Boolean).join(" ");
+}
+
 export function installCommand(provider, environment) {
-  if (!environment?.npm?.available) return null;
-  if (provider === "claude") return { command: environment.npm.command, args: ["install", "-g", "@anthropic-ai/claude-code"], label: "Install Claude Code" };
-  if (provider === "codex") return { command: environment.npm.command, args: ["install", "-g", "@openai/codex"], label: "Install Codex CLI" };
+  if (provider === "codex") {
+    if (process.platform === "win32") {
+      return powershellInstall("Invoke-RestMethod https://chatgpt.com/codex/install.ps1 | Invoke-Expression", "Install Codex");
+    }
+    return shellInstall("curl -fsSL https://chatgpt.com/codex/install.sh | sh", "Install Codex");
+  }
+
+  if (provider === "claude") {
+    if (process.platform === "win32") {
+      return powershellInstall(windowsClaudeInstallScript(environment), "Install Claude Code and required Windows tools");
+    }
+    return shellInstall("curl -fsSL https://claude.ai/install.sh | bash", "Install Claude Code");
+  }
+
   return null;
 }
 
