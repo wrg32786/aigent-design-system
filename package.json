@@ -1,8 +1,8 @@
 {
   "name": "aigent-design-system",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": false,
-  "description": "An installable agent-native design studio with a native desktop installer, DOM-backed visual canvas, live coding agents, verified one-click publishing, HyperFrames, Resolve, and Vision.",
+  "description": "Agent-native design operating system for Claude Code, Codex, and capable coding agents: design intelligence, creative production, browser QA, Taste, Resolve, and Vision.",
   "type": "module",
   "bin": {
     "aigent-design": "scripts/cli.mjs"
@@ -29,26 +29,16 @@
     "smoke": "node scripts/smoke.mjs",
     "inspiration:smoke": "node scripts/inspiration-smoke.mjs",
     "capture": "node scripts/capture.mjs",
-    "studio": "node scripts/studio-server.mjs",
-    "studio:check": "node --check studio/app.js && node --check studio/publish.js && node --check studio/bridge.js && node scripts/check-improve-actions.mjs && node scripts/check-studio.mjs",
-    "studio:context-check": "node scripts/check-agent-context.mjs",
-    "desktop:assets": "node scripts/generate-desktop-assets.mjs",
-    "desktop:prepare": "node scripts/prepare-desktop-build.mjs",
-    "desktop:start": "electron .",
-    "desktop:check": "node scripts/check-desktop.mjs",
-    "desktop:smoke": "electron . --smoke-test --no-sandbox",
-    "desktop:pack": "npm run desktop:prepare && electron-builder --dir",
-    "desktop:dist": "npm run desktop:prepare && electron-builder",
-    "desktop:dist:win": "npm run desktop:prepare && electron-builder --win nsis --x64",
-    "desktop:dist:mac": "npm run desktop:prepare && electron-builder --mac dmg zip",
-    "desktop:smoke:packaged": "node scripts/smoke-packaged-desktop.mjs",
-    "desktop:verify-release": "node scripts/verify-desktop-release.mjs",
     "publish": "node scripts/publish-site.mjs",
     "publish:check": "node scripts/check-publish.mjs"
   },
   "keywords": [
     "ai",
+    "agent-skills",
+    "claude-code",
+    "codex",
     "design-system",
+    "design-intelligence",
     "visual-critique",
     "vision-review",
     "design-resolver",
@@ -57,8 +47,6 @@
     "creative-production",
     "cinematic-web",
     "immersive-web",
-    "design-intelligence",
-    "code-registry",
     "design-tokens",
     "design-audit",
     "browser-qa",
@@ -72,40 +60,17 @@
     "gsap",
     "threejs",
     "remotion",
-    "claude-code",
-    "codex",
-    "agent-skills",
-    "website-builder",
-    "agent-ui",
-    "interactive-studio",
-    "visual-canvas",
-    "direct-manipulation",
+    "hyperframes",
     "design-to-code",
-    "collaborative-design",
-    "dom-editor",
-    "desktop-app",
-    "install-wizard",
-    "nsis",
-    "dmg",
-    "auto-update",
+    "website-builder",
     "deployment",
-    "static-publishing",
-    "netlify",
-    "vercel",
-    "cloudflare-pages",
-    "custom-domain"
+    "static-publishing"
   ],
   "license": "MIT",
   "engines": {
     "node": ">=20"
   },
-  "devDependencies": {
-    "electron": "43.2.0",
-    "electron-builder": "26.15.3"
-  },
-  "main": "desktop/main.mjs",
   "dependencies": {
-    "electron-updater": "6.8.9",
     "playwright": "^1.61.1"
   }
 }
