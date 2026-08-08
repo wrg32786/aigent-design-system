@@ -38,13 +38,10 @@ async function verifyScrollReveals(page, label) {
   await page.evaluate(async () => {
     const pause = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
     const step = Math.max(240, Math.floor(innerHeight * 0.7));
-    let position = 0;
-    let maximum = Math.max(0, document.documentElement.scrollHeight - innerHeight);
-    while (position < maximum) {
-      position = Math.min(maximum, position + step);
-      scrollTo({ top: position, behavior: "instant" });
+    const maximum = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+    for (let position = 0; position < maximum; position += step) {
+      scrollTo({ top: Math.min(maximum, position + step), behavior: "instant" });
       await pause(160);
-      maximum = Math.max(maximum, document.documentElement.scrollHeight - innerHeight);
     }
     await pause(700);
   });
