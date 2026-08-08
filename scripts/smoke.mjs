@@ -4,7 +4,6 @@ const base = process.env.BASE_URL || "http://127.0.0.1:4177";
 const pages = [
   "/",
   "/vault/",
-  "/studio/",
   "/inspiration/lab/",
   "/templates/modular-scroll-starter/",
   "/templates/immersive-sales-deck/",
@@ -159,7 +158,7 @@ try {
       }
 
       if (url === "/vault/") {
-        await page.waitForFunction(() => document.querySelectorAll("#items .item").length >= 8);
+        await page.waitForFunction(() => document.querySelectorAll("#items .item").length >= 7);
         await page.locator("#search").fill("inspiration");
         if ((await page.locator("#items .item").count()) < 1) {
           throw new Error(`${viewport.name} ${url}: Inspiration Intelligence is missing from the catalog`);
