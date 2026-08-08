@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import "./check-no-ide.mjs";
 import { auditPaths, auditSources } from "./design-audit.mjs";
 import { checkAssetManifests } from "./check-assets.mjs";
 import { checkCatalogs } from "./check-catalogs.mjs";
@@ -61,6 +62,11 @@ for (const skill of skillFiles) {
   assert.ok(frontmatter, `Invalid skill frontmatter: ${path.relative(process.cwd(), skill)}`);
 }
 
+const primarySkill = fs.readFileSync(file("skills/aigent-design/SKILL.md"), "utf8");
+assert.ok(primarySkill.includes("Use automatically for requests to design"), "Primary skill must advertise automatic design routing.");
+assert.ok(primarySkill.includes("Do not make them memorize Aigent commands"), "Primary skill must keep specialist routing internal.");
+assert.ok(primarySkill.includes("Show me 2–3 designs you like"), "Primary skill must help steer users toward useful references.");
+
 assert.equal(VISUAL_DIMENSIONS.length, 12, "Vision critique must retain twelve explicit dimensions.");
 assert.equal(new Set(VISUAL_DIMENSIONS.map((item) => item.id)).size, VISUAL_DIMENSIONS.length, "Vision dimensions must be unique.");
 
@@ -91,22 +97,21 @@ assert.ok(resourceCatalog.resources.length >= 25, "Creative resource catalog is 
 
 const readme = fs.readFileSync(file("README.md"), "utf8");
 for (const contract of [
-  "Turn the coding agent you already use into a professional design studio",
+  "Turn Claude Code into a professional design team for your repo",
+  "npx github:wrg32786/aigent-design-system install",
   "SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → TASTE → RESOLVE → SEE → POLISH",
-  "aigent-design-skill",
+  "You do **not** need to know which Aigent skill to invoke",
+  "Show me 2–3 sites whose design you like",
   "Claude Code",
-  "Codex",
   "Aigent Taste",
   "Aigent Resolve",
   "Aigent Vision",
   "Design DNA",
-  "templates/immersive-sales-deck/",
-  "templates/threejs-product-stage/",
 ]) {
-  assert.ok(readme.includes(contract), `README is missing agent-native product contract: ${contract}`);
+  assert.ok(readme.includes(contract), `README is missing simple product contract: ${contract}`);
 }
-for (const retiredPitch of ["Install AIgent Desktop", "Download the Windows installer", "No terminal, GitHub knowledge", "Launch AIgent Studio and create my first project"]) {
-  assert.ok(!readme.includes(retiredPitch), `README still contains retired Desktop positioning: ${retiredPitch}`);
+for (const retiredPitch of ["Install AIgent Desktop", "Open AIgent Studio", "Download the Windows installer", "Launch AIgent Studio", "studio-core"]) {
+  assert.ok(!readme.includes(retiredPitch), `README still contains retired product positioning: ${retiredPitch}`);
 }
 
 const pages = [
@@ -129,4 +134,4 @@ for (const rule of ["a11y/html-lang", "responsive/viewport", "hierarchy/h1-count
   assert.ok(detectorProof.some((item) => item.rule === rule), `Design audit self-check missed ${rule}`);
 }
 
-console.log(`Aigent agent-native check passed: ${registry.items.length} registry items, ${skillFiles.length} skills, ${resourceCatalog.resources.length} creative resources, Taste, Resolve, Vision, Inspiration Intelligence, and browser QA.`);
+console.log(`Aigent agent-native check passed: ${registry.items.length} registry items, ${skillFiles.length} skills, ${resourceCatalog.resources.length} creative resources, one-command install, automatic routing, Taste, Resolve, Vision, Inspiration Intelligence, and browser QA.`);
