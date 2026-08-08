@@ -30,12 +30,14 @@ jobs:
       - run: npm run vision:check
       - run: npm run publish:check
       - run: npm run eval
-      - name: Exercise the agent-native install
+      - name: Exercise the one-command install
         run: |
           rm -rf /tmp/aigent-design-install /tmp/aigent-design-plan.json /tmp/aigent-inspiration /tmp/aigent-inspiration-plan.json
           node scripts/cli.mjs doctor
-          node scripts/cli.mjs add aigent-design-skill --target /tmp/aigent-design-install
+          node scripts/cli.mjs install --target /tmp/aigent-design-install
+          node scripts/cli.mjs install --target /tmp/aigent-design-install
           test -f /tmp/aigent-design-install/.claude/skills/aigent-design/SKILL.md
+          grep -q "Use automatically" /tmp/aigent-design-install/.claude/skills/aigent-design/SKILL.md
           node scripts/cli.mjs plan design-intelligence/example-brief.json --out /tmp/aigent-design-plan.json
           node scripts/cli.mjs inspire add inspiration/examples/editorial-reference.json --root /tmp/aigent-inspiration --id editorial --kind structured-reference --analysis inspiration/examples/editorial-reference.json
           node scripts/cli.mjs inspire add inspiration/examples/immersive-reference.json --root /tmp/aigent-inspiration --id immersive --kind structured-reference --analysis inspiration/examples/immersive-reference.json

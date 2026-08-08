@@ -16,11 +16,11 @@ The public `ds-*` API provides semantic roles, not a finished identity:
 
 The neutral starter demonstrates craft without becoming a second house style.
 
-### The AIgent preset
+### The Aigent preset
 
-The AIgent identity remains an included theme and compatibility layer. It is an established world, not the default answer for outside projects.
+The Aigent identity remains an included theme and compatibility layer. It is an established world, not the default answer for outside projects.
 
-## 2. The AIgent visual world
+## 2. The Aigent visual world
 
 **Creative north star:** an editorial command center at night.
 
@@ -165,7 +165,7 @@ Every reference-matrix assignment records:
 - target-product reason
 - required transformation
 - excluded source expression
-- mapped AIgent patterns
+- mapped Aigent patterns
 - mobile and reduced-motion implications
 
 The result must replace:
@@ -274,7 +274,7 @@ Use mature accessible primitives for standard interaction before inventing repla
 - restyle external components into the project's type, spacing, surface, icon, and state system
 - do not combine multiple libraries' default skins
 - record the source and current license
-- do not vendor restricted code through the AIgent registry
+- do not vendor restricted code through the Aigent registry
 
 The product-specific value comes from composition, content, media, interaction, and finish—not another custom button implementation.
 
@@ -363,7 +363,7 @@ Mechanical passage requires the configured score, error, and warning limits. Com
 
 ## 12. See the rendered result
 
-AIgent Vision must open both original and annotated desktop, tablet, mobile, and reduced-motion captures. The numbered overlay is evidence, not decoration: every visual finding should point to `E###` elements when the issue has an identifiable rendered owner.
+Aigent Vision must open both original and annotated desktop, tablet, mobile, and reduced-motion captures. The numbered overlay is evidence, not decoration: every visual finding should point to `E###` elements when the issue has an identifiable rendered owner.
 
 Review product clarity, hierarchy, composition, typography, color/material, motion/media, interaction, product specificity, originality, responsive quality, trust/usability, and finish. Do not replace this with a hidden taste score or infer it from DOM metrics.
 
@@ -372,27 +372,3 @@ A valid finding states the visible relationship, evidence, priority, repair, con
 ## 13. Reuse
 
 Extract only after the same intent appears in multiple real surfaces. Reuse existing tokens, modules, patterns, registry items, recipes, and skills before adding another layer. Keep inspiration evidence local unless the source and redistribution rights are explicitly clear.
-
-## Studio interface
-
-Studio is an Operate surface. The live preview is the dominant region; the brief and agent room are supporting rails. Controls stay dense, explicit, and keyboard reachable. The UI must not impersonate a canvas editor: it exposes real project state, real agent output, and real browser preview. Mobile stacks the brief, preview, and agent room rather than shrinking three desktop columns.
-
-## Studio Canvas design contract
-
-- The preview is the real website, not a design-only scene graph.
-- Selection overlays live outside the iframe and never ship with the project.
-- Every direct edit records a structured, reversible operation.
-- Responsive changes explicitly target base, tablet, or mobile.
-- Design tokens and shared components outrank arbitrary values.
-- Element comments remain unresolved authority until addressed or resolved.
-- Multi-user presence provides context; it does not overwrite product or design authority.
-- Distillation fixes the shared source owner instead of copying runtime overrides into production.
-- Resolve establishes the mechanical floor; Vision judges the rendered result.
-
-## Desktop setup design contract
-
-The installer and first-run wizard are calm Operate surfaces, not marketing pages. One decision owns each step: workspace, system check, agent, preferences, launch. The interface exposes the actual local state, never fabricates successful installation, keeps credentials out of browser forms, and makes repair and diagnostics first-class. Windows and macOS installer artwork uses the AIgent visual language without reducing setup clarity or native platform expectations.
-
-## Ship panel design contract
-
-Ship is a calm final-stage Operate surface. It shows one gate, one provider decision, one channel decision, one optional domain, and explicit completion checks. Deployment history must expose the real URL, provider, commit, QA result, and exact-artifact redeploy without presenting hosting complexity as visual decoration. A blocked Canvas journal is visible before the publish button, not after an avoidable failure.

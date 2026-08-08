@@ -1,39 +1,12 @@
-# AIgent Ship and Publish
+# Aigent Publish
 
-AIgent Ship is the final production stage for a Studio project:
-
-```text
-DISTILL → CHECKPOINT → EXPORT → PREFLIGHT → DEPLOY → VERIFY → RECORD
-```
-
-It turns the real project into a constrained static bundle, publishes it through an allowlisted provider adapter, verifies the live URL, and records enough information to redeploy an earlier approved build.
-
-## Studio workflow
-
-Open the **Ship** panel in AIgent Studio.
-
-1. Distill or clear every active Canvas operation.
-2. Choose Local export, Netlify, Vercel, or Cloudflare Pages.
-3. Choose Preview or Production.
-4. Set the provider project/site name.
-5. Keep browser verification enabled for production.
-6. Authenticate the provider through its official CLI when required.
-7. Publish.
-8. Open the live URL or redeploy an earlier recorded artifact.
-
-Studio creates a Git checkpoint before deployment. The published artifact is built under:
+Publishing is the final agent-run production stage:
 
 ```text
-.aigent/publish/exports/<deployment-id>/
+CHECKPOINT → EXPORT → PREFLIGHT → DEPLOY → VERIFY → RECORD
 ```
 
-Deployment history is stored locally in:
-
-```text
-.aigent/publish/state.json
-```
-
-These files are local operational state and should not be committed.
+It turns the real project into a constrained static bundle, publishes it through an allowlisted provider route, verifies the live URL when requested, and records enough information to redeploy an earlier approved build.
 
 ## CLI
 
@@ -86,11 +59,11 @@ node scripts/publish-site.mjs rollback \
   --deployment <deployment-id>
 ```
 
-The rollback command does not rewrite Git history. It creates a new provider deployment from the exact recorded export directory.
+Rollback creates a new provider deployment from an earlier recorded export. It does not rewrite Git history.
 
 ## Export boundary
 
-The exporter follows local HTML, CSS, JavaScript, media, font, and manifest references from the configured preview entry. It blocks project-control and credential-bearing areas such as:
+The exporter follows local HTML, CSS, JavaScript, media, font, and manifest references from the configured entry. It blocks project-control and credential-bearing areas such as:
 
 ```text
 .git
@@ -98,7 +71,6 @@ The exporter follows local HTML, CSS, JavaScript, media, font, and manifest refe
 .claude
 .codex
 node_modules
-desktop
 scripts
 skills
 docs
@@ -106,43 +78,40 @@ resolve
 vision
 ```
 
-It also refuses credential-shaped content and private-key material. Product, design, agent, registry, and local Studio metadata are not deployed merely because they exist in the project.
+It also refuses credential-shaped content and private-key material. Product, design, agent, registry, and local working metadata are not deployed merely because they exist in the project.
 
-For a nested starter entry, the exporter preserves the real directory structure and creates a root `index.html` with a relative `<base>` so the live domain opens at `/` without flattening the source.
+For a nested starter entry, the exporter preserves the real directory structure and creates a root `index.html` with a relative `<base>` when needed.
 
 ## Provider behavior
 
 | Provider | Preview | Production | Domain handling |
 | --- | --- | --- | --- |
 | Local export | clean bundle | clean bundle | external host owns it |
-| Netlify | anonymous claimable preview | authenticated deploy | connect in Netlify dashboard |
-| Vercel | linked preview | linked production | alias can be applied from AIgent |
+| Netlify | preview deploy | authenticated deploy | connect in Netlify dashboard |
+| Vercel | linked preview | linked production | alias can be applied from Aigent |
 | Cloudflare Pages | preview branch | production branch | connect in Cloudflare dashboard |
 
-The repository uses `npx` to run the current official CLIs instead of adding three hosting SDKs to the application. Netlify anonymous previews must be claimed within the provider's active claim window or they expire; use authenticated production mode for a durable site.
+The repository uses current official CLIs through `npx` instead of adding hosting SDKs to the project.
 
 ## Verification
 
-With `--verify`, Ship runs AIgent Resolve against the local Studio preview before deployment. A failing mechanical gate blocks the deploy. After the provider returns a live URL, Ship waits for the URL, runs Resolve again, and records the live report.
+With `--verify`, Aigent Resolve checks the local project before deployment and the live URL afterwards. A failing mechanical gate blocks a verified deploy.
 
-With `--vision`, Ship prepares AIgent Vision captures for the live URL. Vision still requires an image-capable agent or human review; preparing captures is not the same as passing the visual gate.
+With `--vision`, Aigent prepares Vision captures for the live URL. An image-capable agent or human still needs to inspect those captures; preparing them is not the same as passing visual review.
 
 ## Environment variables and secrets
 
-Static AIgent projects normally deploy without build-time secrets. Provider login happens in the official CLI or browser flow. AIgent Studio does not collect provider tokens, API keys, or secret environment-variable values.
+Static Aigent projects normally deploy without build-time secrets. Provider login happens in the provider's official CLI or browser flow. Aigent does not collect provider tokens, API keys, private keys, or secret environment-variable values.
 
-When a site later requires host-managed secrets, configure them in the provider dashboard. Keep only non-secret variable names and deployment notes in the project.
+When a site needs host-managed secrets, configure them in the provider dashboard or approved secret-management path. Keep only non-secret variable names and deployment notes in the project.
 
 ## Domains
 
-Vercel domain aliasing is supported directly when a custom domain is supplied. Netlify and Cloudflare domain ownership and DNS verification remain in their dashboards because those flows vary by account, DNS provider, and existing zone ownership.
+Vercel domain aliasing is supported directly when a custom domain is supplied. Netlify and Cloudflare ownership and DNS verification may remain in their dashboards because those flows vary by account, DNS provider, and existing zone ownership.
 
 ## Security
 
-- Publish requests are same-origin JSON requests to the localhost Studio server.
 - Provider names, modes, site names, domains, and deployment IDs are validated.
-- The server exposes no arbitrary publish command endpoint.
-- Canvas patches must be distilled or cleared before export or deploy.
-- Every deploy starts from a Git checkpoint.
-- Credentials remain in the provider CLI credential store.
+- Every deploy should identify the exact source state being shipped.
+- Credentials remain in the provider's official credential store.
 - Deployment records do not include tokens or provider credential files.

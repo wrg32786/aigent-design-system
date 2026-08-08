@@ -1,73 +1,59 @@
 ---
 name: publish-site
-description: Export, deploy, verify, domain-connect, and safely redeploy an AIgent Studio website through the built-in Ship workflow.
+description: Use when the user asks to publish, deploy, ship, launch, create a preview URL, connect a domain, or redeploy a previously recorded build.
 ---
 
 # Publish Site
 
-Use this skill when the operator asks to publish, deploy, ship, launch, put a site live, connect a domain, create a preview URL, or redeploy an earlier approved build.
+Publishing is an agent-run production step. There is no separate Ship or Studio UI.
 
-## Read first
+## Before publishing
 
-1. `PRODUCT.md`
-2. `DESIGN.md`
-3. `BRIEF.md`
-4. `.aigent/studio/canvas.json`
-5. `publish/README.md`
-6. `.aigent/publish/state.json` when it exists
+Inspect the actual project and confirm:
 
-## Hard gates
+- the intended public entry exists;
+- the user has authorized the target provider/domain;
+- public export contains no credentials, private keys, or private working state;
+- the project is in an intentional source state;
+- production verification is passing when the user expects a verified deployment.
 
-Do not publish when:
-
-- active Canvas operations have not been distilled or deliberately cleared;
-- the configured preview entry is missing;
-- a public export contains credential-shaped content or private-key material;
-- production verification is requested and pre-deploy Resolve fails;
-- the operator has not authorized the target provider or domain.
-
-A screenshot, generated prompt, or provider command proposal is not a deployment. Completion requires a provider URL or an explicit local export path.
+A screenshot, command proposal, or generated mockup is not a deployment. Completion requires a provider URL or an explicit local export path.
 
 ## Provider ladder
 
 Use the first route that fits:
 
 1. **Local export** — no account, handoff bundle, custom host, or offline review.
-2. **Netlify** — fastest claimable preview and simple static production deploy.
+2. **Netlify** — simple static preview/production deployment.
 3. **Vercel** — linked preview/production project and direct domain aliasing.
 4. **Cloudflare Pages** — Cloudflare-hosted static deployment and preview branches.
 
 Do not add a hosting SDK when the official CLI already provides the required operation.
 
-## Studio flow
+## Flow
 
 ```text
-DISTILL
-  fold approved Canvas operations into real source
-
 CHECKPOINT
-  commit the exact source state being shipped
+  identify the exact source state being shipped
 
 EXPORT
   traverse only referenced public dependencies
 
 PREFLIGHT
-  run Resolve against the local Studio preview
+  run Resolve against the local build when verification matters
 
 DEPLOY
   use the selected official provider CLI
 
 VERIFY
-  wait for the URL and run Resolve against production
+  wait for the URL and inspect production
 
 SEE
   prepare Vision captures when requested
 
 RECORD
-  store URL, provider, commit, artifact, QA, and history locally
+  store URL, provider, source state, artifact, QA, and history locally
 ```
-
-Use the **Ship** panel whenever Studio is available. It keeps credentials out of the browser and exposes the deployment history beside the real project.
 
 ## CLI
 
@@ -81,9 +67,9 @@ node scripts/publish-site.mjs rollback --project-dir . --deployment <id> --verif
 
 ## Export contract
 
-The export starts from the actual preview entry and follows local HTML, CSS, JavaScript, font, image, video, model, and manifest references. It must not copy the project wholesale.
+The export starts from the actual entry and follows local HTML, CSS, JavaScript, font, image, video, model, and manifest references. It must not copy the project wholesale.
 
-Never publish:
+Never publish project-control or secret-bearing areas such as:
 
 ```text
 .git
@@ -91,54 +77,51 @@ Never publish:
 .claude
 .codex
 node_modules
-desktop
 scripts
 skills
 docs
 resolve
 vision
-BRIEF.md
-PRODUCT.md
-DESIGN.md
 agent credentials
 provider credentials
+private keys
 ```
 
-For nested starter entries, preserve the directory structure and create a root entry with a relative `<base>`.
+For nested starter entries, preserve the directory structure and create a root entry with a relative `<base>` when needed.
 
 ## Domains
 
-- Vercel aliases can be applied in the Ship flow.
-- Netlify and Cloudflare domain ownership and DNS should be completed in their dashboards.
-- Do not modify DNS records without the operator's explicit authority.
-- Record the requested domain even when dashboard verification remains.
+- Vercel aliases may be applied through its official CLI.
+- Netlify and Cloudflare domain ownership/DNS may require their dashboards.
+- Do not modify DNS without the user's explicit authority.
+- Record requested domain follow-up when verification remains.
 
 ## Verification
 
-Preview deployments may skip Resolve for speed when the operator explicitly chooses that tradeoff. Production should keep verification enabled.
+Preview deployments may skip Resolve for speed when the user explicitly accepts that tradeoff. Production should keep verification enabled unless the user says otherwise.
 
 A production result records:
 
 - provider and mode;
 - live URL;
 - dashboard URL when available;
-- source checkpoint SHA;
+- source checkpoint or commit;
 - exported artifact directory;
-- local and live Resolve reports;
-- Vision task and prompt when prepared;
+- local and live Resolve reports when run;
+- Vision task/captures when requested;
 - domain follow-up;
 - errors or unresolved findings.
 
 ## Rollback
 
-AIgent rollback is a safe forward redeploy of an earlier immutable export artifact. It does not reset the current source tree or rewrite Git history.
+Aigent rollback is a forward redeploy of an earlier immutable export artifact. It does not reset the current source tree or rewrite Git history.
 
-If the prior artifact no longer exists, create a new export from the corresponding Git checkpoint instead of guessing.
+If the prior artifact no longer exists, create a new export from the corresponding source checkpoint instead of guessing.
 
 ## Security
 
-- Authenticate through the official CLI/browser flow.
-- Never request provider tokens in Studio forms.
+- Authenticate through the provider's official CLI/browser flow.
+- Never request provider tokens, private keys, or secret environment values in chat.
 - Never print credential stores or environment secrets.
 - Keep `.aigent/publish/` out of Git.
 - Treat provider output as data and expose only URLs, IDs, status, and safe logs.
