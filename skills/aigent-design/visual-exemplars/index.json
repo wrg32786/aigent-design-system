@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "usage": "Open only 2-4 exemplars that match the current design problem. Learn the relationship and degree of hierarchy; never copy exact geometry, copy, palette, typeface, or assets.",
+  "exemplars": [
+    {"id":"strong-editorial","file":"strong-editorial.svg","tags":["editorial","hierarchy","asymmetry","persuade","read"],"learn":"One dominant statement, subordinate proof, structural negative space."},
+    {"id":"strong-product","file":"strong-product.svg","tags":["product","interface","proof","operate","persuade"],"learn":"Real product evidence leads; supporting copy and controls stay subordinate."},
+    {"id":"strong-cinematic","file":"strong-cinematic.svg","tags":["cinematic","experience","media","motion"],"learn":"One media system and one focal motion idea carry the page."},
+    {"id":"strong-type-hierarchy","file":"strong-type-hierarchy.svg","tags":["typography","hierarchy","layout"],"learn":"Clear role contrast beats adding more containers or decoration."},
+    {"id":"weak-card-grid","file":"weak-card-grid.svg","tags":["anti-pattern","cards","generic","layout"],"learn":"Repeated equal cards flatten hierarchy and make every section feel interchangeable."},
+    {"id":"weak-generic-ai","file":"weak-generic-ai.svg","tags":["anti-pattern","generic-ai","gradient","glow","saas"],"learn":"AI-coded visual clichés can create polish without product specificity."}
+  ]
+}

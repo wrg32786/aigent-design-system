@@ -1,8 +1,8 @@
 {
   "name": "aigent-design-system",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": false,
-  "description": "Agent-native design operating system for Claude Code, Codex, and capable coding agents: design intelligence, creative production, browser QA, Taste, Resolve, and Vision.",
+  "description": "Agent-native design operating system for Claude Code and capable coding agents: art direction, visual exemplars, design intelligence, creative production, Taste, Resolve, and Vision.",
   "type": "module",
   "bin": {
     "aigent-design": "scripts/cli.mjs"
@@ -38,6 +38,7 @@
     "claude-code",
     "codex",
     "design-system",
+    "art-direction",
     "design-intelligence",
     "visual-critique",
     "vision-review",

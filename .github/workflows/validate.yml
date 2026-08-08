@@ -37,7 +37,11 @@ jobs:
           node scripts/cli.mjs install --target /tmp/aigent-design-install
           node scripts/cli.mjs install --target /tmp/aigent-design-install
           test -f /tmp/aigent-design-install/.claude/skills/aigent-design/SKILL.md
+          test -f /tmp/aigent-design-install/.claude/skills/aigent-design/visual-exemplars/index.json
+          test -f /tmp/aigent-design-install/.claude/skills/aigent-design/visual-exemplars/strong-editorial.svg
+          test -f /tmp/aigent-design-install/.claude/skills/aigent-design/visual-exemplars/weak-generic-ai.svg
           grep -q "Use automatically" /tmp/aigent-design-install/.claude/skills/aigent-design/SKILL.md
+          grep -q "design-direction.md" /tmp/aigent-design-install/.claude/skills/aigent-design/SKILL.md
           node scripts/cli.mjs plan design-intelligence/example-brief.json --out /tmp/aigent-design-plan.json
           node scripts/cli.mjs inspire add inspiration/examples/editorial-reference.json --root /tmp/aigent-inspiration --id editorial --kind structured-reference --analysis inspiration/examples/editorial-reference.json
           node scripts/cli.mjs inspire add inspiration/examples/immersive-reference.json --root /tmp/aigent-inspiration --id immersive --kind structured-reference --analysis inspiration/examples/immersive-reference.json

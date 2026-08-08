@@ -79,6 +79,14 @@ function destinationFor(file, targetRoot) {
   return destination;
 }
 
+function filesUnder(root) {
+  if (!fs.existsSync(root)) return [];
+  return fs.readdirSync(root, { withFileTypes: true }).flatMap((entry) => {
+    const full = path.join(root, entry.name);
+    return entry.isDirectory() ? filesUnder(full) : [full];
+  });
+}
+
 function list(registry) {
   const width = Math.max(...registry.items.map((item) => item.name.length));
   for (const item of registry.items) console.log(`${item.name.padEnd(width)}  ${item.description}`);
@@ -118,6 +126,15 @@ function add(registry, name, args, { friendly = false } = {}) {
         throw new Error(`Registry items target the same file from different sources: ${file.target}`);
       }
       byDestination.set(destination, { item: item.name, file, source, destination });
+    }
+  }
+
+  if (friendly && name === defaultInstall) {
+    const sourceRoot = path.join(packageRoot, "skills", "aigent-design", "visual-exemplars");
+    for (const source of filesUnder(sourceRoot)) {
+      const relative = path.relative(sourceRoot, source);
+      const destination = path.join(target, ".claude", "skills", "aigent-design", "visual-exemplars", relative);
+      byDestination.set(destination, { item: defaultInstall, file: { path: relative }, source, destination });
     }
   }
 

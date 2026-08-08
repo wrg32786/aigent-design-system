@@ -20,6 +20,10 @@ const required = [
   "skills/aigent-design/reference/type.md", "skills/aigent-design/reference/color.md", "skills/aigent-design/reference/motion.md",
   "skills/aigent-design/reference/media.md", "skills/aigent-design/reference/interface.md", "skills/aigent-design/reference/deck.md",
   "skills/aigent-design/reference/craft-floor.md", "skills/aigent-design/reference/resolve.md", "skills/aigent-design/reference/vision.md",
+  "skills/aigent-design/visual-exemplars/index.json", "skills/aigent-design/visual-exemplars/strong-editorial.svg",
+  "skills/aigent-design/visual-exemplars/strong-product.svg", "skills/aigent-design/visual-exemplars/strong-cinematic.svg",
+  "skills/aigent-design/visual-exemplars/strong-type-hierarchy.svg", "skills/aigent-design/visual-exemplars/weak-card-grid.svg",
+  "skills/aigent-design/visual-exemplars/weak-generic-ai.svg",
   "design-intelligence/README.md", "design-intelligence/brief.schema.json", "design-intelligence/layouts.json",
   "design-intelligence/type-systems.json", "design-intelligence/motion-systems.json", "design-intelligence/interface-systems.json",
   "inspiration/README.md", "inspiration/schemas/design-dna.schema.json", "inspiration/schemas/reference-matrix.schema.json",
@@ -39,6 +43,7 @@ const missing = required.filter((relativePath) => !fs.existsSync(file(relativePa
 assert.deepEqual(missing, [], `Missing required agent-native files:\n${missing.join("\n")}`);
 
 const packageJson = JSON.parse(fs.readFileSync(file("package.json"), "utf8"));
+assert.equal(packageJson.version, "1.4.0", "Expected Aigent 1.4.0 release version.");
 assert.equal(packageJson.bin?.["aigent-design"], "scripts/cli.mjs", "Missing Aigent CLI bin.");
 for (const script of ["serve", "plan", "inspire", "resolve", "resolve:check", "vision", "vision:check", "audit", "taste", "taste:check", "assets", "catalogs", "intelligence", "inspiration", "registry", "eval", "score", "check", "smoke", "inspiration:smoke", "capture", "publish", "publish:check"]) {
   assert.equal(typeof packageJson.scripts?.[script], "string", `Missing package script: ${script}`);
@@ -63,9 +68,24 @@ for (const skill of skillFiles) {
 }
 
 const primarySkill = fs.readFileSync(file("skills/aigent-design/SKILL.md"), "utf8");
-assert.ok(primarySkill.includes("Use automatically for requests to design"), "Primary skill must advertise automatic design routing.");
-assert.ok(primarySkill.includes("Do not make them memorize Aigent commands"), "Primary skill must keep specialist routing internal.");
-assert.ok(primarySkill.includes("Show me 2–3 designs you like"), "Primary skill must help steer users toward useful references.");
+for (const contract of [
+  "Use automatically for requests to design",
+  "Do not make them memorize Aigent commands",
+  "Show me 2–3 designs you like",
+  "Variance",
+  "Motion",
+  "Density",
+  ".aigent/design-direction.md",
+  "visual-exemplars/index.json",
+  "Preservation contract",
+]) assert.ok(primarySkill.includes(contract), `Primary skill is missing art-direction contract: ${contract}`);
+
+const exemplars = JSON.parse(fs.readFileSync(file("skills/aigent-design/visual-exemplars/index.json"), "utf8"));
+assert.ok(exemplars.exemplars.length >= 6, "Visual exemplar library is unexpectedly small.");
+assert.equal(new Set(exemplars.exemplars.map((item) => item.id)).size, exemplars.exemplars.length, "Visual exemplar IDs must be unique.");
+for (const exemplar of exemplars.exemplars) {
+  assert.ok(fs.existsSync(file(`skills/aigent-design/visual-exemplars/${exemplar.file}`)), `Missing visual exemplar: ${exemplar.file}`);
+}
 
 assert.equal(VISUAL_DIMENSIONS.length, 12, "Vision critique must retain twelve explicit dimensions.");
 assert.equal(new Set(VISUAL_DIMENSIONS.map((item) => item.id)).size, VISUAL_DIMENSIONS.length, "Vision dimensions must be unique.");
@@ -99,17 +119,16 @@ const readme = fs.readFileSync(file("README.md"), "utf8");
 for (const contract of [
   "Turn Claude Code into a professional design team for your repo",
   "npx github:wrg32786/aigent-design-system install",
-  "SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → TASTE → RESOLVE → SEE → POLISH",
   "You do **not** need to know which Aigent skill to invoke",
-  "Show me 2–3 sites whose design you like",
-  "Claude Code",
+  "VARIANCE",
+  "MOTION",
+  "DENSITY",
+  ".aigent/design-direction.md",
+  "visual calibration",
   "Aigent Taste",
   "Aigent Resolve",
   "Aigent Vision",
-  "Design DNA",
-]) {
-  assert.ok(readme.includes(contract), `README is missing simple product contract: ${contract}`);
-}
+]) assert.ok(readme.includes(contract), `README is missing simple product contract: ${contract}`);
 for (const retiredPitch of ["Install AIgent Desktop", "Open AIgent Studio", "Download the Windows installer", "Launch AIgent Studio", "studio-core"]) {
   assert.ok(!readme.includes(retiredPitch), `README still contains retired product positioning: ${retiredPitch}`);
 }
@@ -134,4 +153,4 @@ for (const rule of ["a11y/html-lang", "responsive/viewport", "hierarchy/h1-count
   assert.ok(detectorProof.some((item) => item.rule === rule), `Design audit self-check missed ${rule}`);
 }
 
-console.log(`Aigent agent-native check passed: ${registry.items.length} registry items, ${skillFiles.length} skills, ${resourceCatalog.resources.length} creative resources, one-command install, automatic routing, Taste, Resolve, Vision, Inspiration Intelligence, and browser QA.`);
+console.log(`Aigent 1.4 check passed: ${exemplars.exemplars.length} visual exemplars, persistent art direction, preservation contract, ${registry.items.length} registry items, ${skillFiles.length} skills, Taste, Resolve, Vision, and browser QA.`);
