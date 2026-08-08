@@ -2,25 +2,20 @@
 
 **Turn Claude Code into a professional design team for your repo.**
 
-Aigent installs a design operating system into an existing project. Claude stays the interface. You describe what you want in normal language; Aigent gives Claude the design judgment, specialist skills, production routes, browser QA, and visual-review loop to build it well.
+Install Aigent into a project, open Claude Code, and talk normally. Aigent gives Claude the design judgment, visual references, specialist skills, production routes, browser QA, and visual-review loop to design and build the real project.
 
-No separate Aigent app. No new IDE. No Aigent account.
+No separate app. No new IDE. No Aigent account.
 
 ## Install
 
-Open a terminal in the repo you want to design and run:
+From the repo you want to design:
 
 ```bash
 npx github:wrg32786/aigent-design-system install
-```
-
-Then start Claude Code in that repo:
-
-```bash
 claude
 ```
 
-And talk normally:
+Then say:
 
 ```text
 Use Aigent to help me redesign this site.
@@ -28,124 +23,117 @@ Use Aigent to help me redesign this site.
 
 That is the normal workflow.
 
-## What changes after install?
+## What Claude becomes
 
-Claude can use Aigent as a design team rather than only as a coding assistant.
+After install, Claude can act more like a small design team than a coding assistant. It can:
 
-It can:
-
-- understand the product, audience, content, and desired outcome
-- ask for references or examples when they would materially improve the direction
-- develop multiple visual directions before committing to a large redesign
-- synthesize inspiration without copying source sites
+- help shape a vague brief instead of blindly generating a page
+- ask for designs you like when references would help
+- develop distinct visual directions and recommend one
+- calibrate how **unconventional, animated, and dense** the design should be
+- use a small visual exemplar library to improve hierarchy and avoid common AI-design defaults
+- persist the approved visual world so later pages stay coherent
 - choose layout, typography, color, media, motion, and interaction systems
-- build websites, product interfaces, dashboards, decks, and immersive experiences
 - route image, video, 3D, GSAP, Spline, Three.js, Remotion, and HyperFrames work when justified
-- catch common AI-design defaults with Aigent Taste
-- inspect the real browser with Aigent Resolve
-- review rendered screenshots with Aigent Vision
-- repair the highest-value problems and polish before calling the work finished
+- build the real project and inspect it in the browser
+- run Aigent Taste, Resolve, and Vision before calling substantial work finished
+- improve one area without casually redesigning unrelated approved work
 
-You do **not** need to know which Aigent skill to invoke. The installed `aigent-design` skill is the router; Claude selects the specialist knowledge it needs from your request.
+You do **not** need to know which Aigent skill to invoke. The installed `aigent-design` skill routes the specialist knowledge internally.
 
 ## Example
 
-Imagine you have a basic SaaS site in a repo.
-
-You install Aigent, open Claude Code, and say:
+You have a basic SaaS site and say:
 
 ```text
-I want to turn this into a premium launch site.
-The product helps small businesses automate repetitive office work.
-I want it to feel sophisticated and useful, not like generic AI SaaS.
-Help me figure out the design before you build it.
+I want this to feel like a premium product launch.
+The product automates repetitive office work.
+I don't want generic AI SaaS design.
+Help me figure out the direction before you build it.
 ```
 
-Aigent should help steer the process. For example, Claude can ask:
+Claude can respond like a creative director:
 
 ```text
 A few things would materially improve the direction:
 
 1. Who is the primary buyer?
-2. Do you already have brand colors, type, or assets I should preserve?
-3. Show me 2–3 sites whose design you like, if you have them.
-4. Should this feel more editorial, cinematic, product-focused, or understated?
+2. What existing brand or product UI should I preserve?
+3. Show me 2–3 designs you like, if you have them.
+4. Should this feel more editorial, cinematic, product-focused, or restrained?
 ```
 
-Then it can propose distinct directions:
+Then it can offer alternatives:
 
 ```text
-Direction A — Editorial Precision
+A — Editorial Precision
 Large typography, restrained motion, strong proof hierarchy.
 
-Direction B — Cinematic Utility
-Full-bleed product moments, richer transitions, more immersive storytelling.
+B — Cinematic Utility
+Product demonstrations become the visual spine with richer transitions.
 
-Direction C — Product Confidence
-Cleaner application UI, interactive demonstrations, less decoration.
+C — Product Confidence
+Cleaner application UI, interactive proof, less atmosphere.
 
-I recommend B because the product benefits from showing automation in motion.
+I recommend B because this product becomes easier to understand when the automation is shown in motion.
 ```
 
-You can answer normally:
+You can simply say:
 
 ```text
-Go with B, but keep the typography from A.
+B, but keep the typography from A.
 ```
 
-Claude builds the real project, renders it, checks it, and iterates.
+Aigent records that direction in `.aigent/design-direction.md`, builds against it, renders the result, reviews it, and iterates.
 
-Then refinement is conversational:
+Later you can speak normally:
 
 ```text
 The hero still feels generic. Make it bolder.
 
-Use these three sites as inspiration, but do not copy them.
+Calm the animation down a little.
+
+Use these sites as inspiration, but don't copy them.
 
 The mobile version feels cramped.
 
-Add one memorable interaction without making the site noisy.
-
-Run the full Aigent review and polish whatever still feels amateur.
+Polish the whole thing without changing the sections that already work.
 ```
 
-## How Aigent thinks
+## How Aigent works
 
-For substantial work, the default loop is:
+For substantial work the default loop is:
 
 ```text
-SHAPE → INSPIRE → SYNTHESIZE → PRODUCE → BUILD → TASTE → RESOLVE → SEE → POLISH
+SHAPE → INSPIRE → DIRECT → BUILD → TASTE → RESOLVE → SEE → POLISH
 ```
 
-**Shape** understands the product and goal.  
-**Inspire** studies useful references.  
-**Synthesize** creates an original direction.  
-**Produce** chooses or creates the right media.  
-**Build** implements the real project.  
-**Taste** catches common generated-design smells.  
-**Resolve** measures the actual browser.  
-**See** reviews rendered screenshots.  
-**Polish** fixes the most important remaining issues.
+Aigent keeps three lightweight creative controls behind the scenes:
+
+```text
+VARIANCE  how conventional ↔ unconventional
+MOTION    how static ↔ motion-led
+DENSITY   how sparse ↔ information-dense
+```
+
+It also ships a small visual calibration set for hierarchy, product proof, cinematic coherence, typography, and common generated-design failure modes. Those examples are used as **visual principles, not templates**.
+
+Once you approve a direction, Aigent persists the visual world, typography, palette/material, motion thesis, media strategy, things to preserve, and things to avoid. Scoped edits use a preservation contract so improving the hero does not accidentally redesign the footer.
 
 The first successful render is not considered finished.
 
 ## What it can build
 
-Aigent includes systems and examples for:
-
-- cinematic landing pages and product stories
+- landing pages and product stories
+- dashboards, editors, and product interfaces
 - immersive sales, sponsorship, and launch decks
-- dashboards, editors, command centers, and product interfaces
+- editorial media experiences
 - interactive 3D product stages
-- pinned video narratives
-- Spline and GSAP experiences
-- editorial media and asset galleries
+- video-led and scroll-driven experiences
 
-The templates are starting points, not a house style. The product, brand, references, and user constraints should determine the visual world.
+The templates and exemplars are starting evidence, not a house style. The product, brand, references, and user constraints determine the visual world.
 
 ## What is inside
-
-The main `aigent-design` skill routes to the systems it needs, including:
 
 - **Design Intelligence** — layout, typography, motion, interface, and component guidance
 - **Inspiration Intelligence** — reference forensics, Design DNA, synthesis, and originality checks
@@ -155,27 +143,25 @@ The main `aigent-design` skill routes to the systems it needs, including:
 - **Aigent Vision** — rendered visual critique
 - **Publishing** — constrained export and deployment guidance
 
-Advanced users can still invoke specialist commands directly, but normal users should not need to.
-
-## Existing project or new project?
+## Existing or new repo?
 
 Both.
 
-For an existing repo, install Aigent in the project root and ask Claude to redesign or improve the existing implementation.
+For an existing project, install Aigent in the project root and ask Claude to improve or redesign what is there.
 
-For a new project, create or clone the repo first, install Aigent, then ask Claude to establish the product brief and visual direction before implementation.
+For a new project, create the repo first, install Aigent, and ask Claude to establish the brief and visual direction before implementation.
 
-This works equally well in a local checkout or a cloud development environment as long as Claude Code can read and edit the repo.
+Local checkouts and cloud development environments both work as long as Claude Code can read and edit the repo.
 
 ## Update Aigent
 
-Run the same install command again:
+Run the same command again:
 
 ```bash
 npx github:wrg32786/aigent-design-system install
 ```
 
-Unchanged files are left alone. Aigent will not silently overwrite conflicting project files; use `--force` only when you intentionally want to replace installed Aigent files.
+Unchanged Aigent files are left alone. Conflicting project files are not silently overwritten; use `--force` only when you intentionally want to replace installed Aigent files.
 
 ## For contributors
 
@@ -190,19 +176,6 @@ npm run vision:check
 npm run publish:check
 npm run eval
 ```
-
-## Principles
-
-1. The user's product truth and constraints outrank generic taste advice.
-2. Design before decorating.
-3. Explore meaningful alternatives before large greenfield commitments.
-4. Use references as evidence, not templates.
-5. Mobile is recomposed, not merely shrunk.
-6. Advanced media must earn its complexity.
-7. The browser is ground truth.
-8. First render is not final.
-9. Fix root causes rather than stacking patches.
-10. Keep Aigent inside the coding workflow the user already has.
 
 ## License
 
