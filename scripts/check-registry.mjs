@@ -111,8 +111,13 @@ export function checkRegistry(root = process.cwd()) {
   for (const name of names) visit(name);
 
   for (const required of [
-    "studio-core", "aigent-design-skill", "design-intelligence", "inspiration-intelligence", "design-resolver", "vision-critic",
-    "immersive-sales-deck", "command-center-interface", "threejs-product-stage", "full-studio",
+    "aigent-design-skill",
+    "design-intelligence",
+    "inspiration-intelligence",
+    "creative-production",
+    "design-resolver",
+    "vision-critic",
+    "publish-site",
   ]) {
     if (!names.has(required)) findings.push({ severity: "error", message: `Missing required registry item: ${required}` });
   }
