@@ -1,31 +1,16 @@
-# Canvas
+# Browser iteration
 
-Use this reference when work originates in AIgent Studio's DOM-backed visual canvas.
+This filename is retained for registry compatibility. The former Aigent Studio Canvas product has been removed.
 
-## Source of truth
+For visual iteration, edit the real project source and treat the rendered browser as ground truth:
 
-The real project source remains authoritative. `.aigent/studio/canvas.json` is a reversible operator-intent layer applied to the rendered DOM.
+1. identify the smallest shared source owner for the requested change;
+2. edit source directly rather than layering runtime patches;
+3. preserve semantic structure, accessibility, and responsive intent;
+4. render the real page;
+5. inspect the changed viewport and relevant responsive states;
+6. run Taste when the edit changes visible design language;
+7. use Resolve for mechanical browser issues and Vision for visual judgment;
+8. fix root causes rather than accumulating one-off overrides.
 
-## Direct edits
-
-- preserve selected element identity and semantic role;
-- use base, tablet, and mobile overrides intentionally;
-- treat multi-selection as one coherent edit group;
-- prefer tokens and shared layout primitives over one-off values;
-- use project components for genuinely repeated sections;
-- keep inline text, attributes, and accessibility labels synchronized.
-
-## Distillation
-
-When asked to distill the Canvas journal:
-
-1. map every operation to its shared source owner;
-2. fold repeated values into tokens or component rules;
-3. preserve breakpoint behavior;
-4. remove accidental overrides rather than copying them blindly;
-5. verify the real rendered result;
-6. leave the journal intact for operator comparison.
-
-## Collaboration
-
-Element comments are unresolved operator authority. Presence and remote selections provide context, not design authority. Checkpoints are local review states and must remain reversible.
+Do not create a parallel scene graph, patch journal, Canvas state file, or visual-editor source of truth.
