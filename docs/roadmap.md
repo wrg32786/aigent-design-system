@@ -1,43 +1,37 @@
 # Roadmap
 
-## 0.4 — AIgent Resolve
-
-- ranked render, repair, rerender, and review loop
-- desktop, tablet, mobile, zoom, and reduced-motion evidence
-- runtime, focus, touch-target, contrast, overflow, clipping, and media checks
-- design-lock preservation rules
-- run comparison and configurable mechanical gate
-- installable resolver skill and registry item
-- rendered resolver proof in CI
-- branded public README
-
 ## Shipped foundations
 
-- 0.3 Inspiration Intelligence: URL and file forensics, Design DNA, multi-source synthesis, influence ledgers, originality safeguards, and InspirationBench
-- 0.2 Installable design intelligence: registry, planner, complete reference systems, patterns, Design Vault, and fixed evals
-- 0.1 Neutral design and creative production: semantic tokens, motion core, cinematic templates, asset pipelines, provenance, and browser QA
+- Inspiration Intelligence: URL and file forensics, Design DNA, multi-source synthesis, influence ledgers, originality safeguards, and InspirationBench
+- Design Intelligence: registry, planner, layout/type/motion/interface systems, patterns, Design Vault, and fixed evals
+- Creative Production: media, video, 3D, Spline, Three.js, GSAP, Remotion, HyperFrames, asset budgets, and provenance guidance
+- Aigent Taste: deterministic generated-design smell checks
+- Aigent Resolve: ranked render, repair, rerender, multi-viewport browser evidence, and mechanical completion gates
+- Aigent Vision: annotated rendered captures and structured visual judgment
+- Agent-native pivot: one primary Aigent skill, no separate Desktop/Studio product, and a one-command project install
 
 ## Next
 
-- publish the Design Vault and Inspiration Lab as first-class routes on The AIgent Tools
-- publish comparative no-skill, raw-reference, Impeccable, Taste, and AIgent evals
-- add visual-regression baselines for the canonical systems
-- add approximately 20 high-value complete interface and immersive systems without becoming a generic component dump
-- add optional motion-review integration guidance for specialist microinteraction skills
+- prove the simple install path across clean local and cloud development repos
+- make the Claude Code path exceptionally clear before broadening provider adapters
+- add a small set of real before/after case studies showing Aigent from vague brief to finished result
+- publish comparative no-skill, Impeccable, Taste, UI/UX Pro-style, and Aigent evals where the comparison can be made fairly
+- add visual-regression baselines for canonical systems
+- add high-value complete interface and immersive systems only when proven by real projects
 - add an owned model-viewer reference with an optimized GLB
 - add a complete Remotion composition and rendered outputs
 - add an owned Spline scene with loading and failure proof
-- submit a stable namespace to the public shadcn registry directory after production use
+- submit a stable namespace to public registry directories after production use
 
 ## Later
 
+- thin provider adapters for additional coding agents without forking Aigent Core
 - optional local SigLIP and DINOv2 retrieval adapters for large reference libraries
 - diversity-aware reference recommendation
-- Figma and Penpot direction-board round trips
-- public built-with-the-system gallery
-- additional framework adapters proven by real projects
+- Figma and Penpot direction-board round trips when they improve the agent workflow rather than recreating an IDE
+- public built-with-Aigent gallery
 - automated WebGL performance tiers and context-loss verification
 
-## Shipped: one-click publishing
+## Product rule
 
-AIgent Studio now includes a final Ship stage with constrained static export, Netlify/Vercel/Cloudflare Pages adapters, local export, pre-publish checkpointing, Resolve verification, Vision preparation, deployment history, domain follow-up, and exact-artifact redeploy.
+Do not rebuild an IDE, project manager, authentication shell, or visual editor around Aigent. The coding agent is the interface. Aigent should invest in design judgment, production knowledge, browser evidence, visual critique, and an installation path simple enough that users actually reach those capabilities.
