@@ -1,5 +1,33 @@
 # Changelog
 
+## 1.4.0 — Aigent Art Direction
+
+### Added
+
+- small installed visual exemplar library for hierarchy, product proof, cinematic coherence, typography, and common generated-design failure modes
+- internal Variance, Motion, and Density controls so expression adapts to the product instead of converging on one house style
+- persistent `.aigent/design-direction.md` contract after the user approves a visual direction
+- preservation contract for scoped iterations so targeted improvements do not casually redesign unrelated approved work
+
+### Changed
+
+- the primary Aigent skill now treats visual examples as calibration rather than templates
+- later pages and large revisions read the approved design direction before designing
+- plain-language requests such as “make it wilder,” “calm the motion down,” and “show me more at once” map to creative controls
+- one-command install now ships the visual exemplar library and remains idempotent
+- README is shorter and explains the design-team workflow through one concrete example
+- package version is now `1.4.0`
+
+## 1.3.0 — Agent-native Aigent
+
+### Changed
+
+- retired the Desktop/Studio product direction and removed the Electron application, visual IDE, installer, provider-auth shell, and associated release pipeline
+- centered Aigent on the coding agent the user already has: install into a repo, open Claude Code, and speak normally
+- added a one-command `npx github:wrg32786/aigent-design-system install` path
+- made the `aigent-design` skill the proactive router for design direction, specialist skills, production, Taste, Resolve, Vision, and publishing
+- simplified the repository, product docs, landing page, CI, and README around the agent-native workflow
+
 ## 1.2.0 — AIgent Ship
 
 ### Added
