@@ -8,6 +8,7 @@ const registryPath = process.env.AIGENT_REGISTRY_PATH
   ? path.resolve(process.env.AIGENT_REGISTRY_PATH)
   : path.join(packageRoot, "registry.json");
 const repositoryPrefix = "wrg32786/aigent-design-system/";
+const defaultInstall = "aigent-design-skill";
 
 function fail(message) {
   console.error(message);
@@ -80,17 +81,13 @@ function destinationFor(file, targetRoot) {
 
 function list(registry) {
   const width = Math.max(...registry.items.map((item) => item.name.length));
-  for (const item of registry.items) {
-    console.log(`${item.name.padEnd(width)}  ${item.description}`);
-  }
+  for (const item of registry.items) console.log(`${item.name.padEnd(width)}  ${item.description}`);
 }
 
 function resolveItems(registry, name, stack = [], resolved = []) {
   const item = registry.items.find((candidate) => candidate.name === name);
   if (!item) throw new Error(`Unknown item: ${name}. Run "aigent-design list".`);
-  if (stack.includes(name)) {
-    throw new Error(`Registry dependency cycle: ${[...stack, name].join(" -> ")}`);
-  }
+  if (stack.includes(name)) throw new Error(`Registry dependency cycle: ${[...stack, name].join(" -> ")}`);
   if (resolved.some((candidate) => candidate.name === name)) return resolved;
 
   for (const dependency of item.registryDependencies || []) {
@@ -100,7 +97,11 @@ function resolveItems(registry, name, stack = [], resolved = []) {
   return resolved;
 }
 
-function add(registry, name, args) {
+function sameFile(source, destination) {
+  return fs.existsSync(destination) && fs.readFileSync(source).equals(fs.readFileSync(destination));
+}
+
+function add(registry, name, args, { friendly = false } = {}) {
   const items = resolveItems(registry, name);
   const { force, dryRun, target } = flags(args);
   const byDestination = new Map();
@@ -116,31 +117,45 @@ function add(registry, name, args) {
       if (existing && existing.source !== source) {
         throw new Error(`Registry items target the same file from different sources: ${file.target}`);
       }
-      byDestination.set(destination, {
-        item: item.name,
-        file,
-        source,
-        destination,
-        exists: fs.existsSync(destination),
-      });
+      byDestination.set(destination, { item: item.name, file, source, destination });
     }
   }
 
-  const operations = [...byDestination.values()];
-  const conflicts = operations.filter((operation) => operation.exists && !force);
+  const operations = [...byDestination.values()].map((operation) => ({
+    ...operation,
+    exists: fs.existsSync(operation.destination),
+    identical: sameFile(operation.source, operation.destination),
+  }));
+  const conflicts = operations.filter((operation) => operation.exists && !operation.identical && !force);
   if (conflicts.length) {
     const files = conflicts.map((operation) => path.relative(target, operation.destination)).join("\n- ");
-    throw new Error(`Refusing to overwrite existing files without --force:\n- ${files}`);
+    throw new Error(`Aigent found existing project files it will not overwrite. Re-run with --force only if you want to replace them:\n- ${files}`);
   }
 
-  console.log(`${dryRun ? "Would install" : "Installing"} ${name} with ${items.length - 1} dependencies into ${target}`);
+  if (friendly) console.log(`Installing Aigent into ${target}`);
+  else console.log(`${dryRun ? "Would install" : "Installing"} ${name} with ${items.length - 1} dependencies into ${target}`);
+
+  let changed = 0;
   for (const operation of operations) {
-    console.log(`  ${operation.exists ? "replace" : "create"} ${path.relative(target, operation.destination)}`);
+    const relative = path.relative(target, operation.destination);
+    if (operation.identical) {
+      if (!friendly) console.log(`  keep    ${relative}`);
+      continue;
+    }
+    changed += 1;
+    if (!friendly) console.log(`  ${operation.exists ? "replace" : "create"} ${relative}`);
     if (dryRun) continue;
     fs.mkdirSync(path.dirname(operation.destination), { recursive: true });
     fs.copyFileSync(operation.source, operation.destination);
   }
-  if (!dryRun) console.log(`Installed ${operations.length} files.`);
+
+  if (dryRun) return;
+  if (friendly) {
+    console.log(changed ? `✓ Aigent installed (${changed} files updated).` : "✓ Aigent is already installed and up to date.");
+    console.log("\nNext:\n  1. Open Claude Code in this repo: claude\n  2. Say: \"Use Aigent to help me design this.\"\n\nYou do not need to memorize Aigent commands. Claude routes the design skills for you.");
+  } else {
+    console.log(`Installed ${changed} changed files.`);
+  }
 }
 
 function doctor(registry) {
@@ -156,7 +171,7 @@ function doctor(registry) {
     process.exitCode = 1;
     return;
   }
-  console.log(`AIgent Design doctor passed: ${registry.items.length} installable items, Node ${process.versions.node}.`);
+  console.log(`Aigent doctor passed: ${registry.items.length} installable items, Node ${process.versions.node}.`);
 }
 
 async function plan(args) {
@@ -173,9 +188,7 @@ async function plan(args) {
     fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
     fs.writeFileSync(path.resolve(out), text);
     console.log(`Wrote ${out}`);
-  } else {
-    process.stdout.write(text);
-  }
+  } else process.stdout.write(text);
 }
 
 async function inspire(args) {
@@ -193,45 +206,30 @@ async function vision(args) {
   await runVision(args);
 }
 
-async function studio(args) {
-  const { runStudio } = await import(pathToFileURL(path.join(packageRoot, "scripts/studio-server.mjs")));
-  await runStudio(args);
-}
-
 async function publish(args) {
   const { runPublish } = await import(pathToFileURL(path.join(packageRoot, "scripts/publish-site.mjs")));
   await runPublish(args);
 }
 
 function help() {
-  console.log(`AIgent Design\n\nCommands:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  resolve [--target dir] [--url url] [--init] [--no-fail]\n  vision <prepare|check|finalize> ...\n  studio [--port 4180] [--root dir] [--open]\n  publish <export|auth|deploy|rollback|status> ...\n  doctor\n`);
+  console.log(`Aigent\n\nQuick start:\n  install [--target dir] [--force]\n\nAdvanced:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  resolve [--target dir] [--url url] [--init] [--no-fail]\n  vision <prepare|check|finalize> ...\n  publish <export|auth|deploy|rollback|status> ...\n  doctor\n`);
 }
 
 try {
   const registry = readRegistry();
   const [command = "help", ...args] = process.argv.slice(2);
-  if (command === "list") {
-    list(registry);
-  } else if (command === "add") {
+  if (command === "install") add(registry, defaultInstall, args, { friendly: true });
+  else if (command === "list") list(registry);
+  else if (command === "add") {
     if (!args[0]) throw new Error("Usage: aigent-design add <item> [--target dir] [--dry-run] [--force]");
     add(registry, args[0], args.slice(1));
-  } else if (command === "doctor") {
-    doctor(registry);
-  } else if (command === "plan") {
-    await plan(args);
-  } else if (command === "inspire") {
-    await inspire(args);
-  } else if (command === "resolve") {
-    await resolve(args);
-  } else if (command === "vision") {
-    await vision(args);
-  } else if (command === "studio") {
-    await studio(args);
-  } else if (command === "publish") {
-    await publish(args);
-  } else {
-    help();
-  }
+  } else if (command === "doctor") doctor(registry);
+  else if (command === "plan") await plan(args);
+  else if (command === "inspire") await inspire(args);
+  else if (command === "resolve") await resolve(args);
+  else if (command === "vision") await vision(args);
+  else if (command === "publish") await publish(args);
+  else help();
 } catch (error) {
   fail(error instanceof Error ? error.message : String(error));
 }
