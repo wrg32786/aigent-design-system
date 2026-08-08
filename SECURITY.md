@@ -28,22 +28,22 @@ Do not include live credentials, private screenshots, or personal data in the re
 
 `scripts/check-assets.mjs` checks common credential and signed-URL patterns, but it is not a replacement for secret scanning, privacy review, or authorization checks.
 
-## AIgent Studio
+## Agent-native boundary
 
-Studio binds to `127.0.0.1` and must not be exposed directly to a public network. It uses the operator's authenticated local Claude Code or Codex CLI; credentials are never requested by or returned to the browser. Project IDs, filesystem boundaries, hidden files, request sizes, JSON content types, and cross-origin writes are constrained. The selected agent can edit project files and run the explicitly configured local tools, so use Studio only in a trusted workspace.
+Aigent installs design knowledge and supporting tooling into a user's existing repository. It does not own Claude, Codex, hosting, or other provider credentials. Authentication stays in the official coding-agent or provider CLI the user already chose.
 
-## AIgent Studio 1.0 Canvas boundary
+The Aigent installer must not silently overwrite conflicting project files. Reinstallation may keep identical installed files; replacing conflicting files requires an explicit `--force` action.
 
-AIgent Studio remains bound to localhost by default. Canvas writes accept only allowlisted operation kinds, CSS properties, and attributes. Request bodies, identifiers, HTML component payloads, and values are bounded; reusable component HTML is stripped of scripts, embedded documents, and inline event handlers. Hidden/private project paths remain unavailable through preview routes.
+Coding agents can edit project files and run local tools with the authority granted by the user's environment. Install and use Aigent only in repositories and development environments the user trusts.
 
-Participant presence and comments use local server-sent events. They do not create an internet-facing collaboration service. Git checkpoints are local and Studio does not push project history to a remote repository without a separate explicit integration.
+## Inspiration and browser tooling
 
-## AIgent Desktop boundary
+Browser and inspiration tooling must respect project filesystem boundaries and normal network access controls. Do not use design forensics to bypass authentication, paywalls, signed URLs, robots/access controls, or private application boundaries.
 
-The Electron renderer runs with context isolation and sandboxing enabled, Node integration disabled, permission requests denied by default, and a narrow allowlisted preload API. Navigation outside the setup page and active localhost Studio origin is blocked; fixed documentation links open through the operating system.
+Captured references are working evidence, not public assets. Keep private screenshots, source captures, and customer material out of public commits unless the user explicitly owns and intends to publish them.
 
-Agent installation commands are fixed to the official `@anthropic-ai/claude-code` and `@openai/codex` packages. The renderer cannot submit arbitrary commands. Signing certificates, Apple notarization keys, passwords, and tokens belong only in GitHub Actions secrets and must never be committed. Diagnostic exports do not read API keys or agent credential stores. Uninstall and app-data reset deliberately preserve the selected Studio workspace unless the user deletes it separately.
+## Publishing and hosting credentials
 
-## Deployment and hosting credentials
+Aigent should use official provider CLI/browser authentication flows. Do not ask users to paste deployment tokens, API keys, private keys, certificates, or secret environment-variable values into prompts or committed files.
 
-AIgent Studio never accepts provider tokens or secret environment-variable values in the browser. Netlify, Vercel, and Cloudflare authentication run through their official CLI/browser flows. Publish routes accept only allowlisted providers and validated site, mode, domain, and deployment identifiers. The static exporter blocks project-control directories, credential files, private keys, and credential-shaped public content. Local deployment records contain URLs, IDs, commits, output paths, and QA status—not provider credentials.
+The static exporter blocks project-control directories, credential files, private keys, and credential-shaped public content. Local deployment records may contain URLs, IDs, commits, output paths, and QA status, but not provider credentials.
