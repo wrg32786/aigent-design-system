@@ -3,310 +3,69 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="The flagship agent-native design system for inspiration forensics, immersive websites, cinematic decks, product interfaces, media production, and browser QA." />
-  <title>AIgent Design System</title>
+  <meta name="description" content="Aigent turns Claude Code into a professional design team for your repo." />
+  <title>Aigent — Design team for Claude Code</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&family=Martian+Mono:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Martian+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="tokens/system.css" />
   <style>
-    html { scroll-behavior: smooth; }
-    body {
-      overflow-x: hidden;
-      background:
-        radial-gradient(circle at 74% 13%, rgb(var(--ds-accent-rgb) / .14), transparent 28rem),
-        radial-gradient(circle at 14% 62%, rgb(var(--ds-accent-2-rgb) / .08), transparent 30rem),
-        var(--ds-color-bg);
-    }
-    a { color: inherit; }
-
-    .progress {
-      position: fixed;
-      inset: 0 auto auto 0;
-      z-index: 50;
-      width: calc(var(--ds-scroll) * 100%);
-      height: 2px;
-      background: var(--ds-color-accent);
-    }
-
-    .topbar {
-      position: fixed;
-      z-index: 30;
-      top: 18px;
-      left: 50%;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 28px;
-      transform: translateX(-50%);
-      color: var(--ds-color-muted);
-      font: 600 .66rem/1.4 var(--ds-font-mono);
-      letter-spacing: .1em;
-      text-transform: uppercase;
-    }
-    .topbar a { color: var(--ds-color-accent); text-decoration: none; }
-
-    main { position: relative; z-index: 1; }
-    section { padding-block: 112px; }
-
-    .hero {
-      min-height: 100svh;
-      display: grid;
-      grid-template-columns: minmax(0, .82fr) minmax(260px, .3fr);
-      gap: clamp(48px, 8vw, 132px);
-      align-items: center;
-    }
-
-    h1, h2, h3 {
-      margin: 0;
-      font-family: var(--ds-font-display);
-      font-weight: 600;
-      letter-spacing: -.028em;
-      line-height: .9;
-      text-wrap: balance;
-    }
-    h1 { max-width: 9.6ch; font-size: clamp(5rem, 11.5vw, 11rem); }
-    h1 span { display: block; color: var(--ds-color-accent); }
-    h2 { max-width: 11ch; font-size: clamp(3.4rem, 7vw, 6.9rem); }
-    h3 { font-size: clamp(2rem, 4vw, 4rem); }
-
-    .lead {
-      max-width: 720px;
-      margin: 28px 0 0;
-      color: var(--ds-color-muted);
-      font: 520 var(--ds-size-lead)/1.56 var(--ds-font-body);
-    }
-
-    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
-
-    .hero-rail { align-self: end; margin-bottom: 8vh; border-top: 1px solid var(--ds-color-rule-strong); }
-    .hero-rail div { padding: 18px 0; border-bottom: 1px solid var(--ds-color-rule); }
-    .hero-rail strong { display: block; color: var(--ds-color-accent); font: 600 .64rem/1.4 var(--ds-font-mono); letter-spacing: .1em; text-transform: uppercase; }
-    .hero-rail span { display: block; margin-top: 7px; color: var(--ds-color-muted); font: 520 .9rem/1.45 var(--ds-font-body); }
-
-    .install-band {
-      display: grid;
-      grid-template-columns: minmax(0, .7fr) minmax(280px, .45fr);
-      gap: clamp(40px, 7vw, 100px);
-      align-items: end;
-      padding-block: 54px;
-      border-top: 1px solid var(--ds-color-accent);
-      border-bottom: 1px solid var(--ds-color-rule-strong);
-    }
-    .install-band code { color: var(--ds-color-text); font: 520 .78rem/1.75 var(--ds-font-mono); overflow-wrap: anywhere; }
-
-    .section-head {
-      display: grid;
-      grid-template-columns: minmax(0, .7fr) minmax(280px, .34fr);
-      gap: clamp(40px, 7vw, 104px);
-      align-items: end;
-      margin-bottom: 58px;
-    }
-    .section-head p { margin: 0; color: var(--ds-color-muted); font: 520 1.04rem/1.65 var(--ds-font-body); }
-
-    .systems { border-top: 1px solid var(--ds-color-rule-strong); }
-    .system {
-      display: grid;
-      grid-template-columns: 76px minmax(0, .54fr) minmax(240px, .36fr) auto;
-      gap: clamp(20px, 4vw, 54px);
-      align-items: center;
-      min-height: 210px;
-      padding: 30px 0;
-      border-bottom: 1px solid var(--ds-color-rule);
-      text-decoration: none;
-      transition: padding-inline 180ms ease, background-color 180ms ease;
-    }
-    .system:hover { padding-inline: 16px; background: rgb(var(--ds-accent-rgb) / .055); }
-    .system-number { color: var(--ds-color-soft); font: 500 2.8rem/1 var(--ds-font-display); }
-    .system h3 span { display: block; margin-top: 10px; color: var(--ds-color-accent); font: 600 .64rem/1.4 var(--ds-font-mono); letter-spacing: .1em; text-transform: uppercase; }
-    .system p { margin: 0; color: var(--ds-color-muted); font: 520 1rem/1.6 var(--ds-font-body); }
-    .system-action { color: var(--ds-color-accent); font: 650 .68rem/1.4 var(--ds-font-mono); text-transform: uppercase; }
-
-    .loop {
-      display: grid;
-      grid-template-columns: minmax(0, .62fr) minmax(320px, .42fr);
-      gap: clamp(48px, 9vw, 142px);
-      align-items: start;
-    }
-    .loop-note { position: sticky; top: 112px; border-top: 1px solid var(--ds-color-accent); padding-top: 22px; }
-    .loop-note p { margin: 16px 0 0; color: var(--ds-color-muted); font: 520 1rem/1.65 var(--ds-font-body); }
-
-    .proof-list { border-top: 1px solid var(--ds-color-rule-strong); }
-    .proof {
-      display: grid;
-      grid-template-columns: minmax(180px, .34fr) minmax(0, 1fr) auto;
-      gap: 34px;
-      align-items: start;
-      padding: 26px 0;
-      border-bottom: 1px solid var(--ds-color-rule);
-      text-decoration: none;
-    }
-    .proof strong { color: var(--ds-color-text); font: 600 1.45rem/1.1 var(--ds-font-display); }
-    .proof p { margin: 0; color: var(--ds-color-muted); font: 520 1rem/1.6 var(--ds-font-body); }
-    .proof span { color: var(--ds-color-accent); font: 600 .65rem/1.4 var(--ds-font-mono); text-transform: uppercase; }
-
-    .closing { min-height: 72svh; display: grid; align-items: center; }
-    .closing h2 { max-width: 9ch; }
-
-    @media (max-width: 900px) {
-      .hero, .install-band, .section-head, .loop { grid-template-columns: 1fr; }
-      .hero { min-height: auto; padding-top: 150px; }
-      .hero-rail { margin: 0; }
-      .system { grid-template-columns: 54px minmax(0, 1fr) auto; }
-      .system p { grid-column: 2 / -1; }
-      .loop-note { position: relative; top: auto; }
-    }
-
-    @media (max-width: 620px) {
-      .topbar { top: 12px; display: block; }
-      .topbar span { display: block; margin-top: 5px; }
-      section { padding-block: 88px; }
-      h1 { font-size: clamp(4.4rem, 20vw, 7rem); }
-      h2 { font-size: clamp(3.4rem, 16vw, 5.2rem); }
-      .system { grid-template-columns: 1fr auto; min-height: auto; }
-      .system-number { display: none; }
-      .system p { grid-column: 1 / -1; }
-      .proof { grid-template-columns: 1fr; gap: 12px; }
-      .actions .ds-button { width: 100%; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .system { transition: none; }
-    }
+    body{margin:0;background:var(--ds-color-bg);color:var(--ds-color-text)}
+    main{width:min(1120px,calc(100% - 40px));margin:auto;padding:72px 0 96px}
+    .eyebrow{color:var(--ds-color-accent);font:600 .7rem/1.4 var(--ds-font-mono);letter-spacing:.12em;text-transform:uppercase}
+    h1,h2{font-family:var(--ds-font-display);letter-spacing:-.03em;line-height:.92;text-wrap:balance}
+    h1{max-width:10ch;margin:18px 0 24px;font-size:clamp(4.4rem,10vw,9rem)}
+    h2{margin:0;font-size:clamp(2.4rem,5vw,4.8rem)}
+    .lead{max-width:700px;color:var(--ds-color-muted);font:500 clamp(1.05rem,2vw,1.3rem)/1.65 var(--ds-font-body)}
+    .install{margin:44px 0 72px;padding:24px;border-block:1px solid var(--ds-color-rule-strong);background:rgb(var(--ds-accent-rgb)/.045)}
+    .install code{display:block;margin-top:10px;color:var(--ds-color-accent);font:500 .86rem/1.7 var(--ds-font-mono);overflow-wrap:anywhere}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin:38px 0 80px;background:var(--ds-color-rule)}
+    .grid article{min-height:180px;padding:24px;background:var(--ds-color-bg)}
+    .grid strong{display:block;margin-bottom:10px;font:600 1.2rem/1.2 var(--ds-font-body)}
+    .grid p,.steps p{margin:0;color:var(--ds-color-muted);font:500 .94rem/1.6 var(--ds-font-body)}
+    .steps{display:grid;gap:0;margin-top:34px;border-top:1px solid var(--ds-color-rule-strong)}
+    .step{display:grid;grid-template-columns:72px 1fr;gap:24px;padding:26px 0;border-bottom:1px solid var(--ds-color-rule)}
+    .step span{color:var(--ds-color-accent);font:600 .72rem/1.5 var(--ds-font-mono)}
+    .step strong{display:block;margin-bottom:6px;font:600 1.25rem/1.2 var(--ds-font-body)}
+    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:44px}
+    a{color:inherit}
+    @media(max-width:760px){main{padding-top:44px}.grid{grid-template-columns:1fr}.step{grid-template-columns:48px 1fr}}
   </style>
 </head>
-<body class="ds-shell">
-  <!--
-  THESIS: The repository is a production studio, not a template gallery or component dump.
-  OWN WORLD: Editorial command center, warm black, cream, cyan signal, crisp rules, restrained glow.
-  STRUCTURE: Promise → install → ready systems → production loop → live proof → action.
-  MOTION: One continuous scroll progression with quiet material reveals.
-  PROOF AND FALLBACKS: Live sites, complete templates, registry, planner, skills, evals, mobile and reduced motion.
-  -->
-  <a class="ds-skip-link" href="#content">Skip to content</a>
-  <div class="progress" aria-hidden="true"></div>
-  <header class="topbar ds-container">
-    <a href="#content">AIgent Design System</a>
-    <span>Shape · inspire · synthesize · produce · build · verify</span>
-  </header>
+<body>
+  <main>
+    <span class="eyebrow">Aigent · agent-native design system</span>
+    <h1>Turn Claude into your design team.</h1>
+    <p class="lead">Install Aigent into a repo, open Claude Code, and describe what you want in normal language. Aigent gives Claude the design judgment, creative-production knowledge, browser QA, and visual-review loop to build polished websites, interfaces, decks, and immersive experiences.</p>
 
-  <main id="content">
-    <section class="hero ds-container">
-      <div>
-        <h1 data-reveal>Turn Claude into <span>a design studio.</span></h1>
-        <p class="lead" data-reveal style="--reveal-delay:90ms">Reference forensics, original design synthesis, immersive websites, cinematic decks, product interfaces, 3D and video production, installable patterns, and browser proof.</p>
-        <div class="actions" data-reveal style="--reveal-delay:150ms">
-          <a class="ds-button" data-variant="solid" href="studio/">Open AIgent Studio</a>
-          <a class="ds-button" data-variant="quiet" href="vault/">Browse the Design Vault</a>
-        </div>
-      </div>
-      <aside class="hero-rail" aria-label="System scope" data-reveal="quiet">
-        <div><strong>Inspiration</strong><span>Design DNA + influence</span></div>
-        <div><strong>Websites</strong><span>Persuade + experience</span></div>
-        <div><strong>Interfaces</strong><span>Operate + read</span></div>
-        <div><strong>Media</strong><span>Video + 3D + render</span></div>
-        <div><strong>Proof</strong><span>Audit + eval + browser</span></div>
-      </aside>
+    <section class="install" aria-labelledby="install-title">
+      <strong id="install-title">One command inside your project</strong>
+      <code>npx github:wrg32786/aigent-design-system install</code>
     </section>
 
-    <section class="install-band ds-container" aria-labelledby="install-title">
-      <div>
-        <p class="ds-status">GitHub-native registry</p>
-        <h2 id="install-title">Install the brain, not the skin.</h2>
-      </div>
-      <code>pnpm dlx shadcn@latest add wrg32786/aigent-design-system/studio-core</code>
-    </section>
-
-    <section class="ds-container">
-      <div class="section-head">
-        <h2 data-reveal>Ready systems, not screenshots.</h2>
-        <p data-reveal>Each reference has a real job, working interaction, mobile composition, keyboard path, reduced motion, and an install command.</p>
-      </div>
-      <div class="systems" data-reveal="quiet">
-        <a class="system" href="inspiration/lab/">
-          <span class="system-number" aria-hidden="true">01</span>
-          <h3>Inspiration Intelligence <span>Forensics + synthesis</span></h3>
-          <p>Capture Design DNA from live references, split influence across sources, require transformations, and create an auditable direction before implementation.</p>
-          <span class="system-action">Open</span>
-        </a>
-        <a class="system" href="templates/immersive-sales-deck/">
-          <span class="system-number" aria-hidden="true">02</span>
-          <h3>Immersive sales deck <span>Guided argument</span></h3>
-          <p>Controlled chapters, directional transitions, explicit pause states, keyboard navigation, and a complete decision path.</p>
-          <span class="system-action">Open</span>
-        </a>
-        <a class="system" href="templates/command-center-interface/">
-          <span class="system-number" aria-hidden="true">03</span>
-          <h3>Command center <span>Operator UI</span></h3>
-          <p>Priority queue, working detail, command palette, mobile rail, complete actions, and no decorative dashboard scaffolding.</p>
-          <span class="system-action">Open</span>
-        </a>
-        <a class="system" href="templates/threejs-product-stage/">
-          <span class="system-number" aria-hidden="true">04</span>
-          <h3>Three.js product stage <span>Progressive live 3D</span></h3>
-          <p>A complete static state first, then device-aware live geometry with bounded pixel ratio, offscreen pause, and failure fallback.</p>
-          <span class="system-action">Open</span>
-        </a>
-        <a class="system" href="templates/modular-scroll-starter/">
-          <span class="system-number" aria-hidden="true">05</span>
-          <h3>Cinematic page <span>Brand-neutral core</span></h3>
-          <p>Semantic themes, authored scroll scene, purposeful reveals, accessible controls, and no framework or animation dependency.</p>
-          <span class="system-action">Open</span>
-        </a>
+    <section aria-labelledby="what-title">
+      <h2 id="what-title">No second IDE.</h2>
+      <div class="grid">
+        <article><strong>Claude is the interface</strong><p>Use the coding environment and subscription you already have. Aigent installs into the project rather than asking you to learn another application.</p></article>
+        <article><strong>Aigent routes the expertise</strong><p>You do not choose specialist skills. Claude infers when it needs inspiration, typography, motion, assets, Taste, Resolve, Vision, or publishing guidance.</p></article>
+        <article><strong>The browser is ground truth</strong><p>Aigent is designed to render, inspect, repair, and polish the real project rather than stop when code compiles.</p></article>
       </div>
     </section>
 
-    <section class="ds-container">
-      <div class="loop">
-        <div>
-          <h2 data-reveal>One operating loop.</h2>
-          <ol class="ds-rule-list" data-reveal="quiet">
-            <li class="ds-rule-row"><strong>Shape</strong><span>Resolve the job, audience, proof, constraints, states, and surface mode.</span></li>
-            <li class="ds-rule-row"><strong>Inspire</strong><span>Capture references as Design DNA instead of treating screenshots as specifications.</span></li>
-            <li class="ds-rule-row"><strong>Synthesize</strong><span>Divide influence across sources, require transformations, and record an influence ledger.</span></li>
-            <li class="ds-rule-row"><strong>Direct</strong><span>Select a product-specific world, layout grammar, type system, and one focal motion.</span></li>
-            <li class="ds-rule-row"><strong>Produce</strong><span>Source, generate, render, clear, and optimize the video or 3D asset system.</span></li>
-            <li class="ds-rule-row"><strong>Build</strong><span>Install proven primitives and the lightest runtime that carries the interaction.</span></li>
-            <li class="ds-rule-row"><strong>Verify</strong><span>Run provenance, budget, accessibility, mobile, eval, and browser checks.</span></li>
-          </ol>
-        </div>
-        <aside class="loop-note" data-reveal>
-          <p class="ds-status">Design intelligence</p>
-          <p>The planner chooses from 15 layout grammars, 8 type systems, 14 motion systems, 5 interface systems, and curated component sources. It gives Claude a reasoned starting point instead of the category default.</p>
-        </aside>
+    <section aria-labelledby="use-title">
+      <h2 id="use-title">How you use it.</h2>
+      <div class="steps">
+        <div class="step"><span>01</span><div><strong>Install</strong><p>Run the one command in a local checkout or cloud development repo.</p></div></div>
+        <div class="step"><span>02</span><div><strong>Open Claude</strong><p>Start Claude Code in the same repo.</p></div></div>
+        <div class="step"><span>03</span><div><strong>Describe the job</strong><p>“Use Aigent to redesign this site. Help me figure out the direction before you build it.”</p></div></div>
+        <div class="step"><span>04</span><div><strong>Let Aigent steer</strong><p>Claude can ask for the audience, brand constraints, strongest proof, or a few designs you like when those answers would materially improve the result.</p></div></div>
+        <div class="step"><span>05</span><div><strong>Build and refine</strong><p>Choose or combine a direction, then talk normally: “make it bolder,” “fix mobile,” “add one memorable interaction,” or “run the full Aigent review.”</p></div></div>
       </div>
-    </section>
-
-    <section class="ds-container">
-      <div class="section-head">
-        <h2 data-reveal>Grounded in production.</h2>
-        <p data-reveal>The live sites establish the finish. The repository extracts decisions and mechanisms without forcing their identity on every project.</p>
-      </div>
-      <div class="proof-list" data-reveal="quiet">
-        <a class="proof" href="https://theaigent.xyz" target="_blank" rel="noopener noreferrer">
-          <strong>The AIgent</strong><p>Cinematic narrative descent, editorial command-center identity, and a Persuade + Experience job.</p><span>Live proof</span>
-        </a>
-        <a class="proof" href="https://tools.theaigent.xyz" target="_blank" rel="noopener noreferrer">
-          <strong>The AIgent Tools</strong><p>The same identity adapted into a useful, dense resource vault with an Operate + Read job.</p><span>Live proof</span>
-        </a>
-      </div>
-    </section>
-
-    <section class="closing ds-container">
-      <div>
-        <h2 data-reveal>Build the site people remember—and the interface they trust.</h2>
-        <div class="actions" data-reveal>
-          <a class="ds-button" data-variant="solid" href="vault/">Choose an installable system</a>
-          <a class="ds-button" data-variant="quiet" href="skills/aigent-design/SKILL.md">Read the Claude skill</a>
-        </div>
+      <div class="actions">
+        <a class="ds-button" data-variant="solid" href="skills/aigent-design/SKILL.md">Read the Aigent skill</a>
+        <a class="ds-button" data-variant="quiet" href="vault/">Browse examples</a>
       </div>
     </section>
   </main>
-
-  <script type="module">
-    import { mountReveals, mountScrollProgress } from "./modules/motion.js";
-    mountScrollProgress();
-    mountReveals();
-  </script>
 </body>
 </html>
