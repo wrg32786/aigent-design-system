@@ -16,11 +16,13 @@ When a design request arrives:
 3. Determine whether the brief is sufficient to act.
 4. Ask only the few questions that materially affect the design direction.
 5. Invite references when they would improve the result: “Show me 2–3 designs you like” is often useful, but never block on references when the user wants you to proceed.
-6. For substantial greenfield or redesign work, develop multiple viable visual directions and recommend one before committing.
-7. Route the work to the smallest set of Aigent specialist systems that own the problem.
-8. Build in the user's real codebase.
-9. Render and inspect the actual result.
-10. Run Taste, Resolve, and Vision as appropriate, repair root causes, rerender, and polish.
+6. Infer three internal creative controls from the brief: **Variance**, **Motion**, and **Density**, each from 1–10. These describe how unconventional, animated, and information-dense the result should be; they are not quality scores.
+7. For substantial greenfield or redesign work, develop multiple viable visual directions and recommend one before committing.
+8. After the user selects a direction, persist it in `.aigent/design-direction.md` and treat it as visual authority until the user changes it.
+9. Route the work to the smallest set of Aigent specialist systems that own the problem.
+10. Build in the user's real codebase.
+11. Render and inspect the actual result.
+12. Run Taste, Resolve, and Vision as appropriate, repair root causes, rerender, and polish.
 
 The user can always override the process. Explicit user constraints and product truth outrank generic design advice.
 
@@ -52,6 +54,100 @@ I recommend B because the product benefits from showing the mechanism in motion.
 
 The user can answer naturally: “B, but use A's typography.”
 
+## Creative controls
+
+Infer these silently unless exposing them would help the user make a decision:
+
+```text
+VARIANCE  1 = familiar / conventional     10 = highly unconventional
+MOTION    1 = nearly static               10 = cinematic / motion-led
+DENSITY   1 = sparse / focused            10 = information-dense
+```
+
+Examples:
+
+- operations dashboard: Variance 3, Motion 2, Density 8
+- premium professional service: Variance 4, Motion 2, Density 3
+- robotics launch experience: Variance 8, Motion 7, Density 5
+
+Natural language updates the controls. “Make it wilder” should raise Variance. “Calm the animation down” should lower Motion. “Show me more at once” should raise Density. Do not confuse higher values with better design.
+
+## Visual exemplars
+
+Aigent includes a tiny visual taste library under `visual-exemplars/`. Use it as visual calibration, not as templates.
+
+1. Read `visual-exemplars/index.json` only when a substantial composition, typography, product-proof, cinematic, or anti-pattern decision is involved.
+2. Open only the 2–4 SVG exemplars whose tags match the current problem.
+3. Learn the **relationship and degree** shown: hierarchy, asymmetry, product evidence, coherence, or failure pattern.
+4. Never copy exact geometry, copy, palette, typeface, assets, or section structure from an exemplar.
+5. User-provided references and approved project direction outrank Aigent exemplars.
+
+The exemplar library is deliberately small. Do not turn it into a style catalog.
+
+## Approved design direction
+
+After the user chooses a substantial visual direction, create or update `.aigent/design-direction.md`:
+
+```markdown
+# Approved design direction
+
+## World
+<physical/cultural/product-specific visual world>
+
+## Creative controls
+- Variance: <1-10>
+- Motion: <1-10>
+- Density: <1-10>
+
+## Composition
+<dominant hierarchy and structural grammar>
+
+## Typography
+<roles and character>
+
+## Palette / material
+<color strategy and material behavior>
+
+## Motion
+<one primary motion thesis and restraint rules>
+
+## Media / proof
+<what visual evidence carries the product>
+
+## Preserve
+- <brand/product truths that must survive future edits>
+
+## Avoid
+- <category clichés, anti-references, and rejected directions>
+```
+
+Read this file before later pages, substantial additions, or large visual revisions. Preserve the chosen world across the project without forcing identical layouts on every page. If the user changes direction, update the file rather than silently drifting.
+
+Do not manufacture an “approved” direction when the user has not chosen one. Record assumptions as provisional until authority is clear.
+
+## Preservation contract
+
+For scoped iterations, improve the requested area without casually redesigning unrelated work.
+
+Before a non-trivial edit, identify:
+
+```text
+TARGET
+What should change and what success looks like.
+
+PRESERVE
+Which approved content, layout, interactions, media, palette, components, or regions should remain unchanged.
+```
+
+After the edit, verify both:
+
+```text
+TARGET: did the requested area improve?
+PRESERVATION: did unrelated approved work regress?
+```
+
+If fixing the target truly requires a broader change, explain why rather than expanding scope silently. Root-cause repair still outranks local patch piles.
+
 ## Automatic routing
 
 Infer these internally from user intent. Do not require the user to invoke them by name.
@@ -81,7 +177,7 @@ Infer these internally from user intent. Do not require the user to invoke them 
 
 ## Read only what the task needs
 
-Before substantial work, inspect the target repo and any existing product/design docs. Then load only the Aigent reference that owns the task plus `reference/craft-floor.md` before implementation or final review.
+Before substantial work, inspect the target repo and any existing product/design docs. Read `.aigent/design-direction.md` when it exists. Then load only the Aigent reference that owns the task plus `reference/craft-floor.md` before implementation or final review.
 
 Useful references in this skill:
 
@@ -116,6 +212,7 @@ Do not load every reference into context.
 - Reduced motion preserves meaning and hierarchy.
 - Real browser evidence decides whether the work is mechanically complete.
 - Mechanical checks and taste checks rank problems; neither gets to erase the selected visual world.
+- Preserve approved work during scoped iteration.
 - First render is not final.
 
 ## Inspiration
@@ -193,16 +290,17 @@ Open the required original and annotated captures. Use `reference/vision.md`. Vi
 
 Treat these user phrases as creative direction, not literal commands:
 
-- **Make it bolder** — strengthen hierarchy, composition, typography, media, and one focal interaction.
-- **Make it quieter** — remove decorative competition and unnecessary effects while preserving the strongest idea.
-- **Add delight** — add one or two purposeful moments of interaction or continuity.
+- **Make it bolder** — raise useful hierarchy/expression, usually increasing Variance without automatically increasing clutter.
+- **Make it quieter** — reduce decorative competition and often lower Variance or Motion while preserving the strongest idea.
+- **Add delight** — add one or two purposeful moments of interaction or continuity, not effects everywhere.
 - **Polish it** — perform the final professional pass across hierarchy, spacing, typography, responsive behavior, media, motion, and states.
 
 ## Completion
 
-A finished result should have:
+A finished substantial result should have:
 
-- product-specific content and a coherent visual direction
+- product-specific content and a coherent approved visual direction
+- creative controls appropriate to the actual product and surface
 - working desktop and mobile states
 - meaningful reduced-motion behavior where motion exists
 - complete interaction states
@@ -210,6 +308,7 @@ A finished result should have:
 - reviewed Taste findings
 - passing mechanical/browser QA for the scope
 - rendered visual review for substantial work
+- preservation of unrelated approved work during scoped edits
 - no unresolved rights or secret-safety issues
 
 When publishing is requested, also verify the public artifact or URL.
