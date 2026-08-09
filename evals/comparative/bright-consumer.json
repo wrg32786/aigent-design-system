@@ -1,0 +1,21 @@
+{
+  "id": "bright-consumer",
+  "surface": "marketing-page",
+  "mode": "persuade",
+  "product": "A family meal-planning app that turns household preferences, schedules, and grocery constraints into a practical weekly plan.",
+  "audience": "Busy parents managing meals for a household.",
+  "primaryAction": "Start a free household plan.",
+  "proof": [
+    "weekly plan adapts to family preferences",
+    "shared grocery list updates automatically",
+    "schedule-aware prep suggestions reduce weekday effort"
+  ],
+  "constraints": [
+    "bright and warm rather than dark or neon",
+    "credible for adults without looking corporate",
+    "no generic AI gradients, floating orbs, or equal-card page composition",
+    "mobile is a primary target",
+    "use only placeholder-safe product claims supplied in this brief"
+  ],
+  "deliverables": ["desktop", "mobile", "loading", "error", "reduced-motion-if-needed"]
+}
