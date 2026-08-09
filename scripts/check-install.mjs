@@ -25,6 +25,7 @@ try {
   assert.equal(fs.existsSync(path.join(root, "tokens", "system.css")), false, "Default install polluted the project root with Aigent runtime files.");
   assert.equal(fs.existsSync(path.join(root, "scripts", "inspire.mjs")), false, "Default install copied Aigent runtime scripts into the project root.");
   assert.ok(fs.existsSync(path.join(root, ".claude", "skills", "aigent-design", "SKILL.md")));
+  assert.ok(fs.existsSync(path.join(root, ".claude", "skills", "aigent-design", "reference", "publish.md")), "Installed core skill is missing publish reference.");
   assert.ok(fs.existsSync(path.join(root, ".claude", "skills", "aigent-design", "visual-exemplars", "index.json")));
   assert.ok(fs.existsSync(path.join(root, ".aigent", "install.json")));
   assert.match(fs.readFileSync(path.join(root, ".gitignore"), "utf8"), /aigent-runtime-start/);
@@ -45,7 +46,7 @@ try {
   assert.equal(fs.existsSync(path.join(root, ".aigent", "install.json")), false);
   assert.equal(fs.readFileSync(path.join(root, "PRODUCT.md"), "utf8"), "# Customer Product\n");
 
-  console.log("Aigent consumer install check passed: project authority preserved, vendor ownership tracked, updates fail closed, and uninstall preserves modifications.");
+  console.log("Aigent consumer install check passed: project authority preserved, core references complete, vendor ownership tracked, updates fail closed, and uninstall preserves modifications.");
 } finally {
   fs.rmSync(root, { recursive: true, force: true });
 }
