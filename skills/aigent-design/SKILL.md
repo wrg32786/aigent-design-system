@@ -5,23 +5,21 @@ description: Use automatically for requests to design, redesign, build, improve,
 
 # Aigent Design
 
-Aigent is the design entry point for this repo. The user should speak normally. Do not require Aigent command vocabulary or pretend an optional capability is installed when it is not.
+Aigent is the design entry point for this repo. The user should speak normally. Do not require Aigent command vocabulary or pretend an optional capability ran when it did not.
 
-## Authority order
+## Authority
 
 Before substantial work, inspect the real repo and use authority in this order:
 
 1. explicit user constraints and current request
 2. existing product, brand, design-system, and implementation truth
-3. `.aigent/design-direction.md` when the user has actually approved one
+3. `.aigent/design-direction.md` when the user actually approved one
 4. `.aigent/project-context.md` when present
-5. Aigent design guidance
+5. Aigent guidance
 
-Aigent must never treat its own brand or examples as the target project's product truth.
+Aigent's own brand and examples are never target-project product truth.
 
 ## Operating model
-
-When a design request arrives:
 
 1. Understand what exists before proposing changes.
 2. Infer the surface: page, interface, dashboard, deck, asset, or immersive experience.
@@ -37,7 +35,7 @@ When a design request arrives:
 
 ## High-leverage questions
 
-Use existing repo context instead of asking the user to repeat it. When information is genuinely missing, prefer questions such as:
+Use repo context instead of asking the user to repeat it. When information is genuinely missing, prefer questions such as:
 
 - Who is this for and what should they do or understand?
 - What brand, copy, product UI, media, or technical constraints must remain?
@@ -56,48 +54,15 @@ DENSITY   1 = sparse / focused            10 = information-dense
 
 Natural-language refinements update these controls. “Make it wilder” usually raises Variance. “Calm the animation down” lowers Motion. “Show me more at once” raises Density.
 
-## Approved design direction
+## Approved direction
 
-After the user chooses a substantial direction, create or update `.aigent/design-direction.md` with:
+After the user chooses a substantial direction, create or update `.aigent/design-direction.md` with the visual world, creative controls, composition, typography, palette/material, motion thesis, media/proof strategy, things to preserve, and things to avoid.
 
-```markdown
-# Approved design direction
-
-## World
-<physical, cultural, or product-specific visual world>
-
-## Creative controls
-- Variance: <1-10>
-- Motion: <1-10>
-- Density: <1-10>
-
-## Composition
-<dominant hierarchy and structural grammar>
-
-## Typography
-<roles and character>
-
-## Palette / material
-<color strategy and material behavior>
-
-## Motion
-<one primary motion thesis and restraint rules>
-
-## Media / proof
-<what visual evidence carries the product>
-
-## Preserve
-- <approved truths that must survive later edits>
-
-## Avoid
-- <category clichés, anti-references, rejected directions>
-```
-
-Do not manufacture approval. Record assumptions as provisional until the user chooses.
+Do not manufacture approval. Assumptions remain provisional until the user chooses.
 
 ## Preservation contract
 
-For scoped work, identify:
+For scoped work identify:
 
 ```text
 TARGET
@@ -111,7 +76,7 @@ After the edit, verify both target improvement and preservation. Broaden scope o
 
 ## Visual calibration
 
-The installed `visual-exemplars/` directory is a tiny calibration set, not a style library.
+The installed `visual-exemplars/` directory is a small calibration set, not a style library.
 
 - Open only the 2–4 examples relevant to the current problem.
 - Learn relationships such as hierarchy, asymmetry, product proof, and coherence.
@@ -121,8 +86,6 @@ The installed `visual-exemplars/` directory is a tiny calibration set, not a sty
 ## Read only what the task needs
 
 Use the relevant file in `reference/` plus `reference/craft-floor.md` for substantial implementation or final review. Do not load every reference into context.
-
-Useful references:
 
 - `shape.md` — brief and product truth
 - `inspiration.md` — references and transformations
@@ -153,22 +116,17 @@ Useful references:
 - The browser is the mechanical ground truth.
 - First render is not final.
 
-## Aigent tooling
+## Package-backed tooling
 
-Run Aigent tooling through the package so the host repo does not need copied runtime scripts or Aigent's dependencies.
-
-Initialize project-specific context without replacing existing authority files:
+Run Aigent tooling through the package. The host repo does not need copied Aigent runtime scripts or Aigent's Node dependencies.
 
 ```bash
 npx github:wrg32786/aigent-design-system init
-```
-
-Prepare Chromium once for browser-backed features:
-
-```bash
 npx github:wrg32786/aigent-design-system setup-browser
 npx github:wrg32786/aigent-design-system doctor
 ```
+
+`init` creates `.aigent/project-context.md`; it must not replace existing `PRODUCT.md`, `DESIGN.md`, brand documentation, or source.
 
 ### Inspiration
 
@@ -178,18 +136,15 @@ npx github:wrg32786/aigent-design-system inspire compose --brief brief.json --re
 npx github:wrg32786/aigent-design-system inspire audit --target-dna target.json --refs a,b,c
 ```
 
-Use `--allow-private` only when the user explicitly authorizes capture of a private or local network target.
+Use `--allow-private` only when the user explicitly authorizes capture of a private or local-network target.
 
 ### Taste
 
-For the source-level generated-design smell check:
-
 ```bash
-npx github:wrg32786/aigent-design-system add aigent-design-skill --dry-run
-node .claude/skills/aigent-design/../../../../scripts/design-audit.mjs --taste-only .
+npx github:wrg32786/aigent-design-system taste .
 ```
 
-If that local script path is not present, do not pretend Taste ran. Use the design principles manually or run the repository package's supported checks when available.
+Taste is a source-level generated-design smell linter. Treat findings as review prompts, not aesthetic truth.
 
 ### Resolve
 
@@ -216,20 +171,10 @@ Vision is a structured review protocol for a capable image-reviewing agent or hu
 npx github:wrg32786/aigent-design-system publish export --project-dir . --entry /index.html
 ```
 
-Use only the provider requested by the user and authenticate through the provider's official flow.
+Use the project's existing host when possible. Authenticate through official provider flows and change domains or DNS only with explicit user authority.
 
 ## Completion
 
-A substantial result is complete only when it has:
-
-- product-specific content and a coherent approved direction when one was chosen
-- working desktop and mobile states
-- meaningful reduced-motion behavior when motion exists
-- complete interaction states for the scope
-- appropriately sourced and optimized media
-- browser QA for the scope
-- actual rendered visual review for substantial work
-- preservation of unrelated approved work
-- no unresolved rights or secret-safety issues
+A substantial result is complete only when it has product-specific content, a coherent approved direction when one was chosen, working desktop and mobile states, meaningful reduced motion where applicable, complete interaction states for the scope, appropriately sourced and optimized media, browser QA, actual rendered visual review, preservation of unrelated approved work, and no unresolved rights or secret-safety issues.
 
 A prompt, mood board, technically working effect, or first render is not a finished design.
