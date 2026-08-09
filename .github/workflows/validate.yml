@@ -1,6 +1,8 @@
 name: Validate Aigent
 
 on:
+  push:
+    branches: [master]
   pull_request:
   workflow_dispatch:
 
@@ -22,6 +24,7 @@ jobs:
           node-version: 22
       - run: npm install --no-audit --no-fund
       - run: npm run check
+      - run: npm run install:check
       - run: npm run taste:check
       - run: npm run registry
       - run: npm run intelligence
@@ -30,18 +33,23 @@ jobs:
       - run: npm run vision:check
       - run: npm run publish:check
       - run: npm run eval
-      - name: Exercise the one-command install
+      - name: Exercise package-backed project setup
         run: |
           rm -rf /tmp/aigent-design-install /tmp/aigent-design-plan.json /tmp/aigent-inspiration /tmp/aigent-inspiration-plan.json
-          node scripts/cli.mjs doctor
+          mkdir -p /tmp/aigent-design-install
+          printf '# Customer Product\n' > /tmp/aigent-design-install/PRODUCT.md
+          printf '# Customer Design\n' > /tmp/aigent-design-install/DESIGN.md
           node scripts/cli.mjs install --target /tmp/aigent-design-install
+          node scripts/cli.mjs init --target /tmp/aigent-design-install
           node scripts/cli.mjs install --target /tmp/aigent-design-install
+          grep -q 'Customer Product' /tmp/aigent-design-install/PRODUCT.md
+          grep -q 'Customer Design' /tmp/aigent-design-install/DESIGN.md
+          test -f /tmp/aigent-design-install/.aigent/install.json
+          test -f /tmp/aigent-design-install/.aigent/project-context.md
           test -f /tmp/aigent-design-install/.claude/skills/aigent-design/SKILL.md
           test -f /tmp/aigent-design-install/.claude/skills/aigent-design/visual-exemplars/index.json
-          test -f /tmp/aigent-design-install/.claude/skills/aigent-design/visual-exemplars/strong-editorial.svg
-          test -f /tmp/aigent-design-install/.claude/skills/aigent-design/visual-exemplars/weak-generic-ai.svg
-          grep -q "Use automatically" /tmp/aigent-design-install/.claude/skills/aigent-design/SKILL.md
-          grep -q "design-direction.md" /tmp/aigent-design-install/.claude/skills/aigent-design/SKILL.md
+          test ! -f /tmp/aigent-design-install/scripts/inspire.mjs
+          test ! -f /tmp/aigent-design-install/tokens/system.css
           node scripts/cli.mjs plan design-intelligence/example-brief.json --out /tmp/aigent-design-plan.json
           node scripts/cli.mjs inspire add inspiration/examples/editorial-reference.json --root /tmp/aigent-inspiration --id editorial --kind structured-reference --analysis inspiration/examples/editorial-reference.json
           node scripts/cli.mjs inspire add inspiration/examples/immersive-reference.json --root /tmp/aigent-inspiration --id immersive --kind structured-reference --analysis inspiration/examples/immersive-reference.json
