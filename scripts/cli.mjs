@@ -14,17 +14,12 @@ const defaultInstall = "aigent-design-skill";
 const installManifest = ".aigent/install.json";
 const ignoreBlock = `# aigent-runtime-start\n.aigent/inspiration/\n.aigent/resolve/\n.aigent/publish/\n.aigent/**/*.png\n.aigent/**/*.webm\n# aigent-runtime-end`;
 
-function fail(message) {
-  console.error(message);
-  process.exitCode = 1;
-}
+function fail(message) { console.error(message); process.exitCode = 1; }
 
 function safeRegistryPath(parent, declared) {
   if (!declared || path.isAbsolute(declared)) throw new Error(`Unsafe registry include: ${declared}`);
   const resolved = path.resolve(path.dirname(parent), declared);
-  if (resolved !== packageRoot && !resolved.startsWith(`${packageRoot}${path.sep}`)) {
-    throw new Error(`Registry include leaves the package: ${declared}`);
-  }
+  if (resolved !== packageRoot && !resolved.startsWith(`${packageRoot}${path.sep}`)) throw new Error(`Registry include leaves the package: ${declared}`);
   return resolved;
 }
 
@@ -34,34 +29,20 @@ function readRegistryFile(file, seen = new Set()) {
   seen.add(file);
   const source = JSON.parse(fs.readFileSync(file, "utf8"));
   const base = file === registryPath ? "" : path.relative(packageRoot, path.dirname(file)).split(path.sep).join("/");
-  const items = (source.items || []).map((item) => ({
-    ...item,
-    files: (item.files || []).map((entry) => ({ ...entry, path: base ? path.posix.normalize(`${base}/${entry.path}`) : entry.path })),
-  }));
+  const items = (source.items || []).map((item) => ({ ...item, files: (item.files || []).map((entry) => ({ ...entry, path: base ? path.posix.normalize(`${base}/${entry.path}`) : entry.path })) }));
   for (const include of source.include || []) items.push(...readRegistryFile(safeRegistryPath(file, include), new Set(seen)).items);
   return { ...source, items };
 }
 
 function readRegistry() { return readRegistryFile(registryPath); }
+function option(args, name, fallback = null) { const index = args.indexOf(name); return index >= 0 ? args[index + 1] ?? fallback : fallback; }
+function flags(args) { return { force: args.includes("--force"), dryRun: args.includes("--dry-run"), target: path.resolve(option(args, "--target", process.cwd())) }; }
 
 function dependencyName(dependency) {
   const address = dependency.split("#")[0];
   if (!address.includes("/")) return address;
   if (address.startsWith(repositoryPrefix)) return address.slice(repositoryPrefix.length);
   throw new Error(`The local CLI cannot install external registry dependency: ${dependency}`);
-}
-
-function option(args, name, fallback = null) {
-  const index = args.indexOf(name);
-  return index >= 0 ? args[index + 1] ?? fallback : fallback;
-}
-
-function flags(args) {
-  return {
-    force: args.includes("--force"),
-    dryRun: args.includes("--dry-run"),
-    target: path.resolve(option(args, "--target", process.cwd())),
-  };
 }
 
 function destinationFor(file, targetRoot) {
@@ -80,19 +61,13 @@ function filesUnder(root) {
   });
 }
 
-function hashFile(file) {
-  return crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
-}
-
-function readManifest(target) {
-  const file = path.join(target, installManifest);
-  return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : null;
-}
-
+function hashFile(file) { return crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex"); }
+function readManifest(target) { const file = path.join(target, installManifest); return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : null; }
 function writeManifest(target, files) {
   const file = path.join(target, installManifest);
   fs.mkdirSync(path.dirname(file), { recursive: true });
-  fs.writeFileSync(file, `${JSON.stringify({ schemaVersion: 1, version: JSON.parse(fs.readFileSync(path.join(packageRoot, "package.json"), "utf8")).version, installedAt: new Date().toISOString(), files }, null, 2)}\n`);
+  const version = JSON.parse(fs.readFileSync(path.join(packageRoot, "package.json"), "utf8")).version;
+  fs.writeFileSync(file, `${JSON.stringify({ schemaVersion: 1, version, installedAt: new Date().toISOString(), files }, null, 2)}\n`);
 }
 
 function updateGitignore(target) {
@@ -105,9 +80,7 @@ function updateGitignore(target) {
 function removeGitignoreBlock(target) {
   const file = path.join(target, ".gitignore");
   if (!fs.existsSync(file)) return;
-  const source = fs.readFileSync(file, "utf8");
-  const cleaned = source.replace(/# aigent-runtime-start\n[\s\S]*?# aigent-runtime-end\n?/m, "");
-  fs.writeFileSync(file, cleaned);
+  fs.writeFileSync(file, fs.readFileSync(file, "utf8").replace(/# aigent-runtime-start\n[\s\S]*?# aigent-runtime-end\n?/m, ""));
 }
 
 function list(registry) {
@@ -125,9 +98,7 @@ function resolveItems(registry, name, stack = [], resolved = []) {
   return resolved;
 }
 
-function sameFile(source, destination) {
-  return fs.existsSync(destination) && fs.readFileSync(source).equals(fs.readFileSync(destination));
-}
+function sameFile(source, destination) { return fs.existsSync(destination) && fs.readFileSync(source).equals(fs.readFileSync(destination)); }
 
 function defaultOperations(registry, target) {
   const item = registry.items.find((candidate) => candidate.name === defaultInstall);
@@ -150,7 +121,9 @@ function defaultOperations(registry, target) {
 function add(registry, name, args, { friendly = false } = {}) {
   const { force, dryRun, target } = flags(args);
   const items = friendly && name === defaultInstall ? [] : resolveItems(registry, name);
-  const raw = friendly && name === defaultInstall ? defaultOperations(registry, target) : items.flatMap((item) => (item.files || []).map((file) => ({ item: item.name, file, source: path.resolve(packageRoot, file.path), destination: destinationFor(file, target) })));
+  const raw = friendly && name === defaultInstall
+    ? defaultOperations(registry, target)
+    : items.flatMap((item) => (item.files || []).map((file) => ({ item: item.name, file, source: path.resolve(packageRoot, file.path), destination: destinationFor(file, target) })));
   const byDestination = new Map();
   for (const operation of raw) {
     if (!operation.source.startsWith(`${packageRoot}${path.sep}`) || !fs.existsSync(operation.source)) throw new Error(`Registry source is missing: ${operation.file.path}`);
@@ -174,11 +147,10 @@ function add(registry, name, args, { friendly = false } = {}) {
   }
 
   if (friendly) console.log(`Installing Aigent into ${target}`);
-  else console.log(`${dryRun ? "Would install" : "Installing"} ${name} with ${items.length - 1} dependencies into ${target}`);
+  else console.log(`${dryRun ? "Would install" : "Installing"} ${name} with ${Math.max(0, items.length - 1)} dependencies into ${target}`);
 
   let changed = 0;
   for (const operation of operations) {
-    const relative = path.relative(target, operation.destination);
     if (operation.identical) continue;
     changed += 1;
     if (dryRun) continue;
@@ -204,10 +176,7 @@ function add(registry, name, args, { friendly = false } = {}) {
 function init(args) {
   const target = path.resolve(option(args, "--target", process.cwd()));
   const out = path.join(target, ".aigent", "project-context.md");
-  if (fs.existsSync(out) && !args.includes("--force")) {
-    console.log(`Aigent project context already exists: ${path.relative(target, out)}`);
-    return;
-  }
+  if (fs.existsSync(out) && !args.includes("--force")) return console.log(`Aigent project context already exists: ${path.relative(target, out)}`);
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.copyFileSync(path.join(packageRoot, "docs", "project-context.md"), out);
   updateGitignore(target);
@@ -238,10 +207,7 @@ async function setupBrowser() {
   console.log("✓ Aigent browser runtime is ready.");
 }
 
-function commandExists(command) {
-  const probe = process.platform === "win32" ? "where" : "which";
-  return spawnSync(probe, [command], { stdio: "ignore" }).status === 0;
-}
+function commandExists(command) { return spawnSync(process.platform === "win32" ? "where" : "which", [command], { stdio: "ignore" }).status === 0; }
 
 async function doctor(registry, args) {
   const failures = [];
@@ -254,9 +220,8 @@ async function doctor(registry, args) {
     if (!fs.existsSync(chromium.executablePath())) warnings.push("Chromium is not installed. Run: npx github:wrg32786/aigent-design-system setup-browser");
   } catch { failures.push("Playwright package is unavailable inside Aigent."); }
   const target = path.resolve(option(args, "--target", process.cwd()));
-  const manifest = readManifest(target);
-  if (!manifest) warnings.push("No Aigent install manifest found in this project.");
-  if (failures.length) failures.forEach((message) => console.error(`error: ${message}`));
+  if (!readManifest(target)) warnings.push("No Aigent install manifest found in this project.");
+  failures.forEach((message) => console.error(`error: ${message}`));
   warnings.forEach((message) => console.warn(`warning: ${message}`));
   if (failures.length || (args.includes("--strict") && warnings.length)) process.exitCode = 1;
   else console.log(`Aigent doctor passed with ${warnings.length} warning(s).`);
@@ -267,12 +232,16 @@ async function plan(args) {
   const brief = args.find((arg) => !arg.startsWith("--") && !optionValues.has(arg));
   if (!brief) throw new Error("Usage: aigent-design plan <brief.json> [--out plan.json]");
   const planner = await import(pathToFileURL(path.join(packageRoot, "scripts/plan-design.mjs")));
-  const source = JSON.parse(fs.readFileSync(path.resolve(brief), "utf8"));
-  const result = planner.plan(source);
+  const result = planner.plan(JSON.parse(fs.readFileSync(path.resolve(brief), "utf8")));
   const out = option(args, "--out");
   const text = `${JSON.stringify(result, null, 2)}\n`;
   if (out) { fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true }); fs.writeFileSync(path.resolve(out), text); console.log(`Wrote ${out}`); }
   else process.stdout.write(text);
+}
+
+function taste(args) {
+  const result = spawnSync(process.execPath, [path.join(packageRoot, "scripts", "design-audit.mjs"), "--taste-only", ...(args.length ? args : [process.cwd()])], { stdio: "inherit" });
+  if (result.status !== 0) process.exitCode = result.status || 1;
 }
 
 async function inspire(args) { const { runInspire } = await import(pathToFileURL(path.join(packageRoot, "scripts/inspire.mjs"))); await runInspire(args); }
@@ -281,7 +250,7 @@ async function vision(args) { const { runVision } = await import(pathToFileURL(p
 async function publish(args) { const { runPublish } = await import(pathToFileURL(path.join(packageRoot, "scripts/publish-site.mjs"))); await runPublish(args); }
 
 function help() {
-  console.log(`Aigent\n\nProject setup:\n  install [--target dir] [--force]\n  init [--target dir] [--force]\n  setup-browser\n  doctor [--target dir] [--strict]\n  uninstall [--target dir]\n\nAdvanced:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  resolve [--target dir] [--url url] [--init] [--no-fail]\n  vision <prepare|check|finalize> ...\n  publish <export|auth|deploy|rollback|status> ...\n`);
+  console.log(`Aigent\n\nProject setup:\n  install [--target dir] [--force]\n  init [--target dir] [--force]\n  setup-browser\n  doctor [--target dir] [--strict]\n  uninstall [--target dir]\n\nDesign tooling:\n  taste [target]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  resolve [--target dir] [--url url] [--init] [--no-fail]\n  vision <prepare|check|finalize> ...\n  publish <export|auth|deploy|rollback|status> ...\n\nAdvanced registry:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n`);
 }
 
 try {
@@ -291,17 +260,16 @@ try {
   else if (command === "init") init(args);
   else if (command === "setup-browser") await setupBrowser();
   else if (command === "uninstall") uninstall(args);
-  else if (command === "list") list(registry);
-  else if (command === "add") {
-    if (!args[0]) throw new Error("Usage: aigent-design add <item> [--target dir] [--dry-run] [--force]");
-    add(registry, args[0], args.slice(1));
-  } else if (command === "doctor") await doctor(registry, args);
+  else if (command === "doctor") await doctor(registry, args);
+  else if (command === "taste") taste(args);
   else if (command === "plan") await plan(args);
   else if (command === "inspire") await inspire(args);
   else if (command === "resolve") await resolve(args);
   else if (command === "vision") await vision(args);
   else if (command === "publish") await publish(args);
-  else help();
-} catch (error) {
-  fail(error instanceof Error ? error.message : String(error));
-}
+  else if (command === "list") list(registry);
+  else if (command === "add") {
+    if (!args[0]) throw new Error("Usage: aigent-design add <item> [--target dir] [--dry-run] [--force]");
+    add(registry, args[0], args.slice(1));
+  } else help();
+} catch (error) { fail(error instanceof Error ? error.message : String(error)); }
