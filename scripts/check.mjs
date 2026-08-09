@@ -97,8 +97,8 @@ assert.ok(resourceCatalog.resources.length >= 25);
 const readme = fs.readFileSync(file("README.md"), "utf8");
 for (const contract of [
   "Design direction and browser QA for Claude Code",
-  "npx github:wrg32786/aigent-design-system install",
-  "npx github:wrg32786/aigent-design-system init",
+  "npx --yes --allow-git=all github:wrg32786/aigent-design-system install",
+  "npx --yes --allow-git=all github:wrg32786/aigent-design-system init",
   "setup-browser",
   ".aigent/install.json",
   "does **not** contain a magical visual model",
