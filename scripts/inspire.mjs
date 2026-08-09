@@ -15,29 +15,34 @@ import {
 import { importFile } from "../inspiration/lib/file-forensics.mjs";
 import { auditOriginality } from "../inspiration/lib/originality.mjs";
 import { captureUrl } from "../inspiration/lib/url-forensics.mjs";
-import {
-  applyDirection,
-  auditPlanTarget,
-  composeFromStore,
-  searchSources,
-} from "../inspiration/lib/synthesis.mjs";
+import { applyDirection, auditPlanTarget, composeFromStore, searchSources } from "../inspiration/lib/synthesis.mjs";
 import { listSources, loadSource, openStore, resolveSources } from "../inspiration/lib/store.mjs";
 import { summarizeDesignDna } from "../inspiration/lib/design-dna.mjs";
 
-function fail(message) {
-  console.error(message);
-  process.exitCode = 1;
-}
-
-function root(args) {
-  return path.resolve(option(args, "--root", ".aigent/inspiration"));
-}
+function fail(message) { console.error(message); process.exitCode = 1; }
+function root(args) { return path.resolve(option(args, "--root", ".aigent/inspiration")); }
 
 function output(value, file) {
   const text = `${JSON.stringify(value, null, 2)}\n`;
   if (!file) return process.stdout.write(text);
   writeJson(path.resolve(file), value);
   console.log(`Wrote ${file}`);
+}
+
+function privateHost(url) {
+  const host = new URL(url).hostname.toLowerCase().replace(/^\[|\]$/g, "");
+  if (host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local")) return true;
+  if (["169.254.169.254", "metadata.google.internal"].includes(host)) return true;
+  if (host === "::1" || host.startsWith("fc") || host.startsWith("fd") || host.startsWith("fe8") || host.startsWith("fe9") || host.startsWith("fea") || host.startsWith("feb")) return true;
+  const parts = host.split(".").map(Number);
+  if (parts.length !== 4 || parts.some((value) => !Number.isInteger(value) || value < 0 || value > 255)) return false;
+  const [a, b] = parts;
+  return a === 10 || a === 127 || (a === 169 && b === 254) || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168) || a === 0;
+}
+
+function assertCaptureAllowed(input, args) {
+  if (!isUrl(input) || hasFlag(args, "--allow-private")) return;
+  if (privateHost(input)) throw new Error("Refusing to capture a local, private-network, or metadata URL. Re-run with --allow-private only with explicit operator authorization.");
 }
 
 function parseAssignments(value) {
@@ -52,6 +57,7 @@ async function add(args) {
   const values = positional(args, ["--root", "--label", "--id", "--viewports", "--frames", "--scroll-steps", "--timeout", "--analysis", "--kind"]);
   const input = values[0];
   if (!input) throw new Error("Usage: aigent-design inspire add <url|file> [--label name] [--root dir]");
+  assertCaptureAllowed(input, args);
   const options = {
     root: root(args),
     label: option(args, "--label"),
@@ -148,12 +154,12 @@ async function doctor(args) {
   try { await import("playwright"); playwright = true; } catch {}
   console.log(`Inspiration store: ${store.root}`);
   console.log(`Sources: ${listSources(store).length}`);
-  console.log(`Playwright: ${playwright ? "available" : "missing (needed only for URL forensics)"}`);
+  console.log(`Playwright: ${playwright ? "available" : "missing"}`);
   if (!playwright && hasFlag(args, "--strict")) process.exitCode = 1;
 }
 
 function help() {
-  console.log(`AIgent Inspiration Intelligence\n\nCommands:\n  add <url|file> [--label name] [--viewports desktop:1440x1000,mobile:390x844]\n  list [--json]\n  inspect <source-id> [--summary]\n  search <query> [--limit 12]\n  compose --brief brief.json --refs source-a,source-b [--assign structure:a,motion:b]\n  apply <inspiration-plan.json> --target <project>\n  audit --target-dna design-dna.json --refs source-a,source-b [--strict]\n  doctor\n\nAll source captures are stored under .aigent/inspiration by default.\n`);
+  console.log(`Aigent Inspiration Intelligence\n\nCommands:\n  add <url|file> [--label name] [--viewports desktop:1440x1000,mobile:390x844] [--allow-private]\n  list [--json]\n  inspect <source-id> [--summary]\n  search <query> [--limit 12]\n  compose --brief brief.json --refs source-a,source-b [--assign structure:a,motion:b]\n  apply <inspiration-plan.json> --target <project>\n  audit --target-dna design-dna.json --refs source-a,source-b [--strict]\n  doctor\n\nCaptures are stored under .aigent/inspiration by default. Private/local targets are denied unless --allow-private is explicit.\n`);
 }
 
 export async function runInspire(argv = process.argv.slice(2)) {
