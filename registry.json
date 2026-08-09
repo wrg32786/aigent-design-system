@@ -7,14 +7,7 @@
       "name": "aigent-design-skill",
       "type": "registry:item",
       "title": "Aigent Design",
-      "description": "Install Aigent's agent-native design director with its design intelligence, inspiration, creative production, browser QA, Resolve, Vision, and publishing systems.",
-      "registryDependencies": [
-        "wrg32786/aigent-design-system/design-intelligence",
-        "wrg32786/aigent-design-system/inspiration-intelligence",
-        "wrg32786/aigent-design-system/creative-production",
-        "wrg32786/aigent-design-system/design-resolver",
-        "wrg32786/aigent-design-system/publish-site"
-      ],
+      "description": "Install Aigent's agent-native design direction skill and its complete local reference set without replacing project product authority or runtime files.",
       "files": [
         {"path":"skills/aigent-design/SKILL.md","type":"registry:file","target":"~/.claude/skills/aigent-design/SKILL.md"},
         {"path":"skills/aigent-design/commands.json","type":"registry:file","target":"~/.claude/skills/aigent-design/commands.json"},
@@ -32,14 +25,14 @@
         {"path":"skills/aigent-design/reference/craft-floor.md","type":"registry:file","target":"~/.claude/skills/aigent-design/reference/craft-floor.md"},
         {"path":"skills/aigent-design/reference/resolve.md","type":"registry:file","target":"~/.claude/skills/aigent-design/reference/resolve.md"},
         {"path":"skills/aigent-design/reference/vision.md","type":"registry:file","target":"~/.claude/skills/aigent-design/reference/vision.md"},
-        {"path":"skills/aigent-design/reference/canvas.md","type":"registry:file","target":"~/.claude/skills/aigent-design/reference/canvas.md"},
-        {"path":"PRODUCT.md","type":"registry:file","target":"~/PRODUCT.md"},
-        {"path":"DESIGN.md","type":"registry:file","target":"~/DESIGN.md"},
-        {"path":"docs/design-principles.md","type":"registry:file","target":"~/docs/design-principles.md"},
-        {"path":"docs/project-context.md","type":"registry:file","target":"~/docs/project-context.md"},
-        {"path":"tokens/system.css","type":"registry:file","target":"~/tokens/system.css"},
-        {"path":"tokens/aigent-tokens.css","type":"registry:file","target":"~/tokens/aigent-tokens.css"},
-        {"path":"modules/motion.js","type":"registry:file","target":"~/modules/motion.js"}
+        {"path":"skills/aigent-design/reference/publish.md","type":"registry:file","target":"~/.claude/skills/aigent-design/reference/publish.md"},
+        {"path":"skills/aigent-design/visual-exemplars/index.json","type":"registry:file","target":"~/.claude/skills/aigent-design/visual-exemplars/index.json"},
+        {"path":"skills/aigent-design/visual-exemplars/strong-editorial.svg","type":"registry:file","target":"~/.claude/skills/aigent-design/visual-exemplars/strong-editorial.svg"},
+        {"path":"skills/aigent-design/visual-exemplars/strong-product.svg","type":"registry:file","target":"~/.claude/skills/aigent-design/visual-exemplars/strong-product.svg"},
+        {"path":"skills/aigent-design/visual-exemplars/strong-cinematic.svg","type":"registry:file","target":"~/.claude/skills/aigent-design/visual-exemplars/strong-cinematic.svg"},
+        {"path":"skills/aigent-design/visual-exemplars/strong-type-hierarchy.svg","type":"registry:file","target":"~/.claude/skills/aigent-design/visual-exemplars/strong-type-hierarchy.svg"},
+        {"path":"skills/aigent-design/visual-exemplars/weak-card-grid.svg","type":"registry:file","target":"~/.claude/skills/aigent-design/visual-exemplars/weak-card-grid.svg"},
+        {"path":"skills/aigent-design/visual-exemplars/weak-generic-ai.svg","type":"registry:file","target":"~/.claude/skills/aigent-design/visual-exemplars/weak-generic-ai.svg"}
       ]
     },
     {
