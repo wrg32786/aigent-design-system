@@ -11,12 +11,14 @@ Aigent is in active beta. The strongest shipped pieces today are the core design
 From the repo you want to design:
 
 ```bash
-npx github:wrg32786/aigent-design-system install
-npx github:wrg32786/aigent-design-system init
-npx github:wrg32786/aigent-design-system setup-browser
-npx github:wrg32786/aigent-design-system doctor
+npx --yes --allow-git=all github:wrg32786/aigent-design-system install
+npx --yes --allow-git=all github:wrg32786/aigent-design-system init
+npx --yes --allow-git=all github:wrg32786/aigent-design-system setup-browser
+npx --yes --allow-git=all github:wrg32786/aigent-design-system doctor
 claude
 ```
+
+npm 12 blocks Git-backed package execution by default; `--allow-git=all` explicitly authorizes this GitHub repository for the command. Older npm versions may ignore the setting with a warning.
 
 Then say:
 
@@ -70,14 +72,14 @@ Once you approve a direction, later work reads that authority instead of improvi
 ## Browser-backed commands
 
 ```bash
-npx github:wrg32786/aigent-design-system taste .
+npx --yes --allow-git=all github:wrg32786/aigent-design-system taste .
 
-npx github:wrg32786/aigent-design-system inspire add https://example.com
+npx --yes --allow-git=all github:wrg32786/aigent-design-system inspire add https://example.com
 
-npx github:wrg32786/aigent-design-system resolve --init --target .
-npx github:wrg32786/aigent-design-system resolve --target . --url http://127.0.0.1:3000
+npx --yes --allow-git=all github:wrg32786/aigent-design-system resolve --init --target .
+npx --yes --allow-git=all github:wrg32786/aigent-design-system resolve --target . --url http://127.0.0.1:3000
 
-npx github:wrg32786/aigent-design-system vision prepare --target . --url http://127.0.0.1:3000
+npx --yes --allow-git=all github:wrg32786/aigent-design-system vision prepare --target . --url http://127.0.0.1:3000
 ```
 
 Private, loopback, local-network, and common metadata URLs are denied by Inspiration Intelligence unless `--allow-private` is explicitly supplied.
@@ -87,7 +89,7 @@ Private, loopback, local-network, and common metadata URLs are denied by Inspira
 Run the install command again to update vendor-owned files:
 
 ```bash
-npx github:wrg32786/aigent-design-system install
+npx --yes --allow-git=all github:wrg32786/aigent-design-system install
 ```
 
 Aigent tracks installed file hashes. Files you modified are preserved rather than overwritten silently. Obsolete untouched vendor files can be removed during update.
@@ -95,7 +97,7 @@ Aigent tracks installed file hashes. Files you modified are preserved rather tha
 To remove Aigent-owned skill files:
 
 ```bash
-npx github:wrg32786/aigent-design-system uninstall
+npx --yes --allow-git=all github:wrg32786/aigent-design-system uninstall
 ```
 
 Modified installed files are preserved and reported.
