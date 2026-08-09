@@ -1,10 +1,10 @@
 # Aigent
 
-**Turn Claude Code into a professional design team for your repo.**
+**Design direction and browser QA for Claude Code.**
 
-Install Aigent into a project, open Claude Code, and talk normally. Aigent gives Claude the design judgment, visual references, specialist skills, production routes, browser QA, and visual-review loop to design and build the real project.
+Aigent installs a focused design skill into an existing repo while Claude Code remains the interface. It helps shape visual direction, study references, choose layout/type/motion/media, inspect the rendered browser, and run structured design review without replacing the project's own product or brand authority.
 
-No separate app. No new IDE. No Aigent account.
+Aigent is in active beta. The strongest shipped pieces today are the core design skill, Inspiration Intelligence, Resolve, and the structured Vision review protocol.
 
 ## Install
 
@@ -12,6 +12,9 @@ From the repo you want to design:
 
 ```bash
 npx github:wrg32786/aigent-design-system install
+npx github:wrg32786/aigent-design-system init
+npx github:wrg32786/aigent-design-system setup-browser
+npx github:wrg32786/aigent-design-system doctor
 claude
 ```
 
@@ -21,153 +24,100 @@ Then say:
 Use Aigent to help me redesign this site.
 ```
 
-That is the normal workflow.
+`install` writes vendor-owned skill files under `.claude/skills/aigent-design/` and records their hashes in `.aigent/install.json`. It does **not** replace root `PRODUCT.md`, `DESIGN.md`, brand docs, application source, or package configuration.
 
-## What Claude becomes
+`init` creates `.aigent/project-context.md` only when you want an Aigent-specific project brief. Existing project authority remains authoritative.
 
-After install, Claude can act more like a small design team than a coding assistant. It can:
+`setup-browser` installs Chromium for browser-backed capture and QA.
 
-- help shape a vague brief instead of blindly generating a page
-- ask for designs you like when references would help
-- develop distinct visual directions and recommend one
-- calibrate how **unconventional, animated, and dense** the design should be
-- use a small visual exemplar library to improve hierarchy and avoid common AI-design defaults
-- persist the approved visual world so later pages stay coherent
-- choose layout, typography, color, media, motion, and interaction systems
-- route image, video, 3D, GSAP, Spline, Three.js, Remotion, and HyperFrames work when justified
-- build the real project and inspect it in the browser
-- run Aigent Taste, Resolve, and Vision before calling substantial work finished
-- improve one area without casually redesigning unrelated approved work
+## What it does
 
-You do **not** need to know which Aigent skill to invoke. The installed `aigent-design` skill routes the specialist knowledge internally.
+Aigent can:
 
-## Example
+- inspect the existing repo before proposing a redesign
+- help shape a vague brief without turning the process into a questionnaire
+- develop multiple visual directions before a large greenfield commitment
+- persist an approved direction in `.aigent/design-direction.md`
+- preserve unrelated approved work during scoped revisions
+- study public references and convert evidence into Design DNA
+- synthesize multiple references instead of cloning one source
+- choose layout, typography, color, motion, media, and interface direction
+- flag common generated-design smells with Aigent Taste
+- run browser-measured responsive, focus, contrast, clipping, reduced-motion, and runtime checks with Resolve
+- prepare a structured rendered-review task with Vision
+- export and deploy static work through constrained publishing tooling
 
-You have a basic SaaS site and say:
+Aigent does **not** contain a magical visual model of its own. Vision is a review protocol for a capable image-reviewing agent or human. Taste is a source-level smell linter. Design Intelligence is a deterministic planner. Those boundaries are deliberate.
 
-```text
-I want this to feel like a premium product launch.
-The product automates repetitive office work.
-I don't want generic AI SaaS design.
-Help me figure out the direction before you build it.
-```
-
-Claude can respond like a creative director:
+## Normal workflow
 
 ```text
-A few things would materially improve the direction:
-
-1. Who is the primary buyer?
-2. What existing brand or product UI should I preserve?
-3. Show me 2–3 designs you like, if you have them.
-4. Should this feel more editorial, cinematic, product-focused, or restrained?
+SHAPE → DIRECT → BUILD → TASTE → RESOLVE → SEE → POLISH
 ```
 
-Then it can offer alternatives:
+References add an optional inspiration loop before direction is locked.
+
+Aigent keeps three lightweight controls behind the scenes:
 
 ```text
-A — Editorial Precision
-Large typography, restrained motion, strong proof hierarchy.
-
-B — Cinematic Utility
-Product demonstrations become the visual spine with richer transitions.
-
-C — Product Confidence
-Cleaner application UI, interactive proof, less atmosphere.
-
-I recommend B because this product becomes easier to understand when the automation is shown in motion.
+VARIANCE  familiar ↔ unconventional
+MOTION    static ↔ motion-led
+DENSITY   sparse ↔ information-dense
 ```
 
-You can simply say:
+Once you approve a direction, later work reads that authority instead of improvising a new visual world on every page.
 
-```text
-B, but keep the typography from A.
+## Browser-backed commands
+
+```bash
+npx github:wrg32786/aigent-design-system taste .
+
+npx github:wrg32786/aigent-design-system inspire add https://example.com
+
+npx github:wrg32786/aigent-design-system resolve --init --target .
+npx github:wrg32786/aigent-design-system resolve --target . --url http://127.0.0.1:3000
+
+npx github:wrg32786/aigent-design-system vision prepare --target . --url http://127.0.0.1:3000
 ```
 
-Aigent records that direction in `.aigent/design-direction.md`, builds against it, renders the result, reviews it, and iterates.
+Private, loopback, local-network, and common metadata URLs are denied by Inspiration Intelligence unless `--allow-private` is explicitly supplied.
 
-Later you can speak normally:
+## Update and uninstall
 
-```text
-The hero still feels generic. Make it bolder.
-
-Calm the animation down a little.
-
-Use these sites as inspiration, but don't copy them.
-
-The mobile version feels cramped.
-
-Polish the whole thing without changing the sections that already work.
-```
-
-## How Aigent works
-
-For substantial work the default loop is:
-
-```text
-SHAPE → INSPIRE → DIRECT → BUILD → TASTE → RESOLVE → SEE → POLISH
-```
-
-Aigent keeps three lightweight creative controls behind the scenes:
-
-```text
-VARIANCE  how conventional ↔ unconventional
-MOTION    how static ↔ motion-led
-DENSITY   how sparse ↔ information-dense
-```
-
-It also ships a small visual calibration set for hierarchy, product proof, cinematic coherence, typography, and common generated-design failure modes. Those examples are used as **visual principles, not templates**.
-
-Once you approve a direction, Aigent persists the visual world, typography, palette/material, motion thesis, media strategy, things to preserve, and things to avoid. Scoped edits use a preservation contract so improving the hero does not accidentally redesign the footer.
-
-The first successful render is not considered finished.
-
-## What it can build
-
-- landing pages and product stories
-- dashboards, editors, and product interfaces
-- immersive sales, sponsorship, and launch decks
-- editorial media experiences
-- interactive 3D product stages
-- video-led and scroll-driven experiences
-
-The templates and exemplars are starting evidence, not a house style. The product, brand, references, and user constraints determine the visual world.
-
-## What is inside
-
-- **Design Intelligence** — layout, typography, motion, interface, and component guidance
-- **Inspiration Intelligence** — reference forensics, Design DNA, synthesis, and originality checks
-- **Creative Production** — image, video, 3D, motion, asset budgets, fallbacks, and provenance
-- **Aigent Taste** — deterministic checks for common AI-design defaults
-- **Aigent Resolve** — browser-measured mechanical QA
-- **Aigent Vision** — rendered visual critique
-- **Publishing** — constrained export and deployment guidance
-
-## Existing or new repo?
-
-Both.
-
-For an existing project, install Aigent in the project root and ask Claude to improve or redesign what is there.
-
-For a new project, create the repo first, install Aigent, and ask Claude to establish the brief and visual direction before implementation.
-
-Local checkouts and cloud development environments both work as long as Claude Code can read and edit the repo.
-
-## Update Aigent
-
-Run the same command again:
+Run the install command again to update vendor-owned files:
 
 ```bash
 npx github:wrg32786/aigent-design-system install
 ```
 
-Unchanged Aigent files are left alone. Conflicting project files are not silently overwritten; use `--force` only when you intentionally want to replace installed Aigent files.
+Aigent tracks installed file hashes. Files you modified are preserved rather than overwritten silently. Obsolete untouched vendor files can be removed during update.
+
+To remove Aigent-owned skill files:
+
+```bash
+npx github:wrg32786/aigent-design-system uninstall
+```
+
+Modified installed files are preserved and reported.
+
+## Examples
+
+The repository includes canonical examples for:
+
+- modular editorial/product pages
+- guided sales decks
+- command-center interfaces
+- progressive Three.js product stages
+- inspiration analysis and synthesis
+
+These are implementation examples, not evidence that Aigent automatically outperforms every baseline or competing skill. Comparative no-skill/Impeccable/Aigent evaluations and broader before/after case studies remain part of the validation roadmap.
 
 ## For contributors
 
 ```bash
 npm install
 npm run check
+npm run taste:check
 npm run registry
 npm run intelligence
 npm run inspiration
@@ -176,6 +126,8 @@ npm run vision:check
 npm run publish:check
 npm run eval
 ```
+
+The public install path should also be exercised in a clean consumer fixture before release.
 
 ## License
 
