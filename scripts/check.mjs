@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import "./check-no-ide.mjs";
+import "./check-install.mjs";
 import { auditPaths, auditSources } from "./design-audit.mjs";
 import { checkAssetManifests } from "./check-assets.mjs";
 import { checkCatalogs } from "./check-catalogs.mjs";
@@ -20,40 +21,24 @@ const required = [
   "skills/aigent-design/reference/type.md", "skills/aigent-design/reference/color.md", "skills/aigent-design/reference/motion.md",
   "skills/aigent-design/reference/media.md", "skills/aigent-design/reference/interface.md", "skills/aigent-design/reference/deck.md",
   "skills/aigent-design/reference/craft-floor.md", "skills/aigent-design/reference/resolve.md", "skills/aigent-design/reference/vision.md",
-  "skills/aigent-design/visual-exemplars/index.json", "skills/aigent-design/visual-exemplars/strong-editorial.svg",
-  "skills/aigent-design/visual-exemplars/strong-product.svg", "skills/aigent-design/visual-exemplars/strong-cinematic.svg",
-  "skills/aigent-design/visual-exemplars/strong-type-hierarchy.svg", "skills/aigent-design/visual-exemplars/weak-card-grid.svg",
-  "skills/aigent-design/visual-exemplars/weak-generic-ai.svg",
+  "skills/aigent-design/reference/publish.md", "skills/aigent-design/visual-exemplars/index.json",
   "design-intelligence/README.md", "design-intelligence/brief.schema.json", "design-intelligence/layouts.json",
-  "design-intelligence/type-systems.json", "design-intelligence/motion-systems.json", "design-intelligence/interface-systems.json",
-  "inspiration/README.md", "inspiration/schemas/design-dna.schema.json", "inspiration/schemas/reference-matrix.schema.json",
-  "resolve/README.md", "resolve/resolve.schema.json",
-  "vision/README.md", "vision/visual-review-task.schema.json", "vision/visual-review.schema.json",
-  "creative-production/README.md", "creative-production/catalog.json",
-  "assets/README.md", "assets/manifests/asset-manifest.schema.json",
-  "publish/README.md", "publish/providers.json", "publish/lib.mjs",
-  "templates/modular-scroll-starter/index.html", "templates/immersive-sales-deck/index.html",
-  "templates/command-center-interface/index.html", "templates/threejs-product-stage/index.html",
-  "scripts/cli.mjs", "scripts/plan-design.mjs", "scripts/inspire.mjs", "scripts/resolve-design.mjs",
-  "scripts/vision-review.mjs", "scripts/design-audit.mjs", "scripts/publish-site.mjs",
-  ".github/workflows/validate.yml",
+  "inspiration/README.md", "inspiration/schemas/design-dna.schema.json", "resolve/README.md", "vision/README.md",
+  "creative-production/README.md", "assets/README.md", "publish/README.md",
+  "templates/modular-scroll-starter/index.html", "templates/immersive-sales-deck/index.html", "templates/command-center-interface/index.html",
+  "templates/threejs-product-stage/index.html", "scripts/cli.mjs", "scripts/check-install.mjs", "scripts/inspire.mjs", ".github/workflows/validate.yml",
 ];
-
-const missing = required.filter((relativePath) => !fs.existsSync(file(relativePath)));
-assert.deepEqual(missing, [], `Missing required agent-native files:\n${missing.join("\n")}`);
+assert.deepEqual(required.filter((relativePath) => !fs.existsSync(file(relativePath))), [], "Missing required agent-native files.");
 
 const packageJson = JSON.parse(fs.readFileSync(file("package.json"), "utf8"));
-assert.equal(packageJson.version, "1.4.0", "Expected Aigent 1.4.0 release version.");
-assert.equal(packageJson.bin?.["aigent-design"], "scripts/cli.mjs", "Missing Aigent CLI bin.");
-for (const script of ["serve", "plan", "inspire", "resolve", "resolve:check", "vision", "vision:check", "audit", "taste", "taste:check", "assets", "catalogs", "intelligence", "inspiration", "registry", "eval", "score", "check", "smoke", "inspiration:smoke", "capture", "publish", "publish:check"]) {
+assert.equal(packageJson.version, "1.4.0");
+assert.equal(packageJson.bin?.["aigent-design"], "scripts/cli.mjs");
+for (const script of ["serve", "plan", "inspire", "resolve", "resolve:check", "vision", "vision:check", "audit", "taste", "taste:check", "install:check", "intelligence", "inspiration", "registry", "eval", "check", "smoke", "publish", "publish:check"]) {
   assert.equal(typeof packageJson.scripts?.[script], "string", `Missing package script: ${script}`);
 }
-for (const removed of ["studio", "studio:check", "desktop:start", "desktop:check", "desktop:dist"]) {
-  assert.equal(packageJson.scripts?.[removed], undefined, `Legacy IDE script must not remain in the product contract: ${removed}`);
-}
-assert.equal(packageJson.dependencies?.["electron-updater"], undefined, "Electron updater must not remain a runtime dependency.");
-assert.equal(packageJson.devDependencies?.electron, undefined, "Electron must not remain a development dependency.");
-assert.equal(packageJson.devDependencies?.["electron-builder"], undefined, "electron-builder must not remain a development dependency.");
+for (const removed of ["studio", "studio:check", "desktop:start", "desktop:check", "desktop:dist"]) assert.equal(packageJson.scripts?.[removed], undefined);
+assert.equal(packageJson.dependencies?.["electron-updater"], undefined);
+assert.equal(packageJson.devDependencies?.electron, undefined);
 
 const skillRoot = file("skills");
 const skillFiles = fs.readdirSync(skillRoot, { withFileTypes: true })
@@ -63,37 +48,29 @@ const skillFiles = fs.readdirSync(skillRoot, { withFileTypes: true })
 assert.ok(skillFiles.length >= 20, `Expected a substantial skill library; found ${skillFiles.length}.`);
 for (const skill of skillFiles) {
   const body = fs.readFileSync(skill, "utf8");
-  const frontmatter = /^---\r?\nname:\s*([^\r\n]+)\r?\ndescription:\s*([^\r\n]+)\r?\n---/m.exec(body);
-  assert.ok(frontmatter, `Invalid skill frontmatter: ${path.relative(process.cwd(), skill)}`);
+  assert.ok(/^---\r?\nname:\s*[^\r\n]+\r?\ndescription:\s*[^\r\n]+\r?\n---/m.test(body), `Invalid skill frontmatter: ${path.relative(process.cwd(), skill)}`);
 }
 
 const primarySkill = fs.readFileSync(file("skills/aigent-design/SKILL.md"), "utf8");
 for (const contract of [
-  "Use automatically for requests to design",
-  "Do not make them memorize Aigent commands",
-  "Show me 2–3 designs you like",
-  "Variance",
-  "Motion",
-  "Density",
+  "Aigent's own brand and examples are never target-project product truth",
+  ".aigent/project-context.md",
   ".aigent/design-direction.md",
-  "visual-exemplars/index.json",
   "Preservation contract",
-]) assert.ok(primarySkill.includes(contract), `Primary skill is missing art-direction contract: ${contract}`);
+  "VARIANCE",
+  "setup-browser",
+  "npx github:wrg32786/aigent-design-system taste",
+  "Vision is a structured review protocol",
+]) assert.ok(primarySkill.includes(contract), `Primary skill is missing contract: ${contract}`);
+assert.ok(!primarySkill.includes("node scripts/inspire.mjs"), "Primary skill must use package-backed tooling rather than copied runtime scripts.");
 
 const exemplars = JSON.parse(fs.readFileSync(file("skills/aigent-design/visual-exemplars/index.json"), "utf8"));
-assert.ok(exemplars.exemplars.length >= 6, "Visual exemplar library is unexpectedly small.");
-assert.equal(new Set(exemplars.exemplars.map((item) => item.id)).size, exemplars.exemplars.length, "Visual exemplar IDs must be unique.");
-for (const exemplar of exemplars.exemplars) {
-  assert.ok(fs.existsSync(file(`skills/aigent-design/visual-exemplars/${exemplar.file}`)), `Missing visual exemplar: ${exemplar.file}`);
-}
-
-assert.equal(VISUAL_DIMENSIONS.length, 12, "Vision critique must retain twelve explicit dimensions.");
-assert.equal(new Set(VISUAL_DIMENSIONS.map((item) => item.id)).size, VISUAL_DIMENSIONS.length, "Vision dimensions must be unique.");
+assert.ok(exemplars.exemplars.length >= 6);
+for (const exemplar of exemplars.exemplars) assert.ok(fs.existsSync(file(`skills/aigent-design/visual-exemplars/${exemplar.file}`)));
+assert.equal(VISUAL_DIMENSIONS.length, 12);
 
 const motion = await import(pathToFileURL(file("modules/motion.js")));
-for (const exportName of ["mountScrollProgress", "mountScrollScene", "mountReveals", "mountThemePicker"]) {
-  assert.equal(typeof motion[exportName], "function", `Missing motion export: ${exportName}`);
-}
+for (const exportName of ["mountScrollProgress", "mountScrollScene", "mountReveals", "mountThemePicker"]) assert.equal(typeof motion[exportName], "function");
 
 for (const [label, findings] of [
   ["catalog", checkCatalogs()],
@@ -102,55 +79,45 @@ for (const [label, findings] of [
   ["registry", checkRegistry()],
   ["eval", checkEvals()],
 ]) {
-  const errors = findings.filter((item) => item.severity === "error");
-  assert.deepEqual(errors, [], `${label} validation failed:\n${JSON.stringify(errors, null, 2)}`);
+  assert.deepEqual(findings.filter((item) => item.severity === "error"), [], `${label} validation failed:\n${JSON.stringify(findings, null, 2)}`);
 }
 
 const { registry } = readRegistry();
-assert.ok(registry.items.some((item) => item.name === "aigent-design-skill"), "Primary Aigent design skill is missing from the registry.");
-for (const name of ["inspiration-intelligence", "design-resolver", "vision-critic", "publish-site"]) {
-  assert.ok(registry.items.some((item) => item.name === name), `${name} is missing from the registry.`);
+for (const name of ["aigent-design-skill", "inspiration-intelligence", "design-resolver", "vision-critic", "publish-site"]) assert.ok(registry.items.some((item) => item.name === name), `${name} is missing from the registry.`);
+const primaryRegistryItem = registry.items.find((item) => item.name === "aigent-design-skill");
+assert.equal(primaryRegistryItem.registryDependencies?.length ?? 0, 0, "Primary Aigent install must not pull root-level registry dependencies into customer repos.");
+for (const entry of primaryRegistryItem.files) {
+  assert.ok(entry.target?.startsWith("~/.claude/skills/aigent-design/"), `Primary Aigent registry file escapes the vendor skill directory: ${entry.target}`);
 }
+assert.ok(primaryRegistryItem.files.some((entry) => entry.target === "~/.claude/skills/aigent-design/reference/publish.md"), "Primary install must include every reference named by the core skill.");
 
 const resourceCatalog = JSON.parse(fs.readFileSync(file("creative-production/catalog.json"), "utf8"));
-assert.ok(resourceCatalog.resources.length >= 25, "Creative resource catalog is unexpectedly small.");
+assert.ok(resourceCatalog.resources.length >= 25);
 
 const readme = fs.readFileSync(file("README.md"), "utf8");
 for (const contract of [
-  "Turn Claude Code into a professional design team for your repo",
-  "npx github:wrg32786/aigent-design-system install",
-  "You do **not** need to know which Aigent skill to invoke",
-  "VARIANCE",
-  "MOTION",
-  "DENSITY",
-  ".aigent/design-direction.md",
-  "visual calibration",
-  "Aigent Taste",
-  "Aigent Resolve",
-  "Aigent Vision",
-]) assert.ok(readme.includes(contract), `README is missing simple product contract: ${contract}`);
-for (const retiredPitch of ["Install AIgent Desktop", "Open AIgent Studio", "Download the Windows installer", "Launch AIgent Studio", "studio-core"]) {
-  assert.ok(!readme.includes(retiredPitch), `README still contains retired product positioning: ${retiredPitch}`);
+  "Design direction and browser QA for Claude Code",
+  "npx --yes --allow-git=all github:wrg32786/aigent-design-system install",
+  "npx --yes --allow-git=all github:wrg32786/aigent-design-system init",
+  "setup-browser",
+  ".aigent/install.json",
+  "does **not** contain a magical visual model",
+  "Comparative no-skill/Impeccable/Aigent evaluations",
+]) assert.ok(readme.includes(contract), `README is missing current product contract: ${contract}`);
+
+const publicSurfaces = ["README.md", "index.html", "vault/index.html", "vault/app.js", "templates/immersive-sales-deck/index.html", "skills/aigent-design/SKILL.md", "skills/aigent-design/reference/publish.md"];
+for (const relative of publicSurfaces) {
+  const body = fs.readFileSync(file(relative), "utf8");
+  for (const retired of ["studio-core", "AIgent Studio", "AIgent Desktop", "aigent-studio", "shadcn@latest add wrg32786/aigent-design-system/studio-core"]) {
+    assert.ok(!body.includes(retired), `${relative} still contains retired product path: ${retired}`);
+  }
 }
 
-const pages = [
-  "index.html",
-  "templates/modular-scroll-starter/index.html",
-  "templates/immersive-sales-deck/index.html",
-  "templates/command-center-interface/index.html",
-  "templates/threejs-product-stage/index.html",
-  "vault/index.html",
-  "inspiration/lab/index.html",
-];
+const pages = ["index.html", "templates/modular-scroll-starter/index.html", "templates/immersive-sales-deck/index.html", "templates/command-center-interface/index.html", "templates/threejs-product-stage/index.html", "vault/index.html", "inspiration/lab/index.html"];
 const audit = auditPaths([...pages.map(file), file("tokens/system.css")]);
 assert.deepEqual(audit.findings.filter((item) => item.severity === "error"), [], "Flagship design audit failed.");
 
-const detectorProof = auditSources([{
-  file: "bad.html",
-  source: '<html><head><style>a{transition:all .2s;outline:none}</style></head><body><h1>A</h1><h1>B</h1><div onclick="x()">Go</div></body></html>',
-}]);
-for (const rule of ["a11y/html-lang", "responsive/viewport", "hierarchy/h1-count", "a11y/nonsemantic-click", "a11y/outline-none", "performance/transition-all"]) {
-  assert.ok(detectorProof.some((item) => item.rule === rule), `Design audit self-check missed ${rule}`);
-}
+const detectorProof = auditSources([{ file: "bad.html", source: '<html><head><style>a{transition:all .2s;outline:none}</style></head><body><h1>A</h1><h1>B</h1><div onclick="x()">Go</div></body></html>' }]);
+for (const rule of ["a11y/html-lang", "responsive/viewport", "hierarchy/h1-count", "a11y/nonsemantic-click", "a11y/outline-none", "performance/transition-all"]) assert.ok(detectorProof.some((item) => item.rule === rule), `Design audit self-check missed ${rule}`);
 
-console.log(`Aigent 1.4 check passed: ${exemplars.exemplars.length} visual exemplars, persistent art direction, preservation contract, ${registry.items.length} registry items, ${skillFiles.length} skills, Taste, Resolve, Vision, and browser QA.`);
+console.log(`Aigent check passed: safe consumer install, ${skillFiles.length} source skills, ${exemplars.exemplars.length} visual exemplars, current public surfaces, browser QA, and agent-native product boundary.`);

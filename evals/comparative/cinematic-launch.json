@@ -1,0 +1,21 @@
+{
+  "id": "cinematic-launch",
+  "surface": "launch-page",
+  "mode": "persuade-experience",
+  "product": "A compact autonomous inspection robot for industrial facilities that maps hard-to-reach spaces and flags anomalies for maintenance teams.",
+  "audience": "Industrial operations leaders and technical buyers.",
+  "primaryAction": "Request a live facility demonstration.",
+  "proof": [
+    "autonomous route mapping",
+    "annotated inspection evidence",
+    "human review before maintenance action"
+  ],
+  "constraints": [
+    "one coherent media system and one focal motion thesis",
+    "product evidence must lead rather than abstract atmosphere",
+    "advanced 3D or video must earn its runtime cost",
+    "complete mobile and reduced-motion alternatives",
+    "avoid generic futuristic AI visual language"
+  ],
+  "deliverables": ["desktop", "mobile", "reduced-motion", "loading", "media-failure"]
+}

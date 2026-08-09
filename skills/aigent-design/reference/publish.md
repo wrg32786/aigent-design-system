@@ -1,63 +1,50 @@
 # Publish
 
-Publishing is the final production stage, not a separate hosting afterthought.
+Publishing is the final production stage, not a separate product surface.
 
-## Read
+## Authority
 
-- `publish/README.md`
-- `.aigent/studio/canvas.json`
-- `.aigent/publish/state.json` when present
-- the current project entry and latest checkpoint
+Read the current project entry, existing deployment configuration, `.aigent/design-direction.md` when present, and `.aigent/publish/state.json` when present. Do not read or require retired Studio or Canvas state.
 
 ## Hard gates
 
-Do not publish while Canvas operations remain active. Distill the approved intent into source or deliberately clear the journal first.
-
-Do not publish a whole workspace. Build a constrained public artifact from the real page entry and its referenced dependencies. Block project context, agent state, QA state, credentials, keys, environment files, and private working records.
+- Publish only source the user intends to make public.
+- Never export project context, agent state, QA state, credentials, environment files, private captures, or working records.
+- Use the provider's official authentication flow. Never ask the user to paste hosting tokens into project files.
+- Verify the actual public artifact or URL after deployment.
 
 ## Route
 
-Use the first provider that fits:
+Use the first provider that fits the user's request:
 
-1. local export for handoff or an external host;
-2. Netlify for the fastest claimable preview or simple static production deploy;
-3. Vercel for linked preview/production projects and direct domain aliases;
-4. Cloudflare Pages for Cloudflare-hosted static delivery and preview branches.
+1. local export for handoff or external hosting;
+2. Netlify for a simple static preview or production deploy;
+3. Vercel for linked preview/production projects and domain aliases;
+4. Cloudflare Pages for Cloudflare-hosted static delivery.
 
-Authenticate through the official provider CLI or browser flow. Never request hosting tokens in a Studio form or write them into project context.
+Do not introduce a hosting provider when the project already has one unless the user asks to change it.
 
 ## Completion loop
 
 ```text
-DISTILL → CHECKPOINT → EXPORT → PREFLIGHT → DEPLOY → VERIFY → RECORD
+CHECKPOINT → EXPORT → PREFLIGHT → DEPLOY → VERIFY → RECORD
 ```
 
-Production should keep Resolve verification enabled before and after deployment. Prepare Vision captures when the operator needs a final rendered judgment of the public URL.
-
-A successful publish records:
-
-- provider and preview/production mode;
-- live URL or explicit local artifact path;
-- source checkpoint SHA;
-- exported artifact directory;
-- local and live Resolve result;
-- Vision task when prepared;
-- custom-domain status;
-- exact artifact needed for forward redeploy.
+Use Resolve before and after deployment when the scope warrants it. Prepare Vision captures when final rendered judgment is required.
 
 ## Commands
 
 ```bash
-node scripts/publish-site.mjs export --project-dir . --entry /index.html
-node scripts/publish-site.mjs auth --provider netlify
-node scripts/publish-site.mjs deploy --provider netlify --mode preview --site example --project-dir . --entry /index.html
-node scripts/publish-site.mjs deploy --provider vercel --mode production --site example --domain www.example.com --project-dir . --entry /index.html --verify --vision
-node scripts/publish-site.mjs rollback --project-dir . --deployment <id> --verify
+npx github:wrg32786/aigent-design-system publish export --project-dir . --entry /index.html
+npx github:wrg32786/aigent-design-system publish auth --provider netlify
+npx github:wrg32786/aigent-design-system publish deploy --provider netlify --mode preview --site example --project-dir . --entry /index.html
+npx github:wrg32786/aigent-design-system publish deploy --provider vercel --mode production --site example --domain www.example.com --project-dir . --entry /index.html --verify --vision
+npx github:wrg32786/aigent-design-system publish rollback --project-dir . --deployment <id> --verify
 ```
 
 ## Domains
 
-Vercel aliases can be applied from the publish flow. Netlify and Cloudflare domain ownership and DNS verification remain in their dashboards. Never modify DNS without explicit operator authority.
+Only change domains or DNS with explicit operator authority. Provider-specific verification remains in the provider's official tooling or dashboard.
 
 ## Rollback
 

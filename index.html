@@ -3,68 +3,61 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Aigent turns Claude Code into a professional design team for your repo." />
-  <title>Aigent — Design team for Claude Code</title>
+  <meta name="description" content="Aigent adds design direction, inspiration analysis, and browser QA to Claude Code without replacing your repo's product authority." />
+  <title>Aigent — Design direction and browser QA for Claude Code</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Martian+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="tokens/system.css" />
   <style>
-    body{margin:0;background:var(--ds-color-bg);color:var(--ds-color-text)}
-    main{width:min(1120px,calc(100% - 40px));margin:auto;padding:72px 0 96px}
-    .eyebrow{color:var(--ds-color-accent);font:600 .7rem/1.4 var(--ds-font-mono);letter-spacing:.12em;text-transform:uppercase}
-    h1,h2{font-family:var(--ds-font-display);letter-spacing:-.03em;line-height:.92;text-wrap:balance}
-    h1{max-width:10ch;margin:18px 0 24px;font-size:clamp(4.4rem,10vw,9rem)}
-    h2{margin:0;font-size:clamp(2.4rem,5vw,4.8rem)}
-    .lead{max-width:700px;color:var(--ds-color-muted);font:500 clamp(1.05rem,2vw,1.3rem)/1.65 var(--ds-font-body)}
-    .install{margin:44px 0 72px;padding:24px;border-block:1px solid var(--ds-color-rule-strong);background:rgb(var(--ds-accent-rgb)/.045)}
-    .install code{display:block;margin-top:10px;color:var(--ds-color-accent);font:500 .86rem/1.7 var(--ds-font-mono);overflow-wrap:anywhere}
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin:38px 0 80px;background:var(--ds-color-rule)}
-    .grid article{min-height:180px;padding:24px;background:var(--ds-color-bg)}
-    .grid strong{display:block;margin-bottom:10px;font:600 1.2rem/1.2 var(--ds-font-body)}
-    .grid p,.steps p{margin:0;color:var(--ds-color-muted);font:500 .94rem/1.6 var(--ds-font-body)}
-    .steps{display:grid;gap:0;margin-top:34px;border-top:1px solid var(--ds-color-rule-strong)}
-    .step{display:grid;grid-template-columns:72px 1fr;gap:24px;padding:26px 0;border-bottom:1px solid var(--ds-color-rule)}
-    .step span{color:var(--ds-color-accent);font:600 .72rem/1.5 var(--ds-font-mono)}
-    .step strong{display:block;margin-bottom:6px;font:600 1.25rem/1.2 var(--ds-font-body)}
-    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:44px}
-    a{color:inherit}
-    @media(max-width:760px){main{padding-top:44px}.grid{grid-template-columns:1fr}.step{grid-template-columns:48px 1fr}}
+    body{margin:0;background:var(--ds-color-bg);color:var(--ds-color-text)}main{width:min(1120px,calc(100% - 40px));margin:auto;padding:72px 0 96px}.eyebrow{color:var(--ds-color-accent);font:600 .7rem/1.4 var(--ds-font-mono);letter-spacing:.12em;text-transform:uppercase}h1,h2,h3{font-family:var(--ds-font-display);letter-spacing:-.03em;line-height:.94;text-wrap:balance}h1{max-width:10ch;margin:18px 0 24px;font-size:clamp(4rem,9vw,8.5rem)}h2{margin:0;font-size:clamp(2.4rem,5vw,4.8rem)}h3{margin:0 0 10px;font-size:1.8rem}.lead{max-width:760px;color:var(--ds-color-muted);font:500 clamp(1.05rem,2vw,1.3rem)/1.65 var(--ds-font-body)}.install{margin:44px 0 72px;padding:24px;border-block:1px solid var(--ds-color-rule-strong);background:rgb(var(--ds-accent-rgb)/.045)}.install code{display:block;margin-top:10px;color:var(--ds-color-accent);font:500 .86rem/1.7 var(--ds-font-mono);overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin:38px 0 80px;background:var(--ds-color-rule)}.grid article{min-height:190px;padding:24px;background:var(--ds-color-bg)}.grid strong{display:block;margin-bottom:10px;font:600 1.2rem/1.2 var(--ds-font-body)}.grid p,.steps p,.proof p{margin:0;color:var(--ds-color-muted);font:500 .94rem/1.6 var(--ds-font-body)}.steps{display:grid;gap:0;margin-top:34px;border-top:1px solid var(--ds-color-rule-strong)}.step{display:grid;grid-template-columns:72px 1fr;gap:24px;padding:26px 0;border-bottom:1px solid var(--ds-color-rule)}.step span{color:var(--ds-color-accent);font:600 .72rem/1.5 var(--ds-font-mono)}.step strong{display:block;margin-bottom:6px;font:600 1.25rem/1.2 var(--ds-font-body)}.proof{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:34px 0 80px}.proof a{display:block;min-height:220px;padding:24px;border:1px solid var(--ds-color-rule);border-radius:var(--ds-radius-md);text-decoration:none}.proof a:hover{border-color:var(--ds-color-accent)}.proof small{display:block;margin-top:30px;color:var(--ds-color-accent);font:600 .68rem/1.4 var(--ds-font-mono);letter-spacing:.08em;text-transform:uppercase}.truth{margin:36px 0 80px;padding:28px;border-left:3px solid var(--ds-color-accent);background:rgb(var(--ds-accent-rgb)/.05)}.truth strong{display:block;margin-bottom:10px;font:600 1.2rem/1.3 var(--ds-font-body)}.truth p{max-width:820px;margin:0;color:var(--ds-color-muted);font:500 1rem/1.65 var(--ds-font-body)}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:44px}a{color:inherit}@media(max-width:760px){main{padding-top:44px}.grid,.proof{grid-template-columns:1fr}.step{grid-template-columns:48px 1fr}}
   </style>
 </head>
 <body>
   <main>
-    <span class="eyebrow">Aigent · agent-native design system</span>
-    <h1>Turn Claude into your design team.</h1>
-    <p class="lead">Install Aigent into a repo, open Claude Code, and describe what you want in normal language. Aigent gives Claude the design judgment, creative-production knowledge, browser QA, and visual-review loop to build polished websites, interfaces, decks, and immersive experiences.</p>
+    <span class="eyebrow">Aigent · active beta</span>
+    <h1>Design direction. Browser proof.</h1>
+    <p class="lead">Aigent adds a focused design skill, reference analysis, deterministic planning, and rendered QA to Claude Code. It works inside the repo you already have and does not replace your product or brand authority.</p>
 
     <section class="install" aria-labelledby="install-title">
-      <strong id="install-title">One command inside your project</strong>
+      <strong id="install-title">Install into a real project</strong>
       <code>npx github:wrg32786/aigent-design-system install</code>
+      <code>npx github:wrg32786/aigent-design-system init</code>
+      <code>npx github:wrg32786/aigent-design-system setup-browser</code>
     </section>
 
     <section aria-labelledby="what-title">
-      <h2 id="what-title">No second IDE.</h2>
+      <h2 id="what-title">What is actually shipped.</h2>
       <div class="grid">
-        <article><strong>Claude is the interface</strong><p>Use the coding environment and subscription you already have. Aigent installs into the project rather than asking you to learn another application.</p></article>
-        <article><strong>Aigent routes the expertise</strong><p>You do not choose specialist skills. Claude infers when it needs inspiration, typography, motion, assets, Taste, Resolve, Vision, or publishing guidance.</p></article>
-        <article><strong>The browser is ground truth</strong><p>Aigent is designed to render, inspect, repair, and polish the real project rather than stop when code compiles.</p></article>
+        <article><strong>Direction</strong><p>The core skill reads the existing repo, helps resolve the visual world, persists approved direction, and preserves unrelated work during scoped revisions.</p></article>
+        <article><strong>Inspiration</strong><p>Public references can be captured into Design DNA, divided across design dimensions, transformed, and reviewed for source dominance instead of treated as clone targets.</p></article>
+        <article><strong>Browser QA</strong><p>Resolve measures responsive behavior, focus, contrast, touch targets, clipping, runtime failures, reduced motion, and related mechanical evidence in Chromium.</p></article>
       </div>
     </section>
+
+    <section aria-labelledby="proof-title">
+      <h2 id="proof-title">Inspect the current proof.</h2>
+      <div class="proof">
+        <a href="templates/modular-scroll-starter/"><h3>Editorial page</h3><p>A responsive page system showing hierarchy, motion restraint, themes, and browser-verifiable behavior.</p><small>Open example</small></a>
+        <a href="templates/command-center-interface/"><h3>Product interface</h3><p>A dense operator workspace with queue filtering, command palette behavior, and mobile adaptation.</p><small>Open example</small></a>
+        <a href="templates/threejs-product-stage/"><h3>Progressive 3D</h3><p>A product stage that treats fallback, loading, and runtime cost as part of the design instead of decorative afterthoughts.</p><small>Open example</small></a>
+      </div>
+    </section>
+
+    <div class="truth">
+      <strong>No fake benchmark claim.</strong>
+      <p>The examples above prove implementation craft, not that Aigent automatically beats every baseline. The repository now includes a fixed comparative protocol for baseline, Impeccable, and Aigent runs. Those results should be published only after the runs exist.</p>
+    </div>
 
     <section aria-labelledby="use-title">
       <h2 id="use-title">How you use it.</h2>
       <div class="steps">
-        <div class="step"><span>01</span><div><strong>Install</strong><p>Run the one command in a local checkout or cloud development repo.</p></div></div>
-        <div class="step"><span>02</span><div><strong>Open Claude</strong><p>Start Claude Code in the same repo.</p></div></div>
-        <div class="step"><span>03</span><div><strong>Describe the job</strong><p>“Use Aigent to redesign this site. Help me figure out the direction before you build it.”</p></div></div>
-        <div class="step"><span>04</span><div><strong>Let Aigent steer</strong><p>Claude can ask for the audience, brand constraints, strongest proof, or a few designs you like when those answers would materially improve the result.</p></div></div>
-        <div class="step"><span>05</span><div><strong>Build and refine</strong><p>Choose or combine a direction, then talk normally: “make it bolder,” “fix mobile,” “add one memorable interaction,” or “run the full Aigent review.”</p></div></div>
+        <div class="step"><span>01</span><div><strong>Install safely</strong><p>Vendor files stay under the Aigent skill directory and are tracked by hash. Existing project authority is not replaced.</p></div></div>
+        <div class="step"><span>02</span><div><strong>Direct the work</strong><p>Ask Claude to use Aigent. It can inspect the repo, ask only high-leverage questions, and offer distinct directions before a large redesign.</p></div></div>
+        <div class="step"><span>03</span><div><strong>Build in source</strong><p>The real application remains the source of truth. Aigent does not create a second IDE or proprietary project shell.</p></div></div>
+        <div class="step"><span>04</span><div><strong>Render and repair</strong><p>Use Taste as a smell linter, Resolve as the mechanical floor, and Vision as a structured rendered-review protocol.</p></div></div>
       </div>
-      <div class="actions">
-        <a class="ds-button" data-variant="solid" href="skills/aigent-design/SKILL.md">Read the Aigent skill</a>
-        <a class="ds-button" data-variant="quiet" href="vault/">Browse examples</a>
-      </div>
+      <div class="actions"><a class="ds-button" data-variant="solid" href="skills/aigent-design/SKILL.md">Read the core skill</a><a class="ds-button" data-variant="quiet" href="vault/">Browse systems</a></div>
     </section>
   </main>
 </body>

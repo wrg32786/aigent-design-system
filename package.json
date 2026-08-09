@@ -2,7 +2,7 @@
   "name": "aigent-design-system",
   "version": "1.4.0",
   "private": false,
-  "description": "Agent-native design operating system for Claude Code and capable coding agents: art direction, visual exemplars, design intelligence, creative production, Taste, Resolve, and Vision.",
+  "description": "Agent-native design direction and browser QA for Claude Code: inspiration analysis, deterministic planning, Taste, Resolve, and structured visual review.",
   "type": "module",
   "bin": {
     "aigent-design": "scripts/cli.mjs"
@@ -18,6 +18,7 @@
     "audit": "node scripts/design-audit.mjs",
     "taste": "node scripts/design-audit.mjs --taste-only",
     "taste:check": "node scripts/check-taste.mjs",
+    "install:check": "node scripts/check-install.mjs",
     "assets": "node scripts/check-assets.mjs",
     "catalogs": "node scripts/check-catalogs.mjs",
     "intelligence": "node scripts/check-intelligence.mjs",
@@ -36,7 +37,6 @@
     "ai",
     "agent-skills",
     "claude-code",
-    "codex",
     "design-system",
     "art-direction",
     "design-intelligence",
@@ -63,7 +63,6 @@
     "remotion",
     "hyperframes",
     "design-to-code",
-    "website-builder",
     "deployment",
     "static-publishing"
   ],

@@ -1,0 +1,17 @@
+{
+  "id": "dense-operations",
+  "surface": "product-interface",
+  "mode": "operate",
+  "product": "An operations console for a regional field-service company coordinating technicians, jobs, delays, and customer escalations.",
+  "audience": "Dispatchers and operations managers who use the interface all day.",
+  "primaryTask": "Identify the highest-priority issue and reassign work without losing surrounding context.",
+  "requiredStates": ["normal", "loading", "empty", "error", "disabled", "overflow", "mobile"],
+  "constraints": [
+    "high information density with clear priority hierarchy",
+    "motion only for state and continuity",
+    "keyboard reachable controls",
+    "no marketing hero treatment inside the application",
+    "mobile should prioritize queue and task detail rather than shrink the desktop workspace"
+  ],
+  "deliverables": ["desktop", "mobile", "200-percent-text", "reduced-motion"]
+}

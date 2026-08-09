@@ -1,5 +1,27 @@
 # Changelog
 
+## Unreleased — Product hardening
+
+### Added
+
+- install ownership manifest at `.aigent/install.json`
+- project-safe `init`, explicit `setup-browser`, stronger `doctor`, package-backed `taste`, and safe `uninstall` commands
+- consumer install contract test covering existing project authority, update conflicts, and modified-file preservation
+- selective `.gitignore` management for private/runtime Aigent evidence
+- private/local-network guard for Inspiration URL capture with explicit `--allow-private` override
+- comparative evaluation protocol and fixed bright-consumer, dense-operations, and cinematic-launch briefs
+
+### Changed
+
+- default install now writes only Aigent skill/vendor files under `.claude/skills/aigent-design/`; it no longer follows registry dependencies into customer project roots
+- `init` creates `.aigent/project-context.md` instead of installing Aigent's own `PRODUCT.md` or `DESIGN.md` into consumer repos
+- browser-backed commands run through the Aigent package rather than copied project scripts
+- README now describes Taste as a smell linter, Vision as a structured review protocol, and Design Intelligence as deterministic planning rather than overstating autonomous visual judgment
+- Vault and immersive deck now use the current agent-native install path and no longer teach retired Studio/shadcn workflows
+- publishing guidance no longer depends on retired Canvas state
+- CI now validates the consumer product boundary and runs on `master` pushes as well as pull requests
+- roadmap now prioritizes comparative proof, real case studies, platform fixtures, visual regression, and immutable distribution before additional major features
+
 ## 1.4.0 — Aigent Art Direction
 
 ### Added
@@ -68,7 +90,6 @@
 - packaged child tooling uses the Electron runtime while preserving external Claude Code and Codex authentication
 - validated releases now trigger native installer builds and attach them to GitHub Releases
 
-
 ## 1.0.0 — AIgent Canvas
 
 ### Added
@@ -94,7 +115,6 @@
 - the real project remains the source of truth; Canvas edits are reversible operator intent until distilled
 - the consolidated design skill now routes direct visual editing through the Canvas contract
 
-
 ## 0.6.0 — AIgent Studio
 
 ### Added
@@ -111,7 +131,6 @@
 
 - package version is now `0.6.0`
 - `full-studio` now includes the interactive Studio UI
-
 
 ## 0.5.0 — AIgent Vision
 

@@ -4,22 +4,16 @@
 
 Do not open a public issue for a credential leak, private URL, signed asset URL, private customer data, unauthorized inspiration capture, or exploitable code path. Use GitHub's private vulnerability reporting for this repository when available.
 
-Include:
-
-- affected file or feature
-- impact
-- reproduction steps
-- the smallest safe evidence needed to verify it
-
-Do not include live credentials, private screenshots, or personal data in the report.
+Include the affected feature, impact, reproduction steps, and the smallest safe evidence needed to verify it. Do not include live credentials, private screenshots, or personal data.
 
 ## Repository rules
 
 - secrets belong in environment variables, never manifests or examples
 - asset manifests must not contain signed download URLs or private generation records
 - raw marketplace downloads and source renders stay outside Git
-- inspiration captures and extracted page evidence stay under `.aigent/inspiration`, which is ignored by Git
-- normalized Design DNA stores hashed copy shingles and counts, not raw body-copy samples
+- private inspiration captures and generated browser evidence stay under ignored `.aigent` runtime directories
+- shared project authority such as `.aigent/project-context.md` and `.aigent/design-direction.md` is intentionally separate from private capture output
+- normalized Design DNA stores hashed copy fingerprints rather than publishing source page bodies
 - do not capture authenticated, private, paywalled, personal, or confidential pages without explicit authority
 - do not use URL forensics to bypass access controls or collect data beyond the design task
 - external registry items must be reviewed before installation
@@ -28,19 +22,31 @@ Do not include live credentials, private screenshots, or personal data in the re
 
 `scripts/check-assets.mjs` checks common credential and signed-URL patterns, but it is not a replacement for secret scanning, privacy review, or authorization checks.
 
-## Agent-native boundary
+## Install ownership
 
-Aigent installs design knowledge and supporting tooling into a user's existing repository. It does not own Claude, Codex, hosting, or other provider credentials. Authentication stays in the official coding-agent or provider CLI the user already chose.
+The normal `aigent-design install` path writes vendor-owned skill files under `.claude/skills/aigent-design/` and records their hashes in `.aigent/install.json`.
 
-The Aigent installer must not silently overwrite conflicting project files. Reinstallation may keep identical installed files; replacing conflicting files requires an explicit `--force` action.
+It must not install Aigent's own `PRODUCT.md`, `DESIGN.md`, tokens, runtime scripts, or other root-level product authority into the consumer repository. Existing product and brand documentation remains authoritative.
 
-Coding agents can edit project files and run local tools with the authority granted by the user's environment. Install and use Aigent only in repositories and development environments the user trusts.
+On update, files whose current hash differs from the recorded installed hash are treated as user-modified and are not silently overwritten. `--force` is an explicit destructive override. `uninstall` removes only unchanged vendor-owned files and preserves modified installed files.
+
+`init` creates `.aigent/project-context.md`; it does not replace root project documentation.
 
 ## Inspiration and browser tooling
 
-Browser and inspiration tooling must respect project filesystem boundaries and normal network access controls. Do not use design forensics to bypass authentication, paywalls, signed URLs, robots/access controls, or private application boundaries.
+Inspiration URL capture denies obvious loopback, private-network, link-local, and common metadata targets by default. `--allow-private` is an explicit operator override for a local/private target the user is authorized to inspect.
+
+This guard does not make arbitrary browsing risk-free. DNS, redirects, authentication state, and browser extensions can change the effective trust boundary. Do not use Aigent to probe internal services, cloud metadata, private applications, or authenticated pages without explicit authorization.
+
+Browser-backed features use Aigent's Playwright dependency and an explicitly installed Chromium runtime. The host project should not need copied Aigent runtime scripts or Aigent-owned Node dependencies.
 
 Captured references are working evidence, not public assets. Keep private screenshots, source captures, and customer material out of public commits unless the user explicitly owns and intends to publish them.
+
+## Agent boundary
+
+Aigent does not own Claude Code, hosting, or other provider credentials. Authentication stays in the official coding-agent or provider CLI the user chose.
+
+Coding agents can edit project files and run local tools with the authority granted by the user's environment. Install and use Aigent only in repositories and development environments the user trusts.
 
 ## Publishing and hosting credentials
 
