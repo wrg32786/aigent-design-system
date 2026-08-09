@@ -75,6 +75,8 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 22
+      - name: Use current npm
+        run: npm install --global npm@12
       - name: Exercise the exact public npx path
         shell: bash
         env:
