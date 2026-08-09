@@ -84,6 +84,12 @@ for (const [label, findings] of [
 
 const { registry } = readRegistry();
 for (const name of ["aigent-design-skill", "inspiration-intelligence", "design-resolver", "vision-critic", "publish-site"]) assert.ok(registry.items.some((item) => item.name === name), `${name} is missing from the registry.`);
+const primaryRegistryItem = registry.items.find((item) => item.name === "aigent-design-skill");
+assert.equal(primaryRegistryItem.registryDependencies?.length ?? 0, 0, "Primary Aigent install must not pull root-level registry dependencies into customer repos.");
+for (const entry of primaryRegistryItem.files) {
+  assert.ok(entry.target?.startsWith("~/.claude/skills/aigent-design/"), `Primary Aigent registry file escapes the vendor skill directory: ${entry.target}`);
+}
+assert.ok(primaryRegistryItem.files.some((entry) => entry.target === "~/.claude/skills/aigent-design/reference/publish.md"), "Primary install must include every reference named by the core skill.");
 
 const resourceCatalog = JSON.parse(fs.readFileSync(file("creative-production/catalog.json"), "utf8"));
 assert.ok(resourceCatalog.resources.length >= 25);
