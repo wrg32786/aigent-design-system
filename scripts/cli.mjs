@@ -110,6 +110,8 @@ function defaultOperations(registry, target) {
     if (!relative.startsWith(".claude/skills/aigent-design/") || relative.endsWith("/reference/canvas.md")) continue;
     operations.push({ item: item.name, file, source: path.resolve(packageRoot, file.path), destination });
   }
+  const publishSource = path.join(packageRoot, "skills", "aigent-design", "reference", "publish.md");
+  operations.push({ item: item.name, file: { path: "skills/aigent-design/reference/publish.md" }, source: publishSource, destination: path.join(target, ".claude", "skills", "aigent-design", "reference", "publish.md") });
   const exemplarRoot = path.join(packageRoot, "skills", "aigent-design", "visual-exemplars");
   for (const source of filesUnder(exemplarRoot)) {
     const relative = path.relative(exemplarRoot, source);
