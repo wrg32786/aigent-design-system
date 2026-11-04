@@ -1,12 +1,59 @@
 # Aigent
 
-**Design direction and browser QA for Claude Code.**
+**a design skill that makes your agent pick a direction, build it, then actually look at the result in a browser.**
+
+Design direction and browser QA for Claude Code, plus cursor and codex. one `SKILL.md` at the root, real guidance in `skills/aigent-design/`.
+
+| plain html | same html with aigent `tokens/system.css` |
+|---|---|
+| ![the demo page with no stylesheet: default serif text, blue links, a bulleted list](docs/before-after/before.png) | ![the same markup with the repo's graphite theme: dark ground, cream condensed headline, orange mono labels, rule list rows](docs/before-after/after.png) |
+
+same markup in both. the right side only links `tokens/system.css` and uses its `ds-*` classes and tokens (source in [`docs/before-after/`](docs/before-after/)). it shows the neutral token layer, not a full skill run. web fonts are not loaded, so the display face falls back to the stack in the tokens.
+
+## quick install
+
+**claude code**, every project:
+
+```bash
+git clone https://github.com/wrg32786/aigent-design-system ~/.claude/skills/aigent
+```
+
+or per project with the bundled installer (writes `.claude/skills/aigent-design/`, see below):
+
+```bash
+npx --yes --allow-git=all github:wrg32786/aigent-design-system install
+```
+
+then just ask: `use aigent to redesign this landing page`.
+
+**cursor**: clone the repo somewhere in or next to your project, then add `.cursor/rules/aigent.mdc`:
+
+```md
+---
+description: design, redesign, polish or review frontend UI
+alwaysApply: false
+---
+For design work, read and follow path/to/aigent-design-system/SKILL.md.
+```
+
+if your cursor build has agent skills turned on, you can drop the clone into `.cursor/skills/aigent` instead.
+
+**codex**: clone the repo (for example to `~/.agents/skills/aigent` or into your project), then add this to your project's `AGENTS.md`:
+
+```md
+## design work
+For any design, redesign, polish or UI review task, read and follow
+path/to/aigent/SKILL.md before writing frontend code.
+```
+
+the browser backed commands (Taste, Resolve, Vision) need Node and run through `npx` in every tool. `setup-browser` installs Chromium for them.
+
 
 Aigent installs a focused design skill into an existing repo while Claude Code remains the interface. It helps shape visual direction, study references, choose layout/type/motion/media, inspect the rendered browser, and run structured design review without replacing the project's own product or brand authority.
 
 Aigent is in active beta. The strongest shipped pieces today are the core design skill, Inspiration Intelligence, Resolve, and the structured Vision review protocol.
 
-## Install
+## Full install (claude code, per project)
 
 From the repo you want to design:
 
