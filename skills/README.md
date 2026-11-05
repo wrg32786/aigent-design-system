@@ -16,6 +16,12 @@ The installed `aigent-design` skill is the normal entry point. Users should spea
 | --- | --- |
 | `aigent-design` | brief → direction → inspiration → production → build → Taste → Resolve → Vision → polish |
 
+## Business sites
+
+| Skill | Owns |
+| --- | --- |
+| `aigent-business-sites` | business job, visitor questions, truthful proof, preserve-mode redesign, release audit, and business-site evals (adapted from Ultra Web Design, see its `NOTICE.md`) |
+
 ## Inspiration
 
 | Skill | Owns |

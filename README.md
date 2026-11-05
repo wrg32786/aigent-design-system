@@ -92,6 +92,7 @@ Aigent can:
 - synthesize multiple references instead of cloning one source
 - choose layout, typography, color, motion, media, and interface direction
 - flag common generated-design smells with Aigent Taste
+- structure business sites around visitor questions and real proof, keep forms, URLs, and analytics intact through a redesign, and run a release audit (`skills/aigent-business-sites`)
 - run browser-measured responsive, focus, contrast, clipping, reduced-motion, and runtime checks with Resolve
 - prepare a structured rendered-review task with Vision
 - export and deploy static work through constrained publishing tooling
@@ -180,4 +181,4 @@ The public install path should also be exercised in a clean consumer fixture bef
 
 ## License
 
-MIT for Aigent-authored code and documentation. Third-party tools and assets retain their own licenses; see [`THIRD_PARTY.md`](THIRD_PARTY.md).
+MIT for Aigent-authored code and documentation. `skills/aigent-business-sites/` is adapted from [Ultra Web Design](https://github.com/wrg32786/Ultra-web-design) under Apache-2.0; see its [`NOTICE.md`](skills/aigent-business-sites/NOTICE.md). Third-party tools and assets retain their own licenses; see [`THIRD_PARTY.md`](THIRD_PARTY.md).

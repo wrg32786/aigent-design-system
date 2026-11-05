@@ -31,6 +31,8 @@ From [`skills/aigent-design/reference/`](skills/aigent-design/reference/):
 - `vision.md` structured visual review
 - `publish.md` export and deployment
 
+For business websites (marketing, landing, service, ecommerce, editorial, membership, nonprofit) also read [`skills/aigent-business-sites/SKILL.md`](skills/aigent-business-sites/SKILL.md). It adds content architecture, truthful proof, preserve-mode redesign, and a release audit.
+
 Add [`skills/aigent-design/reference/craft-floor.md`](skills/aigent-design/reference/craft-floor.md) before substantial implementation or final review.
 
 ## 3. Calibration and deeper material, only when relevant

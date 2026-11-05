@@ -48,3 +48,7 @@ The root `registry.json` distributes only declared repository files. It does not
 ## Demo media, fonts, and Spline
 
 Demo media is for repository demonstration and should be replaced when a commercial project requires different provenance or warranty. Fonts and public Spline scenes retain their own terms. A working URL is not proof of redistribution rights.
+
+## Ultra Web Design
+
+`skills/aigent-business-sites/` is adapted from [Ultra Web Design](https://github.com/wrg32786/Ultra-web-design) (Apache-2.0, Copyright 2026 Ultra Web Design contributors). Those files stay under Apache-2.0. Ultra's own upstream credits are carried in [`skills/aigent-business-sites/NOTICE.md`](skills/aigent-business-sites/NOTICE.md).

@@ -4,6 +4,7 @@
 
 ### Added
 
+- `aigent-business-sites` specialist skill adapted from Ultra Web Design: business content architecture, proof ladder, preserve-mode redesign, release audit, working templates, and business-site evals
 - install ownership manifest at `.aigent/install.json`
 - project-safe `init`, explicit `setup-browser`, stronger `doctor`, package-backed `taste`, and safe `uninstall` commands
 - consumer install contract test covering existing project authority, update conflicts, and modified-file preservation
