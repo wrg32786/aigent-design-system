@@ -94,12 +94,15 @@ Use the relevant file in `reference/` plus `reference/craft-floor.md` for substa
 - `type.md` — typography
 - `color.md` — palette and semantic color
 - `motion.md` — motion and continuity
+- `scroll.md` — scroll stories: feeling curve, page grammars, devices, layered heroes, scroll QA
+- `copy.md` — page copy: fact sheet, voice card, device budget, banned slop
 - `media.md` — image, video, 3D, and production choice
 - `interface.md` — product UI
 - `deck.md` — presentations and guided decks
 - `resolve.md` — rendered mechanical QA
 - `vision.md` — structured visual review
 - `publish.md` — export and deployment
+- `gates.md` — final review tiers, pre-build critique, generated-design tells, fresh-context reviews
 
 ## Core laws
 
@@ -111,6 +114,7 @@ Use the relevant file in `reference/` plus `reference/craft-floor.md` for substa
 - One dominant composition and one signature motion idea should carry a surface.
 - Media is part of the direction, not decoration added afterward.
 - Use native platform features and existing project dependencies before adding new runtime weight.
+- Copy comes from facts and decisions, never from synonyms for slop words.
 - Mobile is recomposed, not shrunk.
 - Reduced motion preserves meaning and hierarchy.
 - The browser is the mechanical ground truth.
