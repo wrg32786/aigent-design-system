@@ -10,6 +10,14 @@ npx github:wrg32786/aigent-design-system install
 
 The installed `aigent-design` skill is the normal entry point. Users should speak naturally; Claude routes to specialist knowledge internally.
 
+## New site
+
+```bash
+npx --yes --allow-git=all github:wrg32786/aigent-design-system create-site my-site
+```
+
+Scaffolds `templates/agent-site-starter` (Astro) with tokens, a section kit, a GSAP scroll story, and an `AGENTS.md` that routes the agent to `aigent-design`, `gsap-scroll-choreography`, and `publish-site`. Add `--with-remotion` for the optional `remotion-web-assets` hero loop.
+
 ## Main router
 
 | Skill | Owns |

@@ -4,6 +4,11 @@
 
 ### Added
 
+- `templates/agent-site-starter`: Astro site starter wired to the design rules, with the token themes, a small section kit (header, hero, proof rows, scroll story, closing action, footer), one GSAP scroll timeline with mobile and reduced-motion handling, an optional Remotion hero-loop project that is off by default, `AGENTS.md`/`CLAUDE.md`/Cursor rule that load the skills and require the gates, and publish-site deploy notes
+- `create-site <dir>` CLI command (also `npm run create-site` and `scripts/create-site.mjs`) that scaffolds the starter, copies `tokens/system.css`, installs the Aigent, GSAP choreography, and publish-site skills, and runs `npm install`
+- `agent-site-starter` and `agent-site-remotion-hero` registry items, used as the scaffold manifest
+- `npm run starter:check` contract test and a CI job that scaffolds, builds, lints, and exports the starter
+- `THIRD_PARTY.md` notes for Astro, GSAP's Standard "No Charge" License, Remotion's company license, and Fontsource fonts
 - `reference/scroll.md`: feeling curve and single peak, eight page grammars, scroll device families with tuning ranges, scrub/pin/pan failure modes, layered heroes, signature move and structural fingerprint check, native CSS scroll timelines, and scroll verification (adapted from scroll-craft and Hallmark, MIT)
 - `reference/copy.md`: fact sheet, voice card, reader-question shape, per-page device budget, banned slop, and over-correction table (adapted from taste-skill and Hallmark, MIT)
 - `reference/gates.md`: Floor, Reflex, and Finish review tiers with on-the-record waivers, six-axis pre-build critique, mirror test, concrete generated-design tells, and fresh-context hero and finish reviews (adapted from Hallmark and taste-skill, MIT)

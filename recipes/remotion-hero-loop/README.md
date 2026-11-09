@@ -15,6 +15,8 @@ A code-driven composition must produce desktop, mobile, poster, and campaign var
 7. integrate the outputs as ordinary web media
 8. verify loop seam, poster, mobile crop, and reduced motion
 
+The site starter ships this recipe as an optional project: `create-site <dir> --with-remotion` adds `remotion/` with desktop and mobile compositions, poster and reduced-motion still renders, a manifest, and a `heroVideo` slot in the site that stays off until set.
+
 Read:
 
 - `skills/remotion-web-assets/SKILL.md`
