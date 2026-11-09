@@ -64,6 +64,56 @@ function checkNestedCards(findings, file, source) {
   }
 }
 
+// Copy smells, adapted from leonxlnx/taste-skill and nutlope/hallmark (MIT, see skills/aigent-design/NOTICE.md).
+const SLOP_WORDS = ["delve", "delves", "tapestry", "testament to", "realm", "embark", "plethora", "myriad", "meticulous", "meticulously", "multifaceted", "paradigm",
+  "elevate", "elevates", "unlock", "unlocks", "unleash", "empower", "empowers", "empowering", "supercharge", "supercharged", "seamless", "seamlessly", "effortless", "effortlessly",
+  "cutting-edge", "revolutionary", "revolutionize", "transformative", "holistic", "next-level", "world-class", "best-in-class", "game-changer", "game-changing", "state-of-the-art",
+  "synergy", "reimagine", "reimagined", "next-generation", "next-gen", "robust", "powerful", "unparalleled", "industry-leading", "mission-critical", "future-proof"];
+const LITERAL_AFTER = {
+  powerful: /^\s+(?:and\s+)?\d[\d,.]*\s?(?:w|kw|hp|v|nm|mah|wh|kwh|lumens?|watts?|volts?|rpm)\b/i,
+  robust: /^\s+(?:steel|stainless|aluminium|aluminum|alloy|oak|timber|iron|carbon|frames?|chassis|casing|housing|hinges?)\b/i,
+  unlock: /^s?\s+(?:the |your |a )?(?:door|doors|bike|car|phone|locker|gate|box|room)\b/i,
+  seamless: /^\s+(?:knit|knitted|garments?|socks?|tights|leggings|pipes?|steel|gutters?|flooring)\b/i,
+};
+const STOCK_PHRASES = [/in today'?s (?:fast-paced|digital|modern|ever-changing|busy)/i, /unlock the (?:power|potential)/i, /harness the power/i, /the future of [a-z]+ is (?:here|now)/i,
+  /say goodbye to/i, /whether you'?re an? /i, /look no further/i, /join (?:thousands|millions|hundreds) of/i, /imagine a world/i, /ready to (?:transform|take your|elevate|level up)/i,
+  /one-stop shop/i, /take (?:it|your [a-z]+|things) to the next level/i, /\b(?:it'?s|this is|we'?re|we are) not just (?:a|an|another)\b/i, /\blet'?s dive in\b/i,
+  /\b(?:in|with) just a few clicks\b/i, /\bwe'?ve got you covered\b/i, /\bthe possibilities are endless\b/i, /\bat your fingertips\b/i, /\bbuilt for the modern\b/i];
+
+function visibleText(source) {
+  const blank = (text) => text.replace(/[^\n]/g, " ");
+  return source
+    .replace(/<(script|style|code|pre)\b[\s\S]*?<\/\1>/gi, blank)
+    .replace(/<!--[\s\S]*?-->/g, blank)
+    .replace(/<[^>]*>/g, blank)
+    .replace(/&[a-z]+;|&#\d+;/gi, (entity) => " ".repeat(entity.length));
+}
+
+function checkCopy(findings, file, source) {
+  const text = visibleText(source);
+  const slopHits = [];
+  for (const word of SLOP_WORDS) {
+    const pattern = new RegExp(`(?<![\\w-])${word.replace(/[-]/g, "[- ]").replace(/ /g, "\\s+")}(?![\\w-])`, "gi");
+    for (const match of text.matchAll(pattern)) {
+      const after = text.slice((match.index ?? 0) + match[0].length, (match.index ?? 0) + match[0].length + 40);
+      if (LITERAL_AFTER[word.toLowerCase()]?.test(after)) continue;
+      slopHits.push(match);
+    }
+  }
+  if (slopHits.length) {
+    slopHits.sort((a, b) => (a.index ?? 0) - (b.index ?? 0));
+    const words = [...new Set(slopHits.map((hit) => hit[0].toLowerCase()))].slice(0, 6).join(", ");
+    findings.push(finding(file, source, slopHits[0], "taste/copy-slop-word", "warning", `Generated-copy filler words (${words}). Replace each with the fact it stands in for: the figure, the mechanism, the material, the place. Found ${slopHits.length}.`));
+  }
+  for (const pattern of STOCK_PHRASES) {
+    const match = text.match(new RegExp(pattern.source, "i"));
+    if (match) findings.push(finding(file, source, match, "taste/copy-stock-phrase", "warning", `Stock line "${match[0].trim()}". Say what the product does, in its own nouns.`));
+  }
+  for (const match of text.matchAll(/\bscroll\s+(?:down|to\s+(?:explore|discover|begin|continue))\b/gi)) {
+    findings.push(finding(file, source, match, "taste/scroll-cue", "warning", "Scroll cues are decoration text. Visitors already know how to scroll; let the hero carry the invitation."));
+  }
+}
+
 export function isTasteFinding(item) {
   return item.rule.startsWith("taste/") || TASTE_REVIEW_RULES.has(item.rule);
 }
@@ -117,6 +167,7 @@ export function auditSources(entries) {
 
       repeatedFinding(findings, file, source, /\b(?:card|feature-card|pricing-card|info-card)\b/gi, 8, "taste/card-dominance", "Card language dominates this surface. Verify that proximity, rules, or a stronger composition would communicate hierarchy better.");
       checkNestedCards(findings, file, source);
+      checkCopy(findings, file, source);
 
       for (const match of source.matchAll(/\b(lorem ipsum|placeholder copy|coming soon\.\.\.)\b/gi)) {
         findings.push(finding(file, source, match, "content/placeholder", "warning", "Replace placeholder copy with product-specific language."));
