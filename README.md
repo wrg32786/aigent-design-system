@@ -48,6 +48,21 @@ path/to/aigent/SKILL.md before writing frontend code.
 
 the browser backed commands (Taste, Resolve, Vision) need Node and run through `npx` in every tool. `setup-browser` installs Chromium for them.
 
+## start a new site
+
+one command scaffolds an Astro site that is already wired to the rules (Node 22.23+):
+
+```bash
+npx --yes --allow-git=all github:wrg32786/aigent-design-system create-site my-site
+cd my-site && npm run dev
+```
+
+from a clone of this repo: `npm run create-site -- my-site` or `node scripts/create-site.mjs my-site`.
+
+you get the design tokens and four themes (graphite by default), a small section kit (hero, proof rows, one scroll story, closing action), one GSAP scroll timeline with reduced-motion and mobile handling, the Aigent skills under `.claude/skills/`, and an `AGENTS.md` + `CLAUDE.md` + cursor rule telling the agent to load them and run `npm run gates` (build plus the copy and design linter) before shipping. deploys go through the publish-site skill.
+
+options: `--theme graphite|ember|cobalt|paper`, `--with-remotion` (adds an isolated Remotion hero-loop project, off until you render it), `--no-install`, `--force`. GSAP and Remotion come from npm under their own licenses, not MIT; see [`templates/agent-site-starter/README.md`](templates/agent-site-starter/README.md) and [`THIRD_PARTY.md`](THIRD_PARTY.md). the vendors' own agent skills are optional extras: `npx skills add https://github.com/greensock/gsap-skills` and `npx skills add remotion-dev/skills`.
+
 
 Aigent installs a focused design skill into an existing repo while Claude Code remains the interface. It helps shape visual direction, study references, choose layout/type/motion/media, inspect the rendered browser, and run structured design review without replacing the project's own product or brand authority.
 
@@ -157,6 +172,7 @@ Modified installed files are preserved and reported.
 
 The repository includes canonical examples for:
 
+- an Astro site starter for agents (`templates/agent-site-starter`, scaffolded with `create-site`)
 - modular editorial/product pages
 - guided sales decks
 - command-center interfaces
@@ -177,6 +193,7 @@ npm run inspiration
 npm run resolve:check
 npm run vision:check
 npm run publish:check
+npm run starter:check
 npm run eval
 ```
 
@@ -184,7 +201,7 @@ The public install path should also be exercised in a clean consumer fixture bef
 
 ## License
 
-MIT for Aigent-authored code and documentation. `skills/aigent-business-sites/` is adapted from [Ultra Web Design](https://github.com/wrg32786/Ultra-web-design) under Apache-2.0; see its [`NOTICE.md`](skills/aigent-business-sites/NOTICE.md). Third-party tools and assets retain their own licenses; see [`THIRD_PARTY.md`](THIRD_PARTY.md).
+MIT for Aigent-authored code and documentation. `skills/aigent-business-sites/` is adapted from [Ultra Web Design](https://github.com/wrg32786/Ultra-web-design) under Apache-2.0; see its [`NOTICE.md`](skills/aigent-business-sites/NOTICE.md). The site starter installs GSAP and the optional Remotion project from npm under their own non-MIT licenses. Third-party tools and assets retain their own licenses; see [`THIRD_PARTY.md`](THIRD_PARTY.md).
 
 ## Credits
 

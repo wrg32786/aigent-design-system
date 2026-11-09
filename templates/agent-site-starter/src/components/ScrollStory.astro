@@ -1,0 +1,40 @@
+---
+/**
+ * One scroll sequence driven by one GSAP timeline (gsap-scroll-choreography).
+ * Without JavaScript, or with reduced motion, every chapter stays readable
+ * as a normal stacked list.
+ */
+interface Props {
+  title: string;
+  lead: string;
+  chapters: { title: string; text: string }[];
+}
+
+const { title, lead, chapters } = Astro.props;
+---
+<section id="story" class="section story" data-scroll-story aria-labelledby="story-title">
+  <div class="ds-container">
+    <h2 id="story-title" class="section__title">{title}</h2>
+    <p class="section__lead">{lead}</p>
+    <div class="story__stage" data-story-stage>
+      <ol class="story__chapters">
+        {chapters.map((chapter) => (
+          <li class="story__chapter" data-story-chapter>
+            <h3>{chapter.title}</h3>
+            <p>{chapter.text}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="story__frame" aria-hidden="true">
+        <span class="story__layer story__layer--1" data-story-layer></span>
+        <span class="story__layer story__layer--2" data-story-layer></span>
+        <span class="story__layer story__layer--3" data-story-layer></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { mountScrollStory } from "../scripts/scroll-story";
+  mountScrollStory();
+</script>

@@ -4,6 +4,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import "./check-no-ide.mjs";
 import "./check-install.mjs";
+import "./check-starter.mjs";
 import { auditPaths, auditSources } from "./design-audit.mjs";
 import { checkAssetManifests } from "./check-assets.mjs";
 import { checkCatalogs } from "./check-catalogs.mjs";
@@ -26,14 +27,14 @@ const required = [
   "inspiration/README.md", "inspiration/schemas/design-dna.schema.json", "resolve/README.md", "vision/README.md",
   "creative-production/README.md", "assets/README.md", "publish/README.md",
   "templates/modular-scroll-starter/index.html", "templates/immersive-sales-deck/index.html", "templates/command-center-interface/index.html",
-  "templates/threejs-product-stage/index.html", "scripts/cli.mjs", "scripts/check-install.mjs", "scripts/inspire.mjs", ".github/workflows/validate.yml",
+  "templates/threejs-product-stage/index.html", "templates/agent-site-starter/AGENTS.md", "templates/agent-site-starter/package.json", "scripts/create-site.mjs", "scripts/check-starter.mjs", "scripts/cli.mjs", "scripts/check-install.mjs", "scripts/inspire.mjs", ".github/workflows/validate.yml",
 ];
 assert.deepEqual(required.filter((relativePath) => !fs.existsSync(file(relativePath))), [], "Missing required agent-native files.");
 
 const packageJson = JSON.parse(fs.readFileSync(file("package.json"), "utf8"));
 assert.equal(packageJson.version, "1.4.0");
 assert.equal(packageJson.bin?.["aigent-design"], "scripts/cli.mjs");
-for (const script of ["serve", "plan", "inspire", "resolve", "resolve:check", "vision", "vision:check", "audit", "taste", "taste:check", "install:check", "intelligence", "inspiration", "registry", "eval", "check", "smoke", "publish", "publish:check"]) {
+for (const script of ["serve", "plan", "inspire", "resolve", "resolve:check", "vision", "vision:check", "audit", "taste", "taste:check", "install:check", "intelligence", "inspiration", "registry", "eval", "check", "smoke", "publish", "publish:check", "create-site", "starter:check"]) {
   assert.equal(typeof packageJson.scripts?.[script], "string", `Missing package script: ${script}`);
 }
 for (const removed of ["studio", "studio:check", "desktop:start", "desktop:check", "desktop:dist"]) assert.equal(packageJson.scripts?.[removed], undefined);

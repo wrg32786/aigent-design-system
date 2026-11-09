@@ -152,6 +152,50 @@
         {"path":"scripts/publish-site.mjs","type":"registry:file","target":"~/scripts/publish-site.mjs"},
         {"path":"skills/publish-site/SKILL.md","type":"registry:file","target":"~/.claude/skills/publish-site/SKILL.md"}
       ]
+    },
+    {
+      "name": "agent-site-starter",
+      "type": "registry:item",
+      "title": "Agent Site Starter",
+      "description": "Astro site starter wired to the Aigent design rules: tokens and themes, a small section kit, one GSAP scroll story with reduced-motion handling, agent instructions, and the copy linter gate. Scaffold with the create-site command.",
+      "files": [
+        {"path":"templates/agent-site-starter/.cursor/rules/aigent.mdc","type":"registry:file","target":"~/aigent-site/.cursor/rules/aigent.mdc"},
+        {"path":"templates/agent-site-starter/_gitignore","type":"registry:file","target":"~/aigent-site/.gitignore"},
+        {"path":"templates/agent-site-starter/AGENTS.md","type":"registry:file","target":"~/aigent-site/AGENTS.md"},
+        {"path":"templates/agent-site-starter/CLAUDE.md","type":"registry:file","target":"~/aigent-site/CLAUDE.md"},
+        {"path":"templates/agent-site-starter/README.md","type":"registry:file","target":"~/aigent-site/README.md"},
+        {"path":"templates/agent-site-starter/astro.config.mjs","type":"registry:file","target":"~/aigent-site/astro.config.mjs"},
+        {"path":"templates/agent-site-starter/package.json","type":"registry:file","target":"~/aigent-site/package.json"},
+        {"path":"templates/agent-site-starter/public/favicon.svg","type":"registry:file","target":"~/aigent-site/public/favicon.svg"},
+        {"path":"templates/agent-site-starter/src/components/Closing.astro","type":"registry:file","target":"~/aigent-site/src/components/Closing.astro"},
+        {"path":"templates/agent-site-starter/src/components/Hero.astro","type":"registry:file","target":"~/aigent-site/src/components/Hero.astro"},
+        {"path":"templates/agent-site-starter/src/components/Proof.astro","type":"registry:file","target":"~/aigent-site/src/components/Proof.astro"},
+        {"path":"templates/agent-site-starter/src/components/ScrollStory.astro","type":"registry:file","target":"~/aigent-site/src/components/ScrollStory.astro"},
+        {"path":"templates/agent-site-starter/src/components/SiteFooter.astro","type":"registry:file","target":"~/aigent-site/src/components/SiteFooter.astro"},
+        {"path":"templates/agent-site-starter/src/components/SiteHeader.astro","type":"registry:file","target":"~/aigent-site/src/components/SiteHeader.astro"},
+        {"path":"templates/agent-site-starter/src/layouts/Base.astro","type":"registry:file","target":"~/aigent-site/src/layouts/Base.astro"},
+        {"path":"templates/agent-site-starter/src/pages/index.astro","type":"registry:file","target":"~/aigent-site/src/pages/index.astro"},
+        {"path":"templates/agent-site-starter/src/scripts/scroll-story.ts","type":"registry:file","target":"~/aigent-site/src/scripts/scroll-story.ts"},
+        {"path":"templates/agent-site-starter/src/site.config.ts","type":"registry:file","target":"~/aigent-site/src/site.config.ts"},
+        {"path":"templates/agent-site-starter/src/styles/site.css","type":"registry:file","target":"~/aigent-site/src/styles/site.css"},
+        {"path":"templates/agent-site-starter/tsconfig.json","type":"registry:file","target":"~/aigent-site/tsconfig.json"},
+        {"path":"tokens/system.css","type":"registry:file","target":"~/aigent-site/src/styles/tokens.css"}
+      ]
+    },
+    {
+      "name": "agent-site-remotion-hero",
+      "type": "registry:item",
+      "title": "Agent Site Remotion Hero Loop",
+      "description": "Optional, isolated Remotion project for the agent site starter that renders desktop and mobile hero loops, a poster, a reduced-motion still, and a manifest into public/media. Off by default.",
+      "files": [
+        {"path":"templates/agent-site-starter/remotion/README.md","type":"registry:file","target":"~/aigent-site/remotion/README.md"},
+        {"path":"templates/agent-site-starter/remotion/package.json","type":"registry:file","target":"~/aigent-site/remotion/package.json"},
+        {"path":"templates/agent-site-starter/remotion/scripts/publish-media.mjs","type":"registry:file","target":"~/aigent-site/remotion/scripts/publish-media.mjs"},
+        {"path":"templates/agent-site-starter/remotion/src/HeroLoop.tsx","type":"registry:file","target":"~/aigent-site/remotion/src/HeroLoop.tsx"},
+        {"path":"templates/agent-site-starter/remotion/src/Root.tsx","type":"registry:file","target":"~/aigent-site/remotion/src/Root.tsx"},
+        {"path":"templates/agent-site-starter/remotion/src/index.ts","type":"registry:file","target":"~/aigent-site/remotion/src/index.ts"},
+        {"path":"templates/agent-site-starter/remotion/tsconfig.json","type":"registry:file","target":"~/aigent-site/remotion/tsconfig.json"}
+      ]
     }
   ]
 }

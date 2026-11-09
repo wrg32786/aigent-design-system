@@ -1,0 +1,24 @@
+---
+/**
+ * Proof as rule rows. Every row must be a checkable fact about the product.
+ * No invented metrics, testimonials, or logo walls (copy reference).
+ */
+interface Props {
+  title: string;
+  lead: string;
+  rows: { label: string; text: string }[];
+}
+
+const { title, lead, rows } = Astro.props;
+---
+<section id="proof" class="section" aria-labelledby="proof-title">
+  <div class="ds-container">
+    <h2 id="proof-title" class="section__title">{title}</h2>
+    <p class="section__lead">{lead}</p>
+    <ul class="ds-rule-list proof__list">
+      {rows.map((row) => (
+        <li class="ds-rule-row"><strong>{row.label}</strong><p>{row.text}</p></li>
+      ))}
+    </ul>
+  </div>
+</section>

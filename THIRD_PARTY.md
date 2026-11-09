@@ -62,3 +62,16 @@ Demo media is for repository demonstration and should be replaced when a commerc
 - [nutlope/hallmark](https://github.com/nutlope/hallmark), Copyright (c) 2026 Hallmark contributors: Floor, Reflex, and Finish review tiers, generated-design tells, fresh-context reviews, native CSS scroll timelines
 
 The material was condensed and rewritten for Aigent. No engine code, scripts, themes, templates, photographs, screenshots, fonts, or media from those projects are vendored. Pinned snapshots, what came from each, and the full MIT notices are in [`skills/aigent-design/NOTICE.md`](skills/aigent-design/NOTICE.md), which ships with the installed skill.
+
+## Agent site starter: Astro, GSAP, Remotion, and fonts
+
+`templates/agent-site-starter/` is Aigent-authored (MIT). It installs its runtime from npm and copies no third-party source into this repository or into scaffolded sites.
+
+- **Astro** (MIT): the site framework, installed from npm.
+- **GSAP** (`gsap` on npm): **not MIT.** It is distributed under GSAP's own [Standard "No Charge" License](https://gsap.com/standard-license), owned by Webflow. Commercial websites, including the former bonus plugins, are covered at no charge. The license prohibits use in no-code visual animation builders that compete with Webflow, and Webflow may amend it. The starter imports `gsap` and `gsap/ScrollTrigger` from npm; nothing is vendored.
+- **Remotion** (`remotion`, `@remotion/cli` on npm, optional `remotion/` folder only): **not MIT.** It is source-available under the [Remotion License](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md). Free for individuals, for-profit organizations with up to three employees, non-profits, and evaluation; larger for-profit organizations need a paid [company license](https://www.remotion.pro/license). The folder is off by default, is only added with `create-site --with-remotion`, and never runs in the browser.
+- **Fonts** (`@fontsource/archivo-narrow`, `@fontsource/public-sans`, `@fontsource/martian-mono`): SIL Open Font License 1.1, installed from npm.
+
+The official [GSAP agent skills](https://github.com/greensock/gsap-skills) and [Remotion agent skills](https://github.com/remotion-dev/skills) are linked as optional installs. They are not copied into this repository or the starter.
+
+Recheck the GSAP and Remotion terms before distribution; both can change.

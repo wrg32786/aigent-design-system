@@ -1,0 +1,291 @@
+/*
+ * Site layer on top of tokens.css (copied from the Aigent token system).
+ * Change the visual world here and in the [data-theme] values, not by
+ * scattering raw colors through components.
+ */
+
+html {
+  background: var(--ds-color-bg);
+}
+
+body {
+  margin: 0;
+  overflow-x: clip;
+}
+
+a {
+  color: inherit;
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--ds-color-accent);
+  outline-offset: 4px;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--ds-font-display);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--ds-color-rule);
+  background: rgb(var(--ds-bg-rgb) / 0.92);
+}
+
+.site-header__inner {
+  display: flex;
+  min-height: 64px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-4);
+}
+
+.site-header__name {
+  font: 600 var(--ds-size-sm)/1 var(--ds-font-mono);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.site-header nav ul {
+  display: flex;
+  gap: var(--ds-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-header nav a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--ds-color-muted);
+  font-size: var(--ds-size-sm);
+  text-decoration: none;
+}
+
+.site-header nav a:hover {
+  color: var(--ds-color-text);
+}
+
+.section {
+  padding-block: clamp(4rem, 10vw, 8rem);
+}
+
+.section + .section {
+  border-top: 1px solid var(--ds-color-rule);
+}
+
+.section__title {
+  max-width: 18ch;
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
+}
+
+.section__lead {
+  max-width: var(--ds-reading-measure);
+  margin: var(--ds-space-4) 0 0;
+  color: var(--ds-color-muted);
+  font-size: var(--ds-size-lead);
+  line-height: 1.55;
+}
+
+/* Hero: headline, one support line, primary action, and focal visual share the first viewport. */
+.hero {
+  display: grid;
+  min-height: min(88vh, 860px);
+  align-items: center;
+  padding-block: clamp(3rem, 8vw, 6rem);
+}
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+
+.hero__title {
+  max-width: 12ch;
+  font-size: var(--ds-size-title);
+}
+
+.hero__support {
+  max-width: 46ch;
+  margin: var(--ds-space-4) 0 var(--ds-space-5);
+  color: var(--ds-color-muted);
+  font-size: var(--ds-size-lead);
+  line-height: 1.5;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-space-3);
+}
+
+.hero__visual {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 1px solid var(--ds-color-rule-strong);
+  border-radius: var(--ds-radius-md);
+  background: var(--ds-color-surface);
+}
+
+.hero__visual video,
+.hero__visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__plate {
+  position: absolute;
+  border-radius: var(--ds-radius-xs);
+}
+
+.hero__plate--a {
+  inset: 10% 30% 38% 10%;
+  background: var(--ds-color-accent);
+}
+
+.hero__plate--b {
+  inset: 34% 8% 12% 34%;
+  border: 1px solid var(--ds-color-rule-strong);
+  background: var(--ds-color-surface-2);
+}
+
+.hero__plate--c {
+  inset: 70% 54% 8% 10%;
+  background: var(--ds-color-accent-2);
+}
+
+/* Proof: rule rows rather than a card grid. */
+.proof__list {
+  margin-top: var(--ds-space-6);
+}
+
+/* Scroll story: readable stacked chapters without JavaScript; GSAP pins and sequences them when motion is allowed. */
+.story__stage {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  margin-top: var(--ds-space-6);
+}
+
+.story__chapters {
+  display: grid;
+  gap: var(--ds-space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.story__chapter h3 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.story__chapter p {
+  max-width: 44ch;
+  margin: var(--ds-space-3) 0 0;
+  color: var(--ds-color-muted);
+  line-height: 1.6;
+}
+
+.story__frame {
+  position: relative;
+  min-height: 420px;
+  overflow: hidden;
+  border: 1px solid var(--ds-color-rule-strong);
+  border-radius: var(--ds-radius-md);
+  background: var(--ds-color-surface);
+}
+
+.story__layer {
+  position: absolute;
+  inset: 14%;
+  border-radius: var(--ds-radius-sm);
+}
+
+.story__layer--1 {
+  background: rgb(var(--ds-accent-rgb) / 0.85);
+}
+
+.story__layer--2 {
+  inset: 26% 10% 18% 30%;
+  border: 1px solid var(--ds-color-rule-strong);
+  background: var(--ds-color-surface-2);
+}
+
+.story__layer--3 {
+  inset: 58% 46% 10% 12%;
+  background: var(--ds-color-accent-2);
+}
+
+/* Enhanced state, set by src/scripts/scroll-story.ts only when motion is allowed. */
+.story.is-enhanced .story__stage {
+  min-height: 100vh;
+  align-items: center;
+}
+
+.story.is-enhanced .story__chapters {
+  position: relative;
+  min-height: 16rem;
+}
+
+.story.is-enhanced .story__chapter {
+  position: absolute;
+  inset: 0 0 auto;
+}
+
+/* Closing call to action. */
+.closing__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-space-3);
+  margin-top: var(--ds-space-5);
+}
+
+.site-footer {
+  padding-block: var(--ds-space-6);
+  border-top: 1px solid var(--ds-color-rule);
+  color: var(--ds-color-soft);
+  font-size: var(--ds-size-sm);
+}
+
+@media (max-width: 860px) {
+  .hero__grid,
+  .story__stage {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__visual {
+    aspect-ratio: 16 / 11;
+  }
+
+  .site-header nav {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story.is-enhanced .story__chapter {
+    position: static;
+  }
+}

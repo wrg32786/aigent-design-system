@@ -1,0 +1,18 @@
+---
+import { site } from "../site.config";
+const links = [
+  { href: "#proof", label: "What's wired" },
+  { href: "#story", label: "Scroll story" },
+  { href: "#build", label: "Build notes" },
+];
+---
+<header class="site-header">
+  <div class="ds-container site-header__inner">
+    <a class="site-header__name" href="/">{site.name}</a>
+    <nav aria-label="Primary">
+      <ul>
+        {links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+</header>

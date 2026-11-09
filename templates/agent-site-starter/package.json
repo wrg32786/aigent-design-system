@@ -1,0 +1,24 @@
+{
+  "name": "aigent-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "taste": "npx --yes --allow-git=all github:wrg32786/aigent-design-system taste src dist/index.html",
+    "gates": "npm run build && npx --yes --allow-git=all github:wrg32786/aigent-design-system taste src dist/index.html --strict-warnings",
+    "export": "npm run build && npx --yes --allow-git=all github:wrg32786/aigent-design-system publish export --project-dir dist --entry /index.html --out .aigent/publish/site"
+  },
+  "engines": {
+    "node": ">=22.23"
+  },
+  "dependencies": {
+    "@fontsource/archivo-narrow": "^5.3.0",
+    "@fontsource/martian-mono": "^5.3.0",
+    "@fontsource/public-sans": "^5.3.0",
+    "astro": "^7.4.8",
+    "gsap": "^3.15.1"
+  }
+}
