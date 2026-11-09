@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+.DS_Store
+# Aigent runtime evidence stays local
+.aigent/resolve/
+.aigent/inspiration/
+.aigent/publish/
+remotion/out/

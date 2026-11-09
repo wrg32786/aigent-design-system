@@ -249,10 +249,11 @@ function taste(args) {
 async function inspire(args) { const { runInspire } = await import(pathToFileURL(path.join(packageRoot, "scripts/inspire.mjs"))); await runInspire(args); }
 async function resolve(args) { const { runResolve } = await import(pathToFileURL(path.join(packageRoot, "scripts/resolve-design.mjs"))); await runResolve(args); }
 async function vision(args) { const { runVision } = await import(pathToFileURL(path.join(packageRoot, "scripts/vision-review.mjs"))); await runVision(args); }
+async function createSite(args) { const { createSite: run } = await import(pathToFileURL(path.join(packageRoot, "scripts/create-site.mjs"))); run(args); }
 async function publish(args) { const { runPublish } = await import(pathToFileURL(path.join(packageRoot, "scripts/publish-site.mjs"))); await runPublish(args); }
 
 function help() {
-  console.log(`Aigent\n\nProject setup:\n  install [--target dir] [--force]\n  init [--target dir] [--force]\n  setup-browser\n  doctor [--target dir] [--strict]\n  uninstall [--target dir]\n\nDesign tooling:\n  taste [target]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  resolve [--target dir] [--url url] [--init] [--no-fail]\n  vision <prepare|check|finalize> ...\n  publish <export|auth|deploy|rollback|status> ...\n\nAdvanced registry:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n`);
+  console.log(`Aigent\n\nNew site:\n  create-site <dir> [--theme graphite|ember|cobalt|paper] [--with-remotion] [--no-install]\n\nProject setup:\n  install [--target dir] [--force]\n  init [--target dir] [--force]\n  setup-browser\n  doctor [--target dir] [--strict]\n  uninstall [--target dir]\n\nDesign tooling:\n  taste [target]\n  plan <brief.json> [--out plan.json]\n  inspire <add|list|inspect|search|compose|apply|audit|doctor> ...\n  resolve [--target dir] [--url url] [--init] [--no-fail]\n  vision <prepare|check|finalize> ...\n  publish <export|auth|deploy|rollback|status> ...\n\nAdvanced registry:\n  list\n  add <item> [--target dir] [--dry-run] [--force]\n`);
 }
 
 try {
@@ -269,6 +270,7 @@ try {
   else if (command === "resolve") await resolve(args);
   else if (command === "vision") await vision(args);
   else if (command === "publish") await publish(args);
+  else if (command === "create-site") await createSite(args);
   else if (command === "list") list(registry);
   else if (command === "add") {
     if (!args[0]) throw new Error("Usage: aigent-design add <item> [--target dir] [--dry-run] [--force]");

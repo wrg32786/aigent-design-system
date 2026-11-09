@@ -1,0 +1,49 @@
+---
+/**
+ * Demonstration page. The copy describes this starter itself so it is true
+ * as shipped. Replace all of it from the real product's fact sheet
+ * (src/site.config.ts) before shipping; keep the structure only if it fits.
+ */
+import Base from "../layouts/Base.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import Hero from "../components/Hero.astro";
+import Proof from "../components/Proof.astro";
+import ScrollStory from "../components/ScrollStory.astro";
+import Closing from "../components/Closing.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+const proofRows = [
+  { label: "Tokens", text: "Color, type, spacing, radius, and motion come from one token file with four themes. Graphite is the neutral default." },
+  { label: "Sections", text: "Hero, proof rows, one scroll story, and a closing action. Small enough to read in one sitting, plain enough to replace." },
+  { label: "Motion", text: "One GSAP timeline pins the story on wide screens. Phones get a stacked layout, and reduced motion gets no scroll effects at all." },
+  { label: "Gates", text: "The Aigent copy and design linter runs on the source and the built HTML before anything ships." },
+];
+
+const chapters = [
+  { title: "Write the fact sheet", text: "Start in src/site.config.ts with what the product does, who it is for, and what you can prove. Copy comes from there." },
+  { title: "Pick the visual world", text: "Change the theme tokens and the focal visual. Recoloring the plates is not a new brand; the composition has to change too." },
+  { title: "Run the gates", text: "Build, run the linter, then open the page at desktop and phone widths with motion on and off before you call it done." },
+];
+---
+<Base>
+  <SiteHeader slot="header" />
+  <Hero
+    title="A site your agent builds to a standard"
+    support="This Astro starter ships with the Aigent design rules, a small section kit, and checks that run before you deploy."
+  />
+  <Proof
+    title="What comes wired in"
+    lead="Each piece maps to a rule in the installed design skill, so the agent can trace why it is here."
+    rows={proofRows}
+  />
+  <ScrollStory
+    title="From starter to shipped page"
+    lead="Three steps, one pinned sequence. Scroll through it, then reverse; every state comes back."
+    chapters={chapters}
+  />
+  <Closing
+    title="Build notes"
+    lead="Replace the copy, change the visual world, and keep the gates. Deploy with the publish-site skill once the checks pass."
+  />
+  <SiteFooter slot="footer" />
+</Base>

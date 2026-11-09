@@ -31,7 +31,9 @@
     "inspiration:smoke": "node scripts/inspiration-smoke.mjs",
     "capture": "node scripts/capture.mjs",
     "publish": "node scripts/publish-site.mjs",
-    "publish:check": "node scripts/check-publish.mjs"
+    "publish:check": "node scripts/check-publish.mjs",
+    "create-site": "node scripts/create-site.mjs",
+    "starter:check": "node scripts/check-starter.mjs"
   },
   "keywords": [
     "ai",
@@ -64,7 +66,8 @@
     "hyperframes",
     "design-to-code",
     "deployment",
-    "static-publishing"
+    "static-publishing",
+    "astro"
   ],
   "license": "MIT",
   "engines": {

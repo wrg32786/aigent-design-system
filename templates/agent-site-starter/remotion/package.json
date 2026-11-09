@@ -1,0 +1,26 @@
+{
+  "name": "aigent-site-hero-loop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Optional, isolated Remotion project that renders the site's hero loop. Not installed or built with the site.",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render:desktop": "remotion render src/index.ts HeroLoopDesktop out/hero-desktop.mp4 --codec=h264 --muted",
+    "render:mobile": "remotion render src/index.ts HeroLoopMobile out/hero-mobile.mp4 --codec=h264 --muted",
+    "render:poster": "remotion still src/index.ts HeroLoopDesktop out/hero-poster.jpg --frame=0",
+    "render:still": "remotion still src/index.ts HeroLoopMobile out/hero-still.jpg --frame=45",
+    "render": "npm run render:desktop && npm run render:mobile && npm run render:poster && npm run render:still && node scripts/publish-media.mjs",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.542",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.542"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "typescript": "^5.9.0"
+  }
+}

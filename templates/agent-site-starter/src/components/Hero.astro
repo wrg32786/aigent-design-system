@@ -1,0 +1,69 @@
+---
+/**
+ * Hero: one h1, one support line, one primary action, one focal visual.
+ * They must all be visible together at 1280 x 800 (craft floor).
+ * The optional Remotion loop replaces the static plates only when
+ * site.heroVideo is set; reduced motion gets the still image instead.
+ */
+import { site } from "../site.config";
+
+interface Props {
+  title: string;
+  support: string;
+}
+
+const { title, support } = Astro.props;
+const video = site.heroVideo;
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="ds-container hero__grid">
+    <div>
+      <h1 id="hero-title" class="hero__title">{title}</h1>
+      <p class="hero__support">{support}</p>
+      <div class="hero__actions">
+        <a class="ds-button" data-variant="solid" href={site.primaryAction.href}>{site.primaryAction.label}</a>
+        <a class="ds-button" data-variant="quiet" href={site.secondaryAction.href}>{site.secondaryAction.label}</a>
+      </div>
+    </div>
+    <div class="hero__visual">
+      {video ? (
+        <picture data-hero-still hidden>
+          <img src={video.still} alt="" width="1080" height="1350" />
+        </picture>
+        <video data-hero-video autoplay muted loop playsinline preload="metadata" poster={video.poster} aria-hidden="true">
+          <source src={video.mobile} media="(max-width: 860px)" type="video/mp4" />
+          <source src={video.desktop} type="video/mp4" />
+        </video>
+      ) : (
+        <div aria-hidden="true">
+          <span class="hero__plate hero__plate--a"></span>
+          <span class="hero__plate hero__plate--b"></span>
+          <span class="hero__plate hero__plate--c"></span>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+{video && (
+  <script>
+    // Reduced motion: swap the loop for its still and stop loading video.
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const apply = () => {
+      const player = document.querySelector<HTMLVideoElement>("[data-hero-video]");
+      const still = document.querySelector<HTMLElement>("[data-hero-still]");
+      if (!player || !still) return;
+      if (query.matches) {
+        player.pause();
+        player.hidden = true;
+        still.hidden = false;
+      } else {
+        still.hidden = true;
+        player.hidden = false;
+        void player.play().catch(() => undefined);
+      }
+    };
+    apply();
+    query.addEventListener("change", apply);
+  </script>
+)}

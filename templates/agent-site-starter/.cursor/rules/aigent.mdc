@@ -1,0 +1,5 @@
+---
+description: Design, copy, motion, and deploy rules for this site
+alwaysApply: true
+---
+For any design, copy, frontend, or deploy change in this project, read and follow AGENTS.md first. It names the Aigent skills to load and the gates to run before shipping.

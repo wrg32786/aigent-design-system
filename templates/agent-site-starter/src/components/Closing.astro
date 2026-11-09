@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+  lead: string;
+}
+
+const { title, lead } = Astro.props;
+---
+<section id="build" class="section" aria-labelledby="build-title">
+  <div class="ds-container">
+    <h2 id="build-title" class="section__title">{title}</h2>
+    <p class="section__lead">{lead}</p>
+    <div class="closing__actions">
+      <a class="ds-button" data-variant="solid" href="https://github.com/wrg32786/aigent-design-system">Aigent on GitHub</a>
+      <a class="ds-button" data-variant="quiet" href="#main">Back to the top</a>
+    </div>
+  </div>
+</section>
