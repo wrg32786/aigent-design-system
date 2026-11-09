@@ -32,6 +32,13 @@ Use `design-intelligence/motion-systems.json` to choose an animatic with explici
 
 Exit faster than entrance. Prefer strong deceleration. Bounce or elastic motion requires a physical reason.
 
+Calibration that holds across most surfaces:
+
+- reveal-once on entry: opacity from 0 with a rise of about 14px over roughly 600ms, stagger 30 to 80ms, triggered slightly inside the viewport. A fade with no rise reads as a loading glitch; a rise past 24px reads as a slide.
+- a count-up: 1.2 to 1.8s with a hard ease-out, once, at half visibility, on real figures only
+- pointer response: tilt 5 to 9 degrees, magnet 0.2 to 0.35 on the primary action only, both interpolated and gated to fine pointers
+- parallax: adjacent planes differ by 10 to 30%; copy never moves relative to what it is read against
+
 ## Runtime
 
 - CSS for declarative states and bounded sequences
@@ -40,6 +47,8 @@ Exit faster than entrance. Prefer strong deceleration. Bounce or elastic motion 
 - GSAP for coordinated DOM, media, and scroll timelines
 - Three.js, Spline, Rive, or shaders only when their material is the point
 - Remotion for rendered media, not routine browser UI
+
+Scroll-led pages (pinned chapters, scrubbed video, layered heroes, lateral rails, native scroll timelines) load `scroll.md`.
 
 Content is visible by default. Pause nonessential loops offscreen. Apply `will-change` only around known work.
 

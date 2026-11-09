@@ -91,7 +91,10 @@ Aigent can:
 - study public references and convert evidence into Design DNA
 - synthesize multiple references instead of cloning one source
 - choose layout, typography, color, motion, media, and interface direction
-- flag common generated-design smells with Aigent Taste
+- flag common generated-design smells with Aigent Taste, including filler words, stock lines, and scroll cues in page copy
+- plan scroll stories around a feeling curve and one peak, pick a page grammar and scroll devices on purpose, and verify scroll pages by sampling inside each section (`skills/aigent-design/reference/scroll.md`)
+- write copy from a fact sheet and a voice card instead of swapping slop words for synonyms (`skills/aigent-design/reference/copy.md`)
+- review a finished page in Floor, Reflex, and Finish tiers with fresh-context hero and finish reviews (`skills/aigent-design/reference/gates.md`)
 - structure business sites around visitor questions and real proof, keep forms, URLs, and analytics intact through a redesign, and run a release audit (`skills/aigent-business-sites`)
 - run browser-measured responsive, focus, contrast, clipping, reduced-motion, and runtime checks with Resolve
 - prepare a structured rendered-review task with Vision
@@ -182,3 +185,7 @@ The public install path should also be exercised in a clean consumer fixture bef
 ## License
 
 MIT for Aigent-authored code and documentation. `skills/aigent-business-sites/` is adapted from [Ultra Web Design](https://github.com/wrg32786/Ultra-web-design) under Apache-2.0; see its [`NOTICE.md`](skills/aigent-business-sites/NOTICE.md). Third-party tools and assets retain their own licenses; see [`THIRD_PARTY.md`](THIRD_PARTY.md).
+
+## Credits
+
+The scroll, copy, and review-gate references adapt ideas from [scroll-craft](https://github.com/nateherkai/scroll-craft), [taste-skill](https://github.com/leonxlnx/taste-skill), and [Hallmark](https://github.com/nutlope/hallmark), all MIT. The business-sites skill adapts [Ultra Web Design](https://github.com/wrg32786/Ultra-web-design) (Apache-2.0). Details in [`THIRD_PARTY.md`](THIRD_PARTY.md) and [`skills/aigent-design/NOTICE.md`](skills/aigent-design/NOTICE.md).

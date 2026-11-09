@@ -17,6 +17,9 @@ Load immediately before implementation or final review.
 - asset rights and attribution are resolved
 - no credentials, signed URLs, private records, or invented claims
 - browser checks pass with real content
+- hero headline, one support line, primary action, and focal visual are visible together at 1280 x 800
+- every heading would fail on a competitor's page; copy passes the read-aloud in `copy.md`
+- no form or control claims success without a real request behind it
 
 ## Refuse by default
 
@@ -37,6 +40,12 @@ The brief can earn most devices. Habit cannot.
 - system display fonts on a brand-defining experience
 - modal as the first answer
 - component-library defaults left visually untouched
+- scroll cues, animated mouse icons, and `01 / 06` section counters
+- meta strings joined with middle dots and arrows glued to link text
+- buzzwords, stock lines, and invented metrics, testimonials, or logo walls (`copy.md`)
+- the same scroll device twice in a row, or more than one scroll-linked pattern on a calm page (`scroll.md`)
+
+For a substantial page, also walk `gates.md`: Floor, Reflex, and Finish tiers, the pre-build critique, and the two fresh-context reviews.
 
 ## Final evidence
 

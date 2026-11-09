@@ -24,16 +24,19 @@ From [`skills/aigent-design/reference/`](skills/aigent-design/reference/):
 - `type.md` typography
 - `color.md` palette and semantic color
 - `motion.md` motion and continuity
+- `scroll.md` scroll stories: feeling curve, page grammars, devices, layered heroes, scroll QA
+- `copy.md` page copy: fact sheet, voice card, device budget, banned slop
 - `media.md` image, video, 3D, and production choice
 - `interface.md` product UI
 - `deck.md` presentations and guided decks
 - `resolve.md` rendered mechanical QA
 - `vision.md` structured visual review
 - `publish.md` export and deployment
+- `gates.md` final review tiers, pre-build critique, generated-design tells, fresh-context reviews
 
 For business websites (marketing, landing, service, ecommerce, editorial, membership, nonprofit) also read [`skills/aigent-business-sites/SKILL.md`](skills/aigent-business-sites/SKILL.md). It adds content architecture, truthful proof, preserve-mode redesign, and a release audit.
 
-Add [`skills/aigent-design/reference/craft-floor.md`](skills/aigent-design/reference/craft-floor.md) before substantial implementation or final review.
+Add [`skills/aigent-design/reference/craft-floor.md`](skills/aigent-design/reference/craft-floor.md) before substantial implementation or final review, and [`skills/aigent-design/reference/gates.md`](skills/aigent-design/reference/gates.md) for the final review of a substantial page.
 
 ## 3. Calibration and deeper material, only when relevant
 
