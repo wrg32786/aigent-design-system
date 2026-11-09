@@ -4,7 +4,9 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 import { auditPaths } from "./design-audit.mjs";
+import { buildStaticExport } from "../publish/lib.mjs";
 import { createSite, starterFiles } from "./create-site.mjs";
 
 const root = process.cwd();
@@ -93,4 +95,26 @@ const audit = auditPaths([path.join(site, "src")]);
 assert.deepEqual(audit.findings, [], `Starter source must pass the design and copy linter:\n${JSON.stringify(audit.findings, null, 2)}`);
 fs.rmSync(target, { recursive: true, force: true });
 
-console.log(`Agent site starter check passed: ${templateFiles.length} template files, npm-only GSAP and Remotion, reduced-motion paths, agent instructions, and a clean scaffold.`);
+// Full build: in CI (where `npm run check` runs) or with --build. Scaffold with npm install,
+// build with Astro, run the audit and copy linter on the source and built HTML, then export.
+let built = "";
+if (process.env.CI || process.argv.includes("--build")) {
+  const buildRoot = fs.mkdtempSync(path.join(os.tmpdir(), "aigent-starter-build-"));
+  const buildSite = path.join(buildRoot, "aigent-site");
+  console.log = () => undefined;
+  try { createSite([buildSite]); } finally { console.log = log; }
+  assert.ok(!fs.existsSync(path.join(buildSite, "remotion")), "Default scaffold must not include Remotion.");
+  const npm = process.platform === "win32" ? "npm.cmd" : "npm";
+  const build = spawnSync(npm, ["run", "build"], { cwd: buildSite, encoding: "utf8", shell: process.platform === "win32", env: { ...process.env, ASTRO_TELEMETRY_DISABLED: "1" } });
+  assert.equal(build.status, 0, `Starter build failed:\n${build.stdout}\n${build.stderr}`);
+  const entry = path.join(buildSite, "dist", "index.html");
+  assert.ok(fs.existsSync(entry), "Starter build did not produce dist/index.html.");
+  const builtAudit = auditPaths([path.join(buildSite, "src"), entry]);
+  assert.deepEqual(builtAudit.findings, [], `Built starter must pass the design audit and copy linter with no errors or warnings:\n${JSON.stringify(builtAudit.findings, null, 2)}`);
+  const exported = buildStaticExport({ projectDirectory: path.join(buildSite, "dist"), entry: "/index.html", outputDirectory: path.join(buildRoot, "export") });
+  assert.ok(fs.existsSync(path.join(buildRoot, "export", "index.html")), "publish-site export of the built starter is missing index.html.");
+  built = `, built with Astro, linted clean, and exported ${exported.files?.length ?? "its"} files through publish-site`;
+  fs.rmSync(buildRoot, { recursive: true, force: true });
+}
+
+console.log(`Agent site starter check passed: ${templateFiles.length} template files, npm-only GSAP and Remotion, reduced-motion paths, agent instructions, and a clean scaffold${built}.`);
