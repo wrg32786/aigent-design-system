@@ -4,6 +4,11 @@
 
 ### Added
 
+- `reference/scroll.md`: feeling curve and single peak, eight page grammars, scroll device families with tuning ranges, scrub/pin/pan failure modes, layered heroes, signature move and structural fingerprint check, native CSS scroll timelines, and scroll verification (adapted from scroll-craft and Hallmark, MIT)
+- `reference/copy.md`: fact sheet, voice card, reader-question shape, per-page device budget, banned slop, and over-correction table (adapted from taste-skill and Hallmark, MIT)
+- `reference/gates.md`: Floor, Reflex, and Finish review tiers with on-the-record waivers, six-axis pre-build critique, mirror test, concrete generated-design tells, and fresh-context hero and finish reviews (adapted from Hallmark and taste-skill, MIT)
+- Taste rules `taste/copy-slop-word`, `taste/copy-stock-phrase`, and `taste/scroll-cue` for visible HTML copy, with literal trade uses exempted, plus self-check fixtures
+- `skills/aigent-design/NOTICE.md` with pinned source snapshots and MIT notices, installed with the skill
 - `aigent-business-sites` specialist skill adapted from Ultra Web Design: business content architecture, proof ladder, preserve-mode redesign, release audit, working templates, and business-site evals
 - install ownership manifest at `.aigent/install.json`
 - project-safe `init`, explicit `setup-browser`, stronger `doctor`, package-backed `taste`, and safe `uninstall` commands
@@ -14,6 +19,7 @@
 
 ### Changed
 
+- `motion.md`, `craft-floor.md`, and `gsap-scroll-choreography` now carry reveal, count, pointer, and parallax calibration, the new refuse-by-default items, and pointers to the scroll, copy, and gates references
 - default install now writes only Aigent skill/vendor files under `.claude/skills/aigent-design/`; it no longer follows registry dependencies into customer project roots
 - `init` creates `.aigent/project-context.md` instead of installing Aigent's own `PRODUCT.md` or `DESIGN.md` into consumer repos
 - browser-backed commands run through the Aigent package rather than copied project scripts

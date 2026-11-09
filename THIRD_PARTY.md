@@ -52,3 +52,13 @@ Demo media is for repository demonstration and should be replaced when a commerc
 ## Ultra Web Design
 
 `skills/aigent-business-sites/` is adapted from [Ultra Web Design](https://github.com/wrg32786/Ultra-web-design) (Apache-2.0, Copyright 2026 Ultra Web Design contributors). Those files stay under Apache-2.0. Ultra's own upstream credits are carried in [`skills/aigent-business-sites/NOTICE.md`](skills/aigent-business-sites/NOTICE.md).
+
+## scroll-craft, taste-skill, and Hallmark
+
+`skills/aigent-design/reference/scroll.md`, `copy.md`, and `gates.md`, the additions to `motion.md`, `craft-floor.md`, and `skills/gsap-scroll-choreography/SKILL.md`, and the `taste/copy-slop-word`, `taste/copy-stock-phrase`, and `taste/scroll-cue` rules in `scripts/design-audit.mjs` are adapted from three MIT-licensed projects:
+
+- [nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft), Copyright (c) 2026 Nate Herk: scroll storytelling method, page grammars, scroll devices and their failure modes, layered heroes, scroll verification
+- [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill), Copyright (c) 2026 Leonxlnx: anti-slop copy method, device budget, slop word and stock phrase lists
+- [nutlope/hallmark](https://github.com/nutlope/hallmark), Copyright (c) 2026 Hallmark contributors: Floor, Reflex, and Finish review tiers, generated-design tells, fresh-context reviews, native CSS scroll timelines
+
+The material was condensed and rewritten for Aigent. No engine code, scripts, themes, templates, photographs, screenshots, fonts, or media from those projects are vendored. Pinned snapshots, what came from each, and the full MIT notices are in [`skills/aigent-design/NOTICE.md`](skills/aigent-design/NOTICE.md), which ships with the installed skill.
