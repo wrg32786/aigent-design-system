@@ -12,6 +12,7 @@ Use GSAP for coordination, not decoration.
 - page context and dominant visual idea
 - `integrations/gsap/README.md`
 - `docs/cinematic-scroll-deck-playbook.md` when video is involved
+- `skills/aigent-design/reference/scroll.md` for the feeling curve, page grammar, device families, and scroll QA
 
 ## Timeline design
 
@@ -35,12 +36,16 @@ Build one inspectable timeline per sequence. Do not scatter unrelated ScrollTrig
 - copy motion follows composition
 - one property owner per state
 - use labels for meaningful beats
-- video seeks at a bounded cadence
+- video seeks at a bounded cadence: lerp the playhead toward a target, never queue a seek while one resolves
+- map clip time across the stage's whole visible life, not only its pinned range, so media never freezes while the stage slides
+- scrubbed media is encoded with a dense keyframe interval and no audio
 - transitions receive enough distance to read
 - reverse travel restores state
 - pinning does not trap the page
 - mobile does not inherit desktop scroll distances blindly
 - reduced motion keeps every chapter available
+- the hero is readable at load; every pinned section opens on a ground or a visible first state
+- only the page's last section may hold its final state; middle sections close theirs
 
 ## Performance
 
