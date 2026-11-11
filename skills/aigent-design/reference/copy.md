@@ -117,4 +117,5 @@ Rules breed their own habits. Watch for:
 - Read every heading aloud. Any that could sit unchanged on a competitor's page fails.
 - One fact, one wording, said once where it does work. A price printed in four sections is an echo.
 - A form never prints success without a real request behind it.
+- Never hide copy with `display: none` to make a section fit its screen. That also hides it from screen readers, and the cut goes unrecorded. Restore the copy, or take it out of the markup for that layout and record the cut and its reason in `.aigent/design-direction.md` (or whatever design record the project keeps).
 - `npx github:wrg32786/aigent-design-system taste .` flags the mechanical copy smells (`taste/copy-slop-word`, `taste/copy-stock-phrase`). Treat hits as prompts; the read-aloud catches what it cannot.
