@@ -21,9 +21,18 @@
 - selective `.gitignore` management for private/runtime Aigent evidence
 - private/local-network guard for Inspiration URL capture with explicit `--allow-private` override
 - comparative evaluation protocol and fixed bright-consumer, dense-operations, and cinematic-launch briefs
+- `case-studies/site-library`: write-up of the Site Library, fictional brand sites built to this skill, with its method and the two finished sites, Deep Line Subsea and Six Lines (two screenshots each, no site source or assets)
+- `reference/type.md`: pairing rule (one loud display face over one quiet partner, no pairing repeated across a set of sites), a table of free pairings, free stand-ins for commercial styles, and a reset of scale, tracking, and line height on every type pass
+- `reference/layout.md`: screen rhythm at 1440, 820, 768, and 390, two-screen sections as two groups with nothing crossing the screen line, and a console recipe that lists every block's distance from the line
+- `reference/resolve.md`: five-viewport `aigent.resolve.json` for pages with a screen rhythm or tablet layout, and a scratch copy with the hero forced to one screen to separate hero findings from section findings
+- `reference/media.md`: stand-in photography rules (licence, credits page, one grade, true to the copy, new file name on replace under an immutable cache)
 
 ### Changed
 
+- `copy.md` now forbids hiding copy with `display: none` to fit a screen; a cut is made in the markup and recorded with its reason
+- `gates.md` adds two Floor tells (component custom properties a system token can shadow, unregistered fluid and component tokens) and says a reviewer's `ship` is not the owner's approval
+- `scroll.md` adds depth layers on film time and keeps a signature's feedback on screen with its control on phones
+- `cinematic-asset-gallery` shows a motion site as a recorded loop of its motion, never a still
 - `motion.md`, `craft-floor.md`, and `gsap-scroll-choreography` now carry reveal, count, pointer, and parallax calibration, the new refuse-by-default items, and pointers to the scroll, copy, and gates references
 - default install now writes only Aigent skill/vendor files under `.claude/skills/aigent-design/`; it no longer follows registry dependencies into customer project roots
 - `init` creates `.aigent/project-context.md` instead of installing Aigent's own `PRODUCT.md` or `DESIGN.md` into consumer repos
