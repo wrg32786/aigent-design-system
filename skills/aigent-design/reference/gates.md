@@ -36,6 +36,8 @@ Name the weakest axis and the fix taken. Never invent a weakness to fill the fie
 ## 3. Floor tells
 
 - colour and font literals scattered past the token block; every colour and family goes through a token
+- a component custom property with a name a system token can shadow. A gauge read its fill from `--g` and inherited a grid's `--g: 24px` gap. `scaleX(24px)` is invalid, so `transform` fell back to `none`, and a score of zero painted a full bar. Prefix component properties with their component (`--gauge-fill`).
+- fluid and component tokens left unregistered. Register them with `@property`: a `syntax`, an absolute `initial-value` such as `0px` (a `clamp()` there invalidates the whole rule, silently), and `inherits: false` only for a value the component sets on itself. A registered token falls back to a known value instead of an inherited one, and checkers read a computed length instead of a raw `clamp()` string. Compare computed styles before and after registering; nothing on the page should change.
 - `transition: all`, or animating `width`, `height`, `top`, `left`
 - hero sized in `vh` instead of `svh` or `dvh`
 - horizontal scroll at any width from 320 to 1920; use `overflow-x: clip` on `html` and `body`, never `100vw` widths
@@ -120,6 +122,8 @@ First line of the answer: `ship` or `fix`, then at most five findings, worst fir
 First line: `recapture` (a capture is missing, blank, or wrong; list what and stop), `rebuild` (the first screen fails the direction wholesale), `fix`, or `ship`. Then at most eight findings, ranked by cost to the page. Close with one line naming what must not be diluted while fixing. On a redesign, add: what did the old page do better?
 
 After fixing, recapture the same views and score each finding yourself as resolved, partial, or unresolved. Record the outcome in the Vision review. When no second reviewer exists, re-read the captures cold against these prompts and say the review was in-thread.
+
+A reviewer's `ship` clears that review and nothing more. Until the owner has looked at the page, report it as "reviewer passed"; only the owner's own look approves it.
 
 ## 6. Budget and honesty
 

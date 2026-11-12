@@ -178,6 +178,7 @@ The repository includes canonical examples for:
 - command-center interfaces
 - progressive Three.js product stages
 - inspiration analysis and synthesis
+- the Site Library case study: fictional brand sites built to these rules, and the lessons their review rounds added (`case-studies/site-library`)
 
 These are implementation examples, not evidence that Aigent automatically outperforms every baseline or competing skill. Comparative no-skill/Impeccable/Aigent evaluations and broader before/after case studies remain part of the validation roadmap.
 

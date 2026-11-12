@@ -65,6 +65,7 @@ These failures look correct in any single screenshot.
 - **One writer per transform.** Magnet, parallax, and entrance rises all write `transform`. Give each its own element.
 - **Moving planes transition opacity only.** A `transition: transform` on a parallaxed plane makes it lag the thumb on phones.
 - **Pan rails crop copy.** Card headings are read half-visible at the edges; keep them to one or two short words.
+- **Depth layers run on film time.** Particles, snow, dust, or bubbles laid over a scrubbed film take their motion from the film's playhead, not from raw scroll. They then hold still where the film holds a frame, and keep the film's pace where the scroll-to-time map speeds up or slows down. Driven by raw scroll, they stream past a frozen frame and show where the map stalls.
 
 ## Layered heroes
 
@@ -81,6 +82,8 @@ Respect explicit static or simpler direction. Working surfaces such as dashboard
 ## The signature move
 
 Each scroll page earns one bespoke interaction that belongs to this product alone: a line drawing that builds from scroll progress, a running ledger of real figures that totals by the close, one control that regrades the entire page. A tuned parameter on an existing device is not a signature move. Describe it to someone who has seen your other work; if they cannot tell it apart, it is not one.
+
+A signature that answers the visitor (a score, a slider, a question) keeps its answer on screen with the control that drives it, at every width. On a phone, measure how much of the feedback element is visible while the question and its button are in view. Anything under 100% is a defect: the visitor acts and sees nothing happen. One build measured 28% on a phone, and it stayed a defect until a phone layout brought it to 100%.
 
 Before building, compare the plan against your earlier builds on six axes: grammar, nav, hero device, section sequence, close, signature move. Differ on at least four. If the plan fails, change the plan.
 

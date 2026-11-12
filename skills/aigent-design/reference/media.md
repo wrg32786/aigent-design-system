@@ -50,6 +50,16 @@ Route missing media through `creative-asset-director`.
 
 Every public production asset gets a manifest. Keep raw generation records, signed URLs, credentials, and licensed source packages out of Git.
 
+## Stand-in photography
+
+When the client has no photographs yet, stand-ins hold the slots until theirs arrive. They still ship to real visitors, so:
+
+- **Licensed only.** CC0, public domain, CC BY 4.0, or the Unsplash License. No share-alike licence, and no "free" site whose terms you have not read.
+- **Credited.** Each photograph's author, source, and licence go on a credits page linked from the footer, even where the licence does not require it. That page is also the list of slots the client's own photographs replace.
+- **Graded as one set.** Stand-ins from different photographers read as different shoots. Match lightness, contrast, and colour temperature across the page. In one measured case, two stand-ins on the same page averaged 0.67 and 0.22 lightness, and they read as two shoots.
+- **True to the copy.** Each photograph shows what its line of copy says. A line about a night repair under floodlights does not get a daylight harbour.
+- **Renamed on replace.** When a photograph is swapped, the new file gets a new name. Sites often serve asset paths with a long immutable cache (`Cache-Control: max-age=31536000, immutable`), so a file replaced under the same name keeps showing the old image to returning visitors for up to a year.
+
 ## Coherence test
 
 The media family shares environment, camera language, material, grade, and transition logic. If the assets look like unrelated search results, the page has no world.

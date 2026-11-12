@@ -36,6 +36,8 @@ Use motion to:
 
 Do not animate every card independently by default.
 
+When the gallery shows websites, show a motion site as a recorded loop of its motion (the scrub, the autoplay, the cursor effect in action), never as a still. A still of a motion site shows a lesser page than the one being offered. Each loop is muted, pauses offscreen, and shows its poster frame under reduced motion.
+
 ## Reuse
 
 Start from the existing gallery template, preserve useful behavior, then replace The AIgent branding through semantic tokens and project context.
