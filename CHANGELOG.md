@@ -4,6 +4,7 @@
 
 ### Added
 
+- Second batch of Site Library review lessons: `reference/scroll.md` gains pinned stages, hand-overs, and reveals (entrance replay on a moved node, still-to-live hand-over, pins on short screens, shown versus picked state, scroll restore, click-only smooth scrolling, reveals that fail open, text and stage gutters on wide screens); `reference/gates.md` gains the checks a headless pass skips (real pointer clicks, global state classes, sizes between and beyond breakpoints, overlay rescans, deliberate breakage); `reference/interface.md` gains forms on a demo page
 - `templates/agent-site-starter`: Astro site starter wired to the design rules, with the token themes, a small section kit (header, hero, proof rows, scroll story, closing action, footer), one GSAP scroll timeline with mobile and reduced-motion handling, an optional Remotion hero-loop project that is off by default, `AGENTS.md`/`CLAUDE.md`/Cursor rule that load the skills and require the gates, and publish-site deploy notes
 - `create-site <dir>` CLI command (also `npm run create-site` and `scripts/create-site.mjs`) that scaffolds the starter, copies `tokens/system.css`, installs the Aigent, GSAP choreography, and publish-site skills, and runs `npm install`
 - `agent-site-starter` and `agent-site-remotion-hero` registry items, used as the scaffold manifest

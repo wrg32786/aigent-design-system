@@ -115,6 +115,19 @@ When one scroll-linked pattern is enough, prefer CSS scroll timelines over a lib
 
 Reach for GSAP (`skills/gsap-scroll-choreography`) when several media, copy, and scene states must be coordinated on one timeline.
 
+## Pinned stages, hand-overs, and reveals
+
+Rules from review rounds on pages that pin a live stage and swap a still for a live model.
+
+- **Moving a node replays its entrance.** When a script moves the hero into a pinned wrapper, every CSS entrance animation on it starts again. Remove the entrance class before the move.
+- **Hand over from the still in the still's own pose.** Render the still from the same code and camera as the live model. Fade the live canvas in over the still and remove the still only once it is covered. Give the model no turn-in of its own on take-over, and hold pointer input until the still has gone. A hand-over done this way changes under one percent of the product's pixels.
+- **A pin is never taller than its screen.** On a short screen, such as a phone held sideways, cut the pinned section's copy down to its heading and controls. A control below the fold of a pinned stage can never be reached, and focus lands on something the visitor cannot see.
+- **Keep what a run shows apart from what the visitor picked.** A scroll run that steps through colours or options changes its own words and highlight only. The order summary, the form, and aria-checked stay on the visitor's pick. Test at the scroll position where the run's last screen and the order button are both in view.
+- **Restore the place after a reload yourself.** If a script builds the page's height, the browser's own scroll restore lands short. Set scroll restoration to manual, save the position on leaving, and restore it after the build. When there is a place to restore, build at once so the visitor does not see the top first.
+- **Smooth scrolling is for clicked links only.** With CSS smooth scrolling on, a Tab that moves focus far down the page travels for a second and the focused field is off screen the whole way. Switch smoothness on for a click and off again after it.
+- **A reveal fails open.** Hide reveal targets only after the observer has reported once, and run the reveal from a small script of its own. If the observer never calls back, or a later script throws, everything stays visible. A target that takes focus shows at once.
+- **Text moves in on wide screens; the stage does not.** On a full-bleed film or canvas, elements placed against the picture (a rail, callouts) keep the picture's own edge. Only the text column moves toward the centre. One gutter token for both will push an overlay across the thing it annotates at some width nobody tested.
+
 ## Verify by scrolling
 
 A scroll page has no single state. Check it mechanically and by eye:
