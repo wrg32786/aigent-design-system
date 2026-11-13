@@ -14,7 +14,7 @@ The library is also where this skill gets tested. Every site goes through review
 2. Stand-in photographs and footage hold every slot while the page is designed. Final film and photography are made once the design holds.
 3. Each round builds, runs the checks (Resolve at five widths, the screen-line recipe in `layout.md`), and hands the captures to a reviewer with no inherited context, who answers `ship` or `fix`. Fixes go in as the next round, never as edits to a round under review.
 4. A site is finished when the owner has looked at it and approved it. A reviewer's `ship` does not count as approval.
-5. After each batch of rounds, the lessons land in this repository as rules, in the reference where that kind of rule lives. The first batch covers type pairing, whole screens at every width, gate coverage, stand-in photography, copy cuts, token hygiene, signature feedback, depth layers, the showcase rule, and review discipline (see `CHANGELOG.md`).
+5. After each batch of rounds, the lessons land in this repository as rules, in the reference where that kind of rule lives. The first batch covers type pairing, whole screens at every width, gate coverage, stand-in photography, copy cuts, token hygiene, signature feedback, depth layers, the showcase rule, and review discipline (see `CHANGELOG.md`). The second batch comes from three more sites in review, a sunglasses page with a live 3D model, a glassblowing film, and an illustrator's sketchbook: hand-overs from a still to a live model, pins on short screens, reveals that fail open, checks a browser pass should include, and forms on a fictional demo page.
 
 Two sites are finished so far.
 

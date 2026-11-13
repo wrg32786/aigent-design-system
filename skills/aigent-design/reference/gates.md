@@ -125,6 +125,16 @@ After fixing, recapture the same views and score each finding yourself as resolv
 
 A reviewer's `ship` clears that review and nothing more. Until the owner has looked at the page, report it as "reviewer passed"; only the owner's own look approves it.
 
+### Checks to include in a browser pass
+
+Each of these was missing from a round that reported a pass, and a later round caught the defect.
+
+- **Click with a pointer.** Keyboard activation proves the link works. A pointer click proves a mouse can reach it. Use a click that fails when another element intercepts it, or ask the browser which element sits at the centre of each nav link; an invisible overlay that takes pointer events returns itself.
+- **State classes are global.** A bare `.done` written for one component also styled another that used the same class name, and turned a 2px loading bar into a 30px band. Scope a state class to its component.
+- **Test between and beyond the breakpoints.** Run the widths just under each breakpoint in landscape, a phone held sideways, and 1680 and 2560 after any gutter change. Layouts tend to break in the band the grid was not designed for.
+- **After a spacing change, rescan every overlay.** Measure the real text extent of each label against the element it must clear, at every width, and compare with the scan from before the change.
+- **Break things on purpose.** Stub the observer so it never calls back. Make the main script throw. Load with scripting off. The page must still show its content and its form each time.
+
 ## 6. Budget and honesty
 
 Verification is budgeted: one batched inspection, one fix batch, at most one confirming round per review. A fabricated pass is itself generated slop. Report open findings, waivers with reasons, and anything that could not be checked.

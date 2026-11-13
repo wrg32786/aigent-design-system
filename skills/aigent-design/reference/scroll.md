@@ -115,6 +115,19 @@ When one scroll-linked pattern is enough, prefer CSS scroll timelines over a lib
 
 Reach for GSAP (`skills/gsap-scroll-choreography`) when several media, copy, and scene states must be coordinated on one timeline.
 
+## Pinned stages, hand-overs, and reveals
+
+Rules from review rounds on pages that pin a live stage and swap a still for a live model.
+
+- **Reparenting can replay an entrance.** Removing a node and inserting it somewhere else restarts its CSS animations; only `moveBefore()` keeps their state. Before a script moves an animated hero into a pinned wrapper, remove the entrance class, and make sure the element's resting style is its final state.
+- **Hand over from the still in the still's own pose.** Render the still from the same code and camera as the live model. Fade the live canvas in over the still and remove the still only once it is covered. Give the model no turn-in of its own on take-over, and hold pointer input until the still has gone. Then measure it: compare the frame before take-over with the frame after, with the pointer still, and treat a visible jump as a defect.
+- **Controls in a pinned stage stay reachable on short screens.** A pinned stage with a minimum height taller than the screen, as on a phone held sideways, can clip its own controls, and focus then lands on something the visitor cannot see. Keep the pin to the screen and cut its copy to the heading and controls, move the rest outside the pin, or drop the pin at that size.
+- **Keep what a run shows apart from what the visitor picked.** A scroll run that steps through colours or options changes its own words and highlight only. The order summary, the form, and aria-checked stay on the visitor's pick. Test at the scroll position where the run's last screen and the order button are both in view.
+- **Check scroll restore after a reload.** When a script builds the page's height after load, the browser's own restore can land short. If you measure that, set `history.scrollRestoration` to manual. The page is then responsible for reload and Back alike: save the position on leaving, restore it after the build, and build at once when there is a place to restore.
+- **Smooth scrolling for chosen navigation only.** With CSS smooth scrolling on for the whole page, a Tab that moves focus far down the page animates there, and the focused field can be off screen while it travels. Scroll smoothly from a link's own click, leave focus scrolling immediate, and skip the animation under reduced motion.
+- **A reveal fails open.** Hide reveal targets only after the observer has reported once, and run the reveal from a small script of its own. If the observer never calls back, or a later script throws, everything stays visible. A target that takes focus shows at once.
+- **Text can move in on wide screens while the stage stays.** On a full-bleed film or canvas, elements placed against the picture (a rail, callouts) belong to the picture's edge. If the text column moves toward the centre on wide screens, give it a gutter token of its own, because a shared one can carry an overlay across the thing it annotates. Check each overlay against the picture at every width.
+
 ## Verify by scrolling
 
 A scroll page has no single state. Check it mechanically and by eye:
