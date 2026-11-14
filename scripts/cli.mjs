@@ -11,6 +11,7 @@ const registryPath = process.env.AIGENT_REGISTRY_PATH
   : path.join(packageRoot, "registry.json");
 const repositoryPrefix = "wrg32786/aigent-design-system/";
 const defaultInstall = "aigent-design-skill";
+const defaultInstallAlso = ["aigent-business-sites"];
 const installManifest = ".aigent/install.json";
 const ignoreBlock = `# aigent-runtime-start\n.aigent/inspiration/\n.aigent/resolve/\n.aigent/publish/\n.aigent/**/*.png\n.aigent/**/*.webm\n# aigent-runtime-end`;
 
@@ -117,6 +118,17 @@ function defaultOperations(registry, target) {
     const relative = path.relative(exemplarRoot, source);
     operations.push({ item: defaultInstall, file: { path: relative }, source, destination: path.join(target, ".claude", "skills", "aigent-design", "visual-exemplars", relative) });
   }
+  for (const name of defaultInstallAlso) {
+    const extra = registry.items.find((candidate) => candidate.name === name);
+    if (!extra) throw new Error(`Missing default install item: ${name}`);
+    const prefix = `.claude/skills/${name}/`;
+    for (const file of extra.files || []) {
+      const destination = destinationFor(file, target);
+      const relative = path.relative(target, destination).split(path.sep).join("/");
+      if (!relative.startsWith(prefix)) continue;
+      operations.push({ item: extra.name, file, source: path.resolve(packageRoot, file.path), destination });
+    }
+  }
   return operations;
 }
 
@@ -215,7 +227,9 @@ async function doctor(registry, args) {
   const failures = [];
   const warnings = [];
   if (Number(process.versions.node.split(".")[0]) < 20) failures.push("Node.js 20 or newer is required.");
-  if (!registry.items.some((item) => item.name === defaultInstall)) failures.push("Default Aigent registry item is missing.");
+  for (const name of [defaultInstall, ...defaultInstallAlso]) {
+    if (!registry.items.some((item) => item.name === name)) failures.push(`Default Aigent registry item is missing: ${name}`);
+  }
   if (!commandExists("claude")) warnings.push("Claude Code CLI was not found on PATH.");
   try {
     const { chromium } = await import("playwright");

@@ -11,8 +11,9 @@ Before writing or changing any page, read:
 3. `.claude/skills/aigent-design/reference/copy.md` before writing any visible text.
 4. `.claude/skills/aigent-design/reference/scroll.md` and `.claude/skills/gsap-scroll-choreography/SKILL.md` before touching scroll or motion.
 5. `.claude/skills/aigent-design/reference/gates.md` before calling a page done.
-6. `.claude/skills/publish-site/SKILL.md` before any deploy.
-7. `.claude/skills/remotion-web-assets/SKILL.md` only if `remotion/` exists and the hero loop is in scope.
+6. `.claude/skills/aigent-business-sites/SKILL.md` when the work is a marketing, landing, service, ecommerce, editorial, membership, or nonprofit site.
+7. `.claude/skills/publish-site/SKILL.md` before any deploy.
+8. `.claude/skills/remotion-web-assets/SKILL.md` only if `remotion/` exists and the hero loop is in scope.
 
 Specialist skills mention paths such as `integrations/gsap/README.md`. Those live in the Aigent repository: https://github.com/wrg32786/aigent-design-system. They are not copied here.
 
