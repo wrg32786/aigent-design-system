@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" data-theme="paper">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Saltglass Marine - structural fiberglass repair in Port Townsend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700&family=Martian+Mono:wght@450;600&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../tokens/system.css">
+  <style>
+    body { margin: 0; }
+    .page { color: var(--ds-color-text); }
+    .wrap { width: min(var(--ds-container), calc(100% - 2 * var(--ds-space-4))); margin-inline: auto; }
+    .site-header { display: flex; justify-content: space-between; gap: var(--ds-space-4); align-items: baseline; padding-block: var(--ds-space-4); border-bottom: 1px solid var(--ds-color-rule); }
+    .brand { font: 700 var(--ds-size-lead)/1 var(--ds-font-display); letter-spacing: 0.02em; text-transform: uppercase; text-decoration: none; color: inherit; }
+    .header-meta { font: 450 var(--ds-size-xs)/1.4 var(--ds-font-mono); color: var(--ds-color-muted); text-align: right; }
+    .header-meta a { color: inherit; }
+    .hero { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.8fr); gap: var(--ds-space-6); padding-block: var(--ds-space-7) var(--ds-space-6); border-bottom: 1px solid var(--ds-color-rule); }
+    h1 { font: 700 clamp(3rem, 8vw, 6.4rem)/0.88 var(--ds-font-display); letter-spacing: -0.03em; margin: var(--ds-space-3) 0 var(--ds-space-4); max-width: 12ch; text-wrap: balance; }
+    .lede { font-size: var(--ds-size-lead); color: var(--ds-color-muted); max-width: 46ch; margin: 0 0 var(--ds-space-5); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: var(--ds-space-2); }
+    .ticket { align-self: end; padding: var(--ds-space-4); background: var(--ds-color-surface); border: 1px solid var(--ds-color-rule-strong); }
+    .ticket h2 { font: 600 var(--ds-size-sm)/1.2 var(--ds-font-mono); letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 var(--ds-space-3); color: var(--ds-color-accent); }
+    .ticket dl { margin: 0; display: grid; grid-template-columns: 7.5rem 1fr; gap: 0.55rem 0.75rem; font-size: var(--ds-size-sm); }
+    .ticket dt { font-family: var(--ds-font-mono); font-size: var(--ds-size-xs); color: var(--ds-color-soft); letter-spacing: 0.06em; text-transform: uppercase; }
+    .ticket dd { margin: 0; }
+    .section { padding-block: var(--ds-space-6); border-bottom: 1px solid var(--ds-color-rule); }
+    .section h2 { font: 700 clamp(1.8rem, 3vw, 2.6rem)/1 var(--ds-font-display); margin: 0 0 var(--ds-space-4); letter-spacing: -0.02em; }
+    .method { margin: 0; max-width: 62ch; font-size: var(--ds-size-lead); color: var(--ds-color-muted); }
+    form { display: grid; gap: var(--ds-space-3); max-width: 36rem; }
+    label { display: grid; gap: 0.35rem; font: 450 var(--ds-size-xs)/1.3 var(--ds-font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ds-color-muted); }
+    input, textarea, select { font: 400 1rem/1.4 var(--ds-font-body); padding: 0.7rem 0.75rem; border: 1px solid var(--ds-color-rule-strong); background: var(--ds-color-surface); color: var(--ds-color-text); border-radius: var(--ds-radius-xs); }
+    input:focus, textarea:focus, select:focus { outline: 2px solid var(--ds-color-accent); outline-offset: 2px; }
+    .yard { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ds-space-5); }
+    .yard p { margin: 0 0 var(--ds-space-3); max-width: 42ch; }
+    .site-footer { padding-block: var(--ds-space-5); font-size: var(--ds-size-sm); color: var(--ds-color-soft); display: flex; justify-content: space-between; gap: var(--ds-space-3); flex-wrap: wrap; }
+    @media (max-width: 800px) {
+      .hero, .yard { grid-template-columns: 1fr; }
+      h1 { font-size: clamp(2.6rem, 16vw, 4.2rem); }
+      .site-header { flex-direction: column; align-items: flex-start; }
+      .header-meta { text-align: left; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body class="ds-shell page">
+  <a class="ds-skip-link" href="#work">Skip to request a haul-out</a>
+  <header class="wrap site-header">
+    <a class="brand" href="#">Saltglass Marine</a>
+    <p class="header-meta">Point Hudson Boat Yard<br>Tue-Sat 07:30-16:30<br><a href="tel:+13605550142">360-555-0142</a></p>
+  </header>
+
+  <main>
+    <section class="wrap hero">
+      <div>
+        <p class="ds-eyebrow">Fiberglass and gelcoat repair · Port Townsend, WA</p>
+        <h1>Structural repair for boats that have to go back in the water.</h1>
+        <p class="lede">Saltglass Marine does laminate repair, gelcoat color match, and through-hull work at Point Hudson. We inspect the boat dry, quote before we grind, and relaunch on a set tide.</p>
+        <div class="hero-actions">
+          <a class="ds-button" data-variant="solid" href="#work">Request a haul-out</a>
+          <a class="ds-button" data-variant="quiet" href="#method">How a job runs</a>
+        </div>
+      </div>
+      <aside class="ticket" aria-label="Yard ticket">
+        <h2>Yard ticket</h2>
+        <dl>
+          <dt>Berth</dt><dd>Point Hudson, 421 Jefferson Street</dd>
+          <dt>Work</dt><dd>Structural fiberglass, gelcoat, core, through-hulls</dd>
+          <dt>Hours</dt><dd>Tuesday to Saturday, 07:30-16:30</dd>
+          <dt>Haul</dt><dd>Scheduled at the yard; say the preferred week on the form</dd>
+        </dl>
+      </aside>
+    </section>
+
+    <section class="wrap section" id="method">
+      <h2>How a job runs</h2>
+      <p class="method">The boat comes out. We inspect it dry and write down what is structural and what is cosmetic. You get a quote before any grind starts. We do the work in the same bay, match the gelcoat to a saved sample, and relaunch on the tide we agreed.</p>
+      <ul class="ds-rule-list" style="margin-top: var(--ds-space-5);">
+        <li class="ds-rule-row"><strong>01 Haul</strong><span>Book a week. The yard lifts the boat and blocks it in our bay.</span></li>
+        <li class="ds-rule-row"><strong>02 Inspect</strong><span>Moisture readings, sounding, and a written list of structural versus cosmetic work.</span></li>
+        <li class="ds-rule-row"><strong>03 Quote</strong><span>A fixed quote before grinding. If the core is worse than it looked, we stop and re-quote.</span></li>
+        <li class="ds-rule-row"><strong>04 Repair</strong><span>Laminate, core, through-hulls, then gelcoat matched to the sample we pulled on day one.</span></li>
+        <li class="ds-rule-row"><strong>05 Relaunch</strong><span>On the tide written on the ticket, not “when we can.”</span></li>
+      </ul>
+    </section>
+
+    <section class="wrap section" id="work">
+      <h2>Request a haul-out</h2>
+      <form action="#" method="get">
+        <label>Name <input type="text" name="name" autocomplete="name" required></label>
+        <label>Email <input type="email" name="email" autocomplete="email" required></label>
+        <label>Boat type <input type="text" name="boat" required placeholder="e.g. 34 ft fiberglass sloop"></label>
+        <label>Issue <textarea name="issue" rows="4" required placeholder="Where it is, what you can see, and whether it is taking on water."></textarea></label>
+        <label>Preferred week <input type="text" name="week" required placeholder="e.g. week of March 16"></label>
+        <button class="ds-button" data-variant="solid" type="submit">Send the request</button>
+      </form>
+    </section>
+
+    <section class="wrap section yard">
+      <div>
+        <h2>The yard</h2>
+        <p>We work out of Point Hudson Boat Yard, 421 Jefferson Street, Port Townsend, Washington. Drop-ins are fine during shop hours if you want the hull looked at before you book a haul-out.</p>
+        <p><a href="tel:+13605550142">360-555-0142</a></p>
+      </div>
+      <div>
+        <ul class="ds-rule-list">
+          <li class="ds-rule-row"><strong>Hours</strong><span>Tuesday to Saturday, 07:30-16:30. Closed Sunday and Monday.</span></li>
+          <li class="ds-rule-row"><strong>Phone</strong><span>360-555-0142, a reserved-range example number for this demo.</span></li>
+          <li class="ds-rule-row"><strong>Proof</strong><span>This is a fictional brief. No customer counts, ratings, or testimonials were supplied, so none appear.</span></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap site-footer">
+    <span>Saltglass Marine, Point Hudson Boat Yard</span>
+    <span>Fictional demo for the Aigent design skill</span>
+  </footer>
+</body>
+</html>
