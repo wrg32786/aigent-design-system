@@ -4,11 +4,13 @@
 
 Design direction and browser QA for Claude Code, plus cursor and codex. one `SKILL.md` at the root, real guidance in `skills/aigent-design/`.
 
-| plain html | same html with aigent `tokens/system.css` |
-|---|---|
-| ![the demo page with no stylesheet: default serif text, blue links, a bulleted list](docs/before-after/before.png) | ![the same markup with the repo's graphite theme: dark ground, cream condensed headline, orange mono labels, rule list rows](docs/before-after/after.png) |
+Same fictional brief, two pages. On the left, a typical unguided-agent landing page: purple gradient, Inter, emoji cards, invented social proof. On the right, the same brief after Aigent picks a direction and Taste comes back clean.
 
-same markup in both. the right side only links `tokens/system.css` and uses its `ds-*` classes and tokens (source in [`docs/before-after/`](docs/before-after/)). it shows the neutral token layer, not a full skill run. web fonts are not loaded, so the display face falls back to the stack in the tokens.
+![Desktop above the fold: stock AI purple gradient hero on the left, Aigent paper-theme yard page on the right](docs/before-after/compare-desktop-fold.webp)
+
+![Phone above the fold: the same two pages at 390px](docs/before-after/compare-mobile-fold.webp)
+
+Sources: [`stock-ai.html`](docs/before-after/stock-ai.html) and [`aigent.html`](docs/before-after/aigent.html). Brief and facts are in [`brief.md`](docs/before-after/brief.md). Taste reported 12 warnings on the stock page and none on the Aigent page. Full-page captures live next to the fold shots in [`docs/before-after/`](docs/before-after/).
 
 ## quick install
 
@@ -48,9 +50,41 @@ path/to/aigent/SKILL.md before writing frontend code.
 
 the browser backed commands (Taste, Resolve, Vision) need Node and run through `npx` in every tool. `setup-browser` installs Chromium for them.
 
+## Pick a direction
+
+Before a large page is built, Aigent locks a direction: Variance, Motion, Density, type, color, and what the page is not allowed to invent.
+
+![Approved direction card for the Saltglass Marine brief, with Variance, Motion, and Density dials](docs/before-after/direction.webp)
+
+## Taste
+
+Taste is a source-level smell linter. It flags gradient text, slop words, stock lines, scroll cues, and card grids. It is review, not aesthetic truth.
+
+![Taste report: 12 warnings on stock-ai.html, zero on aigent.html](docs/before-after/taste.webp)
+
+```bash
+npx --yes --allow-git=all github:wrg32786/aigent-design-system taste .
+```
+
+## Vision and browser QA
+
+Resolve measures the rendered page. Vision is a structured review of the same page at phone, tablet, laptop, and desktop widths.
+
+![Vision-style contact sheet of the Aigent Saltglass page at 390, 768, 1280, and 1440](docs/before-after/vision.webp)
+
+```bash
+npx --yes --allow-git=all github:wrg32786/aigent-design-system resolve --init --target .
+npx --yes --allow-git=all github:wrg32786/aigent-design-system resolve --target . --url http://127.0.0.1:3000
+npx --yes --allow-git=all github:wrg32786/aigent-design-system vision prepare --target . --url http://127.0.0.1:3000
+```
+
 ## start a new site
 
 one command scaffolds an Astro site that is already wired to the rules (Node 22.23+):
+
+![Desktop above the fold of the graphite Astro site starter](docs/before-after/starter-desktop-fold.webp)
+
+![Phone above the fold of the same site starter](docs/before-after/starter-mobile-fold.webp)
 
 ```bash
 npx --yes --allow-git=all github:wrg32786/aigent-design-system create-site my-site
@@ -167,6 +201,14 @@ npx --yes --allow-git=all github:wrg32786/aigent-design-system uninstall
 ```
 
 Modified installed files are preserved and reported.
+
+## Token layer
+
+The same markup, with and without `tokens/system.css`. This is the neutral token layer, not a full skill run. Web fonts are not loaded, so the display face falls back to the stack in the tokens. Source in [`docs/before-after/`](docs/before-after/).
+
+| plain html | same html with aigent `tokens/system.css` |
+|---|---|
+| ![the demo page with no stylesheet: default serif text, blue links, a bulleted list](docs/before-after/before.png) | ![the same markup with the repo's graphite theme: dark ground, cream condensed headline, orange mono labels, rule list rows](docs/before-after/after.png) |
 
 ## Examples
 

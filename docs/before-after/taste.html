@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" data-theme="graphite">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taste check - Saltglass Marine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@700&family=Martian+Mono:wght@450;600&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../tokens/system.css">
+  <style>
+    body { margin: 0; }
+    .wrap { width: min(72rem, calc(100% - 2 * var(--ds-space-4))); margin: 0 auto; padding-block: var(--ds-space-5); }
+    h1 { font: 700 clamp(2rem, 4vw, 3rem)/0.95 var(--ds-font-display); margin: 0 0 var(--ds-space-4); }
+    .cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ds-space-5); }
+    h2 { font: 600 var(--ds-size-xs)/1.2 var(--ds-font-mono); letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 var(--ds-space-3); }
+    .warn h2 { color: var(--ds-color-accent); }
+    .ok h2 { color: var(--ds-color-accent-2); }
+    pre, .findings { font: 450 0.78rem/1.45 var(--ds-font-mono); margin: 0; white-space: pre-wrap; color: var(--ds-color-muted); }
+    .findings li { margin: 0 0 0.7rem; list-style: none; }
+    .findings { padding: 0; }
+    .rule { color: var(--ds-color-text); }
+    .pass { font: 700 clamp(2rem, 4vw, 3.2rem)/1 var(--ds-font-display); margin: var(--ds-space-4) 0 0; }
+    @media (max-width: 800px) { .cols { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body class="ds-shell">
+  <main class="wrap">
+    <p class="ds-eyebrow">npx github:wrg32786/aigent-design-system taste</p>
+    <h1>Taste is a source-level smell linter</h1>
+    <div class="cols">
+      <section class="warn">
+        <h2>stock-ai.html - 12 warnings</h2>
+        <ul class="findings">
+          <li><span class="rule">taste/overused-display-font</span><br>Inter and other default system faces are defining the brand surface.</li>
+          <li><span class="rule">taste/gradient-text</span><br>Gradient text on the logo and the hero headline.</li>
+          <li><span class="rule">taste/card-dominance</span><br>Card language dominates the surface (14 hits).</li>
+          <li><span class="rule">taste/copy-slop-word</span><br>Filler words: unlock, next-generation, seamlessly, elevate, cutting-edge, powerful (15 hits).</li>
+          <li><span class="rule">taste/scroll-cue</span><br>"Scroll to explore" is decoration text.</li>
+          <li><span class="rule">taste/nested-cards</span><br>Card-like containers appear nested.</li>
+          <li><span class="rule">taste/copy-stock-phrase</span><br>"Ready to take your", "take your boat to the next level", "Join thousands of".</li>
+        </ul>
+      </section>
+      <section class="ok">
+        <h2>aigent.html - 0 warnings</h2>
+        <p class="findings">Same brief. Facts only. No invented testimonials, no card grid, no slop words, no gradient text.</p>
+        <p class="pass">0 errors, 0 warnings.</p>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

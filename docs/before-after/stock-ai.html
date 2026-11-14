@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Saltglass Marine | Transform Your Boat Repair Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --purple: #7c3aed; --indigo: #4f46e5; --pink: #ec4899; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: #0f172a; background: #fff; }
+    a { color: inherit; }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; position: sticky; top: 0; background: rgba(255,255,255,.86); backdrop-filter: blur(16px); z-index: 10; border-bottom: 1px solid #e2e8f0; }
+    .logo { font-weight: 800; font-size: 1.15rem; background: linear-gradient(90deg, var(--purple), var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .nav-links { display: flex; gap: 1.4rem; font-size: .95rem; color: #475569; }
+    .nav-links a { text-decoration: none; }
+    .btn { display: inline-block; border-radius: 999px; padding: .85rem 1.4rem; font-weight: 600; text-decoration: none; border: 0; cursor: pointer; }
+    .btn-primary { background: linear-gradient(90deg, var(--purple), var(--indigo)); color: #fff; box-shadow: 0 10px 30px rgba(79,70,229,.35); }
+    .btn-ghost { background: #fff; color: #4f46e5; border: 1px solid #c7d2fe; }
+    .hero { position: relative; overflow: hidden; text-align: center; padding: 6.5rem 1.5rem 5.5rem; background: linear-gradient(135deg, #4c1d95 0%, #6d28d9 42%, #2563eb 100%); color: #fff; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(40px); opacity: .45; pointer-events: none; }
+    .orb-a { width: 280px; height: 280px; background: #f472b6; top: -60px; left: -40px; }
+    .orb-b { width: 340px; height: 340px; background: #22d3ee; right: -80px; bottom: -80px; }
+    .badge { display: inline-block; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.25); border-radius: 999px; padding: .35rem .8rem; font-size: .8rem; margin-bottom: 1.2rem; }
+    .hero h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); letter-spacing: -.04em; margin: 0 auto 1rem; max-width: 16ch; line-height: 1.05; background: linear-gradient(90deg, #fff, #c4b5fd); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p { max-width: 38rem; margin: 0 auto 2rem; font-size: 1.15rem; color: #e0e7ff; }
+    .hero-actions { display: flex; gap: .8rem; justify-content: center; flex-wrap: wrap; }
+    .scroll-cue { margin-top: 2.5rem; font-size: .85rem; color: #c4b5fd; }
+    .trusted { text-align: center; padding: 1.5rem; color: #64748b; font-size: .9rem; background: #f8fafc; }
+    .features { padding: 4.5rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+    .features h2, .quotes h2, .pricing h2, .cta h2 { text-align: center; font-size: 2rem; letter-spacing: -.03em; margin: 0 0 .5rem; }
+    .sub { text-align: center; color: #64748b; margin: 0 0 2.5rem; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .card, .feature-card, .pricing-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 1.25rem; padding: 1.8rem; text-align: center; box-shadow: 0 16px 40px rgba(15,23,42,.06); }
+    .icon { font-size: 2rem; margin-bottom: .8rem; }
+    .quotes { background: #f8fafc; padding: 4.5rem 1.5rem; }
+    .quotes .grid { max-width: 1100px; margin: 0 auto; }
+    .stars { color: #f59e0b; letter-spacing: .1em; margin-bottom: .6rem; }
+    .pricing { padding: 4.5rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+    .price { font-size: 2.4rem; font-weight: 800; margin: .6rem 0; }
+    .pricing-card.featured { border: 2px solid var(--indigo); transform: translateY(-8px); }
+    .cta { margin: 2rem 1.5rem 4rem; border-radius: 1.5rem; padding: 4rem 1.5rem; text-align: center; color: #fff; background: linear-gradient(90deg, #7c3aed, #4f46e5 60%, #db2777); }
+    .cta p { color: #e0e7ff; }
+    footer { padding: 2rem; text-align: center; color: #94a3b8; font-size: .85rem; }
+    @media (max-width: 800px) {
+      .nav-links { display: none; }
+      .grid { grid-template-columns: 1fr; }
+      .pricing-card.featured { transform: none; }
+      .hero { padding: 4.5rem 1.2rem 3.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="logo">Saltglass Marine</div>
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="btn btn-primary" href="#cta">Get Started</a>
+  </header>
+
+  <section class="hero">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="badge">✨ All-in-one marine platform</div>
+    <h1>Transform Your Boat Repair Experience</h1>
+    <p>Unlock next-generation fiberglass solutions and seamlessly elevate your vessel with our cutting-edge, end-to-end repair platform.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#cta">Get Started</a>
+      <a class="btn btn-ghost" href="#features">Learn More</a>
+    </div>
+    <p class="scroll-cue">Scroll to explore</p>
+  </section>
+
+  <p class="trusted">Trusted by 10,000+ boat owners worldwide</p>
+
+  <section class="features" id="features">
+    <h2>Everything you need to succeed</h2>
+    <p class="sub">Powerful features to supercharge your marine workflow.</p>
+    <div class="grid">
+      <article class="feature-card">
+        <div class="icon">🚀</div>
+        <h3>Lightning Fast</h3>
+        <p>Leverage our innovative process to deliver results at unprecedented speed.</p>
+      </article>
+      <article class="feature-card">
+        <div class="icon">⚡</div>
+        <h3>Seamless Quality</h3>
+        <p>We utilize best-in-class materials so every repair feels effortless and premium.</p>
+      </article>
+      <article class="feature-card">
+        <div class="icon">✨</div>
+        <h3>Next-Level Support</h3>
+        <p>Our passionate team is here 24/7 to help you unlock your boat's true potential.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="quotes" id="about">
+    <h2>Loved by customers everywhere</h2>
+    <p class="sub">Don't just take our word for it.</p>
+    <div class="grid">
+      <article class="card">
+        <div class="stars">★★★★★</div>
+        <p>"This completely transformed the way I think about boat repair. Game changer!"</p>
+        <strong>Alex P., CEO</strong>
+      </article>
+      <article class="card">
+        <div class="stars">★★★★★</div>
+        <p>"An amazing experience from start to finish. Highly recommend to anyone!"</p>
+        <strong>Jordan M., Founder</strong>
+      </article>
+      <article class="card">
+        <div class="stars">★★★★★</div>
+        <p>"The future of marine care is here. I can't imagine going back."</p>
+        <strong>Sam R., Captain</strong>
+      </article>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <h2>Simple, transparent pricing</h2>
+    <p class="sub">Choose the plan that's right for you.</p>
+    <div class="grid">
+      <article class="pricing-card">
+        <h3>Starter</h3>
+        <div class="price">$99</div>
+        <p>For hobbyists who want to get started.</p>
+        <a class="btn btn-ghost" href="#cta">Choose Starter</a>
+      </article>
+      <article class="pricing-card featured">
+        <h3>Pro</h3>
+        <div class="price">$249</div>
+        <p>For growing fleets who need more power.</p>
+        <a class="btn btn-primary" href="#cta">Choose Pro</a>
+      </article>
+      <article class="pricing-card">
+        <h3>Enterprise</h3>
+        <div class="price">Custom</div>
+        <p>Advanced solutions for modern organizations.</p>
+        <a class="btn btn-ghost" href="#cta">Contact Sales</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="cta" id="cta">
+    <h2>Ready to take your boat to the next level?</h2>
+    <p>Join thousands of happy customers and start your journey today.</p>
+    <a class="btn btn-ghost" href="#contact">Get Started Now</a>
+  </section>
+
+  <footer id="contact">© 2026 Saltglass Marine. All rights reserved. Empowering boat owners globally.</footer>
+</body>
+</html>

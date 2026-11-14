@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" data-theme="paper">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Approved direction - Saltglass Marine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700&family=Martian+Mono:wght@450;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../tokens/system.css">
+  <style>
+    body { margin: 0; }
+    .wrap { width: min(52rem, calc(100% - 2 * var(--ds-space-4))); margin: 0 auto; padding-block: var(--ds-space-6); }
+    h1 { font: 700 clamp(2.2rem, 5vw, 3.4rem)/0.95 var(--ds-font-display); margin: var(--ds-space-2) 0 var(--ds-space-5); letter-spacing: -0.03em; }
+    h2 { font: 600 var(--ds-size-xs)/1.2 var(--ds-font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ds-color-accent); margin: 0 0 var(--ds-space-2); }
+    .controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--ds-space-3); margin-bottom: var(--ds-space-5); }
+    .dial { padding: var(--ds-space-3); background: var(--ds-color-surface); border: 1px solid var(--ds-color-rule); }
+    .dial strong { display: block; font: 700 1.15rem/1.2 var(--ds-font-display); margin-bottom: 0.35rem; }
+    .dial p { margin: 0; color: var(--ds-color-muted); font-size: var(--ds-size-sm); }
+    .track { height: 2px; background: var(--ds-color-rule); margin: 0.7rem 0; position: relative; }
+    .track i { position: absolute; top: -4px; width: 10px; height: 10px; background: var(--ds-color-accent); border-radius: 50%; }
+    .notes { margin: 0; }
+    @media (max-width: 700px) { .controls { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body class="ds-shell">
+  <main class="wrap">
+    <p class="ds-eyebrow">.aigent/design-direction.md</p>
+    <h1>Approved direction for Saltglass Marine</h1>
+    <div class="controls">
+      <div class="dial">
+        <h2>Variance</h2>
+        <div class="track"><i style="left: 62%"></i></div>
+        <strong>A yard ledger</strong>
+        <p>A little unconventional. Not a marina lifestyle brand, not a software landing page.</p>
+      </div>
+      <div class="dial">
+        <h2>Motion</h2>
+        <div class="track"><i style="left: 8%"></i></div>
+        <strong>Static</strong>
+        <p>No scroll choreography. The type, rules, and ticket carry the page.</p>
+      </div>
+      <div class="dial">
+        <h2>Density</h2>
+        <div class="track"><i style="left: 78%"></i></div>
+        <strong>Information-dense</strong>
+        <p>Hours, berth, method, and the haul-out form stay on the first long scroll.</p>
+      </div>
+    </div>
+    <ul class="ds-rule-list notes">
+      <li class="ds-rule-row"><strong>Theme</strong><span>paper. Rust accent, teal secondary, cream ground.</span></li>
+      <li class="ds-rule-row"><strong>Type</strong><span>Archivo Narrow for display, Public Sans for body, Martian Mono for tickets and labels.</span></li>
+      <li class="ds-rule-row"><strong>Signature</strong><span>Horizontal rules, a left-weighted hero, one yard ticket. No three-card grid.</span></li>
+      <li class="ds-rule-row"><strong>Copy</strong><span>Only supplied facts. No testimonials, ratings, prices, or customer counts.</span></li>
+    </ul>
+  </main>
+</body>
+</html>

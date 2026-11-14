@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- Visual README for the Saltglass Marine brief: a stock unguided-agent landing page versus the same brief built with Aigent, plus fold and full-page desktop and phone captures, direction, Taste, Vision, and site-starter shots in `docs/before-after/`
+
 ## 1.4.0 — Aigent Art Direction
 
 ### Added
