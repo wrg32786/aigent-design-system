@@ -1,9 +1,12 @@
 # Changelog
 
-## Unreleased — Product hardening
+## Unreleased
+
+## 1.4.0 — Aigent Art Direction
 
 ### Added
 
+- default `npx github:wrg32786/aigent-design-system install` also writes `skills/aigent-business-sites` to `.claude/skills/aigent-business-sites/`, including its Apache-2.0 NOTICE
 - Second batch of Site Library review lessons: `reference/scroll.md` gains pinned stages, hand-overs, and reveals (entrance replay on a moved node, still-to-live hand-over, pins on short screens, shown versus picked state, scroll restore, click-only smooth scrolling, reveals that fail open, text and stage gutters on wide screens); `reference/gates.md` gains checks to include in a browser pass (pointer clicks, global state classes, sizes between and beyond breakpoints, overlay rescans, deliberate breakage); `reference/interface.md` gains forms on a fictional demo page
 - `templates/agent-site-starter`: Astro site starter wired to the design rules, with the token themes, a small section kit (header, hero, proof rows, scroll story, closing action, footer), one GSAP scroll timeline with mobile and reduced-motion handling, an optional Remotion hero-loop project that is off by default, `AGENTS.md`/`CLAUDE.md`/Cursor rule that load the skills and require the gates, and publish-site deploy notes
 - `create-site <dir>` CLI command (also `npm run create-site` and `scripts/create-site.mjs`) that scaffolds the starter, copies `tokens/system.css`, installs the Aigent, GSAP choreography, and publish-site skills, and runs `npm install`
@@ -28,6 +31,11 @@
 - `reference/resolve.md`: five-viewport `aigent.resolve.json` for pages with a screen rhythm or tablet layout, and a scratch copy with the hero forced to one screen to separate hero findings from section findings
 - `reference/media.md`: stand-in photography rules (licence, credits page, one grade, true to the copy, new file name on replace under an immutable cache)
 
+- small installed visual exemplar library for hierarchy, product proof, cinematic coherence, typography, and common generated-design failure modes
+- internal Variance, Motion, and Density controls so expression adapts to the product instead of converging on one house style
+- persistent `.aigent/design-direction.md` contract after the user approves a visual direction
+- preservation contract for scoped iterations so targeted improvements do not casually redesign unrelated approved work
+
 ### Changed
 
 - `copy.md` now forbids hiding copy with `display: none` to fit a screen; a cut is made in the markup and recorded with its reason
@@ -35,7 +43,7 @@
 - `scroll.md` adds depth layers on film time and keeps a signature's feedback on screen with its control on phones
 - `cinematic-asset-gallery` shows a motion site as a recorded loop of its motion, never a still
 - `motion.md`, `craft-floor.md`, and `gsap-scroll-choreography` now carry reveal, count, pointer, and parallax calibration, the new refuse-by-default items, and pointers to the scroll, copy, and gates references
-- default install now writes only Aigent skill/vendor files under `.claude/skills/aigent-design/`; it no longer follows registry dependencies into customer project roots
+- default install stays inside `.claude/skills/` and does not follow registry dependencies into customer project roots; it now also writes the `aigent-business-sites` skill alongside `aigent-design`
 - `init` creates `.aigent/project-context.md` instead of installing Aigent's own `PRODUCT.md` or `DESIGN.md` into consumer repos
 - browser-backed commands run through the Aigent package rather than copied project scripts
 - README now describes Taste as a smell linter, Vision as a structured review protocol, and Design Intelligence as deterministic planning rather than overstating autonomous visual judgment
@@ -43,17 +51,6 @@
 - publishing guidance no longer depends on retired Canvas state
 - CI now validates the consumer product boundary and runs on `master` pushes as well as pull requests
 - roadmap now prioritizes comparative proof, real case studies, platform fixtures, visual regression, and immutable distribution before additional major features
-
-## 1.4.0 — Aigent Art Direction
-
-### Added
-
-- small installed visual exemplar library for hierarchy, product proof, cinematic coherence, typography, and common generated-design failure modes
-- internal Variance, Motion, and Density controls so expression adapts to the product instead of converging on one house style
-- persistent `.aigent/design-direction.md` contract after the user approves a visual direction
-- preservation contract for scoped iterations so targeted improvements do not casually redesign unrelated approved work
-
-### Changed
 
 - the primary Aigent skill now treats visual examples as calibration rather than templates
 - later pages and large revisions read the approved design direction before designing

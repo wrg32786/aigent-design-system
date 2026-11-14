@@ -27,6 +27,9 @@ try {
   assert.ok(fs.existsSync(path.join(root, ".claude", "skills", "aigent-design", "SKILL.md")));
   assert.ok(fs.existsSync(path.join(root, ".claude", "skills", "aigent-design", "reference", "publish.md")), "Installed core skill is missing publish reference.");
   assert.ok(fs.existsSync(path.join(root, ".claude", "skills", "aigent-design", "visual-exemplars", "index.json")));
+  assert.ok(fs.existsSync(path.join(root, ".claude", "skills", "aigent-business-sites", "SKILL.md")), "Default install must include the business-sites skill.");
+  assert.ok(fs.existsSync(path.join(root, ".claude", "skills", "aigent-business-sites", "NOTICE.md")), "Default install must include the business-sites Apache-2.0 NOTICE.");
+  assert.ok(fs.existsSync(path.join(root, ".claude", "skills", "aigent-business-sites", "reference", "business-content.md")), "Default install must include business-sites references.");
   assert.ok(fs.existsSync(path.join(root, ".aigent", "install.json")));
   assert.match(fs.readFileSync(path.join(root, ".gitignore"), "utf8"), /aigent-runtime-start/);
 

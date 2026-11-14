@@ -112,6 +112,7 @@ export function checkRegistry(root = process.cwd()) {
 
   for (const required of [
     "aigent-design-skill",
+    "aigent-business-sites",
     "design-intelligence",
     "inspiration-intelligence",
     "creative-production",

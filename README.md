@@ -18,7 +18,7 @@ same markup in both. the right side only links `tokens/system.css` and uses its 
 git clone https://github.com/wrg32786/aigent-design-system ~/.claude/skills/aigent
 ```
 
-or per project with the bundled installer (writes `.claude/skills/aigent-design/`, see below):
+or per project with the bundled installer (writes `.claude/skills/aigent-design/` and `.claude/skills/aigent-business-sites/`, see below):
 
 ```bash
 npx --yes --allow-git=all github:wrg32786/aigent-design-system install
@@ -88,7 +88,7 @@ Then say:
 Use Aigent to help me redesign this site.
 ```
 
-`install` writes vendor-owned skill files under `.claude/skills/aigent-design/` and records their hashes in `.aigent/install.json`. It does **not** replace root `PRODUCT.md`, `DESIGN.md`, brand docs, application source, or package configuration.
+`install` writes vendor-owned skill files under `.claude/skills/aigent-design/` and `.claude/skills/aigent-business-sites/`, and records their hashes in `.aigent/install.json`. It does **not** replace root `PRODUCT.md`, `DESIGN.md`, brand docs, application source, or package configuration.
 
 `init` creates `.aigent/project-context.md` only when you want an Aigent-specific project brief. Existing project authority remains authoritative.
 

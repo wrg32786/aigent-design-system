@@ -40,6 +40,26 @@
       ]
     },
     {
+      "name": "aigent-business-sites",
+      "type": "registry:item",
+      "title": "Aigent Business Sites",
+      "description": "Business-website layer for Aigent: content architecture, truthful proof, preserve-mode redesign, release audit, and working templates. Included in the default install.",
+      "files": [
+        {"path":"skills/aigent-business-sites/SKILL.md","type":"registry:file","target":"~/.claude/skills/aigent-business-sites/SKILL.md"},
+        {"path":"skills/aigent-business-sites/NOTICE.md","type":"registry:file","target":"~/.claude/skills/aigent-business-sites/NOTICE.md"},
+        {"path":"skills/aigent-business-sites/reference/business-content.md","type":"registry:file","target":"~/.claude/skills/aigent-business-sites/reference/business-content.md"},
+        {"path":"skills/aigent-business-sites/reference/preserve-redesign.md","type":"registry:file","target":"~/.claude/skills/aigent-business-sites/reference/preserve-redesign.md"},
+        {"path":"skills/aigent-business-sites/reference/release-audit.md","type":"registry:file","target":"~/.claude/skills/aigent-business-sites/reference/release-audit.md"},
+        {"path":"skills/aigent-business-sites/templates/CONTENT-MATRIX.md","type":"registry:file","target":"~/.claude/skills/aigent-business-sites/templates/CONTENT-MATRIX.md"},
+        {"path":"skills/aigent-business-sites/templates/PRESERVATION-INVENTORY.md","type":"registry:file","target":"~/.claude/skills/aigent-business-sites/templates/PRESERVATION-INVENTORY.md"},
+        {"path":"skills/aigent-business-sites/templates/QA-REPORT.md","type":"registry:file","target":"~/.claude/skills/aigent-business-sites/templates/QA-REPORT.md"},
+        {"path":"skills/aigent-business-sites/templates/SURFACE-BRIEF.md","type":"registry:file","target":"~/.claude/skills/aigent-business-sites/templates/SURFACE-BRIEF.md"},
+        {"path":"skills/aigent-business-sites/evals/README.md","type":"registry:file","target":"~/.claude/skills/aigent-business-sites/evals/README.md"},
+        {"path":"skills/aigent-business-sites/evals/evals.json","type":"registry:file","target":"~/.claude/skills/aigent-business-sites/evals/evals.json"},
+        {"path":"skills/aigent-business-sites/evals/trigger-queries.json","type":"registry:file","target":"~/.claude/skills/aigent-business-sites/evals/trigger-queries.json"}
+      ]
+    },
+    {
       "name": "design-intelligence",
       "type": "registry:item",
       "title": "Design Intelligence",
@@ -131,7 +151,9 @@
       "type": "registry:item",
       "title": "Aigent Resolve",
       "description": "Browser-measured responsive, accessibility, runtime, overflow, focus, media, and request QA with root-cause repair guidance.",
-      "registryDependencies": ["wrg32786/aigent-design-system/vision-critic"],
+      "registryDependencies": [
+        "wrg32786/aigent-design-system/vision-critic"
+      ],
       "files": [
         {"path":"resolve/README.md","type":"registry:file","target":"~/resolve/README.md"},
         {"path":"resolve/resolve.schema.json","type":"registry:file","target":"~/resolve/resolve.schema.json"},

@@ -82,7 +82,7 @@ try {
 }
 const site = path.join(target, "site");
 for (const file of ["package.json", ".gitignore", "AGENTS.md", "CLAUDE.md", "src/styles/tokens.css", "src/pages/index.astro", "remotion/package.json",
-  ".claude/skills/aigent-design/SKILL.md", ".claude/skills/aigent-design/reference/gates.md", ".claude/skills/gsap-scroll-choreography/SKILL.md",
+  ".claude/skills/aigent-design/SKILL.md", ".claude/skills/aigent-design/reference/gates.md", ".claude/skills/aigent-business-sites/SKILL.md", ".claude/skills/gsap-scroll-choreography/SKILL.md",
   ".claude/skills/publish-site/SKILL.md", ".claude/skills/remotion-web-assets/SKILL.md", ".aigent/install.json"]) {
   assert.ok(fs.existsSync(path.join(site, file)), `Scaffold is missing ${file}`);
 }

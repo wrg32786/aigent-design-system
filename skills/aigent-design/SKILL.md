@@ -104,6 +104,8 @@ Use the relevant file in `reference/` plus `reference/craft-floor.md` for substa
 - `publish.md` — export and deployment
 - `gates.md` — final review tiers, pre-build critique, generated-design tells, fresh-context reviews
 
+For business websites (marketing, landing, service, ecommerce, editorial, membership, nonprofit) also read [`../aigent-business-sites/SKILL.md`](../aigent-business-sites/SKILL.md) when that skill is present. The default install includes it. It adds content architecture, truthful proof, preserve-mode redesign, and a release audit.
+
 ## Core laws
 
 - Product truth and user constraints outrank generic taste advice.
