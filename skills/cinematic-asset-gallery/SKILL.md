@@ -38,6 +38,10 @@ Do not animate every card independently by default.
 
 When the gallery shows websites, show a motion site as a recorded loop of its motion (the scrub, the autoplay, the cursor effect in action), never as a still. A still of a motion site shows a lesser page than the one being offered. Each loop is muted, pauses offscreen, and shows its poster frame under reduced motion.
 
+Name what each site shows off before recording it, because a recorder that only scrolls misses every site whose signature is a cursor, a drag, or a press. Record the scroll for a scrubbed film, a scripted pointer path with a drawn cursor for a cursor or drag effect (a scripted or headless capture has no system cursor), the press and what it changes for a signature you press, real-time playback for an autoplay demo, and WebGL in a browser with the GPU on. Re-record whenever a change falls inside the span the loop shows, under a new file name, since gallery assets are often cached as immutable; keep each loop under a byte budget (one 5.3 MB preview became the heaviest card on a phone), make its poster the loop's first frame, and let the card's line promise only what the page does at the size the gallery shows it.
+
+A gallery that embeds live pages in frames hides the frames out of view with `display: none`: a film that waits for an IntersectionObserver still loads inside a `visibility: hidden` frame, because the observer cannot see that.
+
 ## Reuse
 
 Start from the existing gallery template, preserve useful behavior, then replace The AIgent branding through semantic tokens and project context.
