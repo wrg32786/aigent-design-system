@@ -91,6 +91,7 @@ Add your own block selectors if the page uses others. The smallest non-negative 
 - Inside a capped, centred container, size from the container, never from `100vw`. A horizontal run whose frames were sized from the window grew past the content edge above 1320px and cut the product names at both ends of the run at 1920. Use `min(100cqw, <cap>)` in the formula, on the size container the full-bleed rule above sets up, or make each frame `flex: 0 0 100%` of the content box, and set the gap between frames to at least the page's side margin so no neighbour shows when the run rests.
 - `max-width: 100%` on a grid item resolves against its grid area. In a grid with an implicit `auto` column the track grows to fit the item, so the cap does nothing: a 280px dial overflowed a 157px column. Declare the track as `minmax(0, 1fr)`.
 - An override inside a media query comes after the base rule it overrides. At equal specificity the later rule wins, whatever the query says: a sideways-phone block written mid-sheet hid the fixed bar in the source and showed it in the browser, because the bar's base rule sat further down.
+- A sticky panel gives up its picture before its button leaves the window. Set the picture's height from the window (`clamp(180px, calc(100svh - <header and the rest of the panel>), 380px)`), and check at 650 and 768px tall that the panel's last control is inside the window while the panel holds.
 
 ## Verify
 

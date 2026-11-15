@@ -142,6 +142,7 @@ Rules from review rounds on pages that pin a live stage and swap a still for a l
 - **Steps keep their stretch of scroll in every mode.** The spacing between steps beside a sticky panel is layout, not motion, and so is the panel when CSS `position: sticky` alone holds it. Keep both with motion reduced and with scripting off. The rules above that unpin a sequence and scope sticky offsets to the live mode are for a scrubbed pin and its runway, and a panel held by CSS alone has neither. Packed, five steps sat on one screen, and the panel had nothing to hold beside.
 - **Hold the first step.** Place the line that lights a step so the second step reaches it most of a step's scroll after the pin starts (a third of the way down the window did it). With the line at the middle, the first step's state flashed past within 24px of the pin.
 - **Dim a waiting step by colour.** Entries waiting at 30 percent opacity read 1.8:1 over a drawn sky. Give each state its own colour that clears 4.5:1 on the brightest ground it can meet, and measure every state on the composited page.
+- **A line the scroll draws needs no pin.** Tie its dash offset to the section's travel up the window, starting as the section enters and ending before it fills the window, so the line is whole whenever the section rests. Let a dot and a figure ride the line's end only while it is part drawn. In one column the chart sits low in its section, so trigger on the chart itself. With motion reduced or scripting off the line is whole and the dot is absent.
 
 ## Verify by scrolling
 

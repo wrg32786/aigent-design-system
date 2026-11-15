@@ -27,6 +27,8 @@ Secondary text should be tinted from the surface or foreground, not arbitrary gr
 
 An accent used for lines and marks needs a text shade of its own, darker on a light ground and lighter on a dark one: one red read 3.39:1 as a small label over film and only 4.48:1 on flat paper. Re-measure contrast taken from a render whenever its lighting changes, and claim it only for the colours a sweep proves; a page that promised 4.5:1 "whatever colour is set" failed for two of eleven.
 
+An outlined button over a photograph or a film keeps a surface fill. With a transparent ground its label sits on whatever the picture shows: one red label read 4.2:1 over a hero photograph and 5.3:1 on the page's surface colour. If a lint then counts two filled buttons, answer it on the record and keep the fill.
+
 ## Material
 
 Every surface should have a reason:

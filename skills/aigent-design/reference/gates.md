@@ -142,6 +142,9 @@ Each of these was missing from a round that reported a pass, and a later round c
 - **See the probe fail on the old build.** Before trusting a pass, run the same probe on the previous build and get the reported number. One contrast probe read 3.63:1 there, the reviewer's own figure, and 5.45:1 on the fix.
 - **Know the mode a linter renders in.** A density rule failed on a layout whose spacing existed only with motion on, because a linter that renders the page drew it with motion reduced. Read its screenshots before changing the page.
 - **Check a rebuild prompt section by section.** Where a prompt or spec rebuilds the page, read every section of it against the page after each round. One prompt still asked for six stages in a row two rounds after the section became three across and two down.
+- **Time a seek to the frame on screen.** The `seeked` event fires before the new picture is drawn: a probe that timed it read 0 ms on a film with one keyframe and on its fix alike. Time from setting `currentTime` to the next `requestVideoFrameCallback`, and check the `mediaTime` it reports against the target.
+- **Measure a leaning element by its own box.** `getBoundingClientRect` on a skewed or rotated element returns the box around the leaning shape, so heights and line counts read large: every row of a label leaning 7 degrees counted as two lines. Read `offsetHeight` and `offsetWidth` for the element's own size. A sticky element misleads in a similar way: its rectangle moves while it holds, so take scroll targets from its container.
+- **Test find-in-page with a text fragment.** A headless browser has no find bar, but Chromium opens a closed `details` for a text fragment as it does for a find. Load the page with `#:~:text=` and a word from a closed answer, then read `details.open`. With the answer set to `display: none` the question stayed shut; with no height it opened.
 
 ## 6. Budget and honesty
 
