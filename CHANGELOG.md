@@ -5,8 +5,12 @@
 ### Added
 
 - Visual README for the Saltglass Marine brief: a stock unguided-agent landing page versus the same brief built with Aigent, plus fold and full-page desktop and phone captures, direction, Taste, Vision, and site-starter shots in `docs/before-after/`
+- Third batch of Site Library review lessons: `reference/scroll.md` gains reduced motion and scripting off as a finished still page, scrims anchored to the words, one progress model for every readout, pinned-layout rules kept to the pinned layout, peaks that pin on short and turned phones, stages measured with their hold off, and contrast probes on the composited page, and extends playhead easing, posters and iOS priming, the overflow check on pinned controls, scroll restore (now with anchoring, rotations, and hash links), smooth scrolling on pinned pages, pointer signatures, and frame counting; `reference/layout.md` gains whole screens through composition, pinned sections in whole screens, override specificity, phones held sideways, shared edges above the cap, query boundaries, and boxes sized for their tallest state; `reference/gates.md` gains `var()` declarations that compute to nothing, opacity-0 layers that still take clicks and focus, target sizes, and proof against a control run, and extends the token, overflow, focus, short-window, and breakage checks; `reference/interface.md` gains enabled states, error and status placement, one form per action, validation set from script with a recorded and cancelled `navigate` test, and no printed stand-in contacts; `reference/media.md` gains forward-then-back loops, films loaded only where they are seen, first-screen priority, true `sizes`, and a still fallback for live 3D, and extends renaming on replace to scripts and styles; `reference/type.md` gains measuring after the faces load and longest-word sizing, and extends the type pass and the pairing list; `reference/color.md` gains text shades for accents; `reference/motion.md` gains loops that sleep and a page-wide pause; `reference/publish.md` gains a releases section on diffs against production and whole-tree scans of served notes; `skills/cinematic-asset-gallery` records each site's own showcase action and hides embedded frames out of view with `display: none`
+- Fourth batch of Site Library review lessons: `reference/media.md` gains framing a product model to a box of its own from its outline, stills that hold a live model's stage until it loads and passes a frame probe, and the same product in the buy box
+- Fifth batch of Site Library review lessons: `reference/layout.md` gains one breakpoint for a layout and the picture it carries, sizing from the container in a capped page, grid tracks that let `max-width` work, and media rules placed after the rules they override; `reference/scroll.md` gains thinning a canvas under the words, a bright band placed below the text, one instrument per reading, stages that mark themselves, step spacing in every mode, a held first step, and states dimmed by colour; `reference/media.md` gains a photograph cut along its skyline as a scene's foreground; `reference/gates.md` gains probing at rest, proving a probe on the old build, the linter's render mode, and checking the rebuild prompt by section; `reference/copy.md` gains words per screen and closed answers
+- Sixth batch of Site Library review lessons: `reference/media.md` gains text set on a surface in a photograph, an object cut from its photograph by a soft oval, and keyframe spacing for a film that jumps to a frame, and extends forward-then-back loops with their weight; `reference/gates.md` gains timing a seek to the frame on screen, measuring a leaning element by its own box, and testing find-in-page with a text fragment; `reference/layout.md` gains a sticky panel that gives up its picture before its button; `reference/scroll.md` gains a line the scroll draws with no pin; `reference/color.md` gains the fill of an outlined button over a photograph; `reference/copy.md` extends closed answers with the case where the counter cannot be changed
 
-## 1.4.0 — Aigent Art Direction
+## 1.4.0: Aigent Art Direction
 
 ### Added
 
@@ -63,7 +67,7 @@
 - README is shorter and explains the design-team workflow through one concrete example
 - package version is now `1.4.0`
 
-## 1.3.0 — Agent-native Aigent
+## 1.3.0: Agent-native Aigent
 
 ### Changed
 
@@ -73,7 +77,7 @@
 - made the `aigent-design` skill the proactive router for design direction, specialist skills, production, Taste, Resolve, Vision, and publishing
 - simplified the repository, product docs, landing page, CI, and README around the agent-native workflow
 
-## 1.2.0 — AIgent Ship
+## 1.2.0: AIgent Ship
 
 ### Added
 
@@ -91,7 +95,7 @@
 - package and desktop version are now `1.2.0`
 - complete Studio installs now include the Ship and Publish system
 
-## 1.1.0 — AIgent Desktop
+## 1.1.0: AIgent Desktop
 
 ### Added
 
@@ -113,7 +117,7 @@
 - packaged child tooling uses the Electron runtime while preserving external Claude Code and Codex authentication
 - validated releases now trigger native installer builds and attach them to GitHub Releases
 
-## 1.0.0 — AIgent Canvas
+## 1.0.0: AIgent Canvas
 
 ### Added
 
@@ -138,7 +142,7 @@
 - the real project remains the source of truth; Canvas edits are reversible operator intent until distilled
 - the consolidated design skill now routes direct visual editing through the Canvas contract
 
-## 0.6.0 — AIgent Studio
+## 0.6.0: AIgent Studio
 
 ### Added
 
@@ -155,7 +159,7 @@
 - package version is now `0.6.0`
 - `full-studio` now includes the interactive Studio UI
 
-## 0.5.0 — AIgent Vision
+## 0.5.0: AIgent Vision
 
 ### Added
 
@@ -177,7 +181,7 @@
 - Design Resolver now installs AIgent Vision
 - a screenshot existing on disk no longer counts as visual review
 
-## 0.4.0 — AIgent Resolve
+## 0.4.0: AIgent Resolve
 
 ### Added
 
@@ -198,7 +202,7 @@
 - `full-studio` now includes AIgent Resolve
 - the primary `aigent-design` skill now owns the final repair loop
 
-## 0.3.0 — Inspiration Intelligence
+## 0.3.0: Inspiration Intelligence
 
 ### Added
 
@@ -223,7 +227,7 @@
 - the consolidated `aigent-design` skill now owns inspiration routing
 - `full-studio` now includes Inspiration Intelligence
 
-## 0.2.0 — Design Intelligence and Installable Systems
+## 0.2.0: Design Intelligence and Installable Systems
 
 - GitHub-native shadcn registry and zero-dependency local CLI
 - consolidated `aigent-design` skill

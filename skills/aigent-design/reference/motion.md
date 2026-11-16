@@ -6,10 +6,10 @@ Motion explains state, relationship, hierarchy, or one authored focal moment. De
 
 Write:
 
-- **focal moment** — the one sequence that deserves authorship
-- **continuity** — state, layout, or navigation changes that need explanation
-- **feedback** — controls and outcomes needing acknowledgment
-- **budget** — expensive effects, frequency, devices, and fallback
+- **focal moment**: the one sequence that deserves authorship
+- **continuity**: state, layout, or navigation changes that need explanation
+- **feedback**: controls and outcomes needing acknowledgment
+- **budget**: expensive effects, frequency, devices, and fallback
 
 A fade-and-rise on every section is not a thesis.
 
@@ -25,10 +25,10 @@ Use `design-intelligence/motion-systems.json` to choose an animatic with explici
 
 ## Timing
 
-- 100–150ms immediate feedback
-- 150–300ms routine state
-- 300–500ms layout or overlay transition
-- 500–900ms authored focal sequence
+- 100 to 150ms immediate feedback
+- 150 to 300ms routine state
+- 300 to 500ms layout or overlay transition
+- 500 to 900ms authored focal sequence
 
 Exit faster than entrance. Prefer strong deceleration. Bounce or elastic motion requires a physical reason.
 
@@ -50,7 +50,7 @@ Calibration that holds across most surfaces:
 
 Scroll-led pages (pinned chapters, scrubbed video, layered heroes, lateral rails, native scroll timelines) load `scroll.md`.
 
-Content is visible by default. Pause nonessential loops offscreen. Apply `will-change` only around known work.
+Content is visible by default. Apply `will-change` only around known work. A draw loop or film runs only while it is on screen and not covered by an opaque layer or overlay, and it sleeps once its eased values land exactly on their targets (clamp the last step and compare strictly): one idle light redrew its shadow map 256 times in 17 seconds. Ambient motion that fades out at rest fades back in on wake instead of jumping. A control that pauses the whole page drives every copy of itself from one state, with `aria-pressed` flipping together, and stays reachable while the page is stopped: a nav that slides away on scroll stays put until the visitor releases it.
 
 ## Verify
 

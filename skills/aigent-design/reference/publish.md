@@ -13,6 +13,12 @@ Read the current project entry, existing deployment configuration, `.aigent/desi
 - Use the provider's official authentication flow. Never ask the user to paste hosting tokens into project files.
 - Verify the actual public artifact or URL after deployment.
 
+## Releases
+
+A release cut from a staging branch keeps production's own copy of every file that differs there by design, such as a gated index page or a redirect; a release that carries the staging index drops production's gate. Diff the release against production file by file, check that each page equals the version that passed review, and give a commit made after that pass a check of its own: one such commit put the browser's native video controls across a stage.
+
+Notes that ship are public. Comments, design stamps, and data files such as an asset manifest name no person, private reference, or working date, and they describe the page as built, so re-read them against the code after each fix. Scan the whole served tree before each release, not only that release's diff, since a diff-only scan cannot see what an earlier release let through, and include tool leftovers such as empty debug logs.
+
 ## Route
 
 Use the first provider that fits the user's request:
