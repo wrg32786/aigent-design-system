@@ -34,6 +34,8 @@ Use skeletons or progressive content for layout-bearing loading. Empty states te
 
 A control is enabled only once it can do its job. A copy button stays disabled until its text has loaded, and it says "copied" only after the clipboard write succeeds. Enabled from the start, one copied an error message and reported success.
 
+A script that sets a control fires the event the page's own handler listens for. One estimate listened for `input` while the links that picked an option fired `change`, so each link checked the right option and the price stayed at the default option's. Click each link and read the figure it leaves.
+
 Errors sit under the field or group they belong to, with `aria-invalid` on the control and `aria-describedby` pointing at the message. A status line sits beside the control it reports on and is rendered, empty, from the first frame: a live region inserted or moved and then filled in the same task is often not announced, and `:empty { display: none }` drops it from the accessibility tree. Clear the status at the start of every submit. After a submit, or a step that replaces the control, move focus to a named target with a visible state, since focus moved by script after a mouse press shows no `:focus-visible` ring.
 
 ## Structure
