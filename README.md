@@ -2,6 +2,12 @@
 
 **a design skill that makes your agent pick a direction, build it, then actually look at the result in a browser.**
 
+[![Live demo](https://img.shields.io/badge/Live_demo-Site_Vault-5cf9e2?labelColor=0b0907)](https://tools.theaigent.co/aigent-site-vault)
+
+The [Site Library](https://tools.theaigent.co/aigent-site-vault) in The AIgent Vault is the live showcase. It holds 30 original sites you can browse and open in the page, from local trades and dental clinics to scroll-driven product films. Every business and person shown there is fictional. Anyone can look around. Members can copy a prompt or the source and build their own.
+
+![Site Library in The AIgent Vault: the headline Sites you can copy, with Garside Eyewear and Tarn Running open as live cards](docs/site-vault.webp)
+
 Design direction and browser QA for Claude Code, plus cursor and codex. one `SKILL.md` at the root, real guidance in `skills/aigent-design/`.
 
 Same fictional brief, two pages. On the left, a typical unguided-agent landing page: purple gradient, Inter, emoji cards, invented social proof. On the right, the same brief after Aigent picks a direction and Taste comes back clean.
@@ -244,7 +250,9 @@ The public install path should also be exercised in a clean consumer fixture bef
 
 ## Get guidance
 
-Want help putting this to work? The AIgent Academy on Skool offers guidance, courses and a community of builders. Membership comes with a guarantee: you have a business in 90 days or your money back. See the [terms](https://theaigent.co/terms). [Join The AIgent Academy](https://www.skool.com/the-aigent-academy/about).
+Want help putting this to work? The AIgent Academy on Skool offers guidance, courses and a community of builders. Membership comes with a guarantee: you have a business in 90 days or your money back. See the [terms](https://theaigent.co/terms). The full walkthrough is in [The AIgent Academy](https://www.skool.com/the-aigent-academy/about?ref=gh-aigent-design-system).
+
+The installer may print a short Academy invitation when it finishes. Set `AIGENT_NO_SKOOL=1` to turn it off. It also stays off when `CI` is set, when stdout is not a TTY, or when output is JSON.
 
 ## License
 

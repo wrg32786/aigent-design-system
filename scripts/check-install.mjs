@@ -4,6 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
+import { printSkoolInvite, shouldPrintSkool, SKOOL_LINE } from "./skool-invite.mjs";
 
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "aigent-consumer-"));
 const cli = path.resolve("scripts/cli.mjs");
@@ -52,4 +53,36 @@ try {
   console.log("Aigent consumer install check passed: project authority preserved, core references complete, vendor ownership tracked, updates fail closed, and uninstall preserves modifications.");
 } finally {
   fs.rmSync(root, { recursive: true, force: true });
+}
+
+{
+  const hold = { CI: process.env.CI, AIGENT_NO_SKOOL: process.env.AIGENT_NO_SKOOL };
+  const restore = () => {
+    for (const [key, value] of Object.entries(hold)) {
+      if (value == null) delete process.env[key];
+      else process.env[key] = value;
+    }
+  };
+  try {
+    delete process.env.CI;
+    delete process.env.AIGENT_NO_SKOOL;
+    assert.equal(shouldPrintSkool({ tty: true }), true);
+    assert.equal(shouldPrintSkool({ tty: false }), false);
+    assert.equal(shouldPrintSkool({ tty: true, json: true }), false);
+    process.env.CI = "true";
+    assert.equal(shouldPrintSkool({ tty: true }), false);
+    delete process.env.CI;
+    process.env.AIGENT_NO_SKOOL = "1";
+    assert.equal(shouldPrintSkool({ tty: true }), false);
+    delete process.env.AIGENT_NO_SKOOL;
+    const lines = [];
+    assert.equal(printSkoolInvite({ tty: true, log: (line) => lines.push(line) }), true);
+    assert.deepEqual(lines, [SKOOL_LINE]);
+    process.env.AIGENT_NO_SKOOL = "1";
+    lines.length = 0;
+    assert.equal(printSkoolInvite({ tty: true, log: (line) => lines.push(line) }), false);
+    assert.deepEqual(lines, []);
+  } finally {
+    restore();
+  }
 }

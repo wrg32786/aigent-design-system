@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { printSkoolInvite } from "./skool-invite.mjs";
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const registryPath = process.env.AIGENT_REGISTRY_PATH
@@ -184,6 +185,7 @@ function add(registry, name, args, { friendly = false } = {}) {
     writeManifest(target, operations.map((operation) => ({ path: path.relative(target, operation.destination).split(path.sep).join("/"), hash: hashFile(operation.destination) })));
     console.log(changed ? `✓ Aigent installed (${changed} vendor files updated).` : "✓ Aigent is already installed and up to date.");
     console.log("\nNext:\n  1. Run: npx github:wrg32786/aigent-design-system init\n  2. Run: npx github:wrg32786/aigent-design-system setup-browser\n  3. Open Claude Code: claude\n  4. Say: \"Use Aigent to help me design this.\"");
+    printSkoolInvite();
   } else console.log(`Installed ${changed} changed files.`);
 }
 

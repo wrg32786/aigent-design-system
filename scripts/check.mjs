@@ -27,7 +27,7 @@ const required = [
   "inspiration/README.md", "inspiration/schemas/design-dna.schema.json", "resolve/README.md", "vision/README.md",
   "creative-production/README.md", "assets/README.md", "publish/README.md",
   "templates/modular-scroll-starter/index.html", "templates/immersive-sales-deck/index.html", "templates/command-center-interface/index.html",
-  "templates/threejs-product-stage/index.html", "templates/agent-site-starter/AGENTS.md", "templates/agent-site-starter/package.json", "scripts/create-site.mjs", "scripts/check-starter.mjs", "scripts/cli.mjs", "scripts/check-install.mjs", "scripts/inspire.mjs", ".github/workflows/validate.yml",
+  "templates/threejs-product-stage/index.html", "templates/agent-site-starter/AGENTS.md", "templates/agent-site-starter/package.json", "scripts/create-site.mjs", "scripts/check-starter.mjs", "scripts/cli.mjs", "scripts/skool-invite.mjs", "scripts/check-install.mjs", "scripts/inspire.mjs", ".github/workflows/validate.yml",
 ];
 assert.deepEqual(required.filter((relativePath) => !fs.existsSync(file(relativePath))), [], "Missing required agent-native files.");
 
