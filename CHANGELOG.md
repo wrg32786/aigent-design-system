@@ -4,6 +4,7 @@
 
 ### Added
 
+- README positioning and a root [`llms.txt`](llms.txt) so people and coding agents share one map of the skills, tokens, and browser checks, plus `npx skills add` install notes for Claude Code, Cursor, Codex, and OpenCode
 - Live demo of the Site Library at [tools.theaigent.co/aigent-site-vault](https://tools.theaigent.co/aigent-site-vault) at the top of the README, with a captured showcase image in `docs/site-vault.webp`
 - Opt-out AIgent Academy invitation at the end of a successful install (`AIGENT_NO_SKOOL=1`, also off in CI, non-TTY, or JSON output), plus a Get help issue contact link and a tagged Academy walkthrough in the README
 - Visual README for the Saltglass Marine brief: a stock unguided-agent landing page versus the same brief built with Aigent, plus fold and full-page desktop and phone captures, direction, Taste, Vision, and site-starter shots in `docs/before-after/`

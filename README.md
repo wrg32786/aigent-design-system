@@ -1,6 +1,8 @@
 # Aigent
 
-**a design skill that makes your agent pick a direction, build it, then actually look at the result in a browser.**
+**a design system you can reshape, written so you and your coding agent work from the same rules.**
+
+it makes your agent pick a direction, build it, then actually look at the result in a browser.
 
 [![Live demo](https://img.shields.io/badge/Live_demo-Site_Vault-5cf9e2?labelColor=0b0907)](https://tools.theaigent.co/aigent-site-vault)
 
@@ -8,7 +10,7 @@ The [Site Library](https://tools.theaigent.co/aigent-site-vault) in The AIgent V
 
 ![Site Library in The AIgent Vault: the headline Sites you can copy, with Garside Eyewear and Tarn Running open as live cards](docs/site-vault.webp)
 
-Design direction and browser QA for Claude Code, plus cursor and codex. one `SKILL.md` at the root, real guidance in `skills/aigent-design/`.
+Design direction and browser QA for Claude Code, Cursor, and Codex. You and your agent read the same skills, tokens, and checks. One `SKILL.md` at the root, real guidance in `skills/aigent-design/`. The tokens, themes, and skill briefs are yours to change. A machine-readable map is in [`llms.txt`](llms.txt).
 
 Same fictional brief, two pages. On the left, a typical unguided-agent landing page: purple gradient, Inter, emoji cards, invented social proof. On the right, the same brief after Aigent picks a direction and Taste comes back clean.
 
@@ -19,6 +21,12 @@ Same fictional brief, two pages. On the left, a typical unguided-agent landing p
 Sources: [`stock-ai.html`](docs/before-after/stock-ai.html) and [`aigent.html`](docs/before-after/aigent.html). Brief and facts are in [`brief.md`](docs/before-after/brief.md). Taste reported 12 warnings on the stock page and none on the Aigent page. Full-page captures live next to the fold shots in [`docs/before-after/`](docs/before-after/).
 
 ## quick install
+
+**any [Agent Skills](https://agentskills.io) client** (Claude Code, Cursor, Codex, and others):
+
+```bash
+npx skills add wrg32786/aigent-design-system --yes
+```
 
 **claude code**, every project:
 
@@ -53,6 +61,8 @@ if your cursor build has agent skills turned on, you can drop the clone into `.c
 For any design, redesign, polish or UI review task, read and follow
 path/to/aigent/SKILL.md before writing frontend code.
 ```
+
+**OpenCode:** copy the skill folders you need into `.opencode/skills/` (it also discovers `.claude/skills/` and `.agents/skills/`). Each skill `name` is lowercase kebab-case and matches its folder.
 
 the browser backed commands (Taste, Resolve, Vision) need Node and run through `npx` in every tool. `setup-browser` installs Chromium for them.
 
@@ -210,7 +220,7 @@ Modified installed files are preserved and reported.
 
 ## Token layer
 
-The same markup, with and without `tokens/system.css`. This is the neutral token layer, not a full skill run. Web fonts are not loaded, so the display face falls back to the stack in the tokens. Source in [`docs/before-after/`](docs/before-after/).
+The same markup, with and without `tokens/system.css`. This is the neutral token layer, not a full skill run. Web fonts are not loaded, so the display face falls back to the stack in the tokens. Source in [`docs/before-after/`](docs/before-after/). Change the tokens and themes when you want the system to look like your brand; your agent uses those files the same way you do.
 
 | plain html | same html with aigent `tokens/system.css` |
 |---|---|

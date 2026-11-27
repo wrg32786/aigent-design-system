@@ -1,0 +1,47 @@
+# Aigent design system
+
+> A design system you can reshape, written so you and your coding agent work from the same rules. It picks a visual direction, then checks the result in a real browser. MIT. Claude Code, Cursor, Codex, and other Agent Skills clients.
+
+The project's own product, brand, and design docs outrank anything in this repository. Aigent's own brand is not the target project's truth.
+
+## Install
+
+- Skills CLI: `npx skills add wrg32786/aigent-design-system --yes`
+- Claude Code, every project: clone this repo to `~/.claude/skills/aigent`
+- Claude Code, one project: `npx --yes --allow-git=all github:wrg32786/aigent-design-system install`
+- Cursor: point a rule at `SKILL.md`, or drop the clone into `.cursor/skills/aigent`
+- Codex: clone to `~/.agents/skills/aigent` (or the project) and point `AGENTS.md` at `SKILL.md`
+- OpenCode: copy skill folders into `.opencode/skills/`
+- New site: `npx --yes --allow-git=all github:wrg32786/aigent-design-system create-site my-site`
+
+Browser-backed commands (Taste, Resolve, Vision) need Node and Chromium (`setup-browser`).
+
+## Start here
+
+- [README](https://github.com/wrg32786/aigent-design-system/blob/master/README.md): what it does, install, workflow, tokens
+- [Root skill](https://github.com/wrg32786/aigent-design-system/blob/master/SKILL.md): entry point when the repo is installed as one skill
+- [aigent-design](https://github.com/wrg32786/aigent-design-system/blob/master/skills/aigent-design/SKILL.md): authority order, operating model, Variance / Motion / Density, completion bar
+- [skills/README.md](https://github.com/wrg32786/aigent-design-system/blob/master/skills/README.md): specialist skills (inspiration, quality, creative production)
+- [tokens/system.css](https://github.com/wrg32786/aigent-design-system/blob/master/tokens/system.css): neutral tokens and primitives you can change
+- [PRODUCT.md](https://github.com/wrg32786/aigent-design-system/blob/master/PRODUCT.md) and [DESIGN.md](https://github.com/wrg32786/aigent-design-system/blob/master/DESIGN.md): what the system is for
+
+## Workflow
+
+```
+SHAPE → DIRECT → BUILD → TASTE → RESOLVE → SEE → POLISH
+```
+
+Lock a direction before a large page is built. First render is not final. Render, inspect, fix, render again. Never claim Taste, Resolve, or Vision ran when they did not.
+
+## Commands
+
+```bash
+npx --yes --allow-git=all github:wrg32786/aigent-design-system taste .
+npx --yes --allow-git=all github:wrg32786/aigent-design-system resolve --init --target .
+npx --yes --allow-git=all github:wrg32786/aigent-design-system resolve --target . --url http://127.0.0.1:3000
+npx --yes --allow-git=all github:wrg32786/aigent-design-system vision prepare --target . --url http://127.0.0.1:3000
+```
+
+## Live demo
+
+The Site Library at https://tools.theaigent.co/aigent-site-vault is the showcase. Every business and person shown there is fictional.
